@@ -1,8 +1,8 @@
 {
-  "name": "rgl-gate",
+  "name": "tms-gate",
   "version": "4.1.0",
-  "author": "CodedThemes",
-  "license": "MIT",
+  "author": "INS",
+  "license": "INS",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

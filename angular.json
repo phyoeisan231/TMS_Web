@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mantis-free-version": {
+    "tms-gate": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "mantis-free-version:build:production"
+              "buildTarget": "tms-gate:build:production"
             },
             "development": {
-              "buildTarget": "mantis-free-version:build:development"
+              "buildTarget": "tms-gate:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "mantis-free-version:build"
+            "buildTarget": "tms-gate:build"
           }
         },
         "test": {
