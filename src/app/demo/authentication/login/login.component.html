@@ -1,0 +1,65 @@
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="auth-header">
+        <div class="text-start">
+          <img src="assets/images/logo-icon.svg" alt="theme-logo" class="logo logo-dark logo-lg" />
+          <label class="fs-5 fw-bolder">RGL_Gate</label>
+        </div>
+      </div>
+      <!-- <div *ngIf="showErrorMsg" class="alert alert-danger card" role="alert">
+        <span [innerHTML]="errorMessage"></span>
+      </div> -->
+      <div class="card my-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-end mb-4">
+            <h3 class="mb-0"><b>Login</b></h3>
+          </div>
+          <form [formGroup]="loginForm">
+          <div class="form-group mb-3">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" class="form-control" formControlName="email" placeholder="Email Address"/>
+            <div>
+              <label class="e-error" *ngIf="validateControl('email') && hasError('email', 'required')">*Email is required</label>
+              <label class="e-error" *ngIf="validateControl('email') && hasError('email', 'email')">*Please provide a valid email</label>
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Password"/>
+            <div>
+              <label class="e-error" *ngIf="validateControl('password') && hasError('password', 'required')">*Password is required</label>
+            </div>
+          </div>
+          <div class="d-flex mt-1 justify-content-between">
+            <div class="form-check">
+              <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
+              <label class="form-check-label text-muted" for="customCheckc1">Keep me sign in</label>
+            </div>
+            <h5 class="text-secondary f-w-400"><a href="javascript:">Forgot Password?</a></h5>
+          </div>
+          <div class="d-grid mt-4">
+            <button type="button" class="btn btn-primary" [disabled]="!this.loginForm.valid" (click)="onFormSubmit()">Login</button>
+          </div>
+        </form>
+          <div class="text-center mt-3">
+            <small>
+              <label style="color: #145DA0">RGL Gate Version (1.0.0.0)</label><br />
+              Powered by INS Co,.Ltd
+              <br />
+           </small>
+          </div>
+        </div>
+      </div>
+      <div class="auth-footer row">
+        <div class="col my-1">
+          <p class="m-0">
+            Copyright ©2024
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+

@@ -1,0 +1,111 @@
+/**======================================================================
+=========================================================================
+Template Name: DashboardKit - Most Complete Bootstrap Admin Template
+Author: Phoenixcoded
+Support: support@phoenixcoded.net
+File: style.css
+=========================================================================
+=================================================================================== */
+
+// main framework
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/variables-dark';
+
+@import 'scss/settings/color-variables';
+@import 'scss/settings/theme-variables';
+@import 'scss/settings/bootstrap-variables';
+
+// bootstrap import
+@import 'scss/bootstrap/bootstrap.scss';
+
+@import 'node_modules/bootstrap/scss/utilities';
+@import 'node_modules/bootstrap/scss/utilities/api';
+
+// main framework
+@import 'scss/themes/generic.scss';
+@import 'scss/themes/general.scss';
+
+@import 'scss/themes/components/components.scss';
+
+// theme
+@import 'scss/themes/layouts/menu/sidebar.scss';
+@import 'scss/themes/layouts/navbar/navbar.scss';
+@import 'scss/themes/layouts/pc-common.scss';
+@import 'scss/themes/layouts/breadcrumb/breadcrumb.scss';
+@import 'scss/themes/layouts/footer/footer.scss';
+
+@import 'scss/themes/preset-style.scss';
+@import 'node_modules/@fortawesome/fontawesome-free/css/all.min.css';
+@import '../node_modules/ngx-spinner/animations/square-jelly-box.css';
+@import '../node_modules/@syncfusion/ej2-base/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-notifications/styles/bootstrap5.css';
+@import '../node_modules/@syncfusion/ej2-angular-grids/styles/bootstrap5.css';
+
+
+.e-grid .e-row.not-Use  .e-rowcell{
+  color: red;
+}
+
+// e-row.rent  .e-rowcell{
+//   color: rgb(84, 224, 79);
+// }
+
+// .e-grid .e-row.full  .e-rowcell{
+//   color: rgb(250, 83, 83);
+// }
+
+// .e-grid .e-row.space-av  .e-rowcell{
+//   color: rgb(82, 118, 196);
+// }
+
+// .e-grid .e-row.green  .e-rowcell{
+//   background-color: #DAFAE8;
+// }
+
+// .e-grid .e-row.green1  .e-rowcell{
+//   background-color: #b8eedb;
+// }
+
+// .e-grid .e-row.blue  .e-rowcell{
+//   background-color: #c4d2f8;
+// }
+
+// .e-grid .e-row.gray  .e-rowcell{
+//   background-color: #cbcdd1;
+// }
+
+// .e-grid .e-row.red  .e-rowcell{
+//   background-color: #e994af;
+// }
+
+.requiredfield:after {
+  content:"*";
+  color:red;
+  margin-left: 5px;
+}
+
+.form-row{
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.form-group.col-md-6 {
+  min-width: 250;
+  height: 60px;
+}
+
+.form-group.col-md-12 {
+  width: 500px;
+  height: 65px;
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
