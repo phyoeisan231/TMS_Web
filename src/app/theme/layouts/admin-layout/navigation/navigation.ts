@@ -220,24 +220,24 @@ export const NavigationItems: NavigationItem[] = [
         url: '/register',
         icon: 'user-add'
       },
-      {
-        id: 'wbuser1',
-        title: 'Weight Bridge User1',
-        type: 'collapse',
-        classes: 'nav-item',
-        url: '',
-        icon: 'user-add',
-        children: [
-          {
-            id: '2',
-            title: 'Test2',
-            type: 'item',
-            classes: 'nav-item',
-            url: '/master/gate',
-            icon: 'user-add'
-          },
-        ]
-      }
+      // {
+      //   id: 'wbuser1',
+      //   title: 'Weight Bridge User1',
+      //   type: 'collapse',
+      //   classes: 'nav-item',
+      //   url: '',
+      //   icon: 'user-add',
+      //   children: [
+      //     {
+      //       id: '2',
+      //       title: 'Test2',
+      //       type: 'item',
+      //       classes: 'nav-item',
+      //       url: '/master/gate',
+      //       icon: 'user-add'
+      //     },
+      //   ]
+      // }
       // {
       //   id: 'tabler',
       //   title: 'Tabler',
