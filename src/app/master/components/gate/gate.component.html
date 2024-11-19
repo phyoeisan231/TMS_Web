@@ -43,16 +43,16 @@
                    </div>
                    <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label class="font-weight-normal requiredfield">Location</label>
+                      <label class="font-weight-normal requiredfield">Yard</label>
                       <ejs-dropdownlist
-                                formControlName="location"
-                                [dataSource]='locationList'
+                                formControlName="yard"
+                                [dataSource]='yardList'
                                 placeholder="Select One"
                                 class="form-control form-control-sm"
                                 autocomplete="off"
                                 tabindex="2" />
-                       <div  [style.visibility]='validateControl("location")? "visible": "hidden"'>
-                        <label class="e-error" for="location" style="display: block;">*Location is required</label>
+                       <div  [style.visibility]='validateControl("yard")? "visible": "hidden"'>
+                        <label class="e-error" for="yard" style="display: block;">*Yard is required</label>
                       </div>
                      </div>
                    </div>

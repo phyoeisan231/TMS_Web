@@ -25,7 +25,7 @@ export class GateComponent {
   lines: GridLine = 'Both';
   gateForm: any;
   lblText:string;
-  locationList: string[]=['YTG','MDY','MG']
+  yardList: string[]=['YTG','MDY','MG']
   submitClicked: boolean = false;
   public data: Object[]=[{'gateId':1,'name':'YTGGate1','location':'YTG'},{'gateId':2,'name':'YTGGate2','location':'YTG'}];
   formatfilter:string='dd-MMM-yyyy';
@@ -113,7 +113,7 @@ export class GateComponent {
     return new FormGroup({
       gateId: new FormControl(data.gateId),
       name: new FormControl(data.name,Validators.required),
-      location: new FormControl(data.location,Validators.required),
+      yard: new FormControl(data.yard,Validators.required),
       active: new FormControl(data.active),
     });
   }

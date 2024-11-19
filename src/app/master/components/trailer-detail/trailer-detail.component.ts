@@ -43,19 +43,17 @@ export class TrailerDetailComponent implements OnInit{
     this.id = this.route.snapshot.queryParams['id'];
     this.trailerForm = new FormGroup({
       vehicleRegNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
-      unladenWeight: new FormControl(''),
-      flowrate: new FormControl(''),
+      trailerWeight: new FormControl(''),
       trailerType: new FormControl('',Validators.required),
       transporter:new FormControl(''),
-      compartmentNo: new FormControl(''),
       vehicleBackRegNo:new FormControl(''),
-      loadingType:new FormControl(''),
-      blackDate:new FormControl(''),
       driverLicenseNo:new FormControl(''),
       remarks:new FormControl(''),
       active: new FormControl(false),
+      lastPassedDate:new FormControl(null),
+
       isBlack:new FormControl(false), 
-      lastLoadingDate:new FormControl(null),
+      blackDate:new FormControl(''),
       blackRemovedDate:new FormControl(''),
     });
     if (this.id) {
@@ -90,19 +88,17 @@ export class TrailerDetailComponent implements OnInit{
         if (result) {
           this.trailerForm.patchValue({
             vehicleRegNo: result.vehicleRegNo,
-            unladenWeight: result?.unladenWeight??0,
-            flowrate: result?.flowrate??0,
+            trailerWeight: result?.trailerWeight??0,
             trailerType: result.trailerType,
             transporter: result?.transporter??"",
-            compartmentNo: result?.compartmentNo??0,
             remarks:result?.remarks??"",
             vehicleBackRegNo:result?.vehicleBackRegNo??"",
-            loadingType:result?.loadingType??"",
-            blackDate: result.blackDate ? new Date(result.blackDate) : null,
             driverLicenseNo:result?.driverLicenseNo??"",
+            lastPassedDate:result.lastPassedDate?new Date(result.lastPassedDate):null,
             active: result.active ?? false,
+
             isBlack: result.isBlack ?? false,
-            lastLoadingDate:result.lastLoadingDate?new Date(result.lastLoadingDate):null,
+            blackDate: result.blackDate ? new Date(result.blackDate) : null,
             blackRemovedDate:result.blackRemovedDate?new Date(result.blackRemovedDate):null,
           });
           this.breadCrumbItems = [
@@ -133,13 +129,10 @@ export class TrailerDetailComponent implements OnInit{
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", data.vehicleRegNo);
-    formData.append("UnladenWeight", data.unladenWeight);
-    formData.append("Flowrate", data.flowrate);
+    formData.append("TrailerWeight", data.trailerWeight);
     formData.append("TrailerType", data.trailerType);
     formData.append("Transporter",data.transporter);
-    formData.append("CompartmentNo", data.compartmentNo);
     formData.append("Remarks", data.remarks);
-    formData.append("LoadingType",data.loadingType);
     formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
     formData.append("IsBlack",data.isBlack.toString());
@@ -152,12 +145,13 @@ export class TrailerDetailComponent implements OnInit{
         .split("T")[0];
       formData.append("BlackDate", localDate);
     }
-    if(data.lastLoadingDate){
-      const lastLoading=data.lastLoadingDate instanceof Date? data.lastLoadingDate:new Date(data.lastLoadingDate);
-      const localLastLoadingDate=new Date(lastLoading.getTime()-lastLoading.getTimezoneOffset()*60000)
+
+    if(data.lastPassedDate){
+      const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
+      const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
       .toISOString()
       .split("T")[0];
-      formData.append("LastLoadingDate",localLastLoadingDate);
+      formData.append("LastLoadingDate",localLastPassedDate);
     }
     if(data.blackRemovedDate){
       const blackRemoved=data.blackRemovedDate instanceof Date? data.blackRemovedDate:new Date(data.blackRemovedDate);
@@ -184,13 +178,10 @@ export class TrailerDetailComponent implements OnInit{
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", this.id);
-    formData.append("UnladenWeight", data.unladenWeight);
-    formData.append("Flowrate", data.flowrate);
+    formData.append("TrailerWeight", data.trailerWeight);
     formData.append("TrailerType", data.trailerType);
     formData.append("Transporter",data.transporter);
-    formData.append("CompartmentNo", data.compartmentNo);
     formData.append("Remarks", data.remarks);
-    formData.append("LoadingType",data.loadingType);
     formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
     formData.append("IsBlack",data.isBlack.toString());
@@ -203,12 +194,12 @@ export class TrailerDetailComponent implements OnInit{
         .split("T")[0]; 
       formData.append("BlackDate", localDate);
     }
-    if(data.lastLoadingDate){
-      const lastLoading=data.lastLoadingDate instanceof Date? data.lastLoadingDate:new Date(data.lastLoadingDate);
-      const localLastLoadingDate=new Date(lastLoading.getTime()-lastLoading.getTimezoneOffset()*60000)
+    if(data.lastPassedDate){
+      const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
+      const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
       .toISOString()
       .split("T")[0];
-      formData.append("LastLoadingDate",localLastLoadingDate);
+      formData.append("LastPassedDate",localLastPassedDate);
     }
     if(data.blackRemovedDate){
       const blackRemoved=data.blackRemovedDate instanceof Date? data.blackRemovedDate:new Date(data.blackRemovedDate);

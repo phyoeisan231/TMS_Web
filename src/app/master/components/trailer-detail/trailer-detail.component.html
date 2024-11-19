@@ -54,27 +54,6 @@
                                         </div>
                                         </div>
                                         <div class="row">
-                                            <label class="col-md-2">Flowrate:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="flowrate"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Enter Flowrate"
-                                                    autocomplete="off"
-                                                    tabindex="2"
-                                                    maxlength="100" />
-                                            </div>
-                                            <label class="col-md-2">Unladen Weight:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="unladenWeight"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Enter Unladen Weight"
-                                                    autocomplete="off"
-                                                    tabindex="3" maxlength="100"/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <label class="col-md-2 requiredfield">Trailer Type:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-dropdownlist 
@@ -82,22 +61,21 @@
                                                 [dataSource]="trailerTypeList"
                                                 [fields]="{ text: 'description', value: 'id' }"
                                                 class="form-control form-control-sm"
-                                                placeholder="Choose Truck-Trailer Type"
-                                                tabindex="4">
+                                                placeholder="Choose Trailer Type"
+                                                tabindex="2">
                                               </ejs-dropdownlist>
                                               <div *ngIf="trailerForm.controls['trailerType'].invalid && (trailerForm.controls['trailerType'].touched || trailerForm.controls['trailerType'].dirty)">
                                                 <small class="text-danger">This field is required.</small>
                                               </div>
                                             </div>
-                                            <label class="col-md-2">Loading Type:</label>
+                                            <label class="col-md-2">Trailer Weight:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-dropdownlist
-                                                    formControlName="loadingType"
-                                                    [dataSource]="loadingTypeList"
+                                                <ejs-textbox
+                                                    formControlName="trailerWeight"
                                                     class="form-control form-control-sm"
-                                                    placeholder="Choose Loading Type"
+                                                    placeholder="Enter Trailer Weight"
                                                     autocomplete="off"
-                                                    tabindex="5" maxlength="100"/>
+                                                    tabindex="3" maxlength="100"/>
                                             </div>
                                           </div>
                                         <div class="row">
@@ -110,36 +88,17 @@
                                                     class="form-control form-control-sm"
                                                     autocomplete="off"
                                                     placeholder="Choosse Transporter"
-                                                    tabindex="6"
+                                                    tabindex="4"
                                                     maxlength="100"/>
                                             </div>
-                                            <label for="blackDate" class="col-md-2">Black Date:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-datepicker formControlName="blackDate" class="form-control form-control-sm" autocomplete="off"
-                                                tabindex="10" maxlength="100"
-                                                 [format]="formatfilter" floatLabelType='Always'>
-                                                </ejs-datepicker>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                          <label class="col-md-2">Compartment No:</label>
-                                          <div class="form-group col-md-4">
-                                              <ejs-textbox
-                                                  formControlName="compartmentNo"
-                                                  class="form-control form-control-sm"
-                                                  autocomplete="off"
-                                                  placeholder="Enter Compartment No."
-                                                  tabindex="7"
-                                                  maxlength="100"/>
-                                          </div>
-                                          <label class="col-md-2">Driver LicenseNo.:</label>
+                                            <label class="col-md-2">Driver LicenseNo.:</label>
                                           <div class="form-group col-md-4">
                                             <ejs-textbox
                                                 formControlName="driverLicenseNo"
                                                 class="form-control form-control-sm"
                                                 autocomplete="off"
                                                 placeholder="Enter Driver License Number"
-                                                tabindex="10"
+                                                tabindex="5"
                                                 maxlength="100"/>
                                           </div>
                                         </div>
@@ -151,18 +110,18 @@
                                                     class="form-control form-control-sm"
                                                     autocomplete="off"
                                                     placeholder="Remarks "
-                                                    tabindex="8"
+                                                    tabindex="6"
                                                     maxlength="100"></textarea>
                                             </div>
-                                            <label class="col-md-2">Last Loading Date:</label>
+                                            <label class="col-md-2">Last Passed Date:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-datepicker
-                                                    formControlName="lastLoadingDate"
+                                                    formControlName="lastPassedDate"
                                                     class="form-control form-control-sm"
                                                     [format]="formatfilter"
-                                                    placeholder="Last Loading Date"
+                                                    placeholder="Last Passed Date"
                                                     autocomplete="off"
-                                                    tabindex="18"
+                                                    tabindex="7"
                                                     maxlength="100">
                                                 </ejs-datepicker>
                                             </div>
@@ -170,18 +129,25 @@
                                         <div class="row">
                                             <label class="col-md-2">IsActive:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-checkbox formControlName="active" tabindex="9"></ejs-checkbox>
+                                                <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
                                             </div>
                                             <label class="col-md-2">IsBlack:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-checkbox formControlName="isBlack" tabindex="12"></ejs-checkbox>
+                                                <ejs-checkbox formControlName="isBlack" tabindex="9"></ejs-checkbox>
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <label for="blackDate" class="col-md-2">Black Date:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-datepicker formControlName="blackDate" class="form-control form-control-sm" autocomplete="off"
+                                                tabindex="10" maxlength="100"
+                                                 [format]="formatfilter" floatLabelType='Always'>
+                                                </ejs-datepicker>
+                                            </div>
                                             <label class="col-md-2">Black Removed Date:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-datepicker class="form-control form-control-sm" formControlName="blackRemovedDate" autocomplete="off"
-                                                tabindex="13"
+                                                tabindex="11"
                                                 [format]="formatfilter"
                                                 floatLabelType="Always"
                                                 maxlength="100"></ejs-datepicker>

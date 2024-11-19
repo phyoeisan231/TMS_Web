@@ -65,95 +65,18 @@
                                                     tabindex="2"
                                                     maxlength="100" />
                                             </div>
-                                            <label class="col-md-2">Unladen Weight:</label>
+                                            <label class="col-md-2">Truck Weight:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
-                                                    formControlName="unladenWeight"
+                                                    formControlName="truckWeight"
                                                     class="form-control form-control-sm"
                                                     autocomplete="off"
-                                                    placeholder="Enter Unladen Weight"
+                                                    placeholder="Enter Truck Weight"
                                                     tabindex="3"
                                                     maxlength="100"/>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <label class="col-md-2 requiredfield ">Total NrFootValue:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="totalNrFootValve"
-                                                    class="form-control form-control-sm"
-                                                    autocomplete="off"
-                                                    placeholder="Enter Total Nr FootValue"
-                                                    tabindex="3"
-                                                    maxlength="100"/>
-                                                <div *ngIf="truckForm.controls['totalNrFootValve'].invalid && (truckForm.controls['totalNrFootValve'].touched || truckForm.controls['totalNrFootValve'].dirty)">
-                                                    <small class="text-danger">This field is required.</small>
-                                                </div>
-                                            </div>
-                                            <label class="col-md-2 requiredfield">Total NrDomeCover:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="totalNrDomeCover"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Enter Total NrDomeCover"
-                                                    autocomplete="off"
-                                                    tabindex="1" maxlength="100"/>
-                                                <div *ngIf="truckForm.controls['totalNrDomeCover'].invalid && (truckForm.controls['totalNrDomeCover'].touched || truckForm.controls['totalNrDomeCover'].dirty)">
-                                                    <small class="text-danger">This field is required.</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                          <label class="col-md-2 requiredfield">Total NrLoadCoupling:</label>
-                                          <div class="form-group col-md-4">
-                                              <ejs-textbox
-                                                  formControlName="totalNrLoadCoupling"
-                                                  class="form-control form-control-sm"
-                                                  autocomplete="off"
-                                                  placeholder="Enter Total Nr FootValue"
-                                                  tabindex="3"
-                                                  maxlength="100"/>
-                                              <div *ngIf="truckForm.controls['totalNrLoadCoupling'].invalid && (truckForm.controls['totalNrLoadCoupling'].touched || truckForm.controls['totalNrLoadCoupling'].dirty)">
-                                                  <small class="text-danger">This field is required.</small>
-                                              </div>
-                                          </div>
-                                          <label class="col-md-2">Loading Type:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-dropdownlist
-                                                    formControlName="loadingType"
-                                                    [dataSource]="loadingTypeList"
-                                                    class="form-control form-control-sm"
-                                                    autocomplete="off"
-                                                    placeholder="Choose Loading Type"
-                                                    tabindex="3"
-                                                    maxlength="100"/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-md-2 requiredfield">Total NrCabinet:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="totalNrCabinet"
-                                                    class="form-control form-control-sm"
-                                                    autocomplete="off"
-                                                    placeholder="Enter Total Nr Cabinet"
-                                                    tabindex="4"
-                                                    maxlength="100"/>
-                                                    <div *ngIf="truckForm.controls['totalNrCabinet'].invalid && (truckForm.controls['totalNrCabinet'].touched || truckForm.controls['totalNrCabinet'].dirty)">
-                                                      <small class="text-danger">This field is required.</small>
-                                                  </div>
-                                            </div>
-                                            <label class="col-md-2">Flow Rate:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="flowrate"
-                                                    class="form-control form-control-sm"
-                                                    autocomplete="off"
-                                                    placeholder="Enter Flow Rate"
-                                                    tabindex="3"
-                                                    maxlength="100"/>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="row">
                                           <label class="col-md-2 requiredfield">Truck Type:</label>
                                           <div class="form-group col-md-4">
@@ -191,16 +114,6 @@
                                                     placeholder="Enter Driver LicenseNo."
                                                     autocomplete="off"
                                                     tabindex="12"
-                                                    maxlength="100"/>
-                                            </div>
-                                            <label class="col-md-2">Other SealPlace:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="otherSealPlace"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Enter Other SealPlace"
-                                                    autocomplete="off"
-                                                    tabindex="13"
                                                     maxlength="100"/>
                                             </div>
                                         </div>

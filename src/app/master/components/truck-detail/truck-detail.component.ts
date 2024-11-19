@@ -43,20 +43,15 @@ export class TruckDetailComponent {
    
     this.truckForm = new FormGroup({
       vehicleRegNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
-      totalNrDomeCover: new FormControl('',Validators.required),
       transporter: new FormControl(''),
       remarks:new FormControl(''),
-      totalNrFootValve: new FormControl('',Validators.required),
-      totalNrLoadCoupling:new FormControl('',Validators.required),
-      totalNrCabinet: new FormControl('',Validators.required),
       truckType: new FormControl('', Validators.required),
-      unladenWeight:new FormControl(''),
-      loadingType:new FormControl(''),
+      truckWeight:new FormControl(''),
       vehicleBackRegNo:new FormControl(''),
-      otherSealPlace:new FormControl(''),
       driverLicenseNo:new FormControl(''),
-      flowrate:new FormControl(''),
       active: new FormControl(false),
+      lastPassedDate:new FormControl(null),
+
       // isBlack:new FormControl(false),
       // blackReason:new FormControl(''),
       // blackDate:new FormControl(null),
@@ -66,7 +61,6 @@ export class TruckDetailComponent {
       //containerType:new FormControl(''),
       //containerSize:new FormControl(''),
       //name:new FormControl(''),
-      lastLoadingDate:new FormControl(null),
     });
     if (this.id) {
       this.getTruckById();
@@ -103,21 +97,15 @@ export class TruckDetailComponent {
             if (result) {
                 this.truckForm.patchValue({
                     vehicleRegNo: result.vehicleRegNo,
-                    totalNrDomeCover: result.totalNrDomeCover ?? 0,
                     transporter: result.transporter ?? "",
                     remarks: result.remarks ?? "",
-                    totalNrFootValve: result.totalNrFootValve ?? 0,
-                    totalNrLoadCoupling: result.totalNrLoadCoupling ?? 0,
-                    totalNrCabinet: result.totalNrCabinet ?? 0,
                     truckType: result.truckType,
-                    unladenWeight: result.unladenWeight ?? 0,
-                    loadingType: result.loadingType ?? "",
+                    truckWeight: result.truckWeight ?? 0,
                     vehicleBackRegNo: result.vehicleBackRegNo ?? "",
-                    otherSealPlace:result.otherSealPlace??"",
                     driverLicenseNo:result.driverLicenseNo??"",
-                    flowrate: result.flowrate ?? 0,
                     active: result.active ?? false,
-                    //truckWeight:result.truckWeight??0,
+                    lastPassedDate:result.lastPassedDate?new Date(result.lastPassedDate):null,
+
                     //name:result.name??"",
                     //containerType:result.containerType??"",
                     //containerSize:result.containerSize??0,
@@ -126,7 +114,6 @@ export class TruckDetailComponent {
                     // blackReason: result.blackReason ?? "",
                     // blackRemovedDate:result.blackRemovedDate?new Date(result.blackRemovedDate):null,
                     // blackRemovedReason:result.blackRemovedReason??"",
-                    lastLoadingDate:result.lastLoadingDate?new Date(result.lastLoadingDate):null,
                 });
                 
                 this.breadCrumbItems = [
@@ -157,24 +144,16 @@ export class TruckDetailComponent {
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", data.vehicleRegNo);
-    formData.append("TotalNrDomeCover", data.totalNrDomeCover);
     formData.append("Transporter", data.transporter);
     formData.append("Remarks",data.remarks);
-    formData.append("TotalNrFootValve", data.totalNrFootValve);
-    formData.append("TotalNrLoadCoupling",data.totalNrLoadCoupling);
-    formData.append("TotalNrCabinet", data.totalNrCabinet);
     formData.append("TruckType", data.truckType);
-    formData.append("UnladenWeight",data.unladenWeight);
-    formData.append("LoadingType",data.loadingType);
+    formData.append("TruckWeight",data.truckWeight);
     formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
-    formData.append("OtherSealPlace",data.otherSealPlace);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("Flowrate",data.flowrate);
     formData.append("Active", data.active.toString());  // Ensure it's a string if your API requires it
     // formData.append("IsBlack",data.isBlack.toString());
     // formData.append("BlackReason",data.blackReason);
     // formData.append("BlackRemovedReason",data.blackRemovedReason);
-    //formData.append("TruckWeight",data.truckWeight);
     //formData.append("Name",data.name);
     //formData.append("ContainerType",data.containerType);
     //formData.append("ContainerSize",data.containerSize);
@@ -193,12 +172,12 @@ export class TruckDetailComponent {
     //   .split("T")[0];
     //   formData.append("BlackRemovedDate",localRemovedDate);
     // }
-    if(data.lastLoadingDate){
-      const lastLoading=data.lastLoadingDate instanceof Date? data.lastLoadingDate:new Date(data.lastLoadingDate);
-      const localLastLoadingDate=new Date(lastLoading.getTime()-lastLoading.getTimezoneOffset()*60000)
+    if(data.lastPassedDate){
+      const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
+      const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
       .toISOString()
       .split("T")[0];
-      formData.append("LastLoadingDate",localLastLoadingDate);
+      formData.append("LastPassedDate",localLastPassedDate);
     }
 
     this.service.createTruck(formData)
@@ -218,24 +197,16 @@ export class TruckDetailComponent {
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", this.id);
-    formData.append("TotalNrDomeCover", data.totalNrDomeCover);
     formData.append("Transporter", data.transporter);
     formData.append("Remarks",data.remarks);
-    formData.append("TotalNrFootValve", data.totalNrFootValve);
-    formData.append("TotalNrLoadCoupling",data.totalNrLoadCoupling);
-    formData.append("TotalNrCabinet", data.totalNrCabinet);
     formData.append("TruckType", data.truckType);
-    formData.append("UnladenWeight",data.unladenWeight);
-    formData.append("LoadingType",data.loadingType);
+    formData.append("TruckWeight",data.truckWeight);
     formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
-    formData.append("OtherSealPlace",data.otherSealPlace);
-    formData.append("DriverLicenseNO",data.driverLicenseNo);
-    formData.append("Flowrate",data.flowrate);
+    formData.append("DriverLicenseNo",data.driverLicenseNo);
     formData.append("Active", data.active.toString());  // Ensure it's a string if your API requires it
     // formData.append("IsBlack",data.isBlack.toString());
     // formData.append("BlackReason",data.blackReason);
     // formData.append("BlackRemovedReason",data.blackRemovedReason);
-    //formData.append("TruckWeight",data.truckWeight);
     //formData.append("Name",data.name);
     //formData.append("ContainerType",data.containerType);
     //formData.append("ContainerSize",data.containerSize);
@@ -254,12 +225,12 @@ export class TruckDetailComponent {
     //   .split("T")[0];
     //   formData.append("BlackRemovedDate",localRemovedDate);
     // }
-    if(data.lastLoadingDate){
-      const lastLoading=data.lastLoadingDate instanceof Date? data.lastLoadingDate:new Date(data.lastLoadingDate);
-      const localLastLoadingDate=new Date(lastLoading.getTime()-lastLoading.getTimezoneOffset()*60000)
+    if(data.lastPassedDate){
+      const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
+      const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
       .toISOString()
       .split("T")[0];
-      formData.append("LastLoadingDate",localLastLoadingDate);
+      formData.append("LastPassedDate",localLastPassedDate);
     }
     
     this.service.updateTruck(formData)
