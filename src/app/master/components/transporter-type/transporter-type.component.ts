@@ -1,45 +1,40 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MasterModule } from '../../master.module';
-import { DialogEditEventArgs, EditSettingsModel, ExcelQueryCellInfoEventArgs, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
-import { GateService } from './gate.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { Browser } from '@syncfusion/ej2/base';
-import { HttpErrorResponse } from '@angular/common/http';
-import { NgxSpinner, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { RouterModule } from '@angular/router';
-import { Dialog } from '@syncfusion/ej2-angular-popups';
-import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { TransporterTypeService } from './transporter-type.service';
+import { DialogEditEventArgs, EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { catchError, of } from 'rxjs';
+import { Browser } from '@syncfusion/ej2/base';
+import { Dialog } from '@syncfusion/ej2-angular-popups';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
+
 @Component({
-  selector: 'app-gate',
+  selector: 'app-transporter-type',
   standalone: true,
   imports: [MasterModule],
-  templateUrl: './gate.component.html',
-  styleUrl: './gate.component.scss'
+  templateUrl: './transporter-type.component.html',
+  styleUrl: './transporter-type.component.scss'
 })
-export class GateComponent {
+export class TransporterTypeComponent {
   pageSettings: PageSettingsModel = { pageSize: 10 };
   editSettings: EditSettingsModel = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = ['Add','Edit','Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
-  gateForm: any;
-  lblText:string;
-  locationList: string[]=['YTG','MDY','MG']
+  transForm: any;
   submitClicked: boolean = false;
-  public data: Object[]=[{'gateId':1,'name':'YTGGate1','location':'YTG'},{'gateId':2,'name':'YTGGate2','location':'YTG'}];
-  formatfilter:string='dd-MMM-yyyy';
-  today : Date = new Date();
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
-    private service: GateService,
+    private service: TransporterTypeService,
     private spinner: NgxSpinnerService,
   ) {}
-
 
   ngOnInit(){
     this.loadTableData();
   }
+
   rowDataBound(args: any): void {
     if (args.row) {
       if (args.data.active!=true) {
@@ -50,7 +45,7 @@ export class GateComponent {
 
   loadTableData() {
     this.spinner.show();
-     this.service.getGateList('All')
+     this.service.getTransporterTypes('All')
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.grid.dataSource = result;
@@ -62,45 +57,44 @@ export class GateComponent {
   actionBegin(args: SaveEventArgs): void {
     if (args.requestType === 'add') {
       this.submitClicked = false;
-      this.gateForm = this.createFormGroup(args.rowData);
-  }
-  else if(args.requestType === 'beginEdit'){
-    this.submitClicked = false;
-    this.gateForm = this.createFormGroup(args.rowData);
-  }
-
-  if (args.requestType === 'save') {
+      this.transForm = this.createFormGroup(args.rowData);
+    }
+    else if(args.requestType === 'beginEdit'){
+      this.submitClicked = false;
+      this.transForm = this.createFormGroup(args.rowData);
+    }
+    if (args.requestType === 'save') {
       this.submitClicked = true;
-      if (this.gateForm.valid) {
-          let formData = this.gateForm.value;
-          if (args.action === 'add') {
-            formData.createdUser = localStorage.getItem('currentUser');
-            this.addGate(formData);
-          }
-          else {
-            formData.updatedUser = localStorage.getItem('currentUser');
-            this.updateGate(formData);
-          }
-      } else {
-          args.cancel = true;
+      if (this.transForm.valid) {
+        let formData = this.transForm.value;
+        if (args.action === 'add') {
+          formData.createdUser = localStorage.getItem('currentUser');
+          this.addTransporterType(formData);
+        }
+        else {
+          formData.updatedUser = localStorage.getItem('currentUser');
+          this.editTransporterType(formData);
+        }
       }
+      else {
+        args.cancel = true;
+      }
+    }
+    if (args.requestType === 'delete') {
+      args.cancel = true;
+      const data = args.data as any[];
+      const id = data[0].typeName;
+      this.deleteTransporterType(id);
+    }
   }
-
-  if (args.requestType === 'delete') {
-    args.cancel = true;
-    const data = args.data as any[];
-    const id = data[0].name;
-   this.deleteGate(id);
-  }
-}
 
   actionComplete(args: DialogEditEventArgs): void {
     if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
       if(args.requestType === 'add'){
-        args!.dialog!.header="New Gate" ;
+        args!.dialog!.header="New Transporter Type" ;
         }
         else{
-          args!.dialog!.header="Edit Gate" ;
+          args!.dialog!.header="Edit Transporter Type" ;
         }
         if (Browser.isDevice) {
             args!.dialog!.height = window.innerHeight - 90 + 'px';
@@ -111,36 +105,36 @@ export class GateComponent {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      gateId: new FormControl(data.gateId),
-      name: new FormControl(data.name,Validators.required),
-      location: new FormControl(data.location,Validators.required),
+      typeCode: new FormControl(data.typeCode),
+      typeName: new FormControl(data.typeName,Validators.required),
+      remarks:new FormControl(data.remarks),
       active: new FormControl(data.active),
     });
   }
 
-  addGate(formData: any) {
+  addTransporterType(formData: any) {
     this.spinner.show();
-    formData.gateId=0;
+    formData.typeCode=0;
     formData.active = true;
     this.service
-      .createGate(formData)
+      .createTransporterType(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         if (result.status == true) {
           this.spinner.hide();
-          Swal.fire('Gate', result.messageContent, 'success');
+          Swal.fire('Transporter Type', result.messageContent, 'success');
           this.loadTableData();
         } else {
           this.spinner.hide();
-          Swal.fire('Gate', result.messageContent, 'error');
+          Swal.fire('Transporter Type', result.messageContent, 'error');
         }
       });
   }
 
-  updateGate(formData: any) {
+  editTransporterType(formData: any) {
     this.spinner.show();
     this.service
-      .updateGate(formData)
+      .updateTransporterType(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.loadTableData();
@@ -148,11 +142,12 @@ export class GateComponent {
           this.showSuccess(result.messageContent);
         } else {
           this.spinner.hide();
-          Swal.fire('Gate', result.messageContent, 'error');
+          Swal.fire('Transporter Type', result.messageContent, 'error');
         }
       });
   }
-  deleteGate(id: any) {
+
+  deleteTransporterType(id: any) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this data!',
@@ -165,7 +160,7 @@ export class GateComponent {
       if (response.value) {
         this.spinner.show();
         this.service
-          .deleteGate(id)
+          .deleteTransporterType(id)
           .pipe(catchError((err) => of(this.showError(err))))
           .subscribe((result) => {
             if (result.status == true) {
@@ -173,7 +168,7 @@ export class GateComponent {
               this.loadTableData();
             } else {
               this.spinner.hide();
-              Swal.fire('Gate', result.messageContent, 'error');
+              Swal.fire('Transporter Type', result.messageContent, 'error');
             }
           });
       } else if (response.dismiss === Swal.DismissReason.cancel) {
@@ -182,34 +177,31 @@ export class GateComponent {
     });
   }
 
-
   validateControl(controlName: string) {
-    const control = this.gateForm.get(controlName);
+    const control = this.transForm.get(controlName);
     return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
+  
   showSuccess(msg: string) {
     this.spinner.hide();
-    Swal.fire('Gate', msg, 'success');
+    Swal.fire('Transporter Type', msg, 'success');
   }
 
   showError(error: HttpErrorResponse) {
     this.spinner.hide();
-    Swal.fire('Gate', error.statusText, 'error');
+    Swal.fire('Transporter Type', error.statusText, 'error');
   }
 
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'GateReport.xlsx',
+        fileName:'TruckTypeReport.xlsx',
      });
     }
   }
-  exportQueryCellInfo(args: ExcelQueryCellInfoEventArgs ): void {
-    if (args.column.headerText === '') {
-      args.hyperLink = {
-          target:  (args as any).data,
-          displayText: (args as any).data
-      };
-    }
-  }
+
 }
+
+  
+
+

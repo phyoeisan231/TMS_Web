@@ -35,6 +35,48 @@ const routes: Routes = [
         path: 'master/truck-type',
         loadComponent: () => import('./master/components/truck-type/truck-type.component').then((c) => c.TruckTypeComponent)
       },
+      {
+        path:'master/trailer-type',
+        loadComponent:()=>import('./master/components/trailer-type/trailer-type.component').then((c)=>c.TrailerTypeComponent)
+      }
+      ,
+      {
+        path:'master/trailer',
+        loadComponent:()=> import('./master/components/trailer/trailer.component').then((c)=>c.TrailerComponent)
+      },
+      {
+        path:'master/trailer-detail',
+        loadComponent:()=>import('./master/components/trailer-detail/trailer-detail.component').then((c)=>c.TrailerDetailComponent)
+      },
+      {
+        path:'master/truck',
+        loadComponent:()=>import('./master/components/truck/truck.component').then((c)=>c.TruckComponent)
+      },
+      {
+        path:'master/truck-detail',
+        loadComponent:()=>import('./master/components/truck-detail/truck-detail.component').then((c)=>c.TruckDetailComponent)
+      },
+      {
+        path:'master/driver',
+        loadComponent:()=>import('./master/components/driver/driver.component').then((c)=>c.DriverComponent)
+      },
+      {
+        path:'master/driver-detail',
+        loadComponent:()=>import('./master/components/driver-detail/driver-detail.component').then((c)=>c.DriverDetailComponent)
+      },
+      {
+        path:'master/transporter-type',
+        loadComponent:()=>import('./master/components/transporter-type/transporter-type.component').then((c)=>c.TransporterTypeComponent)
+      },
+      {
+        path:'master/transporter',
+        loadComponent:()=>import('./master/components/transporter/transporter.component').then((c)=>c.TransporterComponent)
+      },
+      {
+        path:'master/transporter-detail',
+        loadComponent:()=>import('./master/components/transporter-detail/transporter-detail.component').then((c)=>c.TransporterDetailComponent)
+      }
+      
       // {
       //   path: 'typography',
       //   loadComponent: () => import('./demo/ui-component/typography/typography.component')

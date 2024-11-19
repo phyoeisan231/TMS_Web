@@ -31,7 +31,6 @@ export class TruckTypeComponent {
     private spinner: NgxSpinnerService,
   ) {}
 
-
   ngOnInit(){
     this.loadTableData();
   }
@@ -58,36 +57,35 @@ export class TruckTypeComponent {
     if (args.requestType === 'add') {
       this.submitClicked = false;
       this.typeForm = this.createFormGroup(args.rowData);
-  }
-  else if(args.requestType === 'beginEdit'){
-    this.submitClicked = false;
-    this.typeForm = this.createFormGroup(args.rowData);
-  }
-
-  if (args.requestType === 'save') {
+    }
+    else if(args.requestType === 'beginEdit'){
+      this.submitClicked = false;
+      this.typeForm = this.createFormGroup(args.rowData);
+    }
+    if (args.requestType === 'save') {
       this.submitClicked = true;
       if (this.typeForm.valid) {
-          let formData = this.typeForm.value;
-          if (args.action === 'add') {
-            formData.createdUser = localStorage.getItem('currentUser');
-            this.addTruckType(formData);
-          }
-          else {
-            formData.updatedUser = localStorage.getItem('currentUser');
-            this.updateTruckType(formData);
-          }
-      } else {
-          args.cancel = true;
+        let formData = this.typeForm.value;
+        if (args.action === 'add') {
+          formData.createdUser = localStorage.getItem('currentUser');
+          this.addTruckType(formData);
+        }
+        else {
+          formData.updatedUser = localStorage.getItem('currentUser');
+          this.updateTruckType(formData);
+        }
       }
+      else {
+        args.cancel = true;
+      }
+    }
+    if (args.requestType === 'delete') {
+      args.cancel = true;
+      const data = args.data as any[];
+      const id = data[0].description;
+      this.deleteTruckType(id);
+    }
   }
-
-  if (args.requestType === 'delete') {
-    args.cancel = true;
-    const data = args.data as any[];
-    const id = data[0].typeCode;
-   this.deleteTruckType(id);
-  }
-}
 
   actionComplete(args: DialogEditEventArgs): void {
     if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
@@ -146,6 +144,7 @@ export class TruckTypeComponent {
         }
       });
   }
+
   deleteTruckType(id: any) {
     Swal.fire({
       title: 'Are you sure?',
@@ -176,11 +175,11 @@ export class TruckTypeComponent {
     });
   }
 
-
   validateControl(controlName: string) {
     const control = this.typeForm.get(controlName);
     return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
+  
   showSuccess(msg: string) {
     this.spinner.hide();
     Swal.fire('Truck Type', msg, 'success');

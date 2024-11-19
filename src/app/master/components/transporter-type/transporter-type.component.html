@@ -1,0 +1,75 @@
+<section class="content mt-0">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+            <li class="breadcrumb-item active text-info">Transporter Type</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+          <div class="card card-primary card-outline">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 col-lg-12 text-left">
+                  <h5 class="card-title">Transporter Type</h5>
+                </div>
+              </div>
+              <ejs-grid #Grid  [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)="rowDataBound($event)">
+                <e-columns>
+                  <!-- <e-column field='typeCode' headerText='ID' [isPrimaryKey]="true" width="90"></e-column> -->
+                  <!-- <e-column type='checkbox' width="50"></e-column> -->
+                  <e-column field='typeName' headerText="Type Name" width="150"></e-column>
+                  <e-column field='active' headerText="Active" width="100">
+                    <ng-template #template let-data>
+                      <div *ngIf="data.active;else False">Yes</div>
+                      <ng-template #False>
+                        <div>No</div>
+                      </ng-template>
+                    </ng-template>
+                  </e-column>
+                </e-columns>
+                <ng-template #editSettingsTemplate let-data>
+                  <form [formGroup]="transForm">
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <label for="typeName" class="font-weight-normal requiredfield">Type Name</label>
+                        <ejs-textbox formControlName="typeName" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                        <div  [style.visibility]='validateControl("typeName")? "visible": "hidden"'>
+                          <label class="e-error" for="typeName" style="display: block;">*Type Name is required</label>
+                        </div>
+                      </div>
+                     </div>
+                     <!-- <div class="form-row">
+                        <div class="form-group col-md-12">
+                          <label class="font-weight-normal">Remark</label>
+                          <textarea
+                          autocomplete="off"
+                          formControlName="remarks"
+                          placeholder="Enter remark"
+                          class="form-control form-control-md"
+                          floatLabelType="Always"
+                          autocomplete="off"
+                          tabindex="2"
+                          maxlength="200"></textarea>
+                        </div>
+                      </div> -->
+                     <div class="form-row">
+                      <div class="form-group col-md-6"><br>
+                        <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="3" [checked]="true"></ejs-checkbox>
+                      </div>
+                     </div>
+                  </form>
+                </ng-template>
+              </ejs-grid>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+  
+  
+  
+  

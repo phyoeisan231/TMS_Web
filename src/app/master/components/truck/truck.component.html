@@ -1,0 +1,38 @@
+<section class="content mt-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="true"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+                    <li class="breadcrumb-item active text-info">Truck Info</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card card-primary card-outline">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 text-left">
+                          <h5 class="card-title">Truck Info</h5>
+                        </div>
+                    </div>
+                    <ejs-grid #Grid [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings' [editSettings]="editSettings" [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+                        <e-columns>
+                            <e-column type='checkbox' width="50"></e-column>
+                            <e-column field="vehicleRegNo" headerText='RegNo' [isPrimaryKey]="true" width="150"></e-column>
+                            <e-column field="totalNrDomeCover" headerText="Total NrDomeCover" width="200"></e-column>
+                            <e-column field="transporter" headerText="Transporter" width="150"></e-column>
+                            <e-column field="totalNrFootValve" headerText="Total NrFootValue" width="150"></e-column>
+                            <e-column field="loadingType" headerText="Loading Type" width="150"></e-column>
+                            <e-column field="truckType" headerText="Truck Type" width="200"></e-column>
+                            <!-- <e-column field="blackDate" headerText="Black Date" width="200" type="date" format="dd-MM-yyyy"></e-column> -->
+                            <e-column field='createdDate' headerText='Created Date' type="date" format="dd-MM-yyyy" width="130"></e-column>
+                            <e-column field='active' headerText='Active'  width="100"></e-column>
+                        </e-columns>
+                    </ejs-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

@@ -61,6 +61,15 @@ export const NavigationItems: NavigationItem[] = [
         breadcrumbs: false
       },
       {
+        id: 'transportertype',
+        title: 'Transporter Type',
+        type: 'item',
+        classes: 'nav-item',
+        url: 'master/transporter-type',
+        icon: 'setting',
+        breadcrumbs: false
+      },
+      {
         id: 'transporter',
         title: 'Transporter',
         type: 'item',

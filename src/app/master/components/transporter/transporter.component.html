@@ -1,0 +1,37 @@
+<section class="content mt-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="true"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+                    <li class="breadcrumb-item active text-info">Transporter Info</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card card-primary card-outline">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 text-left">
+                          <h5 class="card-title">Transporter Info</h5>
+                        </div>
+                    </div>
+                    <ejs-grid #Grid [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings' [editSettings]="editSettings" [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+                        <e-columns>
+                            <e-column type='checkbox' width="50"></e-column>
+                            <e-column field="transporterCode" headerText='TCode' [isPrimaryKey]="true" width="150"></e-column>
+                            <e-column field="transporterName" headerText="Transporter Name" width="200"></e-column>
+                            <e-column field="address" headerText="Address" width="150"></e-column>
+                            <e-column field="contactNo" headerText="ContactNo." width="150"></e-column>
+                            <e-column field="email" headerText="Email" width="150"></e-column>
+                            <e-column field="transporterType" headerText="Transporter Type" width="200"></e-column>
+                            <e-column field='createdDate' headerText='Created Date' type="date" format="dd-MM-yyyy" width="130"></e-column>
+                            <e-column field='active' headerText='Active'  width="100"></e-column>
+                        </e-columns>
+                    </ejs-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

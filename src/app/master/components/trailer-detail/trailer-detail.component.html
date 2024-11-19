@@ -1,0 +1,217 @@
+<div class="wrapper">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- <app-page-title title="Trailer" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
+            <!-- <app-nav-bar title="Trailer" [breadcu]="navigationList"></app-nav-bar> -->
+        </div>
+        <section class="content my-0">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                                <h4 class="card-title mb-0">
+                                    <span *ngIf="isAdd">New Trailer</span>
+                                    <span *ngIf="!isAdd">Edit Trailer</span>
+                                </h4>
+                                <div class="button-group d-flex">
+                                    <button
+                                        class="btn btn-info btn-sm me-1"
+                                        (click)="saveTrailer()"
+                                        [disabled]="!trailerForm.valid">
+                                        Save
+                                    </button>
+                                    <button
+                                        class="btn btn-danger btn-sm"
+                                        (click)="navigateToTrailer()">
+                                        Cancel
+                                    </button>
+                                </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form [formGroup]="trailerForm">
+                                        <div class="row my-0">
+                                          <label class="col-md-2 requiredfield" *ngIf="isAdd">Vehicle Reg No:</label>
+                                          <label class="col-md-2 requiredfield" *ngIf="!isAdd">Vehicle Reg No:</label>
+                                          <div class="form-group col-md-4">
+                                            <ejs-textbox
+                                                formControlName="vehicleRegNo"
+                                                class="form-control form-control-sm"
+                                                tabindex="0" maxlength="50" />
+                                            <div *ngIf="trailerForm.controls['vehicleRegNo'].invalid && (trailerForm.controls['vehicleRegNo'].touched || trailerForm.controls['vehicleRegNo'].dirty)">
+                                                <small class="text-danger">This field is required.</small>
+                                            </div>
+                                        </div>
+                                        <label class="col-md-2">Vehicle BackRegNo:</label>
+                                        <div class="form-group col-md-4">
+                                            <ejs-textbox
+                                                formControlName="vehicleBackRegNo"
+                                                class="form-control form-control-sm"
+                                                placeholder="Enter Vehicle BackRegNo"
+                                                autocomplete="off"
+                                                tabindex="1" maxlength="100"/>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2">Flowrate:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-textbox
+                                                    formControlName="flowrate"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Enter Flowrate"
+                                                    autocomplete="off"
+                                                    tabindex="2"
+                                                    maxlength="100" />
+                                            </div>
+                                            <label class="col-md-2">Unladen Weight:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-textbox
+                                                    formControlName="unladenWeight"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Enter Unladen Weight"
+                                                    autocomplete="off"
+                                                    tabindex="3" maxlength="100"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2 requiredfield">Trailer Type:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-dropdownlist 
+                                                formControlName="trailerType"
+                                                [dataSource]="trailerTypeList"
+                                                [fields]="{ text: 'description', value: 'id' }"
+                                                class="form-control form-control-sm"
+                                                placeholder="Choose Truck-Trailer Type"
+                                                tabindex="4">
+                                              </ejs-dropdownlist>
+                                              <div *ngIf="trailerForm.controls['trailerType'].invalid && (trailerForm.controls['trailerType'].touched || trailerForm.controls['trailerType'].dirty)">
+                                                <small class="text-danger">This field is required.</small>
+                                              </div>
+                                            </div>
+                                            <label class="col-md-2">Loading Type:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-dropdownlist
+                                                    formControlName="loadingType"
+                                                    [dataSource]="loadingTypeList"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Choose Loading Type"
+                                                    autocomplete="off"
+                                                    tabindex="5" maxlength="100"/>
+                                            </div>
+                                          </div>
+                                        <div class="row">
+                                            <label class="col-md-2">Transporter:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-dropdownlist
+                                                    formControlName="transporter"
+                                                    [dataSource]="transporterNames"
+                                                    [fields]="{ text: 'transporterName', value: 'id' }"
+                                                    class="form-control form-control-sm"
+                                                    autocomplete="off"
+                                                    placeholder="Choosse Transporter"
+                                                    tabindex="6"
+                                                    maxlength="100"/>
+                                            </div>
+                                            <label for="blackDate" class="col-md-2">Black Date:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-datepicker formControlName="blackDate" class="form-control form-control-sm" autocomplete="off"
+                                                tabindex="10" maxlength="100"
+                                                 [format]="formatfilter" floatLabelType='Always'>
+                                                </ejs-datepicker>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                          <label class="col-md-2">Compartment No:</label>
+                                          <div class="form-group col-md-4">
+                                              <ejs-textbox
+                                                  formControlName="compartmentNo"
+                                                  class="form-control form-control-sm"
+                                                  autocomplete="off"
+                                                  placeholder="Enter Compartment No."
+                                                  tabindex="7"
+                                                  maxlength="100"/>
+                                          </div>
+                                          <label class="col-md-2">Driver LicenseNo.:</label>
+                                          <div class="form-group col-md-4">
+                                            <ejs-textbox
+                                                formControlName="driverLicenseNo"
+                                                class="form-control form-control-sm"
+                                                autocomplete="off"
+                                                placeholder="Enter Driver License Number"
+                                                tabindex="10"
+                                                maxlength="100"/>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2">Remarks:</label>
+                                            <div class="form-group col-md-4">
+                                                <textarea
+                                                    formControlName="remarks"
+                                                    class="form-control form-control-sm"
+                                                    autocomplete="off"
+                                                    placeholder="Remarks "
+                                                    tabindex="8"
+                                                    maxlength="100"></textarea>
+                                            </div>
+                                            <label class="col-md-2">Last Loading Date:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-datepicker
+                                                    formControlName="lastLoadingDate"
+                                                    class="form-control form-control-sm"
+                                                    [format]="formatfilter"
+                                                    placeholder="Last Loading Date"
+                                                    autocomplete="off"
+                                                    tabindex="18"
+                                                    maxlength="100">
+                                                </ejs-datepicker>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2">IsActive:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-checkbox formControlName="active" tabindex="9"></ejs-checkbox>
+                                            </div>
+                                            <label class="col-md-2">IsBlack:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-checkbox formControlName="isBlack" tabindex="12"></ejs-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2">Black Removed Date:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-datepicker class="form-control form-control-sm" formControlName="blackRemovedDate" autocomplete="off"
+                                                tabindex="13"
+                                                [format]="formatfilter"
+                                                floatLabelType="Always"
+                                                maxlength="100"></ejs-datepicker>
+                                            </div>
+                                          </div> 
+                                        <!-- <div class="row col-6">
+                                            <div class="col-md-4 col-sm-6"></div>
+                                            <div class="col-md-2 col-sm-6">
+                                                <button
+                                                    class="btn btn-block btn-info"
+                                                    (click)="saveTrailer()"
+                                                    [disabled]="!trailerForm.valid">
+                                                    Save</button>&nbsp;
+                                            </div>
+                                            <div class="col-md-2 col-sm-6">
+                                                <button
+                                                class="btn btn-block btn-danger"
+                                                (click)="navigateToTrailer()">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                        </div> -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+  

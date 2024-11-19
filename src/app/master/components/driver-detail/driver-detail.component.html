@@ -1,0 +1,150 @@
+<div class="wrapper">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- <app-page-title title="Trailer" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
+            <!-- <app-nav-bar title="Trailer" [breadcu]="navigationList"></app-nav-bar> -->
+        </div>
+        <section class="content my-0">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h4 class="card-title mb-0">
+                                <span *ngIf="isAdd">New Driver</span>
+                                <span *ngIf="!isAdd">Edit Driver</span>
+                            </h4>
+                            <div class="button-group d-flex">
+                                <button
+                                    class="btn btn-info btn-sm me-1"
+                                    (click)="saveDriverList()"
+                                    [disabled]="!driverForm.valid">
+                                    Save
+                                </button>
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    (click)="navigateToDriver()">
+                                    Cancel
+                                </button>
+                            </div>
+                    </div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form [formGroup]="driverForm">
+                                        <div class="row my-0">
+                                          <label class="col-md-2 requiredfield" *ngIf="isAdd">License No:</label>
+                                          <label class="col-md-2 requiredfield" *ngIf="!isAdd">License No:</label>
+                                          <div class="form-group col-md-4">
+                                            <ejs-textbox
+                                                formControlName="licenseNo"
+                                                class="form-control form-control-sm"
+                                                tabindex="0" maxlength="50" />
+                                            <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
+                                                <small class="text-danger">This field is required.</small>
+                                            </div>
+                                        </div>
+                                        <label class="col-md-2 requiredfield">NRC:</label>
+                                        <div class="form-group col-md-4">
+                                            <ejs-textbox
+                                                formControlName="nrc"
+                                                class="form-control form-control-sm"
+                                                placeholder="Enter NRC"
+                                                autocomplete="off"
+                                                tabindex="1" maxlength="100"/>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2 requiredfield">Name:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-textbox
+                                                    formControlName="name"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Enter Driver Name"
+                                                    autocomplete="off"
+                                                    tabindex="2"
+                                                    maxlength="100" />
+                                            </div>
+                                            <label class="col-md-2 requiredfield">Address:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-textbox
+                                                    formControlName="address"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Enter Address"
+                                                    autocomplete="off"
+                                                    tabindex="3" maxlength="100"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2">License Class:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-textbox
+                                                    formControlName="licenseClass"
+                                                    class="form-control form-control-sm"
+                                                    autocomplete="off"
+                                                    placeholder="Enter License Class"
+                                                    tabindex="4"
+                                                    maxlength="100"/>
+                                            </div>
+                                            <label class="col-md-2 requiredfield">Contact No.:</label>
+                                            <div class="form-group col-md-4">
+                                              <ejs-textbox
+                                                  formControlName="contactNo"
+                                                  class="form-control form-control-sm"
+                                                  autocomplete="off"
+                                                  placeholder="Enter Contact No."
+                                                  tabindex="5"
+                                                  maxlength="100"/>
+                                            </div>
+                                          </div>
+                                        <div class="row">
+                                            <label class="col-md-2 requiredfield">Transporter:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-dropdownlist
+                                                    formControlName="transporter"
+                                                    [dataSource]="transporterNames"
+                                                    [fields]="{ text: 'transporterName', value: 'id' }"
+                                                    class="form-control form-control-sm"
+                                                    autocomplete="off"
+                                                    placeholder="Choose Transporter"
+                                                    tabindex="6"
+                                                    maxlength="100"/>
+                                            </div>
+                                            <label class="col-md-2">Email:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-textbox
+                                                    formControlName="email"
+                                                    class="form-control form-control-sm"
+                                                    autocomplete="off"
+                                                    placeholder="Enter Email"
+                                                    tabindex="7"
+                                                    maxlength="100">
+                                                </ejs-textbox>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-2">Active:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
+                                            </div>
+                                            <label class="col-md-2">Remarks:</label>
+                                            <div class="form-group col-md-4">
+                                                <textarea
+                                                    formControlName="remarks"
+                                                    class="form-control form-control-sm"
+                                                    autocomplete="off"
+                                                    placeholder="Remarks "
+                                                    tabindex="9"
+                                                    maxlength="100"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+  
