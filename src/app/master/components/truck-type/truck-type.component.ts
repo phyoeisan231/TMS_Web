@@ -104,7 +104,7 @@ export class TruckTypeComponent {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      typeCode: new FormControl(data.typeCode),
+      typeID: new FormControl(data.typeID),
       description: new FormControl(data.description,Validators.required),
       active: new FormControl(data.active),
     });
@@ -112,7 +112,7 @@ export class TruckTypeComponent {
 
   addTruckType(formData: any) {
     this.spinner.show();
-    formData.typeCode=0;
+    formData.typeID=0;
     formData.active = true;
     this.service
       .createTruckType(formData)

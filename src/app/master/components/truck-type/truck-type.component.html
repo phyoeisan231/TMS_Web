@@ -18,8 +18,8 @@
             </div>
             <ejs-grid #Grid  [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)="rowDataBound($event)">
               <e-columns>
-                <!-- <e-column field='typeCode' headerText='ID' [isPrimaryKey]="true" width="90"></e-column> -->
-                <e-column field='description' headerText="Description" width="150"></e-column>
+                <e-column field='typeID' headerText='ID' [isPrimaryKey]="true" width="90"></e-column>
+                <e-column field='description' headerText="Description" width="150" ></e-column>
                 <e-column field='active' headerText="Active" width="100">
                   <ng-template #template let-data>
                     <div *ngIf="data.active;else False">Yes</div>
@@ -33,8 +33,15 @@
                 <form [formGroup]="typeForm">
                   <div class="form-row">
                     <div class="form-group col-md-12">
+                      <label for="gateID" class="font-weight-normal requiredfield">Gate ID</label>
+                      <ejs-textbox formControlName="gateID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                      <div  [style.visibility]='validateControl("gateID")? "visible": "hidden"'>
+                        <label class="e-error" for="gateID" style="display: block;">*GateID is required</label>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-12">
                       <label for="description" class="font-weight-normal requiredfield">Description</label>
-                      <ejs-textbox formControlName="description" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                      <ejs-textbox formControlName="description" tabindex="2" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                       <div  [style.visibility]='validateControl("description")? "visible": "hidden"'>
                         <label class="e-error" for="description" style="display: block;">*Description is required</label>
                       </div>

@@ -129,7 +129,7 @@ loadTableData() {
       gateID: new FormControl(data.gateID,Validators.required),
       name: new FormControl(data.name,Validators.required),
       yardID: new FormControl(data.yardID,Validators.required),
-      active: new FormControl(data.active),
+      active: new FormControl(''),
     });
   }
 

@@ -15,6 +15,7 @@ const httpOptions = {
     getTruckTypeList(active: string) {
       return this.http.get<any>(environment.url + 'Master/GetTruckTypeList/?active=' + active);
     }
+
     createTruckType(data: any) {
       return this.http.post<any>(environment.url + 'Master/SaveTruckType', data, httpOptions);
     }
