@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { Dialog } from '@syncfusion/ej2-angular-popups';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { catchError, of } from 'rxjs';
+import { forkJoin } from 'rxjs';
+
 @Component({
   selector: 'app-gate',
   standalone: true,
@@ -25,9 +27,10 @@ export class GateComponent {
   lines: GridLine = 'Both';
   gateForm: any;
   lblText:string;
-  yardList: string[]=['YTG','MDY','MG']
+  // yardList: string[]=['YTG','MDY','MG']
+  yardList:any[]=[];
   submitClicked: boolean = false;
-  public data: Object[]=[{'gateId':1,'name':'YTGGate1','location':'YTG'},{'gateId':2,'name':'YTGGate2','location':'YTG'}];
+  public data: Object[]=[{'gateId':1,'name':'YTGGate1','yard':'YTG'},{'gateId':2,'name':'YTGGate2','yard':'YTG'}];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
   @ViewChild('Grid') public grid: GridComponent;
@@ -40,6 +43,7 @@ export class GateComponent {
   ngOnInit(){
     this.loadTableData();
   }
+  
   rowDataBound(args: any): void {
     if (args.row) {
       if (args.data.active!=true) {
@@ -48,16 +52,27 @@ export class GateComponent {
     }
   }
 
-  loadTableData() {
-    this.spinner.show();
-     this.service.getGateList('All')
-     .pipe(catchError((err) => of(this.showError(err))))
-       .subscribe((result) => {
-         this.grid.dataSource = result;
-         this.spinner.hide();
-     });
-   this.spinner.hide();
-  }
+
+loadTableData() {
+  this.spinner.show();
+  // Use forkJoin to wait for both requests to complete
+  forkJoin({
+    gateList: this.service.getGateList('All').pipe(catchError((err) => of(this.showError(err)))),
+    yardList: this.service.getYardList('true').pipe(catchError((err) => of([]))) // Ensure no error is thrown for yardList
+  }).subscribe({
+    next: ({ gateList, yardList }) => {
+      this.grid.dataSource = gateList;
+      this.yardList = yardList;
+    },
+    error: (error) => {
+      console.error('Error loading data', error);
+    },
+    complete: () => {
+      this.spinner.hide();
+    }
+  });
+}
+
 
   actionBegin(args: SaveEventArgs): void {
     if (args.requestType === 'add') {
@@ -89,7 +104,7 @@ export class GateComponent {
   if (args.requestType === 'delete') {
     args.cancel = true;
     const data = args.data as any[];
-    const id = data[0].name;
+    const id = data[0].gateID;
    this.deleteGate(id);
   }
 }
@@ -111,16 +126,16 @@ export class GateComponent {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      gateId: new FormControl(data.gateId),
+      gateID: new FormControl(data.gateID,Validators.required),
       name: new FormControl(data.name,Validators.required),
-      yard: new FormControl(data.yard,Validators.required),
+      yardID: new FormControl(data.yardID,Validators.required),
       active: new FormControl(data.active),
     });
   }
 
   addGate(formData: any) {
     this.spinner.show();
-    formData.gateId=0;
+    // formData.gateId=0;
     formData.active = true;
     this.service
       .createGate(formData)

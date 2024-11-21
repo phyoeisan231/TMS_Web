@@ -18,9 +18,9 @@
             </div>
             <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)="rowDataBound($event)">
               <e-columns>
-                <e-column field='gateId' headerText='ID' [isPrimaryKey]="true" width="90"></e-column>
+                <e-column field='gateID' headerText='Gate ID' [isPrimaryKey]="true" width="90"></e-column>
                 <e-column field='name' headerText="Name" width="150"></e-column>
-                <e-column field='location' headerText="Location" width="100"></e-column>
+                <e-column field='yardID' headerText="YardID" width="100"></e-column>
                 <e-column field='active' headerText="Active" width="100">
                   <ng-template #template let-data>
                     <div *ngIf="data.active;else False">Yes</div>
@@ -34,31 +34,39 @@
                 <form [formGroup]="gateForm">
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="name" class="font-weight-normal requiredfield">Name</label>
-                      <ejs-textbox formControlName="name" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
-                      <div  [style.visibility]='validateControl("name")? "visible": "hidden"'>
-                        <label class="e-error" for="name" style="display: block;">*Name is required</label>
+                      <label for="gateID" class="font-weight-normal requiredfield">GateID</label>
+                      <ejs-textbox formControlName="gateID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                      <div  [style.visibility]='validateControl("gateID")? "visible": "hidden"'>
+                        <label class="e-error" for="gateID" style="display: block;">*GateID is required</label>
                       </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label for="name" class="font-weight-normal requiredfield">Name</label>
+                      <ejs-textbox formControlName="name" tabindex="2" autocomplete="off"></ejs-textbox>
+                        <!-- <div [style.visibility]='validateControl("name")'>
+                        <label class="e-error" for="name" style="display: block;">*Name is required</label>
+                      </div> -->
                     </div>
                    </div>
                    <div class="form-row">
                     <div class="form-group col-md-12">
                       <label class="font-weight-normal requiredfield">Yard</label>
                       <ejs-dropdownlist
-                                formControlName="yard"
+                                formControlName="yardID"
                                 [dataSource]='yardList'
+                                [fields]="{ text: 'name', value: 'yardID' }"
                                 placeholder="Select One"
                                 class="form-control form-control-sm"
                                 autocomplete="off"
-                                tabindex="2" />
-                       <div  [style.visibility]='validateControl("yard")? "visible": "hidden"'>
-                        <label class="e-error" for="yard" style="display: block;">*Yard is required</label>
-                      </div>
+                                tabindex="3" />
+                       <!-- <div  [style.visibility]='validateControl("yard")'>
+                        <label class="e-error" for="yardID" style="display: block;">*Yard is required</label>
+                      </div> -->
                      </div>
                    </div>
                    <div class="form-row">
                     <div class="form-group col-md-6"><br>
-                      <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="3" [checked]="true"></ejs-checkbox>
+                      <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="4" [checked]="true"></ejs-checkbox>
                     </div>
                    </div>
                 </form>
