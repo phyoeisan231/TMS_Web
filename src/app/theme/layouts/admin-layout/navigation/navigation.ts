@@ -96,15 +96,15 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'truck',
         breadcrumbs: false
       },
-      {
-        id: 'trailertype',
-        title: 'Trailer Type',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'master/trailer-type',
-        icon: 'setting',
-        breadcrumbs: false
-      },
+      // {
+      //   id: 'trailertype',
+      //   title: 'Trailer Type',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/trailer-type',
+      //   icon: 'setting',
+      //   breadcrumbs: false
+      // },
       {
         id: 'trailer',
         title: 'Trailer',
