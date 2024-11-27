@@ -19,7 +19,7 @@ import { TruckDetailService } from './truck-detail.service';
 export class TruckDetailComponent {
   truckForm: FormGroup;
   id: string;
-  breadCrumbItems: Array<{ label: string, routerLink?: string, active?: boolean }>;
+  breadCrumbItems: Array<{}>;
   isAdd: boolean = true;
   truckTypeList: any[] = []; // Array to store truck types
   transporterNames:any[]=[];
@@ -43,14 +43,16 @@ export class TruckDetailComponent {
    
     this.truckForm = new FormGroup({
       vehicleRegNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
-      transporter: new FormControl(''),
-      remarks:new FormControl(''),
-      truckType: new FormControl('', Validators.required),
+      containerType: new FormControl(''),
+      containerSize:new FormControl(''),
       truckWeight:new FormControl(''),
-      vehicleBackRegNo:new FormControl(''),
-      driverLicenseNo:new FormControl(''),
+      typeID: new FormControl('', Validators.required),
+      transporterID:new FormControl('',Validators.required),
       active: new FormControl(false),
+      driverLicenseNo:new FormControl(''),
       lastPassedDate:new FormControl(null),
+      vehicleBackRegNo:new FormControl(''),
+      remarks:new FormControl(''),
 
       // isBlack:new FormControl(false),
       // blackReason:new FormControl(''),
@@ -62,11 +64,12 @@ export class TruckDetailComponent {
       //containerSize:new FormControl(''),
       //name:new FormControl(''),
     });
-    if (this.id) {
+    
+    if(this.id!=null && this.id!=undefined){
       this.getTruckById();
-      this.isAdd=false;
+      // this.isAdd=false;
     }
-    this.service.getTruckTypes().subscribe({
+    this.service.getTruckTypes('true').subscribe({
       next: (types) => {
         this.truckTypeList = types;
       },
@@ -86,44 +89,70 @@ export class TruckDetailComponent {
   }
 
 
+  // getTruckById() {
+  //   this.spinner.show();
+  //   this.service.getTruckId(this.id)
+  //       .pipe(catchError((err) => {
+  //           this.showError(err); 
+  //           return of(null); 
+  //       }))
+  //       .subscribe((result) => {
+  //           if (result) {
+  //               this.truckForm.patchValue({
+  //                 vehicleRegNo: result.vehicleRegNo,
+  //                 containerType: result.containerType,
+  //                 containerSize: result.containerSize,
+  //                 truckWeight: result.truckWeight,
+  //                 typeID: result.typeID,
+  //                 transporterID: result.transporterID,
+  //                   driverLicenseNo:result.driverLicenseNo??"",
+  //                   active: result.active ?? false,
+  //                   lastPassedDate:result.lastPassedDate?new Date(result.lastPassedDate):null,
+
+  //                   //name:result.name??"",
+  //                   //containerType:result.containerType??"",
+  //                   //containerSize:result.containerSize??0,
+  //                   // isBlack: result.isBlack ?? false,
+  //                   // blackDate: result.blackDate ? new Date(result.blackDate) : null,
+  //                   // blackReason: result.blackReason ?? "",
+  //                   // blackRemovedDate:result.blackRemovedDate?new Date(result.blackRemovedDate):null,
+  //                   // blackRemovedReason:result.blackRemovedReason??"",
+  //               });
+                
+  //               this.breadCrumbItems = [
+  //                   { label: 'Truck List', routerLink: 'master/truck', active: false },
+  //                   { label: 'Edit Truck', active: true }
+  //               ];
+  //               this.isAdd = false; // Set to false since we are editing
+  //           } 
+  //           this.spinner.hide();
+  //       });
+  // }
   getTruckById() {
     this.spinner.show();
     this.service.getTruckId(this.id)
-        .pipe(catchError((err) => {
-            this.showError(err); 
-            return of(null); 
-        }))
-        .subscribe((result) => {
-            if (result) {
-                this.truckForm.patchValue({
-                    vehicleRegNo: result.vehicleRegNo,
-                    transporter: result.transporter ?? "",
-                    remarks: result.remarks ?? "",
-                    truckType: result.truckType,
-                    truckWeight: result.truckWeight ?? 0,
-                    vehicleBackRegNo: result.vehicleBackRegNo ?? "",
-                    driverLicenseNo:result.driverLicenseNo??"",
-                    active: result.active ?? false,
-                    lastPassedDate:result.lastPassedDate?new Date(result.lastPassedDate):null,
-
-                    //name:result.name??"",
-                    //containerType:result.containerType??"",
-                    //containerSize:result.containerSize??0,
-                    // isBlack: result.isBlack ?? false,
-                    // blackDate: result.blackDate ? new Date(result.blackDate) : null,
-                    // blackReason: result.blackReason ?? "",
-                    // blackRemovedDate:result.blackRemovedDate?new Date(result.blackRemovedDate):null,
-                    // blackRemovedReason:result.blackRemovedReason??"",
-                });
-                
-                this.breadCrumbItems = [
-                    { label: 'Truck List', routerLink: 'master/truck', active: false },
-                    { label: 'Edit Truck', active: true }
-                ];
-                this.isAdd = false; // Set to false since we are editing
-            } 
-            this.spinner.hide();
-        });
+   .pipe(catchError((err) => of(this.showError(err))))
+     .subscribe((result) => {
+      this.truckForm.controls['vehicleRegNo'].setValue(result.vehicleRegNo);
+      this.truckForm.controls['containerType'].setValue(result.containerType);
+      this.truckForm.controls['containerSize'].setValue(result.containerSize);
+      this.truckForm.controls['truckWeight'].setValue(result.truckWeight);
+      this.truckForm.controls['typeID'].setValue(result.typeID);
+      this.truckForm.controls['transporterID'].setValue(result.transporterID);
+      this.truckForm.controls['active'].setValue(result.active);
+      this.truckForm.controls['driverLicenseNo'].setValue(result.driverLicenseNo);
+      this.truckForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
+      this.truckForm.controls['vehicleBackRegNo'].setValue(result.vehicleBackRegNo);
+      this.truckForm.controls['remarks'].setValue(result.remarks);
+      // this.truckForm.controls['isBlack'].setValue(result.isBlack);
+      // this.truckForm.controls['blackDate'].setValue(result.blackDate);
+      // this.truckForm.controls['blackReason'].setValue(result.blackReason);
+      // this.truckForm.controls['blackRemovedDate'].setValue(result.blackRemovedDate);
+      // this.truckForm.controls['blackRemovedReason'].setValue(result.blackRemovedReason);
+      this.isAdd=false;
+      this.breadCrumbItems = [{ label: 'Truck',rounterLink:'/truck-detail',active:false }, { label: 'Edit Truck', active: true }];
+      this.spinner.hide();
+    });
   }
 
   saveTruck() {
@@ -144,13 +173,15 @@ export class TruckDetailComponent {
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", data.vehicleRegNo);
-    formData.append("Transporter", data.transporter);
-    formData.append("Remarks",data.remarks);
-    formData.append("TruckType", data.truckType);
-    formData.append("TruckWeight",data.truckWeight);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
+    formData.append("ContainerType", data.containerType);
+    formData.append("ContainerSize",data.containerSize);
+    formData.append("TruckWeight", data.truckWeight);
+    formData.append("TypeID",data.typeID);
+    formData.append("TransporterID",data.transporterID);
+    formData.append("Active",data.active);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("Active", data.active.toString());  // Ensure it's a string if your API requires it
+    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
+    formData.append("Remarks",data.remarks);
     // formData.append("IsBlack",data.isBlack.toString());
     // formData.append("BlackReason",data.blackReason);
     // formData.append("BlackRemovedReason",data.blackRemovedReason);
@@ -183,11 +214,12 @@ export class TruckDetailComponent {
     this.service.createTruck(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
-        this.spinner.hide();
-        if (result.status) {
+        if (result.status==true) {
+          this.spinner.hide();
           this.showSuccess('Truck added successfully!');
           this.router.navigate(["master/truck"]);
         } else {
+          this.spinner.hide();
           Swal.fire('Truck', result.messageContent, 'error');
         }
       });
@@ -196,35 +228,18 @@ export class TruckDetailComponent {
   editTruck(data: any) {
     this.spinner.show();
     const formData = new FormData();
-    formData.append("VehicleRegNo", this.id);
-    formData.append("Transporter", data.transporter);
-    formData.append("Remarks",data.remarks);
-    formData.append("TruckType", data.truckType);
-    formData.append("TruckWeight",data.truckWeight);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
+    data.active=data.active?true:false;
+    formData.append("VehicleRegNo",this.id);
+    formData.append("ContainerType", data.containerType);
+    formData.append("ContainerSize",data.containerSize);
+    formData.append("TruckWeight", data.truckWeight);
+    formData.append("TypeID",data.typeID);
+    formData.append("TransporterID",data.transporterID);
+    formData.append("Active",data.active);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("Active", data.active.toString());  // Ensure it's a string if your API requires it
-    // formData.append("IsBlack",data.isBlack.toString());
-    // formData.append("BlackReason",data.blackReason);
-    // formData.append("BlackRemovedReason",data.blackRemovedReason);
-    //formData.append("Name",data.name);
-    //formData.append("ContainerType",data.containerType);
-    //formData.append("ContainerSize",data.containerSize);
-
-    // if(data.blackDate){
-    //   const blackedDate=data.blackDate instanceof Date? data.blackDate:new Date(data.blackDate);
-    //   const localDate=new Date(blackedDate.getTime()-blackedDate.getTimezoneOffset()*60000)
-    //   .toISOString()
-    //   .split("T")[0];
-    //   formData.append("BlackDate",localDate);
-    // }
-    // if(data.blackRemovedDate){
-    //   const blackRemoved=data.blackRemovedDate instanceof Date ? data.blackRemovedDate:new Date(data.blackRemovedDate);
-    //   const localRemovedDate=new Date(blackRemoved.getTime()-blackRemoved.getTimezoneOffset()*60000)
-    //   .toISOString()
-    //   .split("T")[0];
-    //   formData.append("BlackRemovedDate",localRemovedDate);
-    // }
+    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
+    formData.append("Remarks",data.remarks);
+    
     if(data.lastPassedDate){
       const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
       const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)

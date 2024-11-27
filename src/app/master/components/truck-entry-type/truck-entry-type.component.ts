@@ -1,7 +1,6 @@
 import { Component,ViewChild } from '@angular/core';
 import { MasterModule } from '../../master.module';
 import { DialogEditEventArgs, EditSettingsModel, ExcelQueryCellInfoEventArgs, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
-import { GateService } from './gate.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Browser } from '@syncfusion/ej2/base';
@@ -11,39 +10,35 @@ import { RouterModule } from '@angular/router';
 import { Dialog } from '@syncfusion/ej2-angular-popups';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { catchError, of } from 'rxjs';
-import { forkJoin } from 'rxjs';
-
+import { TruckEntryTypeService } from './truck-entry-type.service';
 @Component({
-  selector: 'app-gate',
+  selector: 'app-truck-entry-type',
   standalone: true,
   imports: [MasterModule],
-  templateUrl: './gate.component.html',
-  styleUrl: './gate.component.scss'
+  templateUrl: './truck-entry-type.component.html',
+  styleUrl: './truck-entry-type.component.scss'
 })
-export class GateComponent {
+export class TruckEntryTypeComponent {
   pageSettings: PageSettingsModel = { pageSize: 10 };
   editSettings: EditSettingsModel = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = ['Add','Edit','Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
-  gateForm: any;
+  entryForm: any;
   lblText:string;
-  // yardList: string[]=['YTG','MDY','MG']
-  yardList:any[]=[];
   submitClicked: boolean = false;
-  public data: Object[]=[{'gateId':1,'name':'YTGGate1','yard':'YTG'},{'gateId':2,'name':'YTGGate2','yard':'YTG'}];
+  public data: Object[]=[];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
-    private service: GateService,
+    private service: TruckEntryTypeService,
     private spinner: NgxSpinnerService,
   ) {}
-
 
   ngOnInit(){
     this.loadTableData();
   }
-  
+
   rowDataBound(args: any): void {
     if (args.row) {
       if (args.data.active!=true) {
@@ -52,70 +47,57 @@ export class GateComponent {
     }
   }
 
-
-loadTableData() {
-  this.spinner.show();
-  // Use forkJoin to wait for both requests to complete
-  forkJoin({
-    gateList: this.service.getGateList('All').pipe(catchError((err) => of(this.showError(err)))),
-    yardList: this.service.getYardList('true').pipe(catchError((err) => of([]))) // Ensure no error is thrown for yardList
-  }).subscribe({
-    next: ({ gateList, yardList }) => {
-      this.grid.dataSource = gateList;
-      this.yardList = yardList;
-    },
-    error: (error) => {
-      console.error('Error loading data', error);
-    },
-    complete: () => {
-      this.spinner.hide();
-    }
-  });
-}
-
+  loadTableData() {
+    this.spinner.show();
+     this.service.getTruckEntryTypeList('All')
+     .pipe(catchError((err) => of(this.showError(err))))
+       .subscribe((result) => {
+         this.grid.dataSource = result;
+         this.spinner.hide();
+     });
+   this.spinner.hide();
+  }
 
   actionBegin(args: SaveEventArgs): void {
     if (args.requestType === 'add') {
       this.submitClicked = false;
-      this.gateForm = this.createFormGroup(args.rowData);
-  }
-  else if(args.requestType === 'beginEdit'){
-    this.submitClicked = false;
-    this.gateForm = this.createFormGroup(args.rowData);
-  }
-
-  if (args.requestType === 'save') {
+      this.entryForm = this.createFormGroup(args.rowData);
+    }
+    else if(args.requestType === 'beginEdit'){
+      this.submitClicked = false;
+      this.entryForm = this.createFormGroup(args.rowData);
+    }
+    if (args.requestType === 'save') {
       this.submitClicked = true;
-      if (this.gateForm.valid) {
-          let formData = this.gateForm.value;
-          if (args.action === 'add') {
-            formData.createdUser = localStorage.getItem('currentUser');
-            this.addGate(formData);
-          }
-          else {
-            formData.updatedUser = localStorage.getItem('currentUser');
-            this.updateGate(formData);
-          }
+      if (this.entryForm.valid) {
+        let formData = this.entryForm.value;
+        if (args.action === 'add') {
+          formData.createdUser = localStorage.getItem('currentUser');
+          this.addTruckEntryType(formData);
+        }
+        else {
+          formData.updatedUser = localStorage.getItem('currentUser');
+          this.editTruckEntryType(formData);
+        }
       } else {
-          args.cancel = true;
+        args.cancel = true;
       }
+    }
+    if (args.requestType === 'delete') {
+      args.cancel = true;
+      const data = args.data as any[];
+      const id = data[0].typeID;
+     this.deleteTruckEntryType(id);
+    }
   }
-
-  if (args.requestType === 'delete') {
-    args.cancel = true;
-    const data = args.data as any[];
-    const id = data[0].gateID;
-   this.deleteGate(id);
-  }
-}
 
   actionComplete(args: DialogEditEventArgs): void {
     if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
       if(args.requestType === 'add'){
-        args!.dialog!.header="New Gate" ;
+        args!.dialog!.header="New Truck-Job-Type" ;
         }
         else{
-          args!.dialog!.header="Edit Gate" ;
+          args!.dialog!.header="Edit Truck-Job-Type" ;
         }
         if (Browser.isDevice) {
             args!.dialog!.height = window.innerHeight - 90 + 'px';
@@ -126,35 +108,34 @@ loadTableData() {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      gateID: new FormControl(data.gateID,Validators.required),
-      name: new FormControl(data.name,Validators.required),
-      yardID: new FormControl(data.yardID,Validators.required),
+      typeID: new FormControl(data.typeID,Validators.required),
+      description: new FormControl(data.description,Validators.required),
       active: new FormControl(data.active),
     });
   }
 
-  addGate(formData: any) {
+  addTruckEntryType(formData: any) {
     this.spinner.show();
     // formData.active = true;
     this.service
-      .createGate(formData)
+      .createTruckEntryType(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         if (result.status == true) {
           this.spinner.hide();
-          Swal.fire('Gate', result.messageContent, 'success');
+          Swal.fire('Truck-Job-Type', result.messageContent, 'success');
           this.loadTableData();
         } else {
           this.spinner.hide();
-          Swal.fire('Gate', result.messageContent, 'error');
+          Swal.fire('Truck-Job-Type', result.messageContent, 'error');
         }
       });
   }
 
-  updateGate(formData: any) {
+  editTruckEntryType(formData: any) {
     this.spinner.show();
     this.service
-      .updateGate(formData)
+      .updateTruckEntryType(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.loadTableData();
@@ -162,12 +143,12 @@ loadTableData() {
           this.showSuccess(result.messageContent);
         } else {
           this.spinner.hide();
-          Swal.fire('Gate', result.messageContent, 'error');
+          Swal.fire('Truck-Job-Type', result.messageContent, 'error');
         }
       });
   }
 
-  deleteGate(id: any) {
+  deleteTruckEntryType(id: any) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this data!',
@@ -180,7 +161,7 @@ loadTableData() {
       if (response.value) {
         this.spinner.show();
         this.service
-          .deleteGate(id)
+          .deleteTruckEntryType(id)
           .pipe(catchError((err) => of(this.showError(err))))
           .subscribe((result) => {
             if (result.status == true) {
@@ -188,7 +169,7 @@ loadTableData() {
               this.loadTableData();
             } else {
               this.spinner.hide();
-              Swal.fire('Gate', result.messageContent, 'error');
+              Swal.fire('Truck-Job-Type', result.messageContent, 'error');
             }
           });
       } else if (response.dismiss === Swal.DismissReason.cancel) {
@@ -197,30 +178,29 @@ loadTableData() {
     });
   }
 
-
   validateControl(controlName: string) {
-    const control = this.gateForm.get(controlName);
+    const control = this.entryForm.get(controlName);
     return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
 
   showSuccess(msg: string) {
     this.spinner.hide();
-    Swal.fire('Gate', msg, 'success');
+    Swal.fire('Truck-Entry-Type', msg, 'success');
   }
 
   showError(error: HttpErrorResponse) {
     this.spinner.hide();
-    Swal.fire('Gate', error.statusText, 'error');
+    Swal.fire('Truck-Entry-Type', error.statusText, 'error');
   }
 
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'GateReport.xlsx',
+        fileName:'YardReport.xlsx',
      });
     }
   }
-  
+
   exportQueryCellInfo(args: ExcelQueryCellInfoEventArgs ): void {
     if (args.column.headerText === '') {
       args.hyperLink = {
@@ -229,4 +209,6 @@ loadTableData() {
       };
     }
   }
+
+
 }

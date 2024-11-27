@@ -53,48 +53,55 @@
                                           </div>
                                         </div>
                                         <div class="row">
-                                            <label class="col-md-2">Transporter:</label>
+                                            <label class="col-md-2">Container Type:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-dropdownlist
-                                                    formControlName="transporter"
-                                                    [dataSource]="transporterNames"
-                                                    [fields]="{text:'transporterName',value:'id'}"
+                                                <ejs-textbox
+                                                    formControlName="containerType"
                                                     class="form-control form-control-sm"
-                                                    placeholder="Enter Transporter"
+                                                    placeholder="Enter ContainerType"
                                                     autocomplete="off"
                                                     tabindex="2"
                                                     maxlength="100" />
                                             </div>
-                                            <label class="col-md-2">Truck Weight:</label>
+                                            <label class="col-md-2">Container Size:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
-                                                    formControlName="truckWeight"
+                                                    formControlName="containerSize"
                                                     class="form-control form-control-sm"
                                                     autocomplete="off"
-                                                    placeholder="Enter Truck Weight"
+                                                    placeholder="Enter Container Size"
                                                     tabindex="3"
                                                     maxlength="100"/>
                                             </div>
                                         </div>
-                                       
                                         <div class="row">
                                           <label class="col-md-2 requiredfield">Truck Type:</label>
                                           <div class="form-group col-md-4">
                                             <ejs-dropdownlist 
-                                              formControlName="truckType"
+                                              formControlName="typeID"
                                               [dataSource]="truckTypeList"
-                                              [fields]="{ text: 'description', value: 'id' }"
+                                              [fields]="{ text: 'description', value: 'typeID' }"
                                               class="form-control form-control-sm"
                                               autocomplete="off"
                                               placeholder="Choose Truck Type"
-                                              tabindex="5"
+                                              tabindex="4"
                                               maxlength="100">
                                             </ejs-dropdownlist>
-                                            <div *ngIf="truckForm.controls['truckType'].invalid && (truckForm.controls['truckType'].touched || truckForm.controls['truckType'].dirty)">
+                                            <div *ngIf="truckForm.controls['typeID'].invalid && (truckForm.controls['typeID'].touched || truckForm.controls['typeID'].dirty)">
                                               <small class="text-danger">This field is required.</small>
                                             </div>
                                           </div>
-                                          <label class="col-md-2">Remarks:</label>
+                                          <label class="col-md-2">Truck Weight:</label>
+                                            <div class="form-group col-md-4">
+                                                <ejs-textbox
+                                                    formControlName="truckWeight"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Enter Truck Weight"
+                                                    autocomplete="off"
+                                                    tabindex="5"
+                                                    maxlength="100"/>
+                                            </div>
+                                          <!-- <label class="col-md-2">Remarks:</label>
                                               <div class="form-group col-md-4">
                                                 <textarea formControlName="remarks" 
                                                 class="form-control form-control-sm"
@@ -102,10 +109,25 @@
                                                 autocomplete="off"
                                                 tabindex="2"
                                                 maxlength="100"></textarea>
-                                              </div>
-                                          
+                                              </div> -->
                                         </div>
                                         <div class="row">
+                                            <label class="col-md-2 requiredfield">Transporter:</label>
+                                          <div class="form-group col-md-4">
+                                            <ejs-dropdownlist 
+                                              formControlName="transporterID"
+                                              [dataSource]="transporterNames"
+                                              [fields]="{ text: 'transporterName', value: 'transporterID' }"
+                                              class="form-control form-control-sm"
+                                              autocomplete="off"
+                                              placeholder="Choose Transporter"
+                                              tabindex="6"
+                                              maxlength="100">
+                                            </ejs-dropdownlist>
+                                            <div *ngIf="truckForm.controls['transporterID'].invalid && (truckForm.controls['transporterID'].touched || truckForm.controls['transporterID'].dirty)">
+                                              <small class="text-danger">This field is required.</small>
+                                            </div>
+                                          </div>
                                             <label class="col-md-2">Driver LicenseNo.:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
@@ -113,19 +135,27 @@
                                                     class="form-control form-control-sm"
                                                     placeholder="Enter Driver LicenseNo."
                                                     autocomplete="off"
-                                                    tabindex="12"
+                                                    tabindex="7"
                                                     maxlength="100"/>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label class="col-md-2">IsActive:</label>
+                                            <label class="col-md-2">Active:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-checkbox formControlName="active" tabindex="6"></ejs-checkbox>
+                                                <ejs-checkbox formControlName="active" tabindex="8" [checked]="true"></ejs-checkbox>
                                             </div>
-                                            <!-- <label class="col-md-2">IsBlack:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-checkbox formControlName="isBlack" tabindex="14"></ejs-checkbox>
-                                            </div> -->
+                                            <label class="col-md-2">Last Passed Date:</label>
+                                        <div class="form-group col-md-4">
+                                            <ejs-datepicker
+                                                formControlName="lastPassedDate"
+                                                class="form-control form-control-sm"
+                                                [format]="formatfilter"
+                                                autocomplete="off"
+                                                placeholder="Last Passed Date"
+                                                tabindex="9"
+                                                maxlength="120">
+                                            </ejs-datepicker>
+                                        </div>
                                       </div>
                                         <!-- <div class="row">
                                             <label for="blackDate" class="col-md-2">Black Date:</label>
@@ -167,38 +197,6 @@
                                             </textarea>
                                         </div>
                                       </div> -->
-
-                                      <div class="row">
-                                        <label class="col-md-2">Last Passed Date:</label>
-                                        <div class="form-group col-md-4">
-                                            <ejs-datepicker
-                                                formControlName="lastPassedDate"
-                                                class="form-control form-control-sm"
-                                                [format]="formatfilter"
-                                                autocomplete="off"
-                                                placeholder="Last Passed Date"
-                                                tabindex="17"
-                                                maxlength="120">
-                                            </ejs-datepicker>
-                                        </div>
-                                      </div>
-                                        <!-- <div class="row col-6">
-                                            <div class="col-md-4 col-sm-6"></div>
-                                            <div class="col-md-2 col-sm-6">
-                                                <button
-                                                    class="btn btn-block btn-info"
-                                                    (click)="saveTruck()"
-                                                    [disabled]="!truckForm.valid">
-                                                    Save</button>&nbsp;
-                                            </div>
-                                            <div class="col-md-2 col-sm-6">
-                                                <button
-                                                class="btn btn-block btn-danger"
-                                                (click)="navigateToTruck()">
-                                                Cancel
-                                            </button>
-                                            </div>
-                                        </div> -->
                                     </form>
                                 </div>
                             </div>

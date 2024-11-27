@@ -20,13 +20,20 @@
                         <e-columns>
                             <e-column type='checkbox' width="50"></e-column>
                             <e-column field="vehicleRegNo" headerText='RegNo' [isPrimaryKey]="true" width="150"></e-column>
-                            <e-column field="unladenWeight" headerText="UnladenWeight" width="200"></e-column>
-                            <e-column field="transporter" headerText="Transporter" width="150"></e-column>
-                            <e-column field="trailerType" headerText="TrailerType" width="150"></e-column>
-                            <e-column field="loadingType" headerText="LoadingType" width="150"></e-column>
-                            <!-- <e-column field="blackDate" headerText="BlackDate" type="date" format="dd-MM-yyyy" width="200"></e-column> -->
+                            <e-column field="containerType" headerText="ContainerType" width="200"></e-column>
+                            <e-column field="transporterID" headerText="Transporter" width="150"></e-column>
+                            <e-column field="trailerWeight" headerText="TrailerWeight" width="150"></e-column>
+                            <e-column field="driverLicenseNo" headerText="DriverLicenseNo" width="150"></e-column>
+                            <e-column field="lastPassedDate" headerText="LastPassedDate" type="date" format="dd-MM-yyyy" width="200"></e-column>
                             <e-column field='createdDate' headerText='Created Date' type="date" format="dd-MM-yyyy" width="130"></e-column>
-                            <e-column field='active' headerText='Active'  width="100"></e-column>
+                            <e-column field='active' headerText="Active" width="100">
+                                <ng-template #template let-data>
+                                  <div *ngIf="data.active;else False">Yes</div>
+                                  <ng-template #False>
+                                    <div>No</div>
+                                  </ng-template>
+                                </ng-template>
+                            </e-column>
                         </e-columns>
                     </ejs-grid>
                 </div>

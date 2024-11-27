@@ -13,7 +13,7 @@ export class TrailerService {
 
   constructor(private http:HttpClient) { }
   getTrailerList(){
-    return this.http.get<any>(environment.url+'Master/GetTrailerLiist');
+    return this.http.get<any>(environment.url+'Master/GetTrailerList');
   }
   
   deleteTrailer(id:any){

@@ -52,6 +52,15 @@ export const NavigationItems: NavigationItem[] = [
         breadcrumbs: false
       },
       {
+        id: 'yard',
+        title: 'Yard',
+        type: 'item',
+        classes: 'nav-item',
+        url: 'master/yard',
+        icon: 'home',
+        breadcrumbs: false
+      },
+      {
         id: 'weightbridge',
         title: 'Weight Bridge',
         type: 'item',
@@ -96,6 +105,24 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'truck',
         breadcrumbs: false
       },
+      {
+        id: 'truck-job-type',
+        title: 'Truck Job Type',
+        type: 'item',
+        classes: 'nav-item',
+        url: 'master/truck-job-type',
+        icon: 'truck',
+        breadcrumbs: false
+      },
+      {
+        id: 'truck-entry-type',
+        title: 'Truck Entry Type',
+        type: 'item',
+        classes: 'nav-item',
+        url: 'master/truck-entry-type',
+        icon: 'truck',
+        breadcrumbs: false
+      },
       // {
       //   id: 'trailertype',
       //   title: 'Trailer Type',
@@ -123,6 +150,7 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'user-add',
         breadcrumbs: false
       }
+      
     ]
   },
   {

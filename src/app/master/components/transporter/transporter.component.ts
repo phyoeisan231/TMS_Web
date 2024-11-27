@@ -50,7 +50,7 @@ export class TransporterComponent {
     if (args.requestType === 'delete') {
       args.cancel = true;
       const data = args.data as any[];
-      const id = data[0].transporterCode;
+      const id = data[0].transporterID;
       this.deleteTransporter(id);
     }
   }
@@ -109,7 +109,7 @@ export class TransporterComponent {
         Swal.fire('Transporter', "Please select one row!", 'warning');
       }
       else {
-        var id: string=selectedRecords[0].transporterCode;
+        var id: string=selectedRecords[0].transporterID;
        if(args.item.id === 'edit'){
         this.router.navigate(["master/transporter-detail"], { queryParams: {id: id},skipLocationChange: true});
        }

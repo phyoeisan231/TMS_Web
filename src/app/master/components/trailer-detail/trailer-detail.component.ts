@@ -21,13 +21,14 @@ import { NavBarComponent } from "../../../theme/layouts/admin-layout/nav-bar/nav
 export class TrailerDetailComponent implements OnInit{
   trailerForm: FormGroup;
   id: string;
-  breadCrumbItems: Array<{ label: string, routerLink?: string, active?: boolean }>;
+  breadCrumbItems: Array<{}>;
   isAdd: boolean = true;
-  trailerTypeList: any[] = []; // Array to store truck-trailer types
+  containerTypeList: any[] = ["Dry Container","HC Container","Open-Top Container","Tank Container"];
+  containerSizeList:any[]=[20,40];
   transporterNames:any[]=[];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
-  loadingTypeList:any[]=["Bin","Bulk","Containers","Drums","Pallets","Skids"];
+  // loadingTypeList:any[]=["Bin","Bulk","Containers","Drums","Pallets","Skids"];
 
   constructor(
     private _sanitizer: DomSanitizer,
@@ -43,11 +44,12 @@ export class TrailerDetailComponent implements OnInit{
     this.id = this.route.snapshot.queryParams['id'];
     this.trailerForm = new FormGroup({
       vehicleRegNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
-      trailerWeight: new FormControl(''),
-      trailerType: new FormControl('',Validators.required),
-      transporter:new FormControl(''),
-      vehicleBackRegNo:new FormControl(''),
-      driverLicenseNo:new FormControl(''),
+      vehicleBackRegNo: new FormControl(''),
+      containerType: new FormControl('',Validators.required),
+      containerSize:new FormControl('',Validators.required),
+      transporterID:new FormControl('',Validators.required),
+      trailerWeight:new FormControl(''),
+      driverLicenseNo:new FormControl('',Validators.required),
       remarks:new FormControl(''),
       active: new FormControl(false),
       lastPassedDate:new FormControl(null),
@@ -60,15 +62,7 @@ export class TrailerDetailComponent implements OnInit{
       this.getTrailerById();
       this.isAdd=true;
     }
-    this.service.getTrailerTypes().subscribe({
-      next: (types) => {
-        console.log("Trailer Types Loaded:", types); // Check if data is coming through
-        this.trailerTypeList = types;
-      },
-      error: (error) => {
-        console.error('Error loading trailer types', error);
-      }
-    });
+    
     this.service.getTransporterNames().subscribe({
       next:(names)=>{
         console.log("Transporter Names Loaded:",names);
@@ -83,32 +77,23 @@ export class TrailerDetailComponent implements OnInit{
   getTrailerById() {
     this.spinner.show();
     this.service.getTrailerId(this.id)
-      .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        if (result) {
-          this.trailerForm.patchValue({
-            vehicleRegNo: result.vehicleRegNo,
-            trailerWeight: result?.trailerWeight??0,
-            trailerType: result.trailerType,
-            transporter: result?.transporter??"",
-            remarks:result?.remarks??"",
-            vehicleBackRegNo:result?.vehicleBackRegNo??"",
-            driverLicenseNo:result?.driverLicenseNo??"",
-            lastPassedDate:result.lastPassedDate?new Date(result.lastPassedDate):null,
-            active: result.active ?? false,
-
-            isBlack: result.isBlack ?? false,
-            blackDate: result.blackDate ? new Date(result.blackDate) : null,
-            blackRemovedDate:result.blackRemovedDate?new Date(result.blackRemovedDate):null,
-          });
-          this.breadCrumbItems = [
-            { label: 'Trailer List', routerLink: '/trailer', active: false },
-            { label: 'Edit trailer', active: true }
-          ];
-          this.isAdd = false; // Set to false since we are editing
-        }
-        this.spinner.hide();
-      });
+   .pipe(catchError((err) => of(this.showError(err))))
+     .subscribe((result) => {
+      this.trailerForm.controls['vehicleRegNo'].setValue(result.vehicleRegNo);
+      this.trailerForm.controls['vehicleBackRegNo'].setValue(result.vehicleBackRegNo);
+      this.trailerForm.controls['containerType'].setValue(result.containerType);
+      this.trailerForm.controls['containerSize'].setValue(result.containerSize);
+      this.trailerForm.controls['transporterID'].setValue(result.transporterID);
+      this.trailerForm.controls['trailerWeight'].setValue(result.trailerWeight);
+      this.trailerForm.controls['driverLicenseNo'].setValue(result.driverLicenseNo);
+      this.trailerForm.controls['remarks'].setValue(result.remarks);
+      this.trailerForm.controls['active'].setValue(result.active);
+      this.trailerForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
+      
+      this.isAdd=false;
+      this.breadCrumbItems = [{ label: 'Trailer',rounterLink:'/trailer-detail',active:false }, { label: 'Edit Trailer', active: true }];
+      this.spinner.hide();
+    });
   }
 
   saveTrailer() {
@@ -129,36 +114,21 @@ export class TrailerDetailComponent implements OnInit{
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", data.vehicleRegNo);
-    formData.append("TrailerWeight", data.trailerWeight);
-    formData.append("TrailerType", data.trailerType);
-    formData.append("Transporter",data.transporter);
-    formData.append("Remarks", data.remarks);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
+    formData.append("VehicleBackRegNo", data.vehicleBackRegNo);
+    formData.append("ContainerType", data.containerType);
+    formData.append("ContainerSize",data.containerSize);
+    formData.append("TransporterID", data.transporterID);
+    formData.append("TrailerWeight",data.trailerWeight);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("IsBlack",data.isBlack.toString());
-    formData.append("Active",data.active.toString());
-
-    if (data.blackDate) {
-      const blackDate = data.blackDate instanceof Date ? data.blackDate : new Date(data.blackDate);
-      const localDate = new Date(blackDate.getTime() - blackDate.getTimezoneOffset() * 60000)
-        .toISOString()
-        .split("T")[0];
-      formData.append("BlackDate", localDate);
-    }
+    formData.append("Remarks",data.remarks);
+    formData.append("Active",data.active);
 
     if(data.lastPassedDate){
       const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
       const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
       .toISOString()
       .split("T")[0];
-      formData.append("LastLoadingDate",localLastPassedDate);
-    }
-    if(data.blackRemovedDate){
-      const blackRemoved=data.blackRemovedDate instanceof Date? data.blackRemovedDate:new Date(data.blackRemovedDate);
-      const localBlackRemoved=new Date(blackRemoved.getTime()-blackRemoved.getTimezoneOffset()*60000)
-      .toISOString()
-      .split("T")[0];
-      formData.append("BlackRemovedDate",localBlackRemoved);
+      formData.append("LastPassedDate",localLastPassedDate);
     }
     
     this.service.createTrailer(formData)
@@ -178,35 +148,21 @@ export class TrailerDetailComponent implements OnInit{
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", this.id);
-    formData.append("TrailerWeight", data.trailerWeight);
-    formData.append("TrailerType", data.trailerType);
-    formData.append("Transporter",data.transporter);
-    formData.append("Remarks", data.remarks);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
+    formData.append("VehicleBackRegNo", data.vehicleBackRegNo);
+    formData.append("ContainerType", data.containerType);
+    formData.append("ContainerSize",data.containerSize);
+    formData.append("TransporterID", data.transporterID);
+    formData.append("TrailerWeight",data.trailerWeight);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("IsBlack",data.isBlack.toString());
-    formData.append("Active", data.active.toString());  // Ensure it's a string if your API requires it
+    formData.append("Remarks",data.remarks);
+    formData.append("Active",data.active);
 
-    if (data.blackDate) {
-      const blackDate = data.blackDate instanceof Date ? data.blackDate : new Date(data.blackDate);
-      const localDate = new Date(blackDate.getTime() - blackDate.getTimezoneOffset() * 60000)
-        .toISOString()
-        .split("T")[0]; 
-      formData.append("BlackDate", localDate);
-    }
     if(data.lastPassedDate){
       const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
       const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
       .toISOString()
       .split("T")[0];
       formData.append("LastPassedDate",localLastPassedDate);
-    }
-    if(data.blackRemovedDate){
-      const blackRemoved=data.blackRemovedDate instanceof Date? data.blackRemovedDate:new Date(data.blackRemovedDate);
-      const localBlackRemoved=new Date(blackRemoved.getTime()-blackRemoved.getTimezoneOffset()*60000)
-      .toISOString()
-      .split("T")[0];
-      formData.append("BlackRemovedDate",localBlackRemoved);
     }
     
     this.service.updateTrailer(formData)

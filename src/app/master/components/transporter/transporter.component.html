@@ -19,15 +19,21 @@
                     <ejs-grid #Grid [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings' [editSettings]="editSettings" [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
                         <e-columns>
                             <e-column type='checkbox' width="50"></e-column>
-                            <e-column field="transporterCode" headerText='TCode' [isPrimaryKey]="true" width="150"></e-column>
+                            <e-column field="transporterID" headerText='TCode' [isPrimaryKey]="true" width="150"></e-column>
                             <e-column field="transporterName" headerText="Transporter Name" width="200"></e-column>
                             <e-column field="address" headerText="Address" width="150"></e-column>
                             <e-column field="contactNo" headerText="ContactNo." width="150"></e-column>
                             <e-column field="email" headerText="Email" width="150"></e-column>
-                            <e-column field="transporterType" headerText="Transporter Type" width="200"></e-column>
+                            <e-column field="typeID" headerText="Transporter Type" width="200"></e-column>
                             <e-column field='createdDate' headerText='Created Date' type="date" format="dd-MM-yyyy" width="130"></e-column>
-                            <e-column field='active' headerText='Active'  width="100"></e-column>
-                        </e-columns>
+                            <e-column field='active' headerText="Active" width="100">
+                                <ng-template #template let-data>
+                                  <div *ngIf="data.active;else False">Yes</div>
+                                  <ng-template #False>
+                                    <div>No</div>
+                                  </ng-template>
+                                </ng-template>
+                              </e-column>                        </e-columns>
                     </ejs-grid>
                 </div>
             </div>

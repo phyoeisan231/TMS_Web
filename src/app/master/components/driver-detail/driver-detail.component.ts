@@ -44,12 +44,12 @@ export class DriverDetailComponent implements OnInit{
       nrc: new FormControl('',Validators.required),
       name: new FormControl('',Validators.required),
       address: new FormControl('',Validators.required),
-      licenseClass:new FormControl(''),
+      licenseClass:new FormControl('',Validators.required),
       contactNo: new FormControl('',Validators.required),
+      licenseExpiration:new FormControl(null,Validators.required),
       // email: new FormControl('', Validators.compose([Validators.required,
       // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),
-      email: new FormControl('', [Validators.email]),
-      transporter:new FormControl('',Validators.required),
+      email: new FormControl('',[Validators.email,Validators.required]),
       remarks:new FormControl(''),
       active: new FormControl(false),
     });
@@ -57,16 +57,15 @@ export class DriverDetailComponent implements OnInit{
       this.getDriverById();
       this.isAdd=false;
     }
-    
-    this.service.getTransporterNames().subscribe({
-      next:(names)=>{
-        console.log("Transporter Names Loaded:",names);
-        this.transporterNames=names;
-      },
-      error:(error)=>{
-        console.log('Error Loading Transporter Names',error)
-      }
-    });
+    // this.service.getTransporterNames().subscribe({
+    //   next:(names)=>{
+    //     console.log("Transporter Names Loaded:",names);
+    //     this.transporterNames=names;
+    //   },
+    //   error:(error)=>{
+    //     console.log('Error Loading Transporter Names',error)
+    //   }
+    // });
   }
 
   navigateToDriver() {
@@ -83,9 +82,9 @@ export class DriverDetailComponent implements OnInit{
       this.driverForm.controls['name'].setValue(result.name);
       this.driverForm.controls['address'].setValue(result.address);
       this.driverForm.controls['licenseClass'].setValue(result.licenseClass);
+      this.driverForm.controls['licenseExpiration'].setValue(result.licenseExpiration);
       this.driverForm.controls['contactNo'].setValue(result.contactNo);
       this.driverForm.controls['email'].setValue(result.email);
-      this.driverForm.controls['transporter'].setValue(result.transporter);
       this.driverForm.controls['remarks'].setValue(result.remarks);
       this.driverForm.controls['active'].setValue(result.active);
       this.isAdd=false;
@@ -145,12 +144,20 @@ export class DriverDetailComponent implements OnInit{
     formData.append("NRC",data.nrc);
     formData.append("Name",data.name);
     formData.append("Address",data.address);
-    formData.append("licenseClass",data.licenseClass);
+    formData.append("LicenseClass",data.licenseClass);
     formData.append("ContactNo",data.contactNo);
     formData.append("Email",data.email);
-    formData.append("Transporter",data.transporter);
     formData.append("Remarks",data.remarks);
-    formData.append("Active",data.active.toString());
+    formData.append("Active",data.active);
+
+    if(data.licenseExpiration){
+      const lastExp=data.licenseExpiration instanceof Date? data.licenseExpiration:new Date(data.licenseExpiration);
+      const localLastDate=new Date(lastExp.getTime()-lastExp.getTimezoneOffset()*60000)
+      .toISOString()
+      .split("T")[0];
+      formData.append("LicenseExpiration",localLastDate);
+    }
+
     this.service.createDriver(formData)
     .pipe(catchError((err) => of(this.showError(err))))
     .subscribe((result) => {
@@ -167,6 +174,7 @@ export class DriverDetailComponent implements OnInit{
   editDriver(data: any) {
       this.spinner.show();
       const formData = new FormData();
+      data.active=data.active?true:false;
       formData.append("LicenseNo",this.id);
       formData.append("NRC",data.nrc);
       formData.append("Name",data.name);
@@ -174,9 +182,16 @@ export class DriverDetailComponent implements OnInit{
       formData.append("licenseClass",data.licenseClass);
       formData.append("ContactNo",data.contactNo);
       formData.append("Email",data.email);
-      formData.append("Transporter",data.transporter);
       formData.append("Remarks",data.remarks);
-      formData.append("Active", data.active.toString());  // Ensure it's a string if your API requires it
+      formData.append("Active", data.active); 
+
+      if(data.licenseExpiration){
+        const lastExp=data.licenseExpiration instanceof Date? data.licenseExpiration:new Date(data.licenseExpiration);
+        const localLastDate=new Date(lastExp.getTime()-lastExp.getTimezoneOffset()*60000)
+        .toISOString()
+        .split("T")[0];
+        formData.append("LicenseExpiration",localLastDate);
+      }      
       this.service.updateDriver(formData)
         .pipe(catchError((err) => of(this.showError(err))))
         .subscribe((result) => {

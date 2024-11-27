@@ -82,7 +82,7 @@ export class TruckTypeComponent {
     if (args.requestType === 'delete') {
       args.cancel = true;
       const data = args.data as any[];
-      const id = data[0].description;
+      const id = data[0].typeID;
       this.deleteTruckType(id);
     }
   }
@@ -112,8 +112,8 @@ export class TruckTypeComponent {
 
   addTruckType(formData: any) {
     this.spinner.show();
-    formData.typeID=0;
-    formData.active = true;
+    // formData.typeID=0;
+    // formData.active = true;
     this.service
       .createTruckType(formData)
       .pipe(catchError((err) => of(this.showError(err))))

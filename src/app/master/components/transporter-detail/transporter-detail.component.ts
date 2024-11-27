@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { TransporterDetailService } from './transporter-detail.service';
 @Component({
   selector: 'app-transporter-detail',
   standalone: true,
-  imports: [MasterModule],
+  imports: [MasterModule,ReactiveFormsModule],
   templateUrl: './transporter-detail.component.html',
   styleUrl: './transporter-detail.component.scss'
 })
@@ -41,13 +41,14 @@ export class TransporterDetailComponent{
     { label: 'Add New Transporter', active: true }];
     this.id = this.route.snapshot.queryParams['id'];
     this.transForm = new FormGroup({
-      transporterCode: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
+      // transporterCode: new FormControl({value:this.id,disabled:!!this.id }),
+      transporterID:new FormControl(this.id),
       transporterName: new FormControl('',Validators.required),
       address: new FormControl('',Validators.required),
       contactNo: new FormControl('',Validators.required),
       email: new FormControl('', [Validators.email]),
       contactPerson:new FormControl('',Validators.required),
-      transporterType: new FormControl('',Validators.required),
+      typeID: new FormControl('',Validators.required),
       remarks:new FormControl(''),
       active: new FormControl(false),
       // isBlack:new FormControl(false),
@@ -56,11 +57,11 @@ export class TransporterDetailComponent{
       // blackRemovedDate: new FormControl(null),
       // blackRemovedReason:new FormControl(''),
     });
-    if (this.id) {
+    if(this.id!=null && this.id!=undefined){
       this.getTransporterById();
-      this.isAdd=false;
+      // this.isAdd=false;
     }
-    this.service.getTransporterTypes().subscribe({
+    this.service.getTransporterTypes('true').subscribe({
       next: (types) => {
         console.log("Transporter Types Loaded:", types); // Check if data is coming through
         this.transTypesList = types;
@@ -77,16 +78,16 @@ export class TransporterDetailComponent{
 
   getTransporterById() {
     this.spinner.show();
-    this.service.getTransporterId(this.id)
+    this.service.getTransporterById(this.id)
    .pipe(catchError((err) => of(this.showError(err))))
      .subscribe((result) => {
-      this.transForm.controls['transporterCode'].setValue(result.transporterCode);
+      this.transForm.controls['transporterID'].setValue(result.transporterID);
       this.transForm.controls['transporterName'].setValue(result.transporterName);
       this.transForm.controls['address'].setValue(result.address);
       this.transForm.controls['contactNo'].setValue(result.contactNo);
       this.transForm.controls['email'].setValue(result.email);
       this.transForm.controls['contactPerson'].setValue(result.contactPerson);
-      this.transForm.controls['transporterType'].setValue(result.transporterType);
+      this.transForm.controls['typeID'].setValue(result.typeID);
       this.transForm.controls['remarks'].setValue(result.remarks);
       this.transForm.controls['active'].setValue(result.active);
       // this.transForm.controls['isBlack'].setValue(result.isBlack);
@@ -114,23 +115,24 @@ export class TransporterDetailComponent{
   addNewTransporter(data: any) {
     this.spinner.show();
     const formData = new FormData();
-    formData.append("TransporterCode",data.transporterCode);
+    formData.append("TransporterID",'1');
     formData.append("TransporterName",data.transporterName);
     formData.append("Address",data.address);
     formData.append("ContactNo",data.contactNo);
     formData.append("Email",data.email);
     formData.append("ContactPerson",data.contactPerson);
-    formData.append("TransporterType",data.transporterType);
+    formData.append("TypeID",data.typeID);
     formData.append("Remarks",data.remarks);
-    formData.append("Active",data.active.toString());
+    formData.append("Active",data.active);
     this.service.createTransporter(formData)
     .pipe(catchError((err) => of(this.showError(err))))
     .subscribe((result) => {
-      this.spinner.hide();
-      if (result.status) {
+      if (result.status==true) {
+        this.spinner.hide();
         this.showSuccess('Transporter added successfully!');
         this.router.navigate(["master/transporter"]);
       } else {
+        this.spinner.hide();
         Swal.fire('Transporter', result.messageContent, 'error');
       }
     });
@@ -139,15 +141,16 @@ export class TransporterDetailComponent{
   editTransporter(data: any) {
       this.spinner.show();
       const formData = new FormData();
-      formData.append("TransporterCode",this.id);
+      data.active=data.active?true:false;
+      formData.append("TransporterID",this.id);
       formData.append("TransporterName",data.transporterName);
       formData.append("Address",data.address);
       formData.append("ContactNo",data.contactNo);
       formData.append("Email",data.email);
       formData.append("ContactPerson",data.contactPerson);
-      formData.append("TransporterType",data.transporterType);
+      formData.append("TypeID",data.typeID);
       formData.append("Remarks",data.remarks);
-      formData.append("Active",data.active.toString());
+      formData.append("Active",data.active);
       // formData.append("IsBlack",data.isBlack.toString());
       this.service.updateTransporter(formData)
         .pipe(catchError((err) => of(this.showError(err))))
@@ -169,8 +172,4 @@ export class TransporterDetailComponent{
     showError(error: HttpErrorResponse) {
       Swal.fire('Transporter', error.statusText, 'error');
     }
-
-    
-   
-
 }

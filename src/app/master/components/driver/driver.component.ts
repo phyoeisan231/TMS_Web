@@ -67,8 +67,9 @@ export class DriverComponent {
     }).then((response: any) => {
       if (response.value) {
         this.spinner.show();
+        const encodedId = encodeURIComponent(id); // Encode the ID
         this.service
-          .deleteDriver(id)
+          .deleteDriver(encodedId)
           .pipe(catchError((err) => of(this.showError(err))))
           .subscribe((result) => {
             if (result.status == true) {

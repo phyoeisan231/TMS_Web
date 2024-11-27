@@ -75,6 +75,22 @@ const routes: Routes = [
       {
         path:'master/transporter-detail',
         loadComponent:()=>import('./master/components/transporter-detail/transporter-detail.component').then((c)=>c.TransporterDetailComponent)
+      },
+      {
+        path:'master/weight-bridge',
+        loadComponent:()=>import('./master/components/weight-bridge/weight-bridge.component').then((c)=>c.WeightBridgeComponent)
+      },
+      {
+        path:'master/yard',
+        loadComponent:()=>import('./master/components/yard/yard.component').then((c)=>c.YardComponent)
+      },
+      {
+        path:'master/truck-job-type',
+        loadComponent:()=>import('./master/components/truck-job-type/truck-job-type.component').then((c)=>c.TruckJobTypeComponent)
+      },
+      {
+        path:'master/truck-entry-type',
+        loadComponent:()=>import('./master/components/truck-entry-type/truck-entry-type.component').then((c)=>c.TruckEntryTypeComponent)
       }
       
       // {

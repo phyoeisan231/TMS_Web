@@ -83,7 +83,7 @@ export class TransporterTypeComponent {
     if (args.requestType === 'delete') {
       args.cancel = true;
       const data = args.data as any[];
-      const id = data[0].typeName;
+      const id = data[0].typeID;
       this.deleteTransporterType(id);
     }
   }
@@ -105,8 +105,8 @@ export class TransporterTypeComponent {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      typeCode: new FormControl(data.typeCode),
-      typeName: new FormControl(data.typeName,Validators.required),
+      typeID: new FormControl(data.typeID,Validators.required),
+      description: new FormControl(data.description,Validators.required),
       remarks:new FormControl(data.remarks),
       active: new FormControl(data.active),
     });
@@ -114,8 +114,8 @@ export class TransporterTypeComponent {
 
   addTransporterType(formData: any) {
     this.spinner.show();
-    formData.typeCode=0;
-    formData.active = true;
+    // formData.typeCode=0;
+    // formData.active = true;
     this.service
       .createTransporterType(formData)
       .pipe(catchError((err) => of(this.showError(err))))

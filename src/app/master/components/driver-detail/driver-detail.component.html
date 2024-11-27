@@ -75,7 +75,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label class="col-md-2">License Class:</label>
+                                            <label class="col-md-2 requiredfield">License Class:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
                                                     formControlName="licenseClass"
@@ -97,19 +97,19 @@
                                             </div>
                                           </div>
                                         <div class="row">
-                                            <label class="col-md-2 requiredfield">Transporter:</label>
+                                            <label class="col-md-2 requiredfield">LicenseExpired Date:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-dropdownlist
-                                                    formControlName="transporter"
-                                                    [dataSource]="transporterNames"
-                                                    [fields]="{ text: 'transporterName', value: 'id' }"
+                                                <ejs-datepicker
+                                                    formControlName="licenseExpiration"
                                                     class="form-control form-control-sm"
+                                                    [format]="formatfilter"
                                                     autocomplete="off"
-                                                    placeholder="Choose Transporter"
-                                                    tabindex="6"
-                                                    maxlength="100"/>
+                                                    placeholder="LicenseExpiration Date"
+                                                    tabindex="9"
+                                                    maxlength="120">
+                                                </ejs-datepicker>
                                             </div>
-                                            <label class="col-md-2">Email:</label>
+                                            <label class="col-md-2 requiredfield">Email:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
                                                     formControlName="email"

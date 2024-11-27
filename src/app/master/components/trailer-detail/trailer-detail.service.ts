@@ -19,12 +19,8 @@ export class TrailerDetailService {
     });
   }
 
-  getTrailerTypes(): Observable<any[]> {
-    return this.http.get<any[]>(environment.url+'Master/GetOnlyTrailerTypes');
-  }
-
   getTransporterNames():Observable<any[]>{
-    return this.http.get<any[]>(environment.url+'Master/GetTransporterNames');
+    return this.http.get<any[]>(environment.url+'Master/GetTransporterList');
   }
   
   getTrailerId(id:any){

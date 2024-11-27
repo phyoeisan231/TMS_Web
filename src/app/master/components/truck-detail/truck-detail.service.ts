@@ -20,12 +20,13 @@ export class TruckDetailService {
     });
   }
 
-  getTruckTypes(): Observable<any[]> {
-    return this.http.get<any[]>(environment.url+'Master/GetOnlyTruckTypes');
+  getTruckTypes(active?: string): Observable<any[]> {
+    const params = active ? { active } : {}; // If active is provided, use it as a query param
+    return this.http.get<any[]>(`${environment.url}Master/GetTruckTypeList`, { params });
   }
 
   getTransporterNames():Observable<any[]>{
-    return this.http.get<any[]>(environment.url+'Master/GetTransporterNames');
+    return this.http.get<any[]>(environment.url+'Master/GetTransporterList');
   }
 
   getTruckId(id:any){
@@ -33,7 +34,7 @@ export class TruckDetailService {
   }
 
   updateTruck(data:any){
-    return this.http.put<any>(environment.url+'Master/UpdateTruck',data,{
+    return this.http.put<any>(environment.url+'Master/UpdateTruck/',data,{
       reportProgress:true,
     });
   }  

@@ -29,8 +29,8 @@
                         </div> -->
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <h4 class="card-title mb-0">
-                                <span *ngIf="isAdd">New Transporter</span>
-                                <span *ngIf="!isAdd">Edit Transporter</span>
+                                <span *ngIf="this.isAdd">New Transporter</span>
+                                <span *ngIf="!this.isAdd">Edit Transporter</span>
                             </h4>
                             <div class="button-group d-flex">
                                 <button
@@ -46,23 +46,18 @@
                                 </button>
                             </div>
                         </div>
-                        
                         <div class="card-body">
                             <div class="card">
                                 <div class="card-body">
                                     <form [formGroup]="transForm">
                                         <div class="row my-0">
-                                          <label class="col-md-2 requiredfield" *ngIf="isAdd">Transporter Code:</label>
-                                          <label class="col-md-2 requiredfield" *ngIf="!isAdd">Transporter Code:</label>
-                                          <div class="form-group col-md-4">
+                                        <label class="col-md-2 requiredfield" *ngIf="!this.isAdd">ID:</label>
+                                        <div class="form-group col-md-4" *ngIf="!this.isAdd">
                                             <ejs-textbox
-                                                formControlName="transporterCode"
-                                                class="form-control form-control-sm"
-                                                tabindex="0" maxlength="50" />
-                                            <div *ngIf="transForm.controls['transporterCode'].invalid && (transForm.controls['transporterCode'].touched || transForm.controls['transporterCode'].dirty)">
-                                                <small class="text-danger">This field is required.</small>
-                                            </div>
-                                        </div>
+                                             formControlName="transporterID"
+                                             class="form-control form-control-sm"
+                                             tabindex="0" readonly="true" />
+                                          </div>
                                         <label class="col-md-2 requiredfield">Transporter Name:</label>
                                         <div class="form-group col-md-4">
                                             <ejs-textbox
@@ -120,9 +115,9 @@
                                             <label class="col-md-2 requiredfield">Transporter Type:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-dropdownlist
-                                                    formControlName="transporterType"
+                                                    formControlName="typeID"
                                                     [dataSource]="transTypesList"
-                                                    [fields]="{ text: 'typeName', value: 'id' }"
+                                                    [fields]="{ text: 'description', value: 'typeID' }"
                                                     class="form-control form-control-sm"
                                                     autocomplete="off"
                                                     placeholder="Choose Transporter Types"

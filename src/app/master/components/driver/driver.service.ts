@@ -16,8 +16,13 @@ export class DriverService {
     return this.http.get<any>(environment.url+'Master/GetDriverList');
   }
   
-  deleteDriver(id:any){
-    return this.http.delete<any>(environment.url+'Master/DeleteDriver/'+id,httpOptions);
-  }   
+  // deleteDriver(id:any){
+  //   return this.http.delete<any>(environment.url+'Master/DeleteDriver/'+id,httpOptions);
+  // }   
+  deleteDriver(id: any) {
+    const encodedId = encodeURIComponent(id); // Encode the ID
+    return this.http.delete<any>(`${environment.url}Master/DeleteDriver/${encodedId}`,httpOptions);
+  }
+  
 
 }

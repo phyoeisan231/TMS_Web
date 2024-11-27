@@ -1,0 +1,67 @@
+<section class="content mt-0">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+            <li class="breadcrumb-item active text-info">Yard</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+          <div class="card card-primary card-outline">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 col-lg-12 text-left">
+                  <h5 class="card-title">Yard</h5>
+                </div>
+              </div>
+              <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)="rowDataBound($event)">
+                <e-columns>
+                  <e-column field='yardID' headerText='Yard ID' [isPrimaryKey]="true" width="90"></e-column>
+                  <e-column field='name' headerText="Name" width="150"></e-column>
+                  <e-column field='active' headerText="Active" width="100">
+                    <ng-template #template let-data>
+                      <div *ngIf="data.active;else False">Yes</div>
+                      <ng-template #False>
+                        <div>No</div>
+                      </ng-template>
+                    </ng-template>
+                  </e-column>
+                </e-columns>
+                <ng-template #editSettingsTemplate let-data>
+                  <form [formGroup]="yardForm">
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <label for="yardID" class="font-weight-normal requiredfield">YardID</label>
+                        <ejs-textbox formControlName="yardID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                        <div  [style.visibility]='validateControl("yardID")? "visible": "hidden"'>
+                          <label class="e-error" for="yardID" style="display: block;">*YardID is required</label>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label for="name" class="font-weight-normal requiredfield">Name</label>
+                        <ejs-textbox formControlName="name" tabindex="2" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                        <div  [style.visibility]='validateControl("name")? "visible": "hidden"'>
+                            <label class="e-error" for="name" style="display: block;">*Yard Name is required</label>
+                          </div>
+                      </div>
+                     </div>
+                     <div class="form-row">
+                      <div class="form-group col-md-6"><br>
+                        <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="3" [checked]="true"></ejs-checkbox>
+                      </div>
+                     </div>
+                  </form>
+                </ng-template>
+              </ejs-grid>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+  
+  
+  
+  

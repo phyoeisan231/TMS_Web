@@ -20,9 +20,9 @@ export class DriverDetailService {
     });
   }
 
-  getTransporterNames():Observable<any[]>{
-    return this.http.get<any[]>(environment.url+'Master/GetTransporterNames');
-  }
+  // getTransporterNames():Observable<any[]>{
+  //   return this.http.get<any[]>(environment.url+'Master/GetTransporterNames');
+  // }
 
   getDriverId(id:any){
     return this.http.get<any>(environment.url+'Master/GetDriverId/?id='+id);
