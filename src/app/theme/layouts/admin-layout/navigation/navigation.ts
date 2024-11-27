@@ -20,13 +20,13 @@ export interface NavigationItem {
 
 export const NavigationItems: NavigationItem[] = [
   {
-    id: 'dashboard',
+    id: '1',
     title: 'Dashboard',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'dashboard',
+        id: '2',
         title: 'Dashboard',
         type: 'item',
         classes: 'nav-item',
@@ -37,92 +37,348 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'master',
-    title: 'Master',
+    id: '21',
+    title: 'TMS Operation',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'gate',
-        title: 'Gate',
-        type: 'item',
+        id: '22',
+        title: 'InBound',
+        type: 'collapse',
         classes: 'nav-item',
-        url: '/master/gate',
-        icon: 'home',
-        breadcrumbs: false
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '35',
+            title: 'InBound Check Document',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'tms-operation/inbound-check-doc',
+            icon: 'left-circle'
+          },
+          {
+            id: '23',
+            title: 'InBound Check',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'tms-operation/inbound-check',
+            icon: 'left-circle'
+          },
+        ]
       },
       {
-        id: 'yard',
-        title: 'Yard',
-        type: 'item',
+        id: '22',
+        title: 'OutBound',
+        type: 'collapse',
         classes: 'nav-item',
-        url: 'master/yard',
-        icon: 'home',
-        breadcrumbs: false
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '23',
+            title: 'OutBound Check',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+        ]
+      },
+    ]
+  },
+  {
+    id: '24',
+    title: 'Report',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: '25',
+        title: 'InBound Rpt',
+        type: 'collapse',
+        classes: 'nav-item',
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '26',
+            title: 'Report1',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+          {
+            id: '27',
+            title: 'Report2',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+        ]
       },
       {
-        id: 'weightbridge',
-        title: 'Weight Bridge',
-        type: 'item',
+        id: '28',
+        title: 'OutBound Rpt',
+        type: 'collapse',
         classes: 'nav-item',
-        url: 'master/weight-bridge',
-        icon: 'setting',
-        breadcrumbs: false
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '29',
+            title: 'Report1',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+          {
+            id: '30',
+            title: 'Report2',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+        ]
+      },
+    ]
+  },
+  {
+    id: '3',
+    title: 'Master & Profile',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: '4',
+        title: 'Terminal Data',
+        type: 'collapse',
+        classes: 'nav-item',
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '5',
+            title: 'Yard',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/yard',
+            icon: 'left-circle'
+          },
+          {
+            id: '6',
+            title: 'Gate',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/gate',
+            icon: 'left-circle'
+          },
+          {
+            id: '7',
+            title: 'Waiting Area',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/gate',
+            icon: 'left-circle'
+          },
+          {
+            id: '8',
+            title: 'Weight Bridge',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/gate',
+            icon: 'left-circle'
+          },
+        ]
       },
       {
-        id: 'transportertype',
-        title: 'Transporter Type',
-        type: 'item',
+        id: '9',
+        title: 'Truck Data',
+        type: 'collapse',
         classes: 'nav-item',
-        url: 'master/transporter-type',
-        icon: 'setting',
-        breadcrumbs: false
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '10',
+            title: 'Truck Type',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/truck-type',
+            icon: 'left-circle'
+          },
+          {
+            id: '11',
+            title: 'Transporter',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/transporter',
+            icon: 'left-circle'
+          },
+          {
+            id: '12',
+            title: 'Truck',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/truck',
+            icon: 'left-circle'
+          },
+          {
+            id: '13',
+            title: 'Trailer',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/trailer',
+            icon: 'left-circle'
+          }
+        ]
       },
       {
-        id: 'transporter',
-        title: 'Transporter',
-        type: 'item',
+        id: '14',
+        title: 'Process Data',
+        type: 'collapse',
         classes: 'nav-item',
-        url: 'master/transporter',
-        icon: 'setting',
-        breadcrumbs: false
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '15',
+            title: 'Truck Job Type',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/truck-job-type',
+            icon: 'left-circle'
+          },
+          {
+            id: '16',
+            title: 'Category',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/category',
+            icon: 'left-circle'
+          },
+          {
+            id: '17',
+            title: 'Card',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/card',
+            icon: 'left-circle'
+          },
+          {
+            id: '18',
+            title: 'Document Setting',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/document-setting',
+            icon: 'left-circle'
+          }
+        ]
       },
       {
-        id: 'trucktype',
-        title: 'Truck Type',
-        type: 'item',
+        id: '19',
+        title: 'Profile Data',
+        type: 'collapse',
         classes: 'nav-item',
-        url: 'master/truck-type',
-        icon: 'setting',
-        breadcrumbs: false,
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '20',
+            title: 'Driver',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+        ]
       },
-      {
-        id: 'truck',
-        title: 'Truck',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'master/truck',
-        icon: 'truck',
-        breadcrumbs: false
-      },
-      {
-        id: 'truck-job-type',
-        title: 'Truck Job Type',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'master/truck-job-type',
-        icon: 'truck',
-        breadcrumbs: false
-      },
-      {
-        id: 'truck-entry-type',
-        title: 'Truck Entry Type',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'master/truck-entry-type',
-        icon: 'truck',
-        breadcrumbs: false
-      },
+      // {
+      //   id: 'gate',
+      //   title: 'Gate',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: '/master/gate',
+      //   icon: 'home',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'yard',
+      //   title: 'Yard',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/yard',
+      //   icon: 'home',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'weightbridge',
+      //   title: 'Weight Bridge',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/weight-bridge',
+      //   icon: 'setting',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'transportertype',
+      //   title: 'Transporter Type',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/transporter-type',
+      //   icon: 'setting',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'transporter',
+      //   title: 'Transporter',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/transporter',
+      //   icon: 'setting',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'trucktype',
+      //   title: 'Truck Type',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/truck-type',
+      //   icon: 'setting',
+      //   breadcrumbs: false,
+      // },
+      // {
+      //   id: 'truck',
+      //   title: 'Truck',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/truck',
+      //   icon: 'truck',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'truck-job-type',
+      //   title: 'Truck Job Type',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/truck-job-type',
+      //   icon: 'truck',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'truck-entry-type',
+      //   title: 'Truck Entry Type',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/truck-entry-type',
+      //   icon: 'truck',
+      //   breadcrumbs: false
+      // },
       // {
       //   id: 'trailertype',
       //   title: 'Trailer Type',
@@ -132,81 +388,29 @@ export const NavigationItems: NavigationItem[] = [
       //   icon: 'setting',
       //   breadcrumbs: false
       // },
-      {
-        id: 'trailer',
-        title: 'Trailer',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'master/trailer',
-        icon: 'truck',
-        breadcrumbs: false
-      },
-      {
-        id: 'driver',
-        title: 'Driver',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'master/driver',
-        icon: 'user-add',
-        breadcrumbs: false
-      }
-      
+      // {
+      //   id: 'trailer',
+      //   title: 'Trailer',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/trailer',
+      //   icon: 'truck',
+      //   breadcrumbs: false
+      // },
+      // {
+      //   id: 'driver',
+      //   title: 'Driver',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'master/driver',
+      //   icon: 'user-add',
+      //   breadcrumbs: false
+      // }
+
     ]
   },
-  {
-    id: 'location',
-    title: 'Location',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'waitingarea',
-        title: 'Waiting Area',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/login',
-        icon: 'left-circle',
-        breadcrumbs: false,
-      },
-      {
-        id: 'optarea',
-        title: 'Operating Area',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/register',
-        icon: 'left-circle',
-        breadcrumbs: false
-      }
-    ]
-  },
-  {
-    id: 'report',
-    title: 'Report',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'report1',
-        title: 'Report1',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/login',
-        icon: 'profile',
-        target: true,
-        breadcrumbs: false,
-      },
-      {
-        id: 'repoart2',
-        title: 'Report2',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/register',
-        icon: 'profile',
-        target: true,
-        breadcrumbs: false
-      }
-    ]
-  },
+
+
   // {
   //   id: 'authentication',
   //   title: 'Authentication',
@@ -236,27 +440,61 @@ export const NavigationItems: NavigationItem[] = [
   //   ]
   // },
   {
-    id: 'utilities',
+    id: '31',
     title: 'Utilities',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'gateuser',
-        title: 'Gate User',
-        type: 'item',
+        id: '32',
+        title: 'user Management',
+        type: 'collapse',
         classes: 'nav-item',
-        url: '/register',
-        icon: 'user-add'
-      },
-      {
-        id: 'wbuser',
-        title: 'Weight Bridge User',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/register',
-        icon: 'user-add'
-      },
+        url: '',
+        icon: 'left-circle',
+        children: [
+          {
+            id: '33',
+            title: 'Gate User',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+          {
+            id: '34',
+            title: 'Weight Bridge User',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+        ]
+      }
+    ]
+  },
+  // {
+  //   id: 'utilities',
+  //   title: 'Utilities',
+  //   type: 'group',
+  //   icon: 'icon-navigation',
+  //   children: [
+  //     {
+  //       id: 'gateuser',
+  //       title: 'Gate User',
+  //       type: 'item',
+  //       classes: 'nav-item',
+  //       url: '/register',
+  //       icon: 'user-add'
+  //     },
+  //     {
+  //       id: 'wbuser',
+  //       title: 'Weight Bridge User',
+  //       type: 'item',
+  //       classes: 'nav-item',
+  //       url: '/register',
+  //       icon: 'user-add'
+  //     },
       // {
       //   id: 'wbuser1',
       //   title: 'Weight Bridge User1',
@@ -285,8 +523,8 @@ export const NavigationItems: NavigationItem[] = [
       //   target: true,
       //   external: true
       // }
-    ]
-  },
+    //]
+  //},
 
   // {
   //   id: 'other',
@@ -315,3 +553,4 @@ export const NavigationItems: NavigationItem[] = [
   //   ]
   // }
 ];
+//35
