@@ -20,13 +20,15 @@ export class DriverDetailService {
     });
   }
 
-  // getTransporterNames():Observable<any[]>{
-  //   return this.http.get<any[]>(environment.url+'Master/GetTransporterNames');
+  // getDriverId(id:any){
+  //   return this.http.get<any>(environment.url+'Master/GetDriverId/?id='+id);
   // }
 
-  getDriverId(id:any){
-    return this.http.get<any>(environment.url+'Master/GetDriverId/?id='+id);
-  }
+  getDriverId(id: any) {
+    const encodedId = encodeURIComponent(id); // Encode the ID
+    return this.http.get<any>(`${environment.url}Master/GetDriverId/?id=${encodedId}`);
+}
+
 
   updateDriver(data:any){
     return this.http.put<any>(environment.url+'Master/UpdateDriver/',data,{
