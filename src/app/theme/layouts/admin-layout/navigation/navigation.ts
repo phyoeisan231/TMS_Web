@@ -44,7 +44,7 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: '22',
-        title: 'InBound',
+        title: 'Gate In(Check)',
         type: 'collapse',
         classes: 'nav-item',
         url: '',
@@ -52,15 +52,15 @@ export const NavigationItems: NavigationItem[] = [
         children: [
           {
             id: '35',
-            title: 'InBound Check Document',
+            title: 'ICD/Other',
             type: 'item',
             classes: 'nav-item',
-            url: 'tms-operation/inbound-check-doc',
+            url: 'tms-operation/inbound-check',
             icon: 'left-circle'
           },
           {
-            id: '23',
-            title: 'InBound Check',
+            id: '36',
+            title: 'TMS',
             type: 'item',
             classes: 'nav-item',
             url: 'tms-operation/inbound-check',
@@ -69,16 +69,24 @@ export const NavigationItems: NavigationItem[] = [
         ]
       },
       {
-        id: '22',
-        title: 'OutBound',
+        id: '37',
+        title: 'Gate Out(Check)',
         type: 'collapse',
         classes: 'nav-item',
         url: '',
         icon: 'left-circle',
         children: [
           {
-            id: '23',
-            title: 'OutBound Check',
+            id: '38',
+            title: 'ICD/Other',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/driver',
+            icon: 'left-circle'
+          },
+          {
+            id: '39',
+            title: 'TMS',
             type: 'item',
             classes: 'nav-item',
             url: 'master/driver',
@@ -156,7 +164,7 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: '4',
-        title: 'Terminal Data',
+        title: 'TMS Data',
         type: 'collapse',
         classes: 'nav-item',
         url: '',
@@ -553,4 +561,4 @@ export const NavigationItems: NavigationItem[] = [
   //   ]
   // }
 ];
-//35
+//39

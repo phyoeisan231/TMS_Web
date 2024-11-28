@@ -10,4 +10,5 @@ export class ConfigService {
   getConfig() {
     return this.http.get('./assets/config.json');
   }
+
 }
