@@ -27,10 +27,10 @@
                 <form [formGroup]="gateForm">
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="gateID" class="font-weight-normal requiredfield">GateID</label>
-                      <ejs-textbox formControlName="gateID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
-                      <div  [style.visibility]='validateControl("gateID")? "visible": "hidden"'>
-                        <label class="e-error" for="gateID" style="display: block;">*GateID is required</label>
+                      <label for="inGateID" class="font-weight-normal requiredfield">GateID</label>
+                      <ejs-textbox formControlName="inGateID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                      <div  [style.visibility]='validateControl("inGateID")? "visible": "hidden"'>
+                        <label class="e-error" for="inGateID" style="display: block;">*GateID is required</label>
                       </div>
                     </div>
                     <div class="form-group col-md-12">

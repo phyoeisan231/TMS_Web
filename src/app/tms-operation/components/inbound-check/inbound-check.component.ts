@@ -44,7 +44,7 @@ export class InboundCheckComponent {
   driverList:any[]=[];
   interval: number =1;
   endDate : Date = new Date();
-  startDate : Date = addDays(this.endDate,-7);
+  //startDate : Date = addDays(this.endDate,-7);
   today : Date = new Date();
   public data: Object[];
   // set placeholder to MultiSelect input element
