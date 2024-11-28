@@ -30,8 +30,8 @@ export class InboundCheckService {
     return this.http.get<any>(environment.url + 'Master/GetDriverList/?id=' + id);
   }
 
-  getInBoundCheckList(startDate:any,endDate:any,yard:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
+  getInBoundCheckList(startDate:any,endDate:any,yard:string,status:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard+ '&status=' + status);
   }
 
   createInBoundCheck(data: any) {
