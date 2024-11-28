@@ -109,3 +109,11 @@ File: style.css
 .form-group {
   margin-bottom: 5px;
 }
+
+.uppercase-input input {
+  text-transform: uppercase;
+}
+.uppercase-input input::placeholder {
+  text-transform: none;
+}
+
