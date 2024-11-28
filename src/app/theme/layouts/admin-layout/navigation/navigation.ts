@@ -164,7 +164,7 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: '4',
-        title: 'Terminal Data',
+        title: 'TMS Data',
         type: 'collapse',
         classes: 'nav-item',
         url: '',
