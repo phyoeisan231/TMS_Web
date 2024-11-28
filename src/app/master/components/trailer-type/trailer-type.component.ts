@@ -70,6 +70,7 @@ export class TrailerTypeComponent {
         if (args.action === 'add') {
           formData.createdUser = localStorage.getItem('currentUser');
           this.addTrailerType(formData);
+          
         }
         else {
           formData.updatedUser = localStorage.getItem('currentUser');
@@ -199,6 +200,6 @@ export class TrailerTypeComponent {
      });
     }
   }
- 
+
 
 }
