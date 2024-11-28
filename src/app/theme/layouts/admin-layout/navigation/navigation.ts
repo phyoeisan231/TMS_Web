@@ -191,7 +191,7 @@ export const NavigationItems: NavigationItem[] = [
             title: 'Waiting Area',
             type: 'item',
             classes: 'nav-item',
-            url: 'master/gate',
+            url: 'master/waiting-area',
             icon: 'left-circle'
           },
           {
@@ -199,7 +199,7 @@ export const NavigationItems: NavigationItem[] = [
             title: 'Weight Bridge',
             type: 'item',
             classes: 'nav-item',
-            url: 'master/gate',
+            url: 'master/weight-bridge',
             icon: 'left-circle'
           },
         ]

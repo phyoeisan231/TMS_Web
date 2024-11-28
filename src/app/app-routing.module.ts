@@ -100,6 +100,18 @@ const routes: Routes = [
         path:'tms-operation/inbound-check',
         loadComponent:()=>import('./tms-operation/components/inbound-check/inbound-check.component').then((c)=>c.InboundCheckComponent)
       },
+      {
+        path:'master/waiting-area',
+        loadComponent:()=>import('./master/components/waiting-area/waiting-area.component').then((c)=>c.WaitingAreaComponent)
+      },
+      {
+        path:'master/category',
+        loadComponent:()=>import('./master/components/category/category.component').then((c)=>c.CategoryComponent)
+      },
+      {
+        path:'master/card',
+        loadComponent:()=>import('./master/components/card/card.component').then((c)=>c.CardComponent)
+      }
 
       // {
       //   path: 'typography',

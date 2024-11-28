@@ -37,7 +37,7 @@ export class TransporterDetailComponent{
 
  
   ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Transporter Detail', routerLink: '/transporter-detail', active: false },
+    this.breadCrumbItems = [{ label: 'Transporter Detail', routerLink: 'master/transporter-detail', active: false },
     { label: 'Add New Transporter', active: true }];
     this.id = this.route.snapshot.queryParams['id'];
     this.transForm = new FormGroup({
@@ -96,7 +96,7 @@ export class TransporterDetailComponent{
       // this.transForm.controls['blackRemovedDate'].setValue(result.blackRemovedDate);
       // this.transForm.controls['blackRemovedReason'].setValue(result.blackRemovedReason);
       this.isAdd=false;
-      this.breadCrumbItems = [{ label: 'Transporter',rounterLink:'/transporter-detail',active:false }, { label: 'Edit Transporter', active: true }];
+      this.breadCrumbItems = [{ label: 'Transporter',rounterLink:'master/transporter-detail',active:false }, { label: 'Edit Transporter', active: true }];
       this.spinner.hide();
     });
   }

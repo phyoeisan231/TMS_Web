@@ -1,113 +1,115 @@
-import { Component,ViewChild } from '@angular/core';
-import { MasterModule } from '../../master.module';
+import { Component, ViewChild } from '@angular/core';
 import { DialogEditEventArgs, EditSettingsModel, ExcelQueryCellInfoEventArgs, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { Browser } from '@syncfusion/ej2/base';
-import { HttpErrorResponse } from '@angular/common/http';
-import { NgxSpinner, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { RouterModule } from '@angular/router';
-import { Dialog } from '@syncfusion/ej2-angular-popups';
+import { CategoryService } from './category.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 import { catchError, of } from 'rxjs';
-import { forkJoin } from 'rxjs';
-import { WeightBridgeService } from './weight-bridge.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Browser } from '@syncfusion/ej2-base';
+import { Dialog } from '@syncfusion/ej2-angular-popups';
+import { MasterModule } from '../../master.module';
+
 @Component({
-  selector: 'app-weight-bridge',
+  selector: 'app-category',
   standalone: true,
   imports: [MasterModule],
-  templateUrl: './weight-bridge.component.html',
-  styleUrl: './weight-bridge.component.scss'
+  templateUrl: './category.component.html',
+  styleUrl: './category.component.scss'
 })
-export class WeightBridgeComponent {
+export class CategoryComponent {
   pageSettings: PageSettingsModel = { pageSize: 10 };
   editSettings: EditSettingsModel = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = ['Add','Edit','Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
-  wForm: any;
+  categoryForm: any;
+  groupNameList:any[]=["ICD","Customer","Others"];
   lblText:string;
-  yardList:any[]=[];
   submitClicked: boolean = false;
+  public data: Object[]=[];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
   @ViewChild('Grid') public grid: GridComponent;
-  public data: Object[];
   constructor(
-    private service: WeightBridgeService,
+    private service: CategoryService,
     private spinner: NgxSpinnerService,
   ) {}
 
   ngOnInit(){
     this.loadTableData();
   }
-
-  // rowDataBound(args: any): void {
-  //   if (args.row) {
-  //     if (args.data.active!=true) {
-  //       args.row.classList.add('not-Use');
-  //     }
-  //   }
-  // }
+  rowDataBound(args: any): void {
+    if (args.row) {
+      if (args.data.active!=true) {
+        args.row.classList.add('not-Use');
+      }
+    }
+  }
 
   loadTableData() {
     this.spinner.show();
-    forkJoin({
-      wbList: this.service.getWBList().pipe(catchError((err) => of(this.showError(err)))),
-      yardList: this.service.getYardList('true').pipe(catchError((err) => of([]))) // Ensure no error is thrown for yardList
-    }).subscribe({
-      next: ({wbList,yardList }) => {
-        this.grid.dataSource = wbList;
-        this.yardList = yardList;
-      },
-      error: (error) => {
-        console.error('Error loading data', error);
-      },
-      complete: () => {
-        this.spinner.hide();
-      }
-    });
+     this.service.getCategoryList('All')
+     .pipe(catchError((err) => of(this.showError(err))))
+       .subscribe((result) => {
+         this.grid.dataSource = result;
+         this.spinner.hide();
+     });
+   this.spinner.hide();
   }
+
+  // convertToUppercase(event: any): void {
+  //   // Convert the input value to uppercase
+  //   event.target.value = event.target.value.toUpperCase();
+  // }
+  // In your component.ts file
+toUpperCase(event: any): void {
+  const inputValue = event.target.value;
+  event.target.value = inputValue.toUpperCase(); // Convert input to uppercase
+}
+
+  
 
   actionBegin(args: SaveEventArgs): void {
     if (args.requestType === 'add') {
       this.submitClicked = false;
-      this.wForm = this.createFormGroup(args.rowData);
+      this.categoryForm = this.createFormGroup(args.rowData);
     }
     else if(args.requestType === 'beginEdit'){
       this.submitClicked = false;
-      this.wForm = this.createFormGroup(args.rowData);
+      this.categoryForm = this.createFormGroup(args.rowData);
     }
     if (args.requestType === 'save') {
       this.submitClicked = true;
-      if (this.wForm.valid) {
-          let formData = this.wForm.value;
-          if (args.action === 'add') {
-            formData.createdUser = localStorage.getItem('currentUser');
-            this.addWeightBridge(formData);
-          }
-          else {
-            formData.updatedUser = localStorage.getItem('currentUser');
-            this.editWeightBridge(formData);
-          }
+      if (this.categoryForm.valid) {
+        let formData = this.categoryForm.value;
+        if (args.action === 'add') {
+          formData.createdUser = localStorage.getItem('currentUser');
+          this.addCategory(formData);
+        }
+        else {
+          formData.updatedUser = localStorage.getItem('currentUser');
+          this.editCategory(formData);
+        }
       } else {
-          args.cancel = true;
+        args.cancel = true;
       }
     }
     if (args.requestType === 'delete') {
       args.cancel = true;
       const data = args.data as any[];
-      const id = data[0].weightBridgeID;
-     this.deleteWeightBridge(id);
+      const id = data[0].pcCode;
+     this.deleteCategory(id);
     }
   }
 
   actionComplete(args: DialogEditEventArgs): void {
     if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
       if(args.requestType === 'add'){
-        args!.dialog!.header="New WeightBridge" ;
+        args!.dialog!.header="New Category" ;
         }
         else{
-          args!.dialog!.header="Edit WeightBridge" ;
+          args!.dialog!.header="Edit Category" ;
         }
         if (Browser.isDevice) {
             args!.dialog!.height = window.innerHeight - 90 + 'px';
@@ -118,33 +120,37 @@ export class WeightBridgeComponent {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      weightBridgeID: new FormControl(data.weightBridgeID,Validators.required),
-      name: new FormControl(data.name,Validators.required),
-      yardID: new FormControl(data.yardID,Validators.required),
+      pcCode: new FormControl(data.pcCode,Validators.required),
+      categoryName: new FormControl(data.categoryName,Validators.required),
+      inboundWeight: new FormControl(data.inboundWeight),
+      outboundWeight: new FormControl(data.outboundWeight),
+      groupName: new FormControl(data.groupName,Validators.required),
+      active: new FormControl(data.active),
     });
   }
 
-  addWeightBridge(formData: any) {
+  addCategory(formData: any) {
     this.spinner.show();
+    // formData.active = true;
     this.service
-      .createWeightBridge(formData)
+      .createCategory(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         if (result.status == true) {
           this.spinner.hide();
-          Swal.fire('WeightBridge', result.messageContent, 'success');
+          Swal.fire('Category', result.messageContent, 'success');
           this.loadTableData();
         } else {
           this.spinner.hide();
-          Swal.fire('WeightBridge', result.messageContent, 'error');
+          Swal.fire('Category', result.messageContent, 'error');
         }
       });
   }
 
-  editWeightBridge(formData: any) {
+  editCategory(formData: any) {
     this.spinner.show();
     this.service
-      .updateWeightBridge(formData)
+      .updateCategory(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.loadTableData();
@@ -152,12 +158,12 @@ export class WeightBridgeComponent {
           this.showSuccess(result.messageContent);
         } else {
           this.spinner.hide();
-          Swal.fire('WeightBridge', result.messageContent, 'error');
+          Swal.fire('Category', result.messageContent, 'error');
         }
       });
   }
 
-  deleteWeightBridge(id: any) {
+  deleteCategory(id: any) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this data!',
@@ -170,7 +176,7 @@ export class WeightBridgeComponent {
       if (response.value) {
         this.spinner.show();
         this.service
-          .deleteWeightBridge(id)
+          .deleteCategory(id)
           .pipe(catchError((err) => of(this.showError(err))))
           .subscribe((result) => {
             if (result.status == true) {
@@ -178,7 +184,7 @@ export class WeightBridgeComponent {
               this.loadTableData();
             } else {
               this.spinner.hide();
-              Swal.fire('WeightBridge', result.messageContent, 'error');
+              Swal.fire('Category', result.messageContent, 'error');
             }
           });
       } else if (response.dismiss === Swal.DismissReason.cancel) {
@@ -188,24 +194,24 @@ export class WeightBridgeComponent {
   }
 
   validateControl(controlName: string) {
-    const control = this.wForm.get(controlName);
+    const control = this.categoryForm.get(controlName);
     return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
 
   showSuccess(msg: string) {
     this.spinner.hide();
-    Swal.fire('WeightBridge', msg, 'success');
+    Swal.fire('Category', msg, 'success');
   }
 
   showError(error: HttpErrorResponse) {
     this.spinner.hide();
-    Swal.fire('WeightBridge', error.statusText, 'error');
+    Swal.fire('Category', error.statusText, 'error');
   }
 
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'GateReport.xlsx',
+        fileName:'YardReport.xlsx',
      });
     }
   }
@@ -218,11 +224,5 @@ export class WeightBridgeComponent {
       };
     }
   }
-    
-  
-
-  
-
-  
 
 }
