@@ -119,13 +119,14 @@ export class InboundCheckComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.yardList = result;
-        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("loc")?sessionStorage.getItem("icloc").split(','):null);
+        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null);
         this.spinner.hide();
     });
   }
+
   getGateList(){
     this.spinner.show();
-    this.service.getGateList("All")
+    this.service.getGateList("true")
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.gateList  = result;
@@ -134,7 +135,7 @@ export class InboundCheckComponent {
   }
 
   getCategoryList(){
-     this.service.getCategoryList('All')
+     this.service.getCategoryList('true')
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.pcCodeList = result;
@@ -186,7 +187,7 @@ export class InboundCheckComponent {
         if (this.gateForm.valid) {
             let formData = this.gateForm.value;
             if (args.action === 'add') {
-              // formData.poNo =0;
+              formData.inRegNo =0;
               formData.createdUser = localStorage.getItem('currentUser');
               this.addInBoundCheck(formData);
             }
