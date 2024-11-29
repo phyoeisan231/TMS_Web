@@ -205,7 +205,7 @@ export class WeightBridgeComponent {
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'GateReport.xlsx',
+        fileName:'WeightBridgeReport.xlsx',
      });
     }
   }
@@ -218,11 +218,5 @@ export class WeightBridgeComponent {
       };
     }
   }
-    
-  
-
-  
-
-  
 
 }

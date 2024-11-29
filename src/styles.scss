@@ -117,3 +117,18 @@ File: style.css
   text-transform: none;
 }
 
+.e-error {
+  font-size: 12px !important;
+  padding: 2px !important;
+  margin: 0 !important;
+  color: red !important;
+}
+
+.checkbox-wrapper .e-checkbox-wrapper label.e-label {
+  font-size: 1rem; /* Match other labels */
+  font-weight: 400; /* Normal weight */
+}
+
+
+
+

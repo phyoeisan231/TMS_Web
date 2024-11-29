@@ -36,12 +36,12 @@
                   <form [formGroup]="categoryForm">
                     
                     <div class="row my-0">
-                        <label class="col-md-2 requiredfield">Category Code:</label>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
+                          <label class="col requiredfield font-weight-normal">Category Code:</label>
                             <ejs-textbox
                                 formControlName="pcCode"
-                                class="form-control form-control-sm uppercase-input"
-                                placeholder="Enter Category Code"
+                                class="uppercase-input"
+                                [readonly]="!data.isAdd"
                                 autocomplete="off"
                                 tabindex="1"
                                 (change)="toUpperCase($event)"
@@ -50,27 +50,25 @@
                                     <label class="e-error" for="pcCode" style="display: block;">*Category Code is required</label>
                                 </div>
                         </div>
-                        <label class="col-md-2 requiredfield">Category Name:</label>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
+                          <label class="col requiredfield font-weight-normal">Category Name:</label>
                             <ejs-textbox
                                 formControlName="categoryName"
-                                class="form-control form-control-sm"
-                                placeholder="Enter Category Name"
+                                placeholder=""
                                 autocomplete="off"
                                 tabindex="2"
                                 maxlength="100"/>
-                                <div  [style.visibility]='validateControl("categoryName")? "visible": "hidden"'>
+                                <div [style.visibility]='validateControl("categoryName")? "visible": "hidden"'>
                                     <label class="e-error" for="categoryName" style="display: block;">*CategoryName is required</label>
                                 </div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-2">Inbound Weight:</label>
-                        <div class="form-group col-md-4">
-                            <ejs-textbox
+                        <div class="form-group col-md-6">
+                          <label class="col font-weight-normal">Inbound Weight:</label>
+                            <ejs-numerictextbox
                                 formControlName="inboundWeight"
-                                class="form-control form-control-sm"
-                                placeholder="Enter Inbound Weight"
+                                placeholder=""
                                 autocomplete="off"
                                 tabindex="3"
                                 maxlength="100" />
@@ -78,12 +76,11 @@
                                     <label class="e-error" for="inboundWeight" style="display: block;">*Inbound Weight is required</label>
                                 </div> -->
                         </div>
-                        <label class="col-md-2">Outbound Weight:</label>
-                        <div class="form-group col-md-4">
-                            <ejs-textbox
+                        <div class="form-group col-md-6">
+                          <label class="col font-weight-normal">Outbound Weight:</label>
+                            <ejs-numerictextbox
                                 formControlName="outboundWeight"
-                                class="form-control form-control-sm"
-                                placeholder="Enter Outbound Weight"
+                                placeholder=""
                                 autocomplete="off"
                                 tabindex="4"
                                 maxlength="100"/>
@@ -93,22 +90,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-2">Group Name:</label>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
+                          <label class="col font-weight-normal requiredfield">Group Name:</label>
                             <ejs-dropdownlist
                                 formControlName="groupName"
                                 [dataSource]="groupNameList"
-                                class="form-control form-control-sm"
-                                placeholder="Choose Group Name"
+                                placeholder=""
                                 autocomplete="off"
                                 tabindex="5"
                                 maxlength="100" />
-                                <div  [style.visibility]='validateControl("groupName")? "visible": "hidden"'>
+                                <div [style.visibility]='validateControl("groupName")? "visible": "hidden"'>
                                     <label class="e-error" for="groupName" style="display: block;">*Group Name is required</label>
                                 </div>
                         </div>
                         <div class="form-group col-md-6"><br>
-                            <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
+                            <ejs-checkbox formControlName="active" label="Active"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
                         </div>
                     </div>
                   </form>
