@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { TmsOperationModule } from '../../tms-operation.module';
 import Swal from 'sweetalert2';
 import { DialogEditEventArgs, EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { addDays } from '@syncfusion/ej2/schedule';
 import { Dialog, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { InboundCheckService } from './inbound-check.service';
@@ -44,6 +44,11 @@ export class InboundCheckComponent {
   driverList:any[]=[];
   interval: number =1;
   endDate : Date = new Date();
+  gate:any[]=[];
+  pcCodeList:any[]=[];
+  containerTypeList:any[]=['Laden','Empty'];
+  containerSize:any[]=['20','40','45'];
+  truckType:any[]=['RGL','Customer'];
   //startDate : Date = addDays(this.endDate,-7);
   today : Date = new Date();
   public data: Object[];
@@ -93,6 +98,8 @@ export class InboundCheckComponent {
     ).subscribe(data => {
       this.driverList  = data;
     });
+    this.getGateList();
+    this.getCategoryList();
   }
 
 
@@ -116,6 +123,28 @@ export class InboundCheckComponent {
         this.spinner.hide();
     });
   }
+  getGateList(){
+    this.spinner.show();
+    this.service.getGateList("All")
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.gateList  = result;
+        this.spinner.hide();
+    });
+  }
+
+  getCategoryList(){
+     this.service.getCategoryList('All')
+     .pipe(catchError((err) => of(this.showError(err))))
+       .subscribe((result) => {
+         this.pcCodeList = result;
+         this.spinner.hide();
+     });
+  }
+
+  onYardChange(code: string) {
+   this.gate=this.gateList.filter(g=>g.yardID==code);
+   }
 
   loadTableData() {
    this.spinner.show();
@@ -202,10 +231,14 @@ export class InboundCheckComponent {
       inCheckDateTime: new FormControl(this.today, Validators.required),
       inGateID: new FormControl(data.inGateID,Validators.required),
       inYardID: new FormControl(data.inYardID,Validators.required),
-      inPCCode: new FormControl(data.inPCCode,Validators.required),
+      inpcCode: new FormControl(data.inpcCode,Validators.required),
+      inContainerType:new FormControl(data.inContainerType,Validators.required),
+      inContainerSize:new FormControl(data.inContainerSize,Validators.required),
       truckVehicleRegNo: new FormControl(data.truckVehicleRegNo,Validators.required),
       driverLicenseNo: new FormControl(data.truckVehicleRegNo,Validators.required),
       driverName: new FormControl(data.driverName),
+      truckType:new FormControl(data.truckType,Validators.required),
+      trailerVehicleRegNo:new FormControl(data.trailerVehicleRegNo,Validators.required),
     });
   }
 
