@@ -24,10 +24,10 @@ export class TransporterDetailService {
     return this.http.get<any>(environment.url+'Master/GetTransporterId/?id='+id);
   }
 
-  getTransporterTypes(active?: string): Observable<any[]> {
-    const params = active ? { active } : {}; // If active is provided, use it as a query param
-    return this.http.get<any[]>(`${environment.url}Master/GetTransporterTypeList`, { params });
-  }
+  // getTransporterTypes(active?: string): Observable<any[]> {
+  //   const params = active ? { active } : {}; // If active is provided, use it as a query param
+  //   return this.http.get<any[]>(`${environment.url}Master/GetTransporterTypeList`, { params });
+  // }
  
   updateTransporter(data:any){
     return this.http.put<any>(environment.url+'Master/UpdateTransporter/',data,{

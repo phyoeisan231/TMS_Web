@@ -43,9 +43,9 @@
                     <div class="form-group col-md-12">
                       <label for="name" class="font-weight-normal requiredfield">Name</label>
                       <ejs-textbox formControlName="name" tabindex="2" autocomplete="off"></ejs-textbox>
-                        <!-- <div [style.visibility]='validateControl("name")'>
+                      <div [style.visibility]='validateControl("name")? "visible": "hidden"'>
                         <label class="e-error" for="name" style="display: block;">*Name is required</label>
-                      </div> -->
+                      </div>
                     </div>
                    </div>
                    <div class="form-row">
@@ -56,12 +56,11 @@
                                 [dataSource]='yardList'
                                 [fields]="{ text: 'name', value: 'yardID' }"
                                 placeholder="Select One"
-                                class="form-control form-control-sm"
                                 autocomplete="off"
                                 tabindex="3" />
-                       <!-- <div  [style.visibility]='validateControl("yard")'>
-                        <label class="e-error" for="yardID" style="display: block;">*Yard is required</label>
-                      </div> -->
+                                <div [style.visibility]='validateControl("yardID")? "visible": "hidden"'>
+                                  <label class="e-error" for="yardID" style="display: block;">*Yard is required</label>
+                                </div>
                      </div>
                    </div>
                    <div class="form-row">

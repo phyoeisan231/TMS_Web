@@ -104,7 +104,7 @@ export class TruckTypeComponent {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      typeID: new FormControl(data.typeID),
+      typeID: new FormControl(data.typeID,Validators.required),
       description: new FormControl(data.description,Validators.required),
       active: new FormControl(data.active),
     });

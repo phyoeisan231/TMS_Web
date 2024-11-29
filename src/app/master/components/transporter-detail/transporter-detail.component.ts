@@ -22,7 +22,7 @@ export class TransporterDetailComponent{
   breadCrumbItems: Array<{}>;
   // breadCrumbItems: Array<{ label: string, routerLink?: string, active?: boolean }>;
   isAdd: boolean = true;
-  transTypesList:any[]=[];
+  transTypesList:any[]=["Company","Gate"];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
 
@@ -61,15 +61,6 @@ export class TransporterDetailComponent{
       this.getTransporterById();
       // this.isAdd=false;
     }
-    this.service.getTransporterTypes('true').subscribe({
-      next: (types) => {
-        console.log("Transporter Types Loaded:", types); // Check if data is coming through
-        this.transTypesList = types;
-      },
-      error: (error) => {
-        console.error('Error loading transporter types', error);
-      }
-    });
   }
 
   navigateToTransporter() {

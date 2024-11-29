@@ -32,11 +32,18 @@
               <ng-template #editSettingsTemplate let-data>
                 <form [formGroup]="typeForm">
                   <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <!-- <div class="form-group col-md-12">
                       <label for="typeID" class="font-weight-normal requiredfield">Truck_Type ID</label>
                       <ejs-textbox formControlName="typeID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                      <div [style.visibility]='validateControl("typeID")? "visible": "hidden"'>
+                        <label class="e-error" for="typeID" style="display: block;">*TruckID is required</label>
+                      </div>
+                    </div> -->
+                    <div class="form-group col-md-12">
+                      <label for="typeID" class="font-weight-normal requiredfield">TruckType ID</label>
+                      <ejs-textbox formControlName="typeID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                       <div  [style.visibility]='validateControl("typeID")? "visible": "hidden"'>
-                        <label class="e-error" for="typeID" style="display: block;">*Truck Type ID is required</label>
+                        <label class="e-error" for="typeID" style="display: block;">*Type is required</label>
                       </div>
                     </div>
                     <div class="form-group col-md-12">

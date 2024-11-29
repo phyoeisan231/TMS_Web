@@ -211,7 +211,7 @@ toUpperCase(event: any): void {
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'YardReport.xlsx',
+        fileName:'CategoryReport.xlsx',
      });
     }
   }
