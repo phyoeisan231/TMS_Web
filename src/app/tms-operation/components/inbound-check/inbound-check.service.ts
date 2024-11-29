@@ -18,6 +18,14 @@ export class InboundCheckService {
     return this.http.get<any>(environment.url + 'Master/GetGateList/?active=' + active);
   }
 
+  getCategoryList(active: string) {
+    return this.http.get<any>(environment.url + 'Master/GetPCategoryList/?active=' + active);
+  }
+
+  getPCCodeList(active: string) {
+    return this.http.get<any>(environment.url + 'Master/GetGateList/?active=' + active);
+  }
+
   getTruckList(id: string) {
     return this.http.get<any>(environment.url + 'Master/GetTruckList/?id=' + id);
   }
