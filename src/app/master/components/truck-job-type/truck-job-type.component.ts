@@ -25,6 +25,7 @@ export class TruckJobTypeComponent {
   lines: GridLine = 'Both';
   jobForm: any;
   lblText:string;
+  tJobList:any[];
   submitClicked: boolean = false;
   public data: Object[]=[];
   formatfilter:string='dd-MMM-yyyy';
@@ -52,7 +53,8 @@ export class TruckJobTypeComponent {
      this.service.getTruckJobTypes('All')
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
-         this.grid.dataSource = result;
+        this.tJobList=result;
+         this.grid.dataSource = this.tJobList;
          this.spinner.hide();
      });
    this.spinner.hide();
@@ -71,6 +73,7 @@ export class TruckJobTypeComponent {
       this.submitClicked = true;
       if (this.jobForm.valid) {
         let formData = this.jobForm.value;
+        formData.typeID=formData.typeID.toUpperCase();
         if (args.action === 'add') {
           formData.createdUser = localStorage.getItem('currentUser');
           this.addTruckJobType(formData);
@@ -116,7 +119,7 @@ export class TruckJobTypeComponent {
 
   addTruckJobType(formData: any) {
     this.spinner.show();
-    // formData.active = true;
+    formData.active = true;
     this.service
       .createTruckJobType(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -127,6 +130,7 @@ export class TruckJobTypeComponent {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource=this.tJobList.filter(x=>x.typeID!=undefined);
           Swal.fire('Truck-Job-Type', result.messageContent, 'error');
         }
       });
@@ -134,6 +138,7 @@ export class TruckJobTypeComponent {
 
   editTruckJobType(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
     this.service
       .updateTruckJobType(formData)
       .pipe(catchError((err) => of(this.showError(err))))

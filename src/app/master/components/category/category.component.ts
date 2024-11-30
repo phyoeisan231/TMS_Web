@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { catchError, of } from 'rxjs';
+import { catchError, finalize, of } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Browser } from '@syncfusion/ej2-base';
 import { Dialog } from '@syncfusion/ej2-angular-popups';
@@ -25,6 +25,7 @@ export class CategoryComponent {
   lines: GridLine = 'Both';
   categoryForm: any;
   groupNameList:any[]=["ICD","Customer","Others"];
+  categoryList:any[];
   lblText:string;
   submitClicked: boolean = false;
   public data: Object[]=[];
@@ -52,23 +53,24 @@ export class CategoryComponent {
      this.service.getCategoryList('All')
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
-         this.grid.dataSource = result;
+         this.categoryList=result;
+         this.grid.dataSource=this.categoryList;
          this.spinner.hide();
      });
    this.spinner.hide();
   }
 
-  // convertToUppercase(event: any): void {
-  //   // Convert the input value to uppercase
-  //   event.target.value = event.target.value.toUpperCase();
-  // }
-  // In your component.ts file
-toUpperCase(event: any): void {
-  const inputValue = event.target.value;
-  event.target.value = inputValue.toUpperCase(); // Convert input to uppercase
-}
+  createFormGroup(data: any): FormGroup {
+    return new FormGroup({
+      pcCode: new FormControl(data.pcCode,Validators.required),
+      categoryName: new FormControl(data.categoryName,Validators.required),
+      inboundWeight: new FormControl(data.inboundWeight),
+      outboundWeight: new FormControl(data.outboundWeight),
+      groupName: new FormControl(data.groupName,Validators.required),
+      active: new FormControl(data.active),
+    });
+  }
 
-  
 
   actionBegin(args: SaveEventArgs): void {
     if (args.requestType === 'add') {
@@ -83,6 +85,7 @@ toUpperCase(event: any): void {
       this.submitClicked = true;
       if (this.categoryForm.valid) {
         let formData = this.categoryForm.value;
+        formData.pcCode=formData.pcCode.toUpperCase();
         if (args.action === 'add') {
           formData.createdUser = localStorage.getItem('currentUser');
           this.addCategory(formData);
@@ -118,20 +121,10 @@ toUpperCase(event: any): void {
     }
   }
 
-  createFormGroup(data: any): FormGroup {
-    return new FormGroup({
-      pcCode: new FormControl(data.pcCode,Validators.required),
-      categoryName: new FormControl(data.categoryName,Validators.required),
-      inboundWeight: new FormControl(data.inboundWeight),
-      outboundWeight: new FormControl(data.outboundWeight),
-      groupName: new FormControl(data.groupName,Validators.required),
-      active: new FormControl(data.active),
-    });
-  }
-
+  
   addCategory(formData: any) {
     this.spinner.show();
-    // formData.active = true;
+    formData.active=true;
     this.service
       .createCategory(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -142,13 +135,16 @@ toUpperCase(event: any): void {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource=this.categoryList.filter(x=>x.pcCode!=undefined);
           Swal.fire('Category', result.messageContent, 'error');
+
         }
       });
   }
 
   editCategory(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
     this.service
       .updateCategory(formData)
       .pipe(catchError((err) => of(this.showError(err))))

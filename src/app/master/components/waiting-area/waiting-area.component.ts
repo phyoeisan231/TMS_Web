@@ -28,6 +28,7 @@ export class WaitingAreaComponent {
   id: string;
   lblText:string;
   yardList:any[]=[];
+  wAreaList:any[];
   submitClicked: boolean = false;
   public data: Object[];
   formatfilter:string='dd-MMM-yyyy';
@@ -53,11 +54,12 @@ export class WaitingAreaComponent {
   loadTableData() {
     this.spinner.show();
     forkJoin({
-      wAreaList: this.service.getWaitingAreaList('All').pipe(catchError((err) => of(this.showError(err)))),
+      wAreas: this.service.getWaitingAreaList('All').pipe(catchError((err) => of(this.showError(err)))),
       yardList: this.service.getYardList('true').pipe(catchError((err) => of([]))) // Ensure no error is thrown for yardList
     }).subscribe({
-      next: ({wAreaList,yardList }) => {
-        this.grid.dataSource = wAreaList;
+      next: ({wAreas,yardList }) => {
+        this.wAreaList=wAreas;
+        this.grid.dataSource = this.wAreaList;
         this.yardList = yardList;
       },
       error: (error) => {
@@ -130,6 +132,7 @@ export class WaitingAreaComponent {
 
   addWaitingArea(formData: any) {
     this.spinner.show();
+    formData.active=true;
     this.service
       .createWaitingArea(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -140,6 +143,7 @@ export class WaitingAreaComponent {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource=this.wAreaList.filter(x=>x.areaID!=undefined);
           Swal.fire('WaitingArea', result.messageContent, 'error');
         }
       });
@@ -147,6 +151,7 @@ export class WaitingAreaComponent {
 
   editWaitingArea(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
     this.service
       .updateWaitingArea(formData)
       .pipe(catchError((err) => of(this.showError(err))))

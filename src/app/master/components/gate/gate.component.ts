@@ -29,6 +29,7 @@ export class GateComponent {
   lblText:string;
   // yardList: string[]=['YTG','MDY','MG']
   yardList:any[]=[];
+  gateList:any[]=[];
   submitClicked: boolean = false;
   public data: Object[]=[{'gateId':1,'name':'YTGGate1','yard':'YTG'},{'gateId':2,'name':'YTGGate2','yard':'YTG'}];
   formatfilter:string='dd-MMM-yyyy';
@@ -38,7 +39,6 @@ export class GateComponent {
     private service: GateService,
     private spinner: NgxSpinnerService,
   ) {}
-
 
   ngOnInit(){
     this.loadTableData();
@@ -52,16 +52,16 @@ export class GateComponent {
     }
   }
 
-
 loadTableData() {
   this.spinner.show();
   // Use forkJoin to wait for both requests to complete
   forkJoin({
-    gateList: this.service.getGateList('All').pipe(catchError((err) => of(this.showError(err)))),
+    gates: this.service.getGateList('All').pipe(catchError((err) => of(this.showError(err)))),
     yardList: this.service.getYardList('true').pipe(catchError((err) => of([]))) // Ensure no error is thrown for yardList
   }).subscribe({
-    next: ({ gateList, yardList }) => {
-      this.grid.dataSource = gateList;
+    next: ({ gates, yardList }) => {
+      this.gateList=gates;
+      this.grid.dataSource = this.gateList;
       this.yardList = yardList;
     },
     error: (error) => {
@@ -72,7 +72,6 @@ loadTableData() {
     }
   });
 }
-
 
   actionBegin(args: SaveEventArgs): void {
     if (args.requestType === 'add') {
@@ -88,6 +87,7 @@ loadTableData() {
       this.submitClicked = true;
       if (this.gateForm.valid) {
           let formData = this.gateForm.value;
+          formData.gateID=formData.gateID.toUpperCase();
           if (args.action === 'add') {
             formData.createdUser = localStorage.getItem('currentUser');
             this.addGate(formData);
@@ -135,7 +135,7 @@ loadTableData() {
 
   addGate(formData: any) {
     this.spinner.show();
-    // formData.active = true;
+    formData.active = true;
     this.service
       .createGate(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -146,6 +146,7 @@ loadTableData() {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource = this.gateList.filter(x=>x.gateID!=undefined);
           Swal.fire('Gate', result.messageContent, 'error');
         }
       });
@@ -153,6 +154,7 @@ loadTableData() {
 
   updateGate(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
     this.service
       .updateGate(formData)
       .pipe(catchError((err) => of(this.showError(err))))

@@ -34,7 +34,7 @@
                     <div class="form-row">
                       <div class="form-group col-md-12">
                         <label for="typeID" class="font-weight-normal requiredfield">TypeID</label>
-                        <ejs-textbox formControlName="typeID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                        <ejs-textbox formControlName="typeID" class="text-uppercase" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                         <div  [style.visibility]='validateControl("typeID")? "visible": "hidden"'>
                           <label class="e-error" for="typeID" style="display: block;">*TypeID is required</label>
                         </div>

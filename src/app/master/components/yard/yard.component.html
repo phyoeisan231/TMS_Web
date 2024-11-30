@@ -34,21 +34,27 @@
                     <div class="form-row">
                       <div class="form-group col-md-12">
                         <label for="yardID" class="font-weight-normal requiredfield">YardID</label>
-                        <ejs-textbox formControlName="yardID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                          <ejs-textbox 
+                            formControlName="yardID" 
+                            tabindex="1" 
+                            class="text-uppercase"
+                            autocomplete="off" 
+                            [readonly]="!data.isAdd">
+                          </ejs-textbox>
                         <div  [style.visibility]='validateControl("yardID")? "visible": "hidden"'>
-                          <label class="e-error" for="yardID" style="display: block;">*YardID is required</label>
+                          <label class="e-error" for="yardID" style="display: block;">*This field is required</label>
                         </div>
                       </div>
                       <div class="form-group col-md-12">
                         <label for="name" class="font-weight-normal requiredfield">Name</label>
                         <ejs-textbox formControlName="name" tabindex="2" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                         <div  [style.visibility]='validateControl("name")? "visible": "hidden"'>
-                            <label class="e-error" for="name" style="display: block;">*Yard Name is required</label>
+                            <label class="e-error" for="name" style="display: block;">*This field is required</label>
                           </div>
                       </div>
                      </div>
                      <div class="form-row">
-                      <div class="form-group col-md-6"><br>
+                      <div class="form-group col-md-6" *ngIf="!data.isAdd"><br>
                         <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="3" [checked]="true"></ejs-checkbox>
                       </div>
                      </div>

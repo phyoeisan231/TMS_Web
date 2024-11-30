@@ -111,7 +111,16 @@ const routes: Routes = [
       {
         path:'master/card',
         loadComponent:()=>import('./master/components/card/card.component').then((c)=>c.CardComponent)
+      },
+      {
+        path:'master/document-setting',
+        loadComponent:()=>import('./master/components/document-setting/document-setting.component').then((c)=>c.DocumentSettingComponent)
+      },
+      {
+        path:'master/operation-area',
+        loadComponent:()=>import('./master/components/operation-area/operation-area.component').then((c)=>c.OperationAreaComponent)
       }
+
 
       // {
       //   path: 'typography',

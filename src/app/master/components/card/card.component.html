@@ -21,9 +21,6 @@
                   <e-column field='cardNo' headerText='Card No.' [isPrimaryKey]="true" width="120"></e-column>
                   <e-column field='yardID' headerText="Yard ID" width="150"></e-column>
                   <e-column field='groupName' headerText="Group Name" width="150"></e-column>
-                  <e-column field='cardIssueDate' headerText="Card-Issue Date" type="date" format="dd-MM-yyyy" width="150"></e-column>
-                  <e-column field='cardReturnDate' headerText="Card-Return Date" type="date" format="dd-MM-yyyy" width="150"></e-column>
-                  <e-column field='vehicleRegNo' headerText="Vehicle RegNo." width="150"></e-column>
                   <e-column field='active' headerText="Active" width="100">
                     <ng-template #template let-data>
                       <div *ngIf="data.active;else False">Yes</div>
@@ -32,75 +29,54 @@
                       </ng-template>
                     </ng-template>
                   </e-column>
+                  <e-column field='isUse' headerText="IsUse" width="100">
+                    <ng-template #template let-data>
+                      <div *ngIf="data.isUse;else False">Yes</div>
+                      <ng-template #False>
+                        <div>No</div>
+                      </ng-template>
+                    </ng-template>
+                  </e-column>
                 </e-columns>
                 <ng-template #editSettingsTemplate let-data>
                   <form [formGroup]="cardForm">
-                    
                     <div class="row my-0">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                           <label class="col requiredfield font-weight-normal">Yard ID:</label>
                             <ejs-dropdownlist
                                 formControlName="yardID"
                                 [dataSource]='yardList'
-                                [fields]="{ text: 'name', value: 'yardID' }"
+                                [fields]="{ text: 'yardID', value: 'yardID' }"
                                 [readonly]="!data.isAdd"
                                 autocomplete="off"
                                 tabindex="1"
                                 maxlength="100"/>
                                 <div  [style.visibility]='validateControl("yardID")? "visible": "hidden"'>
-                                    <label class="e-error" for="yardID" style="display: block;">*Category Code is required</label>
+                                    <label class="e-error" for="yardID" style="display: block;">*This field is required</label>
                                 </div>
                         </div>
-                        <div class="form-group col-md-6">
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-12">
                             <label class="col font-weight-normal requiredfield">Group Name:</label>
                               <ejs-dropdownlist
                                   formControlName="groupName"
                                   [dataSource]="groupNameList"
                                   [readonly]="!data.isAdd"
                                   autocomplete="off"
-                                  tabindex="5"
+                                  tabindex="2"
                                   maxlength="100" />
                                   <div [style.visibility]='validateControl("groupName")? "visible": "hidden"'>
-                                      <label class="e-error" for="groupName" style="display: block;">*Group Name is required</label>
+                                      <label class="e-error" for="groupName" style="display: block;">*This field is required</label>
                                   </div>
                           </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-6">
-                          <label class="col font-weight-normal">Card Issued Date:</label>
-                            <ejs-datepicker
-                                formControlName="cardIssueDate"
-                                placeholder=""
-                                autocomplete="off"
-                                tabindex="3"
-                                maxlength="100" />
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label class="col font-weight-normal">Card Returned Date:</label>
-                            <ejs-datepicker
-                                formControlName="cardReturnDate"
-                                placeholder=""
-                                autocomplete="off"
-                                tabindex="4"
-                                maxlength="100"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-6 ">
-                          <label class="col font-weight-normal">Vehicle RegNo.</label>
-                          <ejs-textbox 
-                              formControlName="vehicleRegNo"
-                              autocomplete="off"
-                              tabindex="7"
-                              maxlength="100"/>
-                      </div>
-                  </div>
-                    <div class="row">
                         <div class="form-group col-md-6"><br>
-                            <ejs-checkbox formControlName="isUse" label="IsUse" class="font-weight-normal" floatLabelType="Always" tabindex="5" [checked]="true"></ejs-checkbox>
+                            <ejs-checkbox formControlName="isUse" label="IsUse" class="font-weight-normal" floatLabelType="Always" tabindex="3" [checked]="true"></ejs-checkbox>
                         </div>
                         <div class="form-group col-md-6"><br>
-                            <ejs-checkbox formControlName="active" label="Active" class="font-weight-normal" floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
+                            <ejs-checkbox formControlName="active" label="Active" class="font-weight-normal" floatLabelType="Always" tabindex="4" [checked]="true"></ejs-checkbox>
                         </div>
                     </div>
                     

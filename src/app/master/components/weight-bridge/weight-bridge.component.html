@@ -35,16 +35,16 @@
                     <div class="form-row">
                       <div class="form-group col-md-12">
                         <label for="weightBridgeID" class="font-weight-normal requiredfield">Weight BridgeID</label>
-                        <ejs-textbox formControlName="weightBridgeID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                        <ejs-textbox formControlName="weightBridgeID" class="text-uppercase" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                         <div  [style.visibility]='validateControl("weightBridgeID")? "visible": "hidden"'>
-                          <label class="e-error" for="weightBridgeID" style="display: block;">*WeightBridgeID is required</label>
+                          <label class="e-error" for="weightBridgeID" style="display: block;">*This field is required</label>
                         </div>
                       </div>
                       <div class="form-group col-md-12">
                         <label for="name" class="font-weight-normal requiredfield">Name</label>
                         <ejs-textbox formControlName="name" tabindex="2" autocomplete="off"></ejs-textbox>
                         <div  [style.visibility]='validateControl("name")? "visible": "hidden"'>
-                            <label class="e-error" for="name" style="display: block;">*Name is required</label>
+                            <label class="e-error" for="name" style="display: block;">*This field is required</label>
                         </div>
                       </div>
                      </div>
@@ -54,12 +54,12 @@
                         <ejs-dropdownlist
                                   formControlName="yardID"
                                   [dataSource]='yardList'
-                                  [fields]="{ text: 'name', value: 'yardID' }"
+                                  [fields]="{ text: 'yardID', value: 'yardID' }"
                                   placeholder="Select One"
                                   autocomplete="off"
                                   tabindex="3" />
                             <div  [style.visibility]='validateControl("yardID")? "visible": "hidden"'>
-                            <label class="e-error" for="yardID" style="display: block;">*Yard is required</label>
+                            <label class="e-error" for="yardID" style="display: block;">*This field is required</label>
                         </div>
                        </div>
                      </div>

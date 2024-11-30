@@ -23,9 +23,10 @@ export class TrailerDetailComponent implements OnInit{
   id: string;
   breadCrumbItems: Array<{}>;
   isAdd: boolean = true;
-  containerTypeList: any[] = ["Dry Container","HC Container","Open-Top Container","Tank Container"];
-  containerSizeList:any[]=[20,40];
+  containerSizeList: any[] = [20, 40, 45];
+  containerTypeList: any[] = ["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
   transporterNames:any[]=[];
+  driverLicenseNoList:any[];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
   // loadingTypeList:any[]=["Bin","Bulk","Containers","Drums","Pallets","Skids"];
@@ -62,6 +63,29 @@ export class TrailerDetailComponent implements OnInit{
       this.getTrailerById();
       this.isAdd=true;
     }
+    
+    // this.service.getDriverLicenseNo('true').subscribe({
+    //   next: (LicenseNoList) => {
+    //     // Transform the data to include a displayText field
+    //     this.driverLicenseNoList = LicenseNoList.map((driver) => ({
+    //       ...driver,
+    //       displayText: `${driver.licenseNo} / ${driver.name}`, // Combine licenseNo and driverName
+    //     }));
+    //     console.log('Transformed Driver License List:', this.driverLicenseNoList);
+    //   },
+    //   error: (error) => {
+    //     console.error('Error Loading Driver License No', error);
+    //   },
+    // });
+    this.service.getDriverLicenseNo('true').subscribe({
+      next:(LicenseNoList)=>{
+        console.log("Driver License and Names Loaded:",LicenseNoList);
+        this.driverLicenseNoList=LicenseNoList;
+      },
+      error:(error)=>{
+        console.log('Error Loading Transporter Names',error)
+      }
+    });
     
     this.service.getTransporterNames().subscribe({
       next:(names)=>{

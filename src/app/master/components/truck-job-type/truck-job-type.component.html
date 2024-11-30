@@ -34,16 +34,16 @@
                     <div class="form-row">
                       <div class="form-group col-md-12">
                         <label for="typeID" class="font-weight-normal requiredfield">TypeID</label>
-                        <ejs-textbox formControlName="typeID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                        <ejs-textbox formControlName="typeID" class="text-uppercase" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                         <div  [style.visibility]='validateControl("typeID")? "visible": "hidden"'>
-                          <label class="e-error" for="typeID" style="display: block;">*TypeID is required</label>
+                          <label class="e-error" for="typeID" style="display: block;">*This field is required</label>
                         </div>
                       </div>
                       <div class="form-group col-md-12">
                         <label for="description" class="font-weight-normal requiredfield">Description</label>
                         <ejs-textbox formControlName="description" tabindex="2" autocomplete="off"></ejs-textbox>
                         <div  [style.visibility]='validateControl("description")? "visible": "hidden"'>
-                            <label class="e-error" for="description" style="display: block;">*Description is required</label>
+                            <label class="e-error" for="description" style="display: block;">*This field is required</label>
                           </div>
                       </div>
                      </div>

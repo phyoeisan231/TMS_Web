@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, last, of } from 'rxjs';
+import { catchError, forkJoin, last, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MasterModule } from '../../master.module';
@@ -22,10 +22,12 @@ export class TruckDetailComponent {
   breadCrumbItems: Array<{}>;
   isAdd: boolean = true;
   truckTypeList: any[] = []; // Array to store truck types
+  driverLicenseNoList:any[];
   transporterNames:any[]=[];
+  containerSizeList: any[] = [20, 40, 45];
+  containerTypeList: any[] = ["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
-  loadingTypeList:any[]=["Bin","Bulk","Containers","Drums","Pallets","Skids"];
 
 
   constructor(
@@ -77,6 +79,16 @@ export class TruckDetailComponent {
         console.error('Error loading truck types', error);
       }
     });
+    
+    this.service.getDriverLicenseNo('true').subscribe({
+      next:(LicenseNoList)=>{
+        console.log("Driver License and Names Loaded:",LicenseNoList);
+        this.driverLicenseNoList=LicenseNoList;
+      },
+      error:(error)=>{
+        console.log('Error Loading Transporter Names',error)
+      }
+    });
     this.service.getTransporterNames().subscribe({
       next:(names)=>{
         console.log("Transporter Names Loaded:",names);
@@ -88,46 +100,6 @@ export class TruckDetailComponent {
     });
   }
 
-
-  // getTruckById() {
-  //   this.spinner.show();
-  //   this.service.getTruckId(this.id)
-  //       .pipe(catchError((err) => {
-  //           this.showError(err); 
-  //           return of(null); 
-  //       }))
-  //       .subscribe((result) => {
-  //           if (result) {
-  //               this.truckForm.patchValue({
-  //                 vehicleRegNo: result.vehicleRegNo,
-  //                 containerType: result.containerType,
-  //                 containerSize: result.containerSize,
-  //                 truckWeight: result.truckWeight,
-  //                 typeID: result.typeID,
-  //                 transporterID: result.transporterID,
-  //                   driverLicenseNo:result.driverLicenseNo??"",
-  //                   active: result.active ?? false,
-  //                   lastPassedDate:result.lastPassedDate?new Date(result.lastPassedDate):null,
-
-  //                   //name:result.name??"",
-  //                   //containerType:result.containerType??"",
-  //                   //containerSize:result.containerSize??0,
-  //                   // isBlack: result.isBlack ?? false,
-  //                   // blackDate: result.blackDate ? new Date(result.blackDate) : null,
-  //                   // blackReason: result.blackReason ?? "",
-  //                   // blackRemovedDate:result.blackRemovedDate?new Date(result.blackRemovedDate):null,
-  //                   // blackRemovedReason:result.blackRemovedReason??"",
-  //               });
-                
-  //               this.breadCrumbItems = [
-  //                   { label: 'Truck List', routerLink: 'master/truck', active: false },
-  //                   { label: 'Edit Truck', active: true }
-  //               ];
-  //               this.isAdd = false; // Set to false since we are editing
-  //           } 
-  //           this.spinner.hide();
-  //       });
-  // }
   getTruckById() {
     this.spinner.show();
     this.service.getTruckId(this.id)

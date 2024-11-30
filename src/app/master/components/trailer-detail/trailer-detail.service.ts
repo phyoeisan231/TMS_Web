@@ -22,6 +22,11 @@ export class TrailerDetailService {
   getTransporterNames():Observable<any[]>{
     return this.http.get<any[]>(environment.url+'Master/GetTransporterList');
   }
+
+  getDriverLicenseNo(active?:string):Observable<any[]>{
+    const params=active?{active}:{};
+    return this.http.get<any[]>(`${environment.url}Master/GetDriverList`,{params});
+  }
   
   getTrailerId(id:any){
     return this.http.get<any>(environment.url+'Master/GetTrailerId/?id='+id);

@@ -27,6 +27,7 @@ export class WeightBridgeComponent {
   wForm: any;
   lblText:string;
   yardList:any[]=[];
+  wbList:any[];
   submitClicked: boolean = false;
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
@@ -52,11 +53,12 @@ export class WeightBridgeComponent {
   loadTableData() {
     this.spinner.show();
     forkJoin({
-      wbList: this.service.getWBList().pipe(catchError((err) => of(this.showError(err)))),
+      wbridges: this.service.getWBList().pipe(catchError((err) => of(this.showError(err)))),
       yardList: this.service.getYardList('true').pipe(catchError((err) => of([]))) // Ensure no error is thrown for yardList
     }).subscribe({
-      next: ({wbList,yardList }) => {
-        this.grid.dataSource = wbList;
+      next: ({wbridges,yardList }) => {
+        this.wbList=wbridges;
+        this.grid.dataSource = this.wbList;
         this.yardList = yardList;
       },
       error: (error) => {
@@ -81,6 +83,7 @@ export class WeightBridgeComponent {
       this.submitClicked = true;
       if (this.wForm.valid) {
           let formData = this.wForm.value;
+          formData.weightBridgeID=formData.weightBridgeID.toUpperCase();
           if (args.action === 'add') {
             formData.createdUser = localStorage.getItem('currentUser');
             this.addWeightBridge(formData);
@@ -136,6 +139,7 @@ export class WeightBridgeComponent {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource=this.wbList.filter(x=>x.weightBridgeID!=undefined);
           Swal.fire('WeightBridge', result.messageContent, 'error');
         }
       });
