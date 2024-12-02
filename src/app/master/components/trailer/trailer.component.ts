@@ -23,6 +23,7 @@ export class TrailerComponent {
   { text: "Add", tooltipText: "Add", id: "add" },
   { text: "Edit", tooltipText: "Edit", prefixIcon: "e-edit", id: "edit" },
   'Delete','Search'];
+  driverList:any[];
   lines: GridLine = 'Both';
   submitClicked: boolean = false;
   public data: Object[];
@@ -45,6 +46,7 @@ export class TrailerComponent {
       this.grid.dataSource  = result;
       this.spinner.hide();
     });
+    
   }
 
   actionBegin(args: SaveEventArgs): void {

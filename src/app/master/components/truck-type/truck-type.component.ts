@@ -24,6 +24,7 @@ export class TruckTypeComponent {
   toolbar: any[] = ['Add','Edit','Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
   typeForm: any;
+  truckTypeList:any[];
   submitClicked: boolean = false;
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
@@ -47,7 +48,8 @@ export class TruckTypeComponent {
      this.service.getTruckTypeList('All')
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
-         this.grid.dataSource = result;
+        this.truckTypeList=result;
+         this.grid.dataSource = this.truckTypeList;
          this.spinner.hide();
      });
    this.spinner.hide();
@@ -66,6 +68,7 @@ export class TruckTypeComponent {
       this.submitClicked = true;
       if (this.typeForm.valid) {
         let formData = this.typeForm.value;
+        formData.typeID=formData.typeID.toUpperCase();
         if (args.action === 'add') {
           formData.createdUser = localStorage.getItem('currentUser');
           this.addTruckType(formData);
@@ -113,7 +116,7 @@ export class TruckTypeComponent {
   addTruckType(formData: any) {
     this.spinner.show();
     // formData.typeID=0;
-    // formData.active = true;
+    formData.active = true;
     this.service
       .createTruckType(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -124,6 +127,7 @@ export class TruckTypeComponent {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource=this.truckTypeList.filter(x=>x.typeID!=undefined);
           Swal.fire('Truck Type', result.messageContent, 'error');
         }
       });
@@ -131,6 +135,7 @@ export class TruckTypeComponent {
 
   updateTruckType(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
     this.service
       .updateTruckType(formData)
       .pipe(catchError((err) => of(this.showError(err))))

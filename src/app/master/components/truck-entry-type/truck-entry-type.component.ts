@@ -71,6 +71,7 @@ export class TruckEntryTypeComponent {
       this.submitClicked = true;
       if (this.entryForm.valid) {
         let formData = this.entryForm.value;
+        formData.typeID=formData.typeID.toUpperCase();
         if (args.action === 'add') {
           formData.createdUser = localStorage.getItem('currentUser');
           this.addTruckEntryType(formData);
@@ -116,7 +117,7 @@ export class TruckEntryTypeComponent {
 
   addTruckEntryType(formData: any) {
     this.spinner.show();
-    // formData.active = true;
+    formData.active = true;
     this.service
       .createTruckEntryType(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -134,6 +135,8 @@ export class TruckEntryTypeComponent {
 
   editTruckEntryType(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
+
     this.service
       .updateTruckEntryType(formData)
       .pipe(catchError((err) => of(this.showError(err))))

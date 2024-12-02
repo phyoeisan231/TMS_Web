@@ -202,6 +202,14 @@ export const NavigationItems: NavigationItem[] = [
             url: 'master/weight-bridge',
             icon: 'left-circle'
           },
+          {
+            id: '9',
+            title: 'Operation Area',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'master/operation-area',
+            icon: 'left-circle'
+          },
         ]
       },
       {

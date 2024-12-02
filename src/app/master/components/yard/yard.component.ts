@@ -24,6 +24,7 @@ export class YardComponent {
   toolbar: any[] = ['Add','Edit','Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
   yardForm: any;
+  yardList:any[];
   lblText:string;
   submitClicked: boolean = false;
   public data: Object[]=[];
@@ -52,7 +53,8 @@ export class YardComponent {
      this.service.getYardList('All')
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
-         this.grid.dataSource = result;
+        this.yardList=result;
+         this.grid.dataSource = this.yardList;
          this.spinner.hide();
      });
    this.spinner.hide();
@@ -71,6 +73,7 @@ export class YardComponent {
       this.submitClicked = true;
       if (this.yardForm.valid) {
         let formData = this.yardForm.value;
+        formData.yardID=formData.yardID.toUpperCase();
         if (args.action === 'add') {
           formData.createdUser = localStorage.getItem('currentUser');
           this.addYard(formData);
@@ -116,7 +119,7 @@ export class YardComponent {
 
   addYard(formData: any) {
     this.spinner.show();
-    // formData.active = true;
+    formData.active = true;
     this.service
       .createYard(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -127,6 +130,7 @@ export class YardComponent {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource=this.yardList.filter(x=>x.yardID!=undefined);
           Swal.fire('Yard', result.messageContent, 'error');
         }
       });
@@ -134,6 +138,7 @@ export class YardComponent {
 
   editYard(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
     this.service
       .updateYard(formData)
       .pipe(catchError((err) => of(this.showError(err))))

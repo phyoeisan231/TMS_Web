@@ -36,7 +36,6 @@
                                           <div class="form-group col-md-4">
                                               <ejs-textbox
                                                   formControlName="vehicleRegNo"
-                                                  class="form-control form-control-sm"
                                                   tabindex="0" maxlength="50" />
                                               <div *ngIf="truckForm.controls['vehicleRegNo'].invalid && (truckForm.controls['vehicleRegNo'].touched || truckForm.controls['vehicleRegNo'].dirty)">
                                                   <small class="text-danger">This field is required.</small>
@@ -46,18 +45,17 @@
                                           <div class="form-group col-md-4">
                                               <ejs-textbox
                                                   formControlName="vehicleBackRegNo"
-                                                  class="form-control form-control-sm"
                                                   placeholder="Enter Vehicle BackRegNo"
                                                   autocomplete="off"
                                                   tabindex="1" maxlength="100"/>
                                           </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-3">
                                             <label class="col-md-2">Container Type:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-textbox
+                                                <ejs-dropdownlist
                                                     formControlName="containerType"
-                                                    class="form-control form-control-sm"
+                                                    [dataSource]="containerTypeList"
                                                     placeholder="Enter ContainerType"
                                                     autocomplete="off"
                                                     tabindex="2"
@@ -65,23 +63,22 @@
                                             </div>
                                             <label class="col-md-2">Container Size:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-numerictextbox
+                                                <ejs-dropdownlist
                                                     formControlName="containerSize"
-                                                    class="form-control form-control-sm"
+                                                    [dataSource]="containerSizeList"
                                                     autocomplete="off"
                                                     placeholder="Enter Container Size"
                                                     tabindex="3"
                                                     maxlength="100"/>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-3">
                                           <label class="col-md-2 requiredfield">Truck Type:</label>
                                           <div class="form-group col-md-4">
                                             <ejs-dropdownlist
                                               formControlName="typeID"
                                               [dataSource]="truckTypeList"
                                               [fields]="{ text: 'description', value: 'typeID' }"
-                                              class="form-control form-control-sm"
                                               autocomplete="off"
                                               placeholder="Choose Truck Type"
                                               tabindex="4"
@@ -95,7 +92,6 @@
                                             <div class="form-group col-md-4">
                                                 <ejs-numerictextbox
                                                     formControlName="truckWeight"
-                                                    class="form-control form-control-sm"
                                                     placeholder="Enter Truck Weight"
                                                     autocomplete="off"
                                                     tabindex="5"
@@ -111,14 +107,13 @@
                                                 maxlength="100"></textarea>
                                               </div> -->
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-3">
                                             <label class="col-md-2 requiredfield">Transporter:</label>
                                           <div class="form-group col-md-4">
                                             <ejs-dropdownlist
                                               formControlName="transporterID"
                                               [dataSource]="transporterNames"
                                               [fields]="{ text: 'transporterName', value: 'transporterID' }"
-                                              class="form-control form-control-sm"
                                               autocomplete="off"
                                               placeholder="Choose Transporter"
                                               tabindex="6"
@@ -130,16 +125,17 @@
                                           </div>
                                             <label class="col-md-2">Driver LicenseNo.:</label>
                                             <div class="form-group col-md-4">
-                                                <ejs-textbox
+                                                <ejs-dropdownlist
                                                     formControlName="driverLicenseNo"
-                                                    class="form-control form-control-sm"
+                                                    [dataSource]="driverLicenseNoList"
+                                                    [fields]="{text:'driverName',value:'licenseNo'}"
                                                     placeholder="Enter Driver LicenseNo."
                                                     autocomplete="off"
                                                     tabindex="7"
                                                     maxlength="100"/>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-3">
                                             <label class="col-md-2">Active:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-checkbox formControlName="active" tabindex="8" [checked]="true"></ejs-checkbox>
@@ -148,7 +144,6 @@
                                         <div class="form-group col-md-4">
                                             <ejs-datepicker
                                                 formControlName="lastPassedDate"
-                                                class="form-control form-control-sm"
                                                 [format]="formatfilter"
                                                 autocomplete="off"
                                                 placeholder="Last Passed Date"

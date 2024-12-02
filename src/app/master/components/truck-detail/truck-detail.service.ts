@@ -25,6 +25,11 @@ export class TruckDetailService {
     return this.http.get<any[]>(`${environment.url}Master/GetTruckTypeList`, { params });
   }
 
+  getDriverLicenseNo(active?:string):Observable<any[]>{
+    const params=active?{active}:{};
+    return this.http.get<any[]>(`${environment.url}Master/GetDriverList`,{params});
+  }
+
   getTransporterNames():Observable<any[]>{
     return this.http.get<any[]>(environment.url+'Master/GetTransporterList');
   }

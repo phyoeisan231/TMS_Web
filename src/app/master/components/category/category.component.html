@@ -40,14 +40,13 @@
                           <label class="col requiredfield font-weight-normal">Category Code:</label>
                             <ejs-textbox
                                 formControlName="pcCode"
-                                class="uppercase-input"
+                                class="text-uppercase"
                                 [readonly]="!data.isAdd"
                                 autocomplete="off"
                                 tabindex="1"
-                                (change)="toUpperCase($event)"
                                 maxlength="100"/>
                                 <div  [style.visibility]='validateControl("pcCode")? "visible": "hidden"'>
-                                    <label class="e-error" for="pcCode" style="display: block;">*Category Code is required</label>
+                                    <label class="e-error" for="pcCode" style="display: block;">*This field is required</label>
                                 </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -59,7 +58,7 @@
                                 tabindex="2"
                                 maxlength="100"/>
                                 <div [style.visibility]='validateControl("categoryName")? "visible": "hidden"'>
-                                    <label class="e-error" for="categoryName" style="display: block;">*CategoryName is required</label>
+                                    <label class="e-error" for="categoryName" style="display: block;">*This field is required</label>
                                 </div>
                         </div>
                     </div>
@@ -100,7 +99,7 @@
                                 tabindex="5"
                                 maxlength="100" />
                                 <div [style.visibility]='validateControl("groupName")? "visible": "hidden"'>
-                                    <label class="e-error" for="groupName" style="display: block;">*Group Name is required</label>
+                                    <label class="e-error" for="groupName" style="display: block;">*This field is required</label>
                                 </div>
                         </div>
                         <div class="form-group col-md-6"><br>

@@ -55,25 +55,25 @@
                                         <div class="form-group col-md-4" *ngIf="!this.isAdd">
                                             <ejs-textbox
                                              formControlName="transporterID"
-                                             class="form-control form-control-sm"
                                              tabindex="0" readonly="true" />
                                           </div>
                                         <label class="col-md-2 requiredfield">Transporter Name:</label>
                                         <div class="form-group col-md-4">
                                             <ejs-textbox
                                                 formControlName="transporterName"
-                                                class="form-control form-control-sm"
                                                 placeholder="Enter Transporter Name"
                                                 autocomplete="off"
                                                 tabindex="1" maxlength="100"/>
+                                                <div *ngIf="transForm.controls['transporterName'].invalid && (transForm.controls['transporterName'].touched || transForm.controls['transporterName'].dirty)">
+                                                    <small class="text-danger">This field is required.</small>
+                                                </div>
                                         </div>
                                         </div>
-                                        <div class="row">
-                                            <label class="col-md-2 requiredfield">Address:</label>
+                                        <div class="row mt-3">
+                                            <label class="col-md-2">Address:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
                                                     formControlName="address"
-                                                    class="form-control form-control-sm"
                                                     placeholder="Enter Address"
                                                     autocomplete="off"
                                                     tabindex="2"
@@ -83,18 +83,19 @@
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
                                                     formControlName="contactNo"
-                                                    class="form-control form-control-sm"
                                                     placeholder="Enter contactNo"
                                                     autocomplete="off"
                                                     tabindex="3" maxlength="100"/>
+                                                    <div *ngIf="transForm.controls['contactNo'].invalid && (transForm.controls['contactNo'].touched || transForm.controls['contactNo'].dirty)">
+                                                        <small class="text-danger">This field is required.</small>
+                                                    </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-3">
                                             <label class="col-md-2">Email:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-textbox
                                                     formControlName="email"
-                                                    class="form-control form-control-sm"
                                                     autocomplete="off"
                                                     placeholder="Enter email "
                                                     tabindex="4"
@@ -104,24 +105,28 @@
                                             <div class="form-group col-md-4">
                                               <ejs-textbox
                                                   formControlName="contactPerson"
-                                                  class="form-control form-control-sm"
                                                   autocomplete="off"
                                                   placeholder="Enter Contact Person"
                                                   tabindex="5"
                                                   maxlength="100"/>
+                                                  <div *ngIf="transForm.controls['contactPerson'].invalid && (transForm.controls['contactPerson'].touched || transForm.controls['contactPerson'].dirty)">
+                                                    <small class="text-danger">This field is required.</small>
+                                                </div>
                                             </div>
                                           </div>
-                                        <div class="row">
+                                        <div class="row mt-3">
                                             <label class="col-md-2 requiredfield">Transporter Type:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-dropdownlist
                                                     formControlName="typeID"
                                                     [dataSource]="transTypesList"
-                                                    class="form-control form-control-sm"
                                                     autocomplete="off"
                                                     placeholder="Choose Transporter Types"
                                                     tabindex="6"
                                                     maxlength="100"/>
+                                                    <div *ngIf="transForm.controls['typeID'].invalid && (transForm.controls['typeID'].touched || transForm.controls['typeID'].dirty)">
+                                                        <small class="text-danger">This field is required.</small>
+                                                    </div>
                                             </div>
                                             <label class="col-md-2">Remarks:</label>
                                             <div class="form-group col-md-4">
@@ -134,7 +139,7 @@
                                                     maxlength="100"></textarea>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-3">
                                             <label class="col-md-2">Active:</label>
                                             <div class="form-group col-md-4">
                                                 <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>

@@ -39,7 +39,7 @@ export class DriverComponent {
 
   loadTableData() {
     this.spinner.show();
-    this.service.getDriverList()
+    this.service.getDriverList('All')
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
       this.grid.dataSource  = result;

@@ -23,6 +23,7 @@ export class DriverDetailComponent implements OnInit{
   // breadCrumbItems: Array<{ label: string, routerLink?: string, active?: boolean }>;
   isAdd: boolean = true;
   transporterNames:any[]=[];
+  classList: string[]=['A','B','C','D','E'];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
 
@@ -43,13 +44,13 @@ export class DriverDetailComponent implements OnInit{
       licenseNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
       nrc: new FormControl('',Validators.required),
       name: new FormControl('',Validators.required),
-      address: new FormControl('',Validators.required),
+      address: new FormControl(''),
       licenseClass:new FormControl('',Validators.required),
       contactNo: new FormControl('',Validators.required),
       licenseExpiration:new FormControl(null,Validators.required),
       // email: new FormControl('', Validators.compose([Validators.required,
       // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),
-      email: new FormControl('',[Validators.email,Validators.required]),
+      email: new FormControl('',[Validators.email]),
       remarks:new FormControl(''),
       active: new FormControl(false),
     });
@@ -167,6 +168,7 @@ export class DriverDetailComponent implements OnInit{
         this.router.navigate(["master/driver"]);
       } else {
         Swal.fire('driver', result.messageContent, 'error');
+        this.router.navigate(["master/driver"]);
       }
     });
   }

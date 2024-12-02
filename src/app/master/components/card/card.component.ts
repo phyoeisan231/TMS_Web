@@ -28,6 +28,7 @@ export class CardComponent {
   id: string;
   lblText:string;
   yardList:any[]=[];
+  cardList:any[];
   groupNameList:any[]=["ICD","Customer","Others"];
   submitClicked: boolean = false;
   public data: Object[];
@@ -45,7 +46,7 @@ export class CardComponent {
 
   rowDataBound(args: any): void {
     if (args.row) {
-      if (args.data.active!=true) {
+      if (args.data.active!=true || args.data.isUse!=true) {
         args.row.classList.add('not-Use');
       }
     }
@@ -54,11 +55,12 @@ export class CardComponent {
   loadTableData() {
     this.spinner.show();
     forkJoin({
-      cardList: this.service.getCardList('All').pipe(catchError((err) => of(this.showError(err)))),
+      cards: this.service.getCardList('All').pipe(catchError((err) => of(this.showError(err)))),
       yardList: this.service.getYardList('true').pipe(catchError((err) => of([]))) // Ensure no error is thrown for yardList
     }).subscribe({
-      next: ({cardList,yardList }) => {
-        this.grid.dataSource = cardList;
+      next: ({cards,yardList }) => {
+        this.cardList=cards;
+        this.grid.dataSource = this.cardList;
         this.yardList = yardList;
       },
       error: (error) => {
@@ -124,9 +126,6 @@ export class CardComponent {
       cardNo: new FormControl({ value: data.cardNo, disabled: true }), // Read-only 
       yardID: new FormControl(data.yardID,Validators.required),
       groupName: new FormControl(data.groupName,Validators.required),
-      vehicleRegNo: new FormControl(data.vehicleRegNo,Validators.required),
-      cardIssueDate: new FormControl(data.cardIssueDate,Validators.required),
-      cardReturnDate: new FormControl(data.cardReturnDate,Validators.required),
       active:new FormControl(data.active),
       isUse:new FormControl(data.isUse)
     });
@@ -134,6 +133,8 @@ export class CardComponent {
 
   addCard(formData: any) {
     this.spinner.show();
+    formData.active=true;
+    formData.isUse=true;
     this.service
       .createCard(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -144,6 +145,7 @@ export class CardComponent {
           this.loadTableData();
         } else {
           this.spinner.hide();
+          this.grid.dataSource=this.cardList.filter(x=>x.cardNo!=undefined);
           Swal.fire('Card', result.messageContent, 'error');
         }
       });
@@ -151,6 +153,9 @@ export class CardComponent {
 
   editCard(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
+    formData.isUse=formData.isUse?true:false;
+
     this.service
       .updateCard(formData)
       .pipe(catchError((err) => of(this.showError(err))))

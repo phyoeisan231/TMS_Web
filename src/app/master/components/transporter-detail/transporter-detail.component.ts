@@ -44,7 +44,7 @@ export class TransporterDetailComponent{
       // transporterCode: new FormControl({value:this.id,disabled:!!this.id }),
       transporterID:new FormControl(this.id),
       transporterName: new FormControl('',Validators.required),
-      address: new FormControl('',Validators.required),
+      address: new FormControl(''),
       contactNo: new FormControl('',Validators.required),
       email: new FormControl('', [Validators.email]),
       contactPerson:new FormControl('',Validators.required),

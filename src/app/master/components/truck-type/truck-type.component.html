@@ -32,25 +32,18 @@
               <ng-template #editSettingsTemplate let-data>
                 <form [formGroup]="typeForm">
                   <div class="form-row">
-                    <!-- <div class="form-group col-md-12">
-                      <label for="typeID" class="font-weight-normal requiredfield">Truck_Type ID</label>
-                      <ejs-textbox formControlName="typeID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
-                      <div [style.visibility]='validateControl("typeID")? "visible": "hidden"'>
-                        <label class="e-error" for="typeID" style="display: block;">*TruckID is required</label>
-                      </div>
-                    </div> -->
                     <div class="form-group col-md-12">
                       <label for="typeID" class="font-weight-normal requiredfield">TruckType ID</label>
-                      <ejs-textbox formControlName="typeID" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
+                      <ejs-textbox formControlName="typeID" class="text-uppercase" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                       <div  [style.visibility]='validateControl("typeID")? "visible": "hidden"'>
-                        <label class="e-error" for="typeID" style="display: block;">*Type is required</label>
+                        <label class="e-error" for="typeID" style="display: block;">*This field is required</label>
                       </div>
                     </div>
                     <div class="form-group col-md-12">
                       <label for="description" class="font-weight-normal requiredfield">Description</label>
                       <ejs-textbox formControlName="description" tabindex="2" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                       <div  [style.visibility]='validateControl("description")? "visible": "hidden"'>
-                        <label class="e-error" for="description" style="display: block;">*Description is required</label>
+                        <label class="e-error" for="description" style="display: block;">*This field is required</label>
                       </div>
                     </div>
                    </div>
