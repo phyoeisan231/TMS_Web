@@ -44,7 +44,7 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: '22',
-        title: 'Gate In(Check)',
+        title: 'In Check',
         type: 'collapse',
         classes: 'nav-item',
         url: '',
@@ -70,7 +70,7 @@ export const NavigationItems: NavigationItem[] = [
       },
       {
         id: '37',
-        title: 'Gate Out(Check)',
+        title: 'Out Check',
         type: 'collapse',
         classes: 'nav-item',
         url: '',
@@ -455,7 +455,7 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: '32',
-        title: 'user Management',
+        title: 'User Management',
         type: 'collapse',
         classes: 'nav-item',
         url: '',
