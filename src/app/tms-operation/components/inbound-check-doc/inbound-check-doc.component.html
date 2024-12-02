@@ -1,1 +1,165 @@
-<p>inbound-check-doc works!</p>
+<section class="content mt-0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+          <li class="breadcrumb-item">In Check</li>
+          <li class="breadcrumb-item active text-primary">In Check(ICD/Other)</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+          <form [formGroup]="detailForm">
+            <div class="row">
+              <div class="col-md-6 col-lg-6 text-left">
+                <h5 class="card-title">In Check Document(ICD/Other)</h5>
+              </div>
+              <div class="col-md-6 col-lg-6 text-end">
+                <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!detailForm.valid"   (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Update</button>
+                <a routerLink="tms-operation/inbound-check" class="btn btn-sm btn-secondary m-1" href="tms-operation/inbound-check">
+                  <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                </a>
+              </div>
+            </div><br>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">In Check No</label>
+                <ejs-textbox  formControlName="inRegNo" [readonly]="true"  autocomplete="off" tabindex="1"></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="font-weight-normal requiredfield">Check Date Time</label>
+                <ejs-timepicker  formControlName="inCheckDateTime" [readonly]="true"  [format]="format" [step]="interval" autocomplete="off" tabindex="2"></ejs-timepicker>
+              </div>
+              <div class="form-group col-md-4">
+                  <label  class="font-weight-normal requiredfield">Category</label>
+                  <ejs-textbox formControlName="inPCCode" [readonly]="true" tabindex="3" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Yard</label>
+                <ejs-textbox formControlName="inYardID" [readonly]="true" tabindex="4" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Gate</label>
+                <ejs-textbox formControlName="inGateID" [readonly]="true" tabindex="5" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Operation Area</label>
+                <ejs-dropdownlist formControlName="areaID" tabindex="6" [dataSource]='areaList' [fields]="{ text: 'areaID', value: 'areaID' }" placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Truck Type</label>
+                <ejs-textbox formControlName="truckType" [readonly]="true" tabindex="7" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Truck No</label>
+                <ejs-textbox formControlName="truckVehicleRegNo" [readonly]="true" tabindex="8" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Trailer No</label>
+                <ejs-textbox formControlName="trailerVehicleRegNo" [readonly]="true" tabindex="9" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Driver Name</label>
+                <ejs-textbox formControlName="driverName" [readonly]="true" tabindex="10" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Driver License No</label>
+                <ejs-textbox formControlName="driverLicenseNo" [readonly]="true" tabindex="11" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Transporter</label>
+                <ejs-textbox formControlName="transporterName" [readonly]="true" tabindex="12" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Type</label>
+                <ejs-dropdownlist formControlName="inType" tabindex="13" [dataSource]='typeList'  placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">ContainerType</label>
+                <ejs-dropdownlist formControlName="inContainerType" tabindex="14" [dataSource]='containerTypeList'  placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">ContainerSize</label>
+                <ejs-dropdownlist formControlName="inContainerSize" tabindex="15" [dataSource]='containerSizeList'  placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">No. Of Container</label>
+                <ejs-numerictextbox formControlName="inNoOfContainer" tabindex="16" ></ejs-numerictextbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Cargo Type</label>
+                <ejs-dropdownlist formControlName="inCargoType" tabindex="17" [dataSource]='cargoTypeList'  placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">CargoInfo</label>
+                <ejs-textbox formControlName="inCargoInfo" [multiline]="true" tabindex="18" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Customer</label>
+                <ejs-textbox formControlName="customer" [multiline]="true" tabindex="19" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Job Code</label>
+                <ejs-textbox formControlName="jobCode"  tabindex="20" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Job Description</label>
+                <ejs-textbox formControlName="jobDescription"  tabindex="21" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Card</label>
+                <ejs-dropdownlist formControlName="cardNo" tabindex="22" [dataSource]='cardList' [fields]="{ text: 'cardNo', value: 'cardNo' }" placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Remark</label>
+                <ejs-textbox formControlName="remark" [multiline]="true" tabindex="23" ></ejs-textbox>
+              </div>
+            </div>
+          </form><br>
+          <h6>Documents</h6>
+          <ejs-grid #Grid [dataSource]="docList" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)='rowDataBound($event)'>
+            <e-columns>
+              <e-column type='checkbox' width='40' ></e-column>
+              <e-column field='inRegNo' headerText='Check In No' width="100"></e-column>
+              <e-column field='docCode' headerText="Doc No" width="100"></e-column>
+              <e-column field='docName' headerText="Name" width="110"></e-column>
+              <e-column field='checkStatus' headerText="Check Status" width="120"></e-column>
+              <!-- <e-column field='remark' headerText="Remark" width="110"></e-column> -->
+            </e-columns>
+            <!-- <ng-template #editSettingsTemplate let-data>
+              <form [formGroup]="docForm">
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label  class="font-weight-normal requiredfield">Doc Code</label>
+                    <ejs-textbox formControlName="docCode"  readOnly="true" autocomplete="off" tabindex="1"></ejs-textbox>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label  class="font-weight-normal requiredfield">Name</label>
+                    <ejs-textbox formControlName="docName"  readOnly="true" autocomplete="off" tabindex="2"></ejs-textbox>
+                  </div>
+                </div>
+              </form>
+            </ng-template> -->
+          </ejs-grid>
+        </div>
+      </div>
+   </div>
+ </div>
+</section>

@@ -4,7 +4,7 @@
       <div class="col-md-12 ">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-          <li class="breadcrumb-item active text-info">Gate In (Check)</li>
+          <li class="breadcrumb-item active text-primary">In Check(ICD/Other)</li>
         </ol>
       </div>
     </div>
@@ -13,7 +13,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12 col-lg-12 text-left">
-                <h5 class="card-title">Gate In (Check)</h5>
+                <h5 class="card-title">In Check(ICD/Other)</h5>
                 <Form [formGroup]="optionForm">
                   <div class="row btns mb-2">
                     <div class="col-lg-5 col-12">
@@ -38,40 +38,14 @@
                    <div class="row mb-2">
                     <div class="col-lg-5 col-12">
                       <div class="row">
-                        <label class="col-sm-4 col-form-label requiredfield">Status:</label>
-                        <div class="col-sm-8 p-0">
-                          <ejs-multiselect formControlName="status"  [dataSource]='statusList' tabindex="3" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-5 col-12">
-                      <div class="row">
                         <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
                         <div class="col-sm-8 p-0">
                           <ejs-multiselect formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'name', value: 'yardID' }" placeholder="Select One"  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-5 col-12">
-                      <div class="row">
-                        <label class="col-sm-4 col-form-label ">PO No:</label>
-                        <div class="col-sm-8 p-0">
-                          <ejs-textbox formControlName="poNo" id="poNo" tabindex="5" autocomplete="off" type="number" min="1"></ejs-textbox>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-5 col-12">
-                      <div class="row">
-                        <label class="col-sm-4 col-form-label ">Ref No:</label>
-                        <div class="col-sm-8 p-0">
-                          <ejs-textbox formControlName="vendorRefNo" id="vendorRefNo" tabindex="6" autocomplete="off" type="type" ></ejs-textbox>
-                        </div>
-                      </div>
-                    </div>
                     <div class="col-lg-2 col-12 justify-content-end">
-                      <button type="button" class="btn btn-sm btn-info" [disabled]="!optionForm.valid" (click)="loadTableData()">
+                      <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
                         <i class="fas fa-eye"></i> &nbsp; View
                       </button>
                     </div>
@@ -81,10 +55,20 @@
             </div>
             <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
               <e-columns>
-                <e-column field='inCheckDateTime' headerText='Check Date Time' width="150"></e-column>
-                <e-column field='inRegNo' headerText='In No' [isPrimaryKey]="true" width="90"></e-column>
+                <e-column field='inCheckDateTime' headerText='Check Date Time' width="150">
+                  <ng-template #template let-data>
+                    <div *ngIf="!data.status">
+                      <span class="badge" style="background-color: rgb(223, 144, 144);">{{data.inCheckDateTime}}</span>
+                    </div>
+                    <div *ngIf="data.status">
+                      <span class="badge" style="background-color: #519df4;">{{data.inCheckDateTime}}</span>
+                    </div>
+                  </ng-template>
+                </e-column>
+                <e-column field='inRegNo' headerText='In Check No' [isPrimaryKey]="true" width="150"></e-column>
                 <e-column field='inYardID' headerText="Yard" width="150"></e-column>
                 <e-column field='inGateID' headerText="Gate" width="100"></e-column>
+                <e-column field='areaID' headerText="Area" width="100"></e-column>
                 <e-column field='inPCCode' headerText="Category" width="100"></e-column>
                 <e-column field='inContainerType' headerText="ContainerType" width="100"></e-column>
                 <e-column field='inContainerSize' headerText="ContainerSize" width="100"></e-column>
@@ -101,75 +85,73 @@
                 <e-column field='jobCode' headerText="Job Code" width="100"></e-column>
                 <e-column field='jobDescription' headerText="Job Description" width="100"></e-column>
                 <e-column field='remark' headerText="Remark" width="100"></e-column>
-
               </e-columns>
               <ng-template #editSettingsTemplate let-data>
                 <form [formGroup]="gateForm">
                   <div class="row">
                     <div class="form-group col-md-6">
-                      <label  class="required">Yard</label>
-                      <ejs-dropdownlist formControlName="inYardID" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" allowFiltering="true" (change)="onYardChange($event.value)"  popupHeight='200px' floatLabelType='Always' ></ejs-dropdownlist>
+                      <label  class="requiredfield">Yard</label>
+                      <ejs-dropdownlist formControlName="inYardID" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" (change)="onYardChange($event.value)" placeholder="Select One"  popupHeight='200px' ></ejs-dropdownlist>
                       <div [style.visibility]='validateControl("inYardID")? "visible": "hidden"'>
                         <label class="e-error" style="display: block;">*Yard is required</label>
                       </div>
                     </div>
                     <div class="form-group col-md-6">
-                      <label  class="required">Gate</label>
-                      <ejs-dropdownlist formControlName="inGateID" tabindex="2" [dataSource]='gate' [fields]="{ text: 'gateID', value: 'gateID' }" allowFiltering="true" popupHeight='200px' floatLabelType='Always' ></ejs-dropdownlist>
+                      <label  class="requiredfield">Gate</label>
+                      <ejs-dropdownlist formControlName="inGateID" tabindex="2" [dataSource]='gateList' [fields]="{ text: 'gateID', value: 'gateID' }"  popupHeight='200px' placeholder="Select One" ></ejs-dropdownlist>
                       <div [style.visibility]='validateControl("inGateID")? "visible": "hidden"'>
                         <label class="e-error" style="display: block;">*Gate is required</label>
                       </div>
                     </div>
                     <div class="form-group col-md-6">
-                      <label  class="required">Truck Type</label>
-                      <ejs-dropdownlist formControlName="truckType" tabindex="3" [dataSource]='truckType' allowFiltering="true" popupHeight='200px' floatLabelType='Always' ></ejs-dropdownlist>
+                      <label  class="requiredfield">Operation Area</label>
+                      <ejs-dropdownlist formControlName="areaID" tabindex="3" [dataSource]='areaList' [fields]="{ text: 'areaID', value: 'areaID' }"  popupHeight='200px' placeholder="Select One" ></ejs-dropdownlist>
+                      <div [style.visibility]='validateControl("areaID")? "visible": "hidden"'>
+                        <label class="e-error" style="display: block;">*Area is required</label>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label  class="requiredfield">Truck Type</label>
+                      <ejs-dropdownlist formControlName="truckType" tabindex="4" [dataSource]='truckTypeList'  (change)="onTruckTypeChange($event.value)"  popupHeight='200px'></ejs-dropdownlist>
                       <div [style.visibility]='validateControl("truckType")? "visible": "hidden"'>
                         <label class="e-error" style="display: block;">*Truck Type is required</label>
                       </div>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="truckVehicleRegNo" class="required">TruckVehicle RegNo</label>
-                      <ejs-textbox formControlName="truckVehicleRegNo" tabindex="4" autocomplete="off"></ejs-textbox>
+                      <label for="truckVehicleRegNo" class="requiredfield">Truck No</label>
+                      <ejs-dropdownlist formControlName="truckVehicleRegNo" tabindex="5" [dataSource]='truckList' [fields]="{ text: 'vehicleRegNo', value: 'vehicleRegNo' }" (change)="onTruckChange($event.value)" allowFiltering="true" (filtering)='onTruckFiltering($event)' popupHeight='200px'></ejs-dropdownlist>
                        <div [style.visibility]='validateControl("truckVehicleRegNo")'>
                         <label class="e-error" for="truckVehicleRegNo" style="display: block;">*Truck No is required</label>
                       </div>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="truckVehicleRegNo" class="required">TruckVehicle RegNo</label>
-                      <ejs-textbox formControlName="truckVehicleRegNo" tabindex="4" autocomplete="off"></ejs-textbox>
-                       <div [style.visibility]='validateControl("truckVehicleRegNo")'>
-                        <label class="e-error" for="truckVehicleRegNo" style="display: block;">*Truck No is required</label>
-                      </div>
+                      <label for="trailerVehicleRegNo">Trailer No</label>
+                      <ejs-dropdownlist formControlName="trailerVehicleRegNo" tabindex="6" [dataSource]='trailerList' [fields]="{ text: 'vehicleRegNo', value: 'vehicleRegNo' }" allowFiltering="true" popupHeight='200px'></ejs-dropdownlist>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="trailerVehicleRegNo" class="required">trailerVehicle RegNo</label>
-                      <ejs-textbox formControlName="trailerVehicleRegNo" tabindex="4" autocomplete="off"></ejs-textbox>
-                       <div [style.visibility]='validateControl("trailerVehicleRegNo")'>
-                        <label class="e-error" for="trailerVehicleRegNo" style="display: block;">*Trailer No is required</label>
-                      </div>
-                    </div>
-
-                    <!-- <div class="form-group col-md-6">
-                      <label  class="required">PCCode</label>
-                      <ejs-dropdownlist formControlName="inpcCode" tabindex="3" [dataSource]='pcCodeList' [fields]="{ text: 'pcCode', value: 'pcCode' }" allowFiltering="true"   popupHeight='200px' floatLabelType='Always'></ejs-dropdownlist>
-                      <div [style.visibility]='validateControl("inpcCode")? "visible": "hidden"'>
+                      <label  class="requiredfield">PCCode</label>
+                      <ejs-dropdownlist formControlName="inPCCode" tabindex="7" [dataSource]='pcCodeList' [fields]="{ text: 'pcCode', value: 'pcCode' }" allowFiltering="true"   popupHeight='200px'></ejs-dropdownlist>
+                      <div [style.visibility]='validateControl("inPCCode")? "visible": "hidden"'>
                         <label class="e-error" style="display: block;">*PC Code is required</label>
                       </div>
-                    </div> -->
+                    </div>
                     <div class="form-group col-md-6">
-                      <label  class="required">Container Type</label>
-                      <ejs-dropdownlist formControlName="inContainerType" tabindex="4" [dataSource]='containerTypeList' allowFiltering="true"   popupHeight='200px' floatLabelType='Always'></ejs-dropdownlist>
-                      <div [style.visibility]='validateControl("inContainerType")? "visible": "hidden"'>
-                        <label class="e-error" style="display: block;">*Containr Type is required</label>
+                      <label  class="requiredfield">Driver</label>
+                      <ejs-dropdownlist formControlName="driverLicenseNo" tabindex="8" [dataSource]='driverList' [fields]="{ text: 'driverName', value: 'licenseNo' }" allowFiltering="true" (filtering)='onDriverFiltering($event)' popupHeight='200px'></ejs-dropdownlist>
+                      <div [style.visibility]='validateControl("driverLicenseNo")? "visible": "hidden"'>
+                        <label class="e-error" style="display: block;">*Driver is required</label>
                       </div>
                     </div>
-
                     <div class="form-group col-md-6">
-                      <label  class="required">InContainer Size</label>
-                      <ejs-dropdownlist formControlName="inContainerSize" tabindex="5" [dataSource]='containerSize' allowFiltering="true"   popupHeight='200px' floatLabelType='Always'></ejs-dropdownlist>
-                      <div [style.visibility]='validateControl("inContainerSize")? "visible": "hidden"'>
-                        <label class="e-error" style="display: block;">*Container Size is required</label>
+                      <label  class="requiredfield">Customer</label>
+                      <ejs-textbox formControlName="customer" tabindex="9"  popupHeight='200px'></ejs-textbox>
+                      <div [style.visibility]='validateControl("customer")? "visible": "hidden"'>
+                        <label class="e-error" style="display: block;">*Customer is required</label>
                       </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Transporter</label>
+                      <ejs-dropdownlist formControlName="transporterID" tabindex="10" [dataSource]='transporterList' [fields]="{ text: 'transporterName', value: 'transporterID' }"  allowFiltering="true"   popupHeight='200px'></ejs-dropdownlist>
                     </div>
                    </div>
                 </form>

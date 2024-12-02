@@ -2,8 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { TmsOperationModule } from '../../tms-operation.module';
 import Swal from 'sweetalert2';
 import { DialogEditEventArgs, EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
-import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
-import { addDays } from '@syncfusion/ej2/schedule';
+import { FormControl, FormGroup,Validators } from '@angular/forms';
 import { Dialog, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { InboundCheckService } from './inbound-check.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -27,7 +26,6 @@ export class InboundCheckComponent {
   editSettings: EditSettingsModel = { allowEditing: false, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = ['Add',
   { text: "Details", tooltipText: "Details", prefixIcon: "e-icons e-paste", id: "detail" },
-  { text: "Add Card Info", tooltipText: "Add Card Info", prefixIcon: "e-circle-add", id: "card" },
   'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
 
@@ -35,31 +33,29 @@ export class InboundCheckComponent {
   gateForm: FormGroup;
   submitClicked: boolean = false;
   public formatfilter: any ="MM/dd/yyyy";
-  public format: any ="dd/MM/yyyy h:mm a";
-  typeList: any[]=['FCL','LCL'];
-  statusList: any[]=['Check(In)','In'];
   yardList:any[]=[];
   gateList:any[]=[];
   truckList:any[]=[];
+  trailerList:any[]=[];
   driverList:any[]=[];
-  interval: number =1;
-  endDate : Date = new Date();
-  gate:any[]=[];
+  transporterList:any[]=[];
+  areaList:any[]=[];
   pcCodeList:any[]=[];
   containerTypeList:any[]=['Laden','Empty'];
   containerSize:any[]=['20','40','45'];
-  truckType:any[]=['RGL','Customer'];
-  //startDate : Date = addDays(this.endDate,-7);
+  truckTypeList:any[]=['RGL','Customer'];
+  typeList: any[]=['FCL','LCL'];
+  interval: number =1;
+  endDate : Date = new Date();
+  type:string;
   today : Date = new Date();
   public data: Object[];
-  // set placeholder to MultiSelect input element
   public placeholder: string = 'Select One';
   public mode?: string;
   public selectAllText: string| any;
   private searchTruckTerms = new Subject<string>();
   private searchDriverTerms = new Subject<string>();
   @ViewChild('Grid') public grid: GridComponent;
-  @ViewChild('cardModel') cardModel: DialogComponent;
    // end multi file upload
   constructor(
     private service: InboundCheckService,
@@ -74,22 +70,23 @@ export class InboundCheckComponent {
     this.selectAllText= 'Select All';
     this.getLocationList();
     this.optionForm = new FormGroup({
-      status: new FormControl(sessionStorage.getItem("icstatus")?sessionStorage.getItem("icstatus").split(','):null, Validators.required),
       fromDate: new FormControl(sessionStorage.getItem("icfromDate")?sessionStorage.getItem("icfromDate"):this.today,Validators.required),
       toDate: new FormControl(sessionStorage.getItem("ictoDate")?sessionStorage.getItem("ictoDate"):this.today,Validators.required),
       yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
     });
+    this.getCategoryList();
+    this.getTransporterList();
 
-    // this.editRemarkForm = new FormGroup({
-    //   poNo: new FormControl(''),
-    //   remark: new FormControl('', Validators.required),
-    //   updatedUser: new FormControl(''),
-    // });
     this.searchTruckTerms.pipe(
       debounceTime(300),
-      switchMap((term: string) => this.service.getTruckList(term))
+      switchMap((term: string) => this.service.getTruckList(term,this.type))
     ).subscribe(data => {
-      this.truckList  = data;
+      if(this.type){
+        this.truckList  = data;
+      }
+      else{
+        this.truckList =[];
+      }
     });
 
     this.searchDriverTerms.pipe(
@@ -98,8 +95,7 @@ export class InboundCheckComponent {
     ).subscribe(data => {
       this.driverList  = data;
     });
-    this.getGateList();
-    this.getCategoryList();
+
   }
 
 
@@ -108,8 +104,14 @@ export class InboundCheckComponent {
   }
 
   onTruckFiltering(e: any) {
-    if (e.text) {
+    if (e.text && this.type) {
       this.searchTruckTerms.next(e.text);
+    }
+  }
+
+  onDriverFiltering(e: any) {
+    if (e.text) {
+      this.searchDriverTerms.next(e.text);
     }
   }
 
@@ -124,12 +126,22 @@ export class InboundCheckComponent {
     });
   }
 
-  getGateList(){
+  getGateList(yard:string){
     this.spinner.show();
-    this.service.getGateList("true")
+    this.service.getGateList(yard)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.gateList  = result;
+        this.spinner.hide();
+    });
+  }
+
+  getAreaList(yard:string){
+    this.spinner.show();
+    this.service.getAreaList(yard)
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.areaList  = result;
         this.spinner.hide();
     });
   }
@@ -143,8 +155,30 @@ export class InboundCheckComponent {
      });
   }
 
+  getTransporterList(){
+    this.service.getTransporterList()
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.transporterList = result;
+        this.spinner.hide();
+    });
+ }
+
+
   onYardChange(code: string) {
-   this.gate=this.gateList.filter(g=>g.yardID==code);
+   this.getGateList(code);
+   this.getAreaList(code);
+  }
+
+  onTruckTypeChange(code: string) {
+    this.type = code;
+    this.truckList =[];
+   }
+
+   onTruckChange(id:string){
+    const truck = this.truckList.filter(x=>x.vehicleRegNo==id);
+    this.optionForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:'');
+    this.optionForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:'');
    }
 
   loadTableData() {
@@ -152,20 +186,14 @@ export class InboundCheckComponent {
    const formData = this.optionForm.value;
    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-   let status:any ="";
-   if(formData.status.length>0){
-    status = this.formatParams(formData.status);
-   }
    let loc:any ="";
    if(formData.yardID.length>0){
     loc = this.formatParams(formData.yardID);
    }
-
     sessionStorage.setItem("icfromDate", fromDate);
     sessionStorage.setItem("ictoDate", toDate);
-    sessionStorage.setItem("icstatus", formData.status);
     sessionStorage.setItem("icloc", formData.yardID);
-    this.service.getInBoundCheckList(fromDate,toDate,loc,status)
+    this.service.getInBoundCheckList(fromDate,toDate,loc)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.grid.dataSource= result;
@@ -181,7 +209,7 @@ export class InboundCheckComponent {
     else if(args.requestType === 'beginEdit') {
       this.submitClicked = false;
       this.gateForm = this.createFormGroup(args.rowData);
-  }
+   }
     if (args.requestType === 'save') {
         this.submitClicked = true;
         if (this.gateForm.valid) {
@@ -198,13 +226,14 @@ export class InboundCheckComponent {
     if (args.requestType === 'delete') {
       args.cancel = true;
       const data = args.data as any[];
-      const id = data[0].poNo;
+      const id = data[0].inRegNo;
       const status = data[0].status;
-      if(status==='Check(In)'){
-        this.deleteInBoundCheck(id);
+      const user = localStorage.getItem('currentUser');
+      if(!status){
+        this.deleteInBoundCheck(id,user);
       }
       else{
-        Swal.fire('Gate In(Check)', 'Data can not delete!', 'error');
+        Swal.fire('In Check(ICD/Other)', 'Data can not delete!', 'error');
       }
     }
   }
@@ -217,7 +246,7 @@ export class InboundCheckComponent {
     if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
       args.dialog.width = 700;
       if(args.requestType === 'add'){
-        args!.dialog!.header="New Gate In(Check)" ;
+        args!.dialog!.header="New In Check" ;
         }
         if (Browser.isDevice) {
             args!.dialog!.height = window.innerHeight - 90 + 'px';
@@ -232,19 +261,34 @@ export class InboundCheckComponent {
       inCheckDateTime: new FormControl(this.today, Validators.required),
       inGateID: new FormControl(data.inGateID,Validators.required),
       inYardID: new FormControl(data.inYardID,Validators.required),
-      inpcCode: new FormControl(data.inpcCode,Validators.required),
-      inContainerType:new FormControl(data.inContainerType,Validators.required),
-      inContainerSize:new FormControl(data.inContainerSize,Validators.required),
+      inPCCode: new FormControl(data.inPCCode,Validators.required),
+      // inContainerType:new FormControl(data.inContainerType,Validators.required),
+      // inContainerSize:new FormControl(data.inContainerSize,Validators.required),
       truckVehicleRegNo: new FormControl(data.truckVehicleRegNo,Validators.required),
-      driverLicenseNo: new FormControl(data.truckVehicleRegNo,Validators.required),
+      driverLicenseNo: new FormControl(data.driverLicenseNo),
+      areaID: new FormControl(data.areaID,Validators.required),
       driverName: new FormControl(data.driverName),
+      transporterID: new FormControl(data.transporterID),
+      transporterName: new FormControl(data.transporterName),
       truckType:new FormControl(data.truckType,Validators.required),
-      trailerVehicleRegNo:new FormControl(data.trailerVehicleRegNo,Validators.required),
+      customer:new FormControl(data.customer,Validators.required),
+      trailerVehicleRegNo:new FormControl(data.trailerVehicleRegNo),
     });
   }
 
   addInBoundCheck(formData: any) {
     this.spinner.show();
+    const driver = this.driverList.filter(x=>x.licenseNo==formData.driverLicenseNo);
+    formData.driverName = driver[0].name;
+    const truck = this.truckList.filter(x=>x.vehicleRegNo==formData.truckVehicleRegNo);
+    formData.inContainerType = truck[0].containerType;
+    formData.inContainerSize = truck[0].containerSize;
+    if(this.transporterList){
+      const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
+      if(transporter){
+        formData.transporterName = truck[0].transporterName;
+      }
+    }
     formData.inCheckDateTime = moment(formData.inCheckDateTime).format('MM/DD/YYYY HH:mm:ss');
     this.service
       .createInBoundCheck(formData)
@@ -254,13 +298,13 @@ export class InboundCheckComponent {
           this.router.navigate(["/tms-operation/inbound-check-doc"], { queryParams: { id: result.messageContent}});
         } else {
           this.spinner.hide();
-          Swal.fire('Gate In(Check)', result.messageContent, 'error');
+          Swal.fire('In Check(ICD/Other)', result.messageContent, 'error');
         }
       });
   }
 
 
-  deleteInBoundCheck(id: any) {
+  deleteInBoundCheck(id: any,user:string) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this data!',
@@ -273,7 +317,7 @@ export class InboundCheckComponent {
       if (response.value) {
         this.spinner.show();
         this.service
-          .deleteInBoundCheck(id)
+          .deleteInBoundCheck(id,user)
           .pipe(catchError((err) => of(this.showError(err))))
           .subscribe((result) => {
             if (result.status == true) {
@@ -281,7 +325,7 @@ export class InboundCheckComponent {
               this.loadTableData();
             } else {
               this.spinner.hide();
-              Swal.fire('Gate In(Check)', result.messageContent, 'error');
+              Swal.fire('In Check(ICD/Other)', result.messageContent, 'error');
             }
           });
       } else if (response.dismiss === Swal.DismissReason.cancel) {
@@ -298,22 +342,24 @@ export class InboundCheckComponent {
 
   showSuccess(msg: string) {
     this.spinner.hide();
-    Swal.fire('Gate In(Check)', msg, 'success');
+    Swal.fire('In Check(ICD/Other)', msg, 'success');
   }
 
   showError(error: HttpErrorResponse) {
     this.spinner.hide();
-    Swal.fire('Gate In(Check)', error.statusText, 'error');
+    Swal.fire('In Check(ICD/Other)', error.statusText, 'error');
   }
 
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
-      this.grid.excelExport();
+      this.grid.excelExport({
+        fileName:'InCheckICDOtherReport.xlsx',
+     });
     }
     if (args.item.id === 'detail') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
-        Swal.fire('Purchase Order', "Please select one row!", 'warning');
+        Swal.fire('In Check(ICD/Other)', "Please select one row!", 'warning');
       }
 
       else {
