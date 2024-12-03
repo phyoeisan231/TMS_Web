@@ -177,8 +177,8 @@ export class InboundCheckComponent {
 
    onTruckChange(id:string){
     const truck = this.truckList.filter(x=>x.vehicleRegNo==id);
-    this.optionForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:'');
-    this.optionForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:'');
+    this.gateForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:'');
+    this.gateForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:'');
    }
 
   loadTableData() {
@@ -262,8 +262,6 @@ export class InboundCheckComponent {
       inGateID: new FormControl(data.inGateID,Validators.required),
       inYardID: new FormControl(data.inYardID,Validators.required),
       inPCCode: new FormControl(data.inPCCode,Validators.required),
-      // inContainerType:new FormControl(data.inContainerType,Validators.required),
-      // inContainerSize:new FormControl(data.inContainerSize,Validators.required),
       truckVehicleRegNo: new FormControl(data.truckVehicleRegNo,Validators.required),
       driverLicenseNo: new FormControl(data.driverLicenseNo),
       areaID: new FormControl(data.areaID,Validators.required),
@@ -286,9 +284,10 @@ export class InboundCheckComponent {
     if(this.transporterList){
       const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
       if(transporter){
-        formData.transporterName = truck[0].transporterName;
+        formData.transporterName = transporter[0].transporterName;
       }
     }
+    console.log(formData);
     formData.inCheckDateTime = moment(formData.inCheckDateTime).format('MM/DD/YYYY HH:mm:ss');
     this.service
       .createInBoundCheck(formData)

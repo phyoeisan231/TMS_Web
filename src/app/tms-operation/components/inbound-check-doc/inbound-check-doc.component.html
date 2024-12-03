@@ -18,8 +18,8 @@
                 <h5 class="card-title">In Check Document(ICD/Other)</h5>
               </div>
               <div class="col-md-6 col-lg-6 text-end">
-                <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!detailForm.valid"   (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Update</button>
-                <a routerLink="tms-operation/inbound-check" class="btn btn-sm btn-secondary m-1" href="tms-operation/inbound-check">
+                <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!detailForm.valid"  (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Valid</button>
+                <a  class="btn btn-sm btn-secondary m-1"  (click)="onBackSubmit()">
                   <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
                 </a>
               </div>
@@ -86,11 +86,11 @@
                 <ejs-dropdownlist formControlName="inType" tabindex="13" [dataSource]='typeList'  placeholder="Select One" ></ejs-dropdownlist>
               </div>
               <div class="form-group col-md-4">
-                <label  class="font-weight-normal">ContainerType</label>
+                <label  class="font-weight-normal">Container Type</label>
                 <ejs-dropdownlist formControlName="inContainerType" tabindex="14" [dataSource]='containerTypeList'  placeholder="Select One" ></ejs-dropdownlist>
               </div>
               <div class="form-group col-md-4">
-                <label  class="font-weight-normal">ContainerSize</label>
+                <label  class="font-weight-normal">Container Size</label>
                 <ejs-dropdownlist formControlName="inContainerSize" tabindex="15" [dataSource]='containerSizeList'  placeholder="Select One" ></ejs-dropdownlist>
               </div>
             </div>

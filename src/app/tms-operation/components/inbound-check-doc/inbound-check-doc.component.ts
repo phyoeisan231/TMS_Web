@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilteringEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 import { EmitType } from '@syncfusion/ej2/base';
-import { catchError, of } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 import { TmsOperationModule } from '../../tms-operation.module';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 
@@ -31,19 +31,19 @@ export class InboundCheckDocComponent {
     public format="dd/MM/yyyy h:mm:ss a";
     docForm:any;
     detailData:any;
+    cargoTypeList:any[]=['Laden','Empty'];
+    containerTypeList:any[]=["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
+    containerSizeList:any[]=[20,40,45];
+    truckTypeList:any[]=['RGL','Customer'];
+    areaList:any[]=[];
+    typeList: any[]=['FCL','LCL'];
     itemList:any[]=[];
     docList:any[]=[];
     trailerList:any[]=[];
     driverList:any[]=[];
     transporterList:any[]=[];
-    areaList:any[]=[];
     cardList:any[]=[];
     pcCodeList:any[]=[];
-    cargoTypeList:any[]=['Laden','Empty'];
-    containerTypeList:any[]=["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
-    containerSizeList:any[]=['20','40','45'];
-    truckTypeList:any[]=['RGL','Customer'];
-    typeList: any[]=['FCL','LCL'];
     today:Date=new Date();
     public filterPlaceholder: string = 'Search';
     @ViewChild('Grid') public grid: GridComponent;
@@ -101,14 +101,38 @@ export class InboundCheckDocComponent {
      }
 
     getInBoundCheckById(){
+      this.spinner.show();
       this.service.getInBoundCheckById(this.id)
       .pipe(catchError((err) => of(this.showError(err))))
         .subscribe((result) => {
-          this.getAreaList(result.inYardID);
-          this.getCardList(result.inYardID);
+          // this.getAreaList(result.inYardID);
+          // this.getCardList(result.inYardID);
           this.docList=result.documentList;
           this.detailData = result;
-          console.log(result)
+          forkJoin({
+            areaList: this.service.getAreaList(result.inYardID).pipe(
+              catchError((err) => {
+                this.showError(err);
+                return of([]);
+              })
+            ),
+             cardList: this.service.getCardICDList(result.inYardID).pipe(
+              catchError((err) => {
+                this.showError(err);
+                return of([]);
+              })
+            )
+          }).subscribe(({ areaList,cardList }) => {
+            if (areaList) {
+              this.areaList  = areaList;
+            } else {
+              this.areaList=[];
+            }
+            if (cardList) {
+              this.cardList  = cardList;
+            } else {
+              this.cardList=[];
+            }
           for (let key in this.detailData) {
             if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
               if (key != 'documentList') {
@@ -116,6 +140,9 @@ export class InboundCheckDocComponent {
               }
             }
           }
+          });
+          console.log(result)
+
           // this.detailForm.controls['inRegNo'].setValue(this.id);
           // this.detailForm.controls['inCheckDateTime'].setValue(result.inCheckDateTime);
           // this.detailForm.controls['inGateID'].setValue(result.inGateID);
@@ -130,6 +157,7 @@ export class InboundCheckDocComponent {
           // this.detailForm.controls['truckType'].setValue(result.truckType);
           // this.detailForm.controls['trailerVehicleRegNo'].setValue(result.trailerVehicleRegNo);
           // this.docList=result.documentList;
+          this.spinner.hide();
       });
     }
 
@@ -138,6 +166,9 @@ export class InboundCheckDocComponent {
      this.spinner.show();
      const formData=this.detailForm.value;
      this.updateInBoundCheck(formData)
+    }
+    onBackSubmit(){
+      this.router.navigate(["/tms-operation/inbound-check"]);
     }
 
     updateInBoundCheck(formData: any) {
