@@ -1,176 +1,130 @@
-<div class="wrapper">
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <!-- <app-page-title title="Trailer" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
-            <!-- <app-nav-bar title="Trailer" [breadcu]="navigationList"></app-nav-bar> -->
-        </div>
-        <section class="content my-0">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="card">
-                        <!-- <div class="card-header">
-                            <h4 class="card-title">
-                                <span *ngIf="isAdd">New Transporter</span>
-                                <span *ngIf="!isAdd">Edit Transporter</span>
-                            </h4>
-                            <div class="button-group d-flex">
-                                <button
-                                    class="btn btn-info mr-2 mt-2"
-                                    (click)="saveTransporter()"
-                                    [disabled]="!transForm.valid">
-                                    Save
-                                </button>
-                                <button
-                                    class="btn btn-danger mt-2"
-                                    (click)="navigateToTransporter()">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div> -->
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h4 class="card-title mb-0">
-                                <span *ngIf="this.isAdd">New Transporter</span>
-                                <span *ngIf="!this.isAdd">Edit Transporter</span>
-                            </h4>
-                            <div class="button-group d-flex">
-                                <button
-                                    class="btn btn-primary btn-sm me-1"
-                                    (click)="saveTransporter()"
-                                    [disabled]="!transForm.valid">
-                                    Save
-                                </button>
-                                <button
-                                    class="btn btn-secondary btn-sm"
-                                    (click)="navigateToTransporter()">
-                                    Cancel
-                                </button>
-                            </div>
+<section class="content mt-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+                <li class="breadcrumb-item">Transporter</li>
+                <li class="breadcrumb-item active text-primary">Transporter Info</li>
+              </ol>
+            </div>
+          </div>
+    </div>
+    <div class="row">
+        <div class="card card-primary card-outline">
+            <div class="card-body">
+                <form [formGroup]="transForm">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 text-left">
+                          <h5 class="card-title">Transporter Info</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form [formGroup]="transForm">
-                                        <div class="row my-0">
-                                        <label class="col-md-2 requiredfield" *ngIf="!this.isAdd">ID:</label>
-                                        <div class="form-group col-md-4" *ngIf="!this.isAdd">
-                                            <ejs-textbox
-                                             formControlName="transporterID"
-                                             tabindex="0" readonly="true" />
-                                          </div>
-                                        <label class="col-md-2 requiredfield">Transporter Name:</label>
-                                        <div class="form-group col-md-4">
-                                            <ejs-textbox
-                                                formControlName="transporterName"
-                                                placeholder="Enter Transporter Name"
-                                                autocomplete="off"
-                                                tabindex="1" maxlength="100"/>
-                                                <div *ngIf="transForm.controls['transporterName'].invalid && (transForm.controls['transporterName'].touched || transForm.controls['transporterName'].dirty)">
-                                                    <small class="text-danger">This field is required.</small>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2">Address:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="address"
-                                                    placeholder="Enter Address"
-                                                    autocomplete="off"
-                                                    tabindex="2"
-                                                    maxlength="100" />
-                                            </div>
-                                            <label class="col-md-2 requiredfield">Contact No.:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="contactNo"
-                                                    placeholder="Enter contactNo"
-                                                    autocomplete="off"
-                                                    tabindex="3" maxlength="100"/>
-                                                    <div *ngIf="transForm.controls['contactNo'].invalid && (transForm.controls['contactNo'].touched || transForm.controls['contactNo'].dirty)">
-                                                        <small class="text-danger">This field is required.</small>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2">Email:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="email"
-                                                    autocomplete="off"
-                                                    placeholder="Enter email "
-                                                    tabindex="4"
-                                                    maxlength="100"/>
-                                            </div>
-                                            <label class="col-md-2 requiredfield">Contact Person:</label>
-                                            <div class="form-group col-md-4">
-                                              <ejs-textbox
-                                                  formControlName="contactPerson"
-                                                  autocomplete="off"
-                                                  placeholder="Enter Contact Person"
-                                                  tabindex="5"
-                                                  maxlength="100"/>
-                                                  <div *ngIf="transForm.controls['contactPerson'].invalid && (transForm.controls['contactPerson'].touched || transForm.controls['contactPerson'].dirty)">
-                                                    <small class="text-danger">This field is required.</small>
-                                                </div>
-                                            </div>
-                                          </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2 requiredfield">Transporter Type:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-dropdownlist
-                                                    formControlName="typeID"
-                                                    [dataSource]="transTypesList"
-                                                    autocomplete="off"
-                                                    placeholder="Choose Transporter Types"
-                                                    tabindex="6"
-                                                    maxlength="100"/>
-                                                    <div *ngIf="transForm.controls['typeID'].invalid && (transForm.controls['typeID'].touched || transForm.controls['typeID'].dirty)">
-                                                        <small class="text-danger">This field is required.</small>
-                                                    </div>
-                                            </div>
-                                            <label class="col-md-2">Remarks:</label>
-                                            <div class="form-group col-md-4">
-                                                <textarea
-                                                    formControlName="remarks"
-                                                    class="form-control form-control-sm"
-                                                    autocomplete="off"
-                                                    placeholder="Remarks "
-                                                    tabindex="7"
-                                                    maxlength="100"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2">Active:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
-                                            </div>
-                                            
-                                        </div>
-                                        <!-- <div class="row col-6">
-                                            <div class="col-md-4 col-sm-6"></div>
-                                            <div class="col-md-2 col-sm-6">
-                                                <button
-                                                    class="btn btn-block btn-info"
-                                                    (click)="saveTransporter()"
-                                                    [disabled]="!transForm.valid">
-                                                    Save</button>&nbsp;
-                                            </div>
-                                            <div class="col-md-2 col-sm-6">
-                                                <button
-                                                class="btn btn-block btn-danger"
-                                                (click)="navigateToTransporter()">
-                                                Cancel
-                                            </button>
-                                            </div>
-                                        </div> -->
-                                    </form>
-                                </div>
+                        <div class="col-md-6 col-lg-6 text-end">
+                            <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!transForm.valid" *ngIf="isAdd"  (click)="saveTransporter()"><i class="fa fa-save"></i>  &nbsp;Save</button>
+                            <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!transForm.valid"  *ngIf="!isAdd" (click)="saveTransporter()"><i class="fa fa-save"></i>  &nbsp;Update</button>
+                          <a routerLink="master/transporter" class="btn btn-sm btn-secondary m-1" href="master/transporter">
+                            <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                          </a>
+                        </div>
+                      </div><br>
+                    <div class="row my-0">
+                    <label class="col-md-2 requiredfield" *ngIf="!this.isAdd">Transporter ID:</label>
+                    <div class="form-group col-md-4" *ngIf="!this.isAdd">
+                        <ejs-textbox
+                         formControlName="transporterID"
+                         tabindex="0" readonly="true" />
+                      </div>
+                    <label class="col-md-2 requiredfield">Transporter Name:</label>
+                    <div class="form-group col-md-4">
+                        <ejs-textbox
+                            formControlName="transporterName"
+                            placeholder="Enter Transporter Name"
+                            autocomplete="off"
+                            tabindex="1" maxlength="100"/>
+                            <div *ngIf="transForm.controls['transporterName'].invalid && (transForm.controls['transporterName'].touched || transForm.controls['transporterName'].dirty)">
+                                <small class="text-danger">This field is required.</small>
                             </div>
+                    </div>
+                    </div>
+                    <div class="row mt-3">
+                        <label class="col-md-2">Address:</label>
+                        <div class="form-group col-md-4">
+                            <ejs-textbox
+                                formControlName="address"
+                                placeholder="Enter Address"
+                                autocomplete="off"
+                                tabindex="2"
+                                maxlength="100" />
+                        </div>
+                        <label class="col-md-2 requiredfield">Contact No.:</label>
+                        <div class="form-group col-md-4">
+                            <ejs-textbox
+                                formControlName="contactNo"
+                                placeholder="Enter contactNo"
+                                autocomplete="off"
+                                tabindex="3" maxlength="100"/>
+                                <div *ngIf="transForm.controls['contactNo'].invalid && (transForm.controls['contactNo'].touched || transForm.controls['contactNo'].dirty)">
+                                    <small class="text-danger">This field is required.</small>
+                                </div>
                         </div>
                     </div>
-                </div>
+                    <div class="row mt-3">
+                        <label class="col-md-2">Email:</label>
+                        <div class="form-group col-md-4">
+                            <ejs-textbox
+                                formControlName="email"
+                                autocomplete="off"
+                                placeholder="Enter email "
+                                tabindex="4"
+                                maxlength="100"/>
+                        </div>
+                        <label class="col-md-2 requiredfield">Contact Person:</label>
+                        <div class="form-group col-md-4">
+                          <ejs-textbox
+                              formControlName="contactPerson"
+                              autocomplete="off"
+                              placeholder="Enter Contact Person"
+                              tabindex="5"
+                              maxlength="100"/>
+                              <div *ngIf="transForm.controls['contactPerson'].invalid && (transForm.controls['contactPerson'].touched || transForm.controls['contactPerson'].dirty)">
+                                <small class="text-danger">This field is required.</small>
+                            </div>
+                        </div>
+                      </div>
+                    <div class="row mt-3">
+                        <label class="col-md-2 requiredfield">Transporter Type:</label>
+                        <div class="form-group col-md-4">
+                            <ejs-dropdownlist
+                                formControlName="typeID"
+                                [dataSource]="transTypesList"
+                                autocomplete="off"
+                                placeholder="Choose Transporter Types"
+                                tabindex="6"
+                                maxlength="100"/>
+                                <div *ngIf="transForm.controls['typeID'].invalid && (transForm.controls['typeID'].touched || transForm.controls['typeID'].dirty)">
+                                    <small class="text-danger">This field is required.</small>
+                                </div>
+                        </div>
+                        <label class="col-md-2">Remarks:</label>
+                        <div class="form-group col-md-4">
+                            <textarea
+                                formControlName="remarks"
+                                class="form-control form-control-sm"
+                                autocomplete="off"
+                                placeholder="Remarks "
+                                tabindex="7"
+                                maxlength="100"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <label class="col-md-2">Active:</label>
+                        <div class="form-group col-md-4">
+                            <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
+                        </div>
+                        
+                    </div>
+                </form>
             </div>
-        </section>
+        </div>
     </div>
-</div>
+</section>
   

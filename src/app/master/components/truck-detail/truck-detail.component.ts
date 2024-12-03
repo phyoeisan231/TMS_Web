@@ -47,24 +47,14 @@ export class TruckDetailComponent {
       vehicleRegNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
       containerType: new FormControl(''),
       containerSize:new FormControl(''),
-      truckWeight:new FormControl(''),
+      truckWeight: new FormControl(''),
       typeID: new FormControl('', Validators.required),
       transporterID:new FormControl('',Validators.required),
       active: new FormControl(false),
-      driverLicenseNo:new FormControl(''),
+      driverLicenseNo:new FormControl('',Validators.required),
       lastPassedDate:new FormControl(null),
       vehicleBackRegNo:new FormControl(''),
       remarks:new FormControl(''),
-
-      // isBlack:new FormControl(false),
-      // blackReason:new FormControl(''),
-      // blackDate:new FormControl(null),
-      // blackRemovedDate: new FormControl(null),
-      // blackRemovedReason:new FormControl(''),
-      //truckWeight:new FormControl(''),
-      //containerType:new FormControl(''),
-      //containerSize:new FormControl(''),
-      //name:new FormControl(''),
     });
     
     if(this.id!=null && this.id!=undefined){
@@ -131,6 +121,8 @@ export class TruckDetailComponent {
     const formData = this.truckForm.value;
     if (this.isAdd) {
       formData.createdUser = localStorage.getItem('currentUser');
+      formData.vehicleRegNo=formData.vehicleRegNo.toUpperCase();
+      formData.vehicleBackRegNo=formData.vehicleBackRegNo.toUpperCase();
       this.addNewTruck(formData);
     } else {
       formData.updatedUser = localStorage.getItem('currentUser');
@@ -152,8 +144,8 @@ export class TruckDetailComponent {
     formData.append("TransporterID",data.transporterID);
     formData.append("Active",data.active);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
-    formData.append("Remarks",data.remarks);
+    formData.append("VehicleBackRegNo",data.vehicleBackRegNo??"");
+    formData.append("Remarks",data.remarks??"");
     // formData.append("IsBlack",data.isBlack.toString());
     // formData.append("BlackReason",data.blackReason);
     // formData.append("BlackRemovedReason",data.blackRemovedReason);
@@ -203,14 +195,14 @@ export class TruckDetailComponent {
     data.active=data.active?true:false;
     formData.append("VehicleRegNo",this.id);
     formData.append("ContainerType", data.containerType);
-    formData.append("ContainerSize",data.containerSize);
-    formData.append("TruckWeight", data.truckWeight);
+    formData.append("ContainerSize",data.containerSize??"");
+    formData.append("TruckWeight", data.truckWeight??"");
     formData.append("TypeID",data.typeID);
     formData.append("TransporterID",data.transporterID);
     formData.append("Active",data.active);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo);
-    formData.append("Remarks",data.remarks);
+    formData.append("VehicleBackRegNo",data.vehicleBackRegNo??"");
+    formData.append("Remarks",data.remarks??"");
     
     if(data.lastPassedDate){
       const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);

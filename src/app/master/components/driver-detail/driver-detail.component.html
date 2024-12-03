@@ -1,159 +1,148 @@
-<div class="wrapper">
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <!-- <app-page-title title="Trailer" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
-            <!-- <app-nav-bar title="Trailer" [breadcu]="navigationList"></app-nav-bar> -->
+<section class="content mt-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+                <li class="breadcrumb-item">Driver</li>
+                <li class="breadcrumb-item active text-primary">Driver Info</li>
+              </ol>
+            </div>
         </div>
-        <section class="content my-0">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h4 class="card-title mb-0">
-                                <span *ngIf="isAdd">New Driver</span>
-                                <span *ngIf="!isAdd">Edit Driver</span>
-                            </h4>
-                            <div class="button-group d-flex">
-                                <button
-                                    class="btn btn-primary btn-sm me-1"
-                                    (click)="saveDriverList()"
-                                    [disabled]="!driverForm.valid">
-                                    Save
-                                </button>
-                                <button
-                                    class="btn btn-secondary btn-sm"
-                                    (click)="navigateToDriver()">
-                                    Cancel
-                                </button>
+        <div class="row">
+            <div class="card card-primary card-outline">
+                <div class="card-body">
+                    <form [formGroup]="driverForm">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 text-left">
+                              <h5 class="card-title">Driver Info</h5>
                             </div>
-                    </div>
-                        <div class="card-body">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form [formGroup]="driverForm">
-                                        <div class="row my-0">
-                                          <label class="col-md-2 requiredfield" *ngIf="isAdd">License No:</label>
-                                          <label class="col-md-2 requiredfield" *ngIf="!isAdd">License No:</label>
-                                          <div class="form-group col-md-4">
-                                            <ejs-textbox
-                                                formControlName="licenseNo"
-                                                tabindex="0" maxlength="50" />
-                                            <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
-                                                <small class="text-danger">This field is required.</small>
-                                            </div>
-                                        </div>
-                                        <label class="col-md-2 requiredfield">NRC:</label>
-                                        <div class="form-group col-md-4">
-                                            <ejs-textbox
-                                                formControlName="nrc"
-                                                placeholder="Enter NRC"
-                                                autocomplete="off"
-                                                tabindex="1" maxlength="100"/>
-                                                <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
-                                                    <small class="text-danger">This field is required.</small>
-                                                </div>
-                                        </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2 requiredfield">Name:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="name"
-                                                    placeholder="Enter Driver Name"
-                                                    autocomplete="off"
-                                                    tabindex="2"
-                                                    maxlength="100" />
-                                                    <div *ngIf="driverForm.controls['name'].invalid && (driverForm.controls['name'].touched || driverForm.controls['name'].dirty)">
-                                                        <small class="text-danger">This field is required.</small>
-                                                    </div>
-                                            </div>
-                                            <label class="col-md-2">Address:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="address"
-                                                    placeholder="Enter Address"
-                                                    autocomplete="off"
-                                                    tabindex="3" maxlength="100"/>
-                                                    
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2 requiredfield">License Class:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-dropdownlist
-                                                    formControlName="licenseClass"
-                                                    [dataSource]="classList"
-                                                    autocomplete="off"
-                                                    placeholder="Enter License Class"
-                                                    tabindex="4"
-                                                    maxlength="100"/>
-                                                    <div *ngIf="driverForm.controls['licenseClass'].invalid && (driverForm.controls['licenseClass'].touched || driverForm.controls['licenseClass'].dirty)">
-                                                        <small class="text-danger">This field is required.</small>
-                                                    </div>
-                                            </div>
-                                            <label class="col-md-2 requiredfield">Contact No.:</label>
-                                            <div class="form-group col-md-4">
-                                              <ejs-textbox
-                                                  formControlName="contactNo"
-                                                  autocomplete="off"
-                                                  placeholder="Enter Contact No."
-                                                  tabindex="5"
-                                                  maxlength="100"/>
-                                                  <div *ngIf="driverForm.controls['contactNo'].invalid && (driverForm.controls['contactNo'].touched || driverForm.controls['contactNo'].dirty)">
-                                                    <small class="text-danger">This field is required.</small>
-                                                </div>
-                                            </div>
-                                          </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2 requiredfield">LicenseExpired Date:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-datepicker
-                                                    formControlName="licenseExpiration"
-                                                    [format]="formatfilter"
-                                                    autocomplete="off"
-                                                    placeholder="LicenseExpiration Date"
-                                                    tabindex="9"
-                                                    maxlength="120">
-                                                </ejs-datepicker>
-                                                <div *ngIf="driverForm.controls['licenseExpiration'].invalid && (driverForm.controls['licenseExpiration'].touched || driverForm.controls['licenseExpiration'].dirty)">
-                                                    <small class="text-danger">This field is required.</small>
-                                                </div>
-                                            </div>
-                                            <label class="col-md-2">Email:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-textbox
-                                                    formControlName="email"
-                                                    autocomplete="off"
-                                                    placeholder="Enter Email"
-                                                    tabindex="7"
-                                                    maxlength="100">
-                                                </ejs-textbox>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <label class="col-md-2">Active:</label>
-                                            <div class="form-group col-md-4">
-                                                <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
-                                            </div>
-                                            <label class="col-md-2">Remarks:</label>
-                                            <div class="form-group col-md-4">
-                                                <textarea
-                                                    formControlName="remarks"
-                                                    class="form-control form-control-sm"
-                                                    autocomplete="off"
-                                                    placeholder="Remarks "
-                                                    tabindex="9"
-                                                    maxlength="100"></textarea>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                            <div class="col-md-6 col-lg-6 text-end">
+                                <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!driverForm.valid"  *ngIf="isAdd" (click)="saveDriverList()"><i class="fa fa-save"></i>  &nbsp;Save</button>
+                              <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!driverForm.valid" *ngIf="!isAdd"  (click)="saveDriverList()"><i class="fa fa-save"></i>  &nbsp;Update</button>
+                              <a routerLink="master/driver" class="btn btn-sm btn-secondary m-1" href="master/driver">
+                                <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                              </a>
+                            </div>
+                          </div><br>
+                        <div class="row my-0">
+                          <label class="col-md-2 requiredfield" *ngIf="isAdd">License No:</label>
+                          <label class="col-md-2 requiredfield" *ngIf="!isAdd">License No:</label>
+                          <div class="form-group col-md-4">
+                            <ejs-textbox
+                                formControlName="licenseNo"
+                                tabindex="0" maxlength="50" />
+                            <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
+                                <small class="text-danger">This field is required.</small>
                             </div>
                         </div>
-                    </div>
+                        <label class="col-md-2 requiredfield">NRC:</label>
+                        <div class="form-group col-md-4">
+                            <ejs-textbox
+                                formControlName="nrc"
+                                placeholder="Enter NRC"
+                                autocomplete="off"
+                                tabindex="1" maxlength="100"/>
+                                <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
+                                    <small class="text-danger">This field is required.</small>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="row mt-3">
+                            <label class="col-md-2 requiredfield">Name:</label>
+                            <div class="form-group col-md-4">
+                                <ejs-textbox
+                                    formControlName="name"
+                                    placeholder="Enter Driver Name"
+                                    autocomplete="off"
+                                    tabindex="2"
+                                    maxlength="100" />
+                                    <div *ngIf="driverForm.controls['name'].invalid && (driverForm.controls['name'].touched || driverForm.controls['name'].dirty)">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                            </div>
+                            <label class="col-md-2">Address:</label>
+                            <div class="form-group col-md-4">
+                                <ejs-textbox
+                                    formControlName="address"
+                                    placeholder="Enter Address"
+                                    autocomplete="off"
+                                    tabindex="3" maxlength="100"/>
+                                    
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <label class="col-md-2 requiredfield">License Class:</label>
+                            <div class="form-group col-md-4">
+                                <ejs-dropdownlist
+                                    formControlName="licenseClass"
+                                    [dataSource]="classList"
+                                    autocomplete="off"
+                                    placeholder="Enter License Class"
+                                    tabindex="4"
+                                    maxlength="100"/>
+                                    <div *ngIf="driverForm.controls['licenseClass'].invalid && (driverForm.controls['licenseClass'].touched || driverForm.controls['licenseClass'].dirty)">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                            </div>
+                            <label class="col-md-2 requiredfield">Contact No.:</label>
+                            <div class="form-group col-md-4">
+                              <ejs-textbox
+                                  formControlName="contactNo"
+                                  autocomplete="off"
+                                  placeholder="Enter Contact No."
+                                  tabindex="5"
+                                  maxlength="100"/>
+                                  <div *ngIf="driverForm.controls['contactNo'].invalid && (driverForm.controls['contactNo'].touched || driverForm.controls['contactNo'].dirty)">
+                                    <small class="text-danger">This field is required.</small>
+                                </div>
+                            </div>
+                          </div>
+                        <div class="row mt-3">
+                            <label class="col-md-2 requiredfield">LicenseExpired Date:</label>
+                            <div class="form-group col-md-4">
+                                <ejs-datepicker
+                                    formControlName="licenseExpiration"
+                                    [format]="formatfilter"
+                                    autocomplete="off"
+                                    placeholder="LicenseExpiration Date"
+                                    tabindex="9"
+                                    maxlength="120">
+                                </ejs-datepicker>
+                                <div *ngIf="driverForm.controls['licenseExpiration'].invalid && (driverForm.controls['licenseExpiration'].touched || driverForm.controls['licenseExpiration'].dirty)">
+                                    <small class="text-danger">This field is required.</small>
+                                </div>
+                            </div>
+                            <label class="col-md-2">Email:</label>
+                            <div class="form-group col-md-4">
+                                <ejs-textbox
+                                    formControlName="email"
+                                    autocomplete="off"
+                                    placeholder="Enter Email"
+                                    tabindex="7"
+                                    maxlength="100">
+                                </ejs-textbox>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <label class="col-md-2">Active:</label>
+                            <div class="form-group col-md-4">
+                                <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
+                            </div>
+                            <label class="col-md-2">Remarks:</label>
+                            <div class="form-group col-md-4">
+                                <textarea
+                                    formControlName="remarks"
+                                    class="form-control form-control-sm"
+                                    autocomplete="off"
+                                    placeholder="Remarks "
+                                    tabindex="9"
+                                    maxlength="100"></textarea>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
-</div>
-  
+</section>

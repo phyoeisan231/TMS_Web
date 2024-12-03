@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="true"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-                    <li class="breadcrumb-item active text-info">Truck Info</li>
+                    <li class="breadcrumb-item active text-info">Truck</li>
                 </ol>
             </div>
         </div>
@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 col-lg-6 text-left">
-                          <h5 class="card-title">Truck Info</h5>
+                          <h5 class="card-title">Truck</h5>
                         </div>
                     </div>
                     <ejs-grid #Grid [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings' [editSettings]="editSettings" [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
