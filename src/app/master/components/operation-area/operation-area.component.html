@@ -18,9 +18,9 @@
               </div>
               <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)="rowDataBound($event)">
                 <e-columns>
-                  <e-column field='areaID' headerText='Operation AreaID' [isPrimaryKey]="true" width="100"></e-column>
+                  <e-column field='areaID' headerText='Area ID' [isPrimaryKey]="true" width="100"></e-column>
                   <e-column field='name' headerText="Name" width="150"></e-column>
-                  <e-column field='yardID' headerText="YardID" width="100"></e-column>
+                  <e-column field='yardID' headerText="Yard ID" width="100"></e-column>
                   <e-column field='active' headerText="Active" width="100">
                     <ng-template #template let-data>
                       <div *ngIf="data.active;else False">Yes</div>
@@ -42,14 +42,14 @@
                   <form [formGroup]="opForm">
                     <div class="form-row">
                       <div class="form-group col-md-12">
-                        <label for="areaID" class="font-weight-normal requiredfield">OperationArea ID</label>
+                        <label for="areaID" class="font-weight-normal requiredfield">Area ID</label>
                         <ejs-textbox formControlName="areaID" class="text-uppercase" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                         <div  [style.visibility]='validateControl("areaID")? "visible": "hidden"'>
                           <label class="e-error" for="areaID" style="display: block;">*This field is required</label>
                         </div>
                       </div>
                       <div class="form-group col-md-12">
-                        <label for="name" class="font-weight-normal requiredfield">OperationArea Name</label>
+                        <label for="name" class="font-weight-normal requiredfield">Area Name</label>
                         <ejs-textbox formControlName="name" tabindex="2" autocomplete="off"></ejs-textbox>
                         <div [style.visibility]='validateControl("name")? "visible": "hidden"'>
                           <label class="e-error" for="name" style="display: block;">*This field is required</label>
@@ -58,7 +58,7 @@
                      </div>
                      <div class="form-row">
                       <div class="form-group col-md-12">
-                        <label class="font-weight-normal requiredfield">YardID</label>
+                        <label class="font-weight-normal requiredfield">Yard ID</label>
                         <ejs-dropdownlist
                                   formControlName="yardID"
                                   [dataSource]='yardList'
@@ -78,7 +78,7 @@
                       <div class="form-group col-md-6" *ngIf="!data.isAdd"><br>
                         <ejs-checkbox formControlName="isWaitingArea"  label="IsWaitingArea"  floatLabelType="Always" tabindex="5" [checked]="true"></ejs-checkbox>
                       </div>
-                      
+
                      </div>
                   </form>
                 </ng-template>
@@ -89,7 +89,6 @@
     </div>
   </section>
   <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
-  
-  
-  
-  
+
+
+

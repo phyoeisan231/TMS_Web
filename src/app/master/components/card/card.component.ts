@@ -29,7 +29,7 @@ export class CardComponent {
   lblText:string;
   yardList:any[]=[];
   cardList:any[];
-  groupNameList:any[]=["ICD","Customer","Others"];
+  groupNameList:any[]=["ICD","TMS","Others"];
   submitClicked: boolean = false;
   public data: Object[];
   formatfilter:string='dd-MMM-yyyy';
@@ -46,7 +46,7 @@ export class CardComponent {
 
   rowDataBound(args: any): void {
     if (args.row) {
-      if (args.data.active!=true || args.data.isUse!=true) {
+      if (args.data.isUse==true) {
         args.row.classList.add('not-Use');
       }
     }
@@ -123,7 +123,7 @@ export class CardComponent {
 
   createFormGroup(data: any): FormGroup {
     return new FormGroup({
-      cardNo: new FormControl({ value: data.cardNo, disabled: true }), // Read-only 
+      cardNo: new FormControl({ value: data.cardNo, disabled: true }), // Read-only
       yardID: new FormControl(data.yardID,Validators.required),
       groupName: new FormControl(data.groupName,Validators.required),
       active:new FormControl(data.active),

@@ -80,9 +80,9 @@
                 <ejs-textbox formControlName="transporterName" [readonly]="true" tabindex="12" ></ejs-textbox>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="form-group col-md-4">
-                <label  class="font-weight-normal requiredfield">Type</label>
+                <label  class="font-weight-normal">Type</label>
                 <ejs-dropdownlist formControlName="inType" tabindex="13" [dataSource]='typeList'  placeholder="Select One" ></ejs-dropdownlist>
               </div>
               <div class="form-group col-md-4">
@@ -93,8 +93,8 @@
                 <label  class="font-weight-normal">Container Size</label>
                 <ejs-dropdownlist formControlName="inContainerSize" tabindex="15" [dataSource]='containerSizeList'  placeholder="Select One" ></ejs-dropdownlist>
               </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">No. Of Container</label>
                 <ejs-numerictextbox formControlName="inNoOfContainer" tabindex="16" ></ejs-numerictextbox>
@@ -107,30 +107,31 @@
                 <label  class="font-weight-normal">CargoInfo</label>
                 <ejs-textbox formControlName="inCargoInfo" [multiline]="true" tabindex="18" ></ejs-textbox>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Customer</label>
                 <ejs-textbox formControlName="customer" [multiline]="true" tabindex="19" ></ejs-textbox>
               </div>
               <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Remark</label>
+                <ejs-textbox formControlName="remark" [multiline]="true" tabindex="23" ></ejs-textbox>
+              </div>
+              <!-- <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Job Code</label>
                 <ejs-textbox formControlName="jobCode"  tabindex="20" ></ejs-textbox>
               </div>
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Job Description</label>
                 <ejs-textbox formControlName="jobDescription"  tabindex="21" ></ejs-textbox>
-              </div>
+              </div> -->
             </div>
             <div class="row">
-              <div class="form-group col-md-4">
+              <!-- <div class="form-group col-md-4">
                 <label  class="font-weight-normal requiredfield">Card</label>
                 <ejs-dropdownlist formControlName="cardNo" tabindex="22" [dataSource]='cardList' [fields]="{ text: 'cardNo', value: 'cardNo' }" placeholder="Select One" ></ejs-dropdownlist>
-              </div>
-              <div class="form-group col-md-4">
-                <label  class="font-weight-normal">Remark</label>
-                <ejs-textbox formControlName="remark" [multiline]="true" tabindex="23" ></ejs-textbox>
-              </div>
+              </div> -->
+
             </div>
           </form><br>
           <h6>Documents</h6>
