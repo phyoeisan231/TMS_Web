@@ -24,7 +24,7 @@ export class CategoryComponent {
   toolbar: any[] = ['Add','Edit','Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
   categoryForm: any;
-  groupNameList:any[]=["ICD","Customer","Others"];
+  groupNameList:any[]=["ICD","TMS","Others"];
   categoryList:any[];
   lblText:string;
   submitClicked: boolean = false;
@@ -121,7 +121,7 @@ export class CategoryComponent {
     }
   }
 
-  
+
   addCategory(formData: any) {
     this.spinner.show();
     formData.active=true;

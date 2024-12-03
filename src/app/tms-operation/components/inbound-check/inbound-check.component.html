@@ -40,7 +40,7 @@
                       <div class="row">
                         <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
                         <div class="col-sm-8 p-0">
-                          <ejs-multiselect formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'name', value: 'yardID' }" placeholder="Select One"  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
+                          <ejs-multiselect formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
                         </div>
                       </div>
                     </div>
@@ -162,6 +162,31 @@
     </div>
   </div>
 </section>
+<!-- Card Form -->
+<!-- <ejs-dialog #blackModal isModal="true"  [showCloseIcon]="true" width="480px"  allowDragging="true" [visible]="false">
+  <ng-template #header>
+    <div class="font-weight-bold">Assign Card Form</div>
+  </ng-template>
+  <form [formGroup]="cardForm" (ngSubmit)="onCardFormSubmit()">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label  class="requiredfield">In Check No</label>
+        <ejs-textbox formControlName="inRegNo" tabindex="1"  popupHeight='200px' ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-12">
+        <label  class="requiredfield">Card No</label>
+        <ejs-dropdownlist formControlName="cardNo" tabindex="7" [dataSource]='pcCodeList' [fields]="{ text: 'cardNo', value: 'cardNo' }" allowFiltering="true" placeholder="Select One"  popupHeight='200px'></ejs-dropdownlist>
+        <div [style.visibility]='validateCardControl("cardNo")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*CardNo is required</label>
+        </div>
+      </div>
+    </div>
+    <ng-template #footerTemplate>
+      <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit"  ejs-button (click)="onCardFormSubmit()">Save</button>
+      <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="hideDialog()" ejs-button >Cancel</button>
+    </ng-template>
+  </form>
+</ejs-dialog> -->
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 
 

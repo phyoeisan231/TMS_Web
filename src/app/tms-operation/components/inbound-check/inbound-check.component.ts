@@ -26,11 +26,13 @@ export class InboundCheckComponent {
   editSettings: EditSettingsModel = { allowEditing: false, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = ['Add',
   { text: "Details", tooltipText: "Details", prefixIcon: "e-icons e-paste", id: "detail" },
+  { text: "Assign Card", tooltipText: "Assign Card", prefixIcon: "e-icons e-circle-add", id: "card" },
   'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
 
   optionForm: FormGroup;
   gateForm: FormGroup;
+  cardForm: FormGroup;
   submitClicked: boolean = false;
   public formatfilter: any ="MM/dd/yyyy";
   yardList:any[]=[];
@@ -41,10 +43,7 @@ export class InboundCheckComponent {
   transporterList:any[]=[];
   areaList:any[]=[];
   pcCodeList:any[]=[];
-  containerTypeList:any[]=['Laden','Empty'];
-  containerSize:any[]=['20','40','45'];
-  truckTypeList:any[]=['RGL','Customer'];
-  typeList: any[]=['FCL','LCL'];
+  truckTypeList:any[]=['RG','Customer','Supplier'];
   interval: number =1;
   endDate : Date = new Date();
   type:string;
@@ -55,6 +54,7 @@ export class InboundCheckComponent {
   public selectAllText: string| any;
   private searchTruckTerms = new Subject<string>();
   private searchDriverTerms = new Subject<string>();
+  @ViewChild('cardModal')cardModal: DialogComponent;
   @ViewChild('Grid') public grid: GridComponent;
    // end multi file upload
   constructor(
@@ -74,8 +74,15 @@ export class InboundCheckComponent {
       toDate: new FormControl(sessionStorage.getItem("ictoDate")?sessionStorage.getItem("ictoDate"):this.today,Validators.required),
       yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
     });
+
+    this.cardForm=new FormGroup({
+      inRegNo: new FormControl('',Validators.required),
+      cardNo: new FormControl('',Validators.required),
+    });
+
     this.getCategoryList();
     this.getTransporterList();
+    this.getTrailerList();
 
     this.searchTruckTerms.pipe(
       debounceTime(300),
@@ -164,6 +171,14 @@ export class InboundCheckComponent {
     });
  }
 
+ getTrailerList(){
+  this.service.getTrailerList()
+  .pipe(catchError((err) => of(this.showError(err))))
+    .subscribe((result) => {
+      this.trailerList = result;
+      this.spinner.hide();
+  });
+}
 
   onYardChange(code: string) {
    this.getGateList(code);
@@ -355,7 +370,7 @@ export class InboundCheckComponent {
         fileName:'InCheckICDOtherReport.xlsx',
      });
     }
-    if (args.item.id === 'detail') {
+    if (args.item.id === 'detail' || args.item.id==='card') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
         Swal.fire('In Check(ICD/Other)', "Please select one row!", 'warning');
@@ -367,6 +382,12 @@ export class InboundCheckComponent {
         if (args.item.id === 'detail')
         {
           this.router.navigate(["/tms-operation/inbound-check-doc"], { queryParams: { id: id}});
+        }
+        else if (args.item.id === 'card'){
+           if(selectedRecords[0].status==true && selectedRecords[0].cardNo){
+            this.cardForm.controls['inRegNo'].setValue(id);
+            this.cardModal.show();
+           }
         }
         return;
       }

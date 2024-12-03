@@ -31,7 +31,7 @@ export class InboundCheckDocComponent {
     public format="dd/MM/yyyy h:mm:ss a";
     docForm:any;
     detailData:any;
-    cargoTypeList:any[]=['Laden','Empty'];
+    cargoTypeList:any[]=['Laden','MT'];
     containerTypeList:any[]=["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
     containerSizeList:any[]=[20,40,45];
     truckTypeList:any[]=['RGL','Customer'];
@@ -79,7 +79,7 @@ export class InboundCheckDocComponent {
       inNoOfContainer:new FormControl(''),
       jobCode:new FormControl(''),
       jobDescription:new FormControl(''),
-      cardNo:new FormControl('',Validators.required),
+      cardNo:new FormControl(''),
       remark:new FormControl(''),
       customer:new FormControl(''),
       status:new FormControl(''),
@@ -350,7 +350,7 @@ export class InboundCheckDocComponent {
           if (args.item.id === 'check')
           {
             var docList: string=selectedRecords[0].docCode;
-            if (selectedRecords.length > 1) {
+            if (selectedRecords.length > 0) {
                docList = selectedRecords.map(item => `'${item.docCode}'`).join(',');
             }
             this.updateInBoundCheckDocument(docList,id,user)

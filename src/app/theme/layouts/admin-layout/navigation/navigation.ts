@@ -186,14 +186,14 @@ export const NavigationItems: NavigationItem[] = [
             url: 'master/gate',
             icon: 'left-circle'
           },
-          {
-            id: '7',
-            title: 'Waiting Area',
-            type: 'item',
-            classes: 'nav-item',
-            url: 'master/waiting-area',
-            icon: 'left-circle'
-          },
+          // {
+          //   id: '7',
+          //   title: 'Waiting Area',
+          //   type: 'item',
+          //   classes: 'nav-item',
+          //   url: 'master/waiting-area',
+          //   icon: 'left-circle'
+          // },
           {
             id: '8',
             title: 'Weight Bridge',
@@ -262,14 +262,14 @@ export const NavigationItems: NavigationItem[] = [
         url: '',
         icon: 'left-circle',
         children: [
-          {
-            id: '15',
-            title: 'Truck Job Type',
-            type: 'item',
-            classes: 'nav-item',
-            url: 'master/truck-job-type',
-            icon: 'left-circle'
-          },
+          // {
+          //   id: '15',
+          //   title: 'Truck Job Type',
+          //   type: 'item',
+          //   classes: 'nav-item',
+          //   url: 'master/truck-job-type',
+          //   icon: 'left-circle'
+          // },
           {
             id: '16',
             title: 'Category',
