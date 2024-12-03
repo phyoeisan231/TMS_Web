@@ -43,7 +43,7 @@ export class InboundCheckComponent {
   pcCodeList:any[]=[];
   containerTypeList:any[]=['Laden','Empty'];
   containerSize:any[]=['20','40','45'];
-  truckTypeList:any[]=['RGL','Customer'];
+  truckTypeList:any[]=['RG','Customer','Supplier'];
   typeList: any[]=['FCL','LCL'];
   interval: number =1;
   endDate : Date = new Date();
