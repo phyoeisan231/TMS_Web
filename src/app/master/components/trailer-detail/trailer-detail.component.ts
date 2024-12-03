@@ -29,7 +29,6 @@ export class TrailerDetailComponent implements OnInit{
   driverLicenseNoList:any[];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
-  // loadingTypeList:any[]=["Bin","Bulk","Containers","Drums","Pallets","Skids"];
 
   constructor(
     private _sanitizer: DomSanitizer,
@@ -47,7 +46,7 @@ export class TrailerDetailComponent implements OnInit{
       vehicleRegNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
       vehicleBackRegNo: new FormControl(''),
       containerType: new FormControl('',Validators.required),
-      containerSize:new FormControl('',Validators.required),
+      containerSize:new FormControl(''),
       transporterID:new FormControl('',Validators.required),
       trailerWeight:new FormControl(''),
       driverLicenseNo:new FormControl('',Validators.required),
@@ -64,19 +63,6 @@ export class TrailerDetailComponent implements OnInit{
       this.isAdd=true;
     }
     
-    // this.service.getDriverLicenseNo('true').subscribe({
-    //   next: (LicenseNoList) => {
-    //     // Transform the data to include a displayText field
-    //     this.driverLicenseNoList = LicenseNoList.map((driver) => ({
-    //       ...driver,
-    //       displayText: `${driver.licenseNo} / ${driver.name}`, // Combine licenseNo and driverName
-    //     }));
-    //     console.log('Transformed Driver License List:', this.driverLicenseNoList);
-    //   },
-    //   error: (error) => {
-    //     console.error('Error Loading Driver License No', error);
-    //   },
-    // });
     this.service.getDriverLicenseNo('true').subscribe({
       next:(LicenseNoList)=>{
         console.log("Driver License and Names Loaded:",LicenseNoList);
@@ -124,6 +110,8 @@ export class TrailerDetailComponent implements OnInit{
     const formData = this.trailerForm.value;
     if (this.isAdd) {
       formData.createdUser = localStorage.getItem('currentUser');
+      formData.vehicleRegNo=formData.vehicleRegNo.toUpperCase();
+      formData.vehicleBackRegNo=formData.vehicleBackRegNo.toUpperCase();
       this.addNewTrailer(formData);
     } else {
       formData.updatedUser = localStorage.getItem('currentUser');
@@ -140,9 +128,9 @@ export class TrailerDetailComponent implements OnInit{
     formData.append("VehicleRegNo", data.vehicleRegNo);
     formData.append("VehicleBackRegNo", data.vehicleBackRegNo);
     formData.append("ContainerType", data.containerType);
-    formData.append("ContainerSize",data.containerSize);
+    formData.append("ContainerSize",data.containerSize??"");
     formData.append("TransporterID", data.transporterID);
-    formData.append("TrailerWeight",data.trailerWeight);
+    formData.append("TrailerWeight",data.trailerWeight??"");
     formData.append("DriverLicenseNo",data.driverLicenseNo);
     formData.append("Remarks",data.remarks);
     formData.append("Active",data.active);
@@ -172,13 +160,13 @@ export class TrailerDetailComponent implements OnInit{
     this.spinner.show();
     const formData = new FormData();
     formData.append("VehicleRegNo", this.id);
-    formData.append("VehicleBackRegNo", data.vehicleBackRegNo);
+    formData.append("VehicleBackRegNo", data.vehicleBackRegNo??"");
     formData.append("ContainerType", data.containerType);
-    formData.append("ContainerSize",data.containerSize);
+    formData.append("ContainerSize",data.containerSize??"");
     formData.append("TransporterID", data.transporterID);
-    formData.append("TrailerWeight",data.trailerWeight);
+    formData.append("TrailerWeight",data.trailerWeight??"");
     formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("Remarks",data.remarks);
+    formData.append("Remarks",data.remarks??"");
     formData.append("Active",data.active);
 
     if(data.lastPassedDate){

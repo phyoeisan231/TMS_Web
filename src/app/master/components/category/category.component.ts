@@ -64,8 +64,8 @@ export class CategoryComponent {
     return new FormGroup({
       pcCode: new FormControl(data.pcCode,Validators.required),
       categoryName: new FormControl(data.categoryName,Validators.required),
-      inboundWeight: new FormControl(data.inboundWeight),
-      outboundWeight: new FormControl(data.outboundWeight),
+      inboundWeight: new FormControl(data.inboundWeight??""),
+      outboundWeight: new FormControl(data.outboundWeight??""),
       groupName: new FormControl(data.groupName,Validators.required),
       active: new FormControl(data.active),
     });

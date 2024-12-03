@@ -67,7 +67,9 @@
                           <label class="col font-weight-normal">Inbound Weight:</label>
                             <ejs-numerictextbox
                                 formControlName="inboundWeight"
-                                placeholder=""
+                                [min]="0"
+                                [max]="100000"
+                                [decimals]="2"
                                 autocomplete="off"
                                 tabindex="3"
                                 maxlength="100" />
@@ -79,7 +81,9 @@
                           <label class="col font-weight-normal">Outbound Weight:</label>
                             <ejs-numerictextbox
                                 formControlName="outboundWeight"
-                                placeholder=""
+                                [min]="0"
+                                [max]="100000"
+                                [decimals]="2"
                                 autocomplete="off"
                                 tabindex="4"
                                 maxlength="100"/>

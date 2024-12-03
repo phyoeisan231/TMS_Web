@@ -180,11 +180,11 @@ export class DriverDetailComponent implements OnInit{
       formData.append("LicenseNo",this.id);
       formData.append("NRC",data.nrc);
       formData.append("Name",data.name);
-      formData.append("Address",data.address);
+      formData.append("Address",data.address??"");
       formData.append("licenseClass",data.licenseClass);
       formData.append("ContactNo",data.contactNo);
-      formData.append("Email",data.email);
-      formData.append("Remarks",data.remarks);
+      formData.append("Email",data.email??"");
+      formData.append("Remarks",data.remarks??"");
       formData.append("Active", data.active); 
 
       if(data.licenseExpiration){
