@@ -29,6 +29,7 @@ export class TrailerDetailComponent implements OnInit{
   driverLicenseNoList:any[];
   formatfilter:string='dd-MMM-yyyy';
   today : Date = new Date();
+  submitClicked: boolean = false;
 
   constructor(
     private _sanitizer: DomSanitizer,
@@ -45,7 +46,7 @@ export class TrailerDetailComponent implements OnInit{
     this.trailerForm = new FormGroup({
       vehicleRegNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
       vehicleBackRegNo: new FormControl(''),
-      containerType: new FormControl('',Validators.required),
+      containerType: new FormControl(''),
       containerSize:new FormControl(''),
       transporterID:new FormControl('',Validators.required),
       trailerWeight:new FormControl(''),
@@ -54,7 +55,7 @@ export class TrailerDetailComponent implements OnInit{
       active: new FormControl(false),
       lastPassedDate:new FormControl(null),
 
-      isBlack:new FormControl(false), 
+      isBlack:new FormControl(false),
       blackDate:new FormControl(''),
       blackRemovedDate:new FormControl(''),
     });
@@ -62,7 +63,7 @@ export class TrailerDetailComponent implements OnInit{
       this.getTrailerById();
       this.isAdd=true;
     }
-    
+
     this.service.getDriverLicenseNo('true').subscribe({
       next:(LicenseNoList)=>{
         console.log("Driver License and Names Loaded:",LicenseNoList);
@@ -72,7 +73,7 @@ export class TrailerDetailComponent implements OnInit{
         console.log('Error Loading Transporter Names',error)
       }
     });
-    
+
     this.service.getTransporterNames().subscribe({
       next:(names)=>{
         console.log("Transporter Names Loaded:",names);
@@ -99,7 +100,7 @@ export class TrailerDetailComponent implements OnInit{
       this.trailerForm.controls['remarks'].setValue(result.remarks);
       this.trailerForm.controls['active'].setValue(result.active);
       this.trailerForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
-      
+
       this.isAdd=false;
       this.breadCrumbItems = [{ label: 'Trailer',rounterLink:'/trailer-detail',active:false }, { label: 'Edit Trailer', active: true }];
       this.spinner.hide();
@@ -142,7 +143,7 @@ export class TrailerDetailComponent implements OnInit{
       .split("T")[0];
       formData.append("LastPassedDate",localLastPassedDate);
     }
-    
+
     this.service.createTrailer(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
@@ -176,7 +177,7 @@ export class TrailerDetailComponent implements OnInit{
       .split("T")[0];
       formData.append("LastPassedDate",localLastPassedDate);
     }
-    
+
     this.service.updateTrailer(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
@@ -196,6 +197,11 @@ export class TrailerDetailComponent implements OnInit{
 
   showError(error: HttpErrorResponse) {
     Swal.fire('Trailer', error.statusText, 'error');
+  }
+
+  validateControl(controlName: string) {
+    const control = this.trailerForm.get(controlName);
+    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
 
 }

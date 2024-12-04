@@ -33,7 +33,7 @@ export class TrailerComponent {
     private spinner: NgxSpinnerService,
     private router: Router,
   ) {}
-  
+
   ngOnInit(){
     this.loadTableData();
   }
@@ -46,7 +46,7 @@ export class TrailerComponent {
       this.grid.dataSource  = result;
       this.spinner.hide();
     });
-    
+
   }
 
   actionBegin(args: SaveEventArgs): void {
@@ -97,7 +97,7 @@ export class TrailerComponent {
     this.spinner.hide();
     Swal.fire('Trailer', error.statusText, 'error');
   }
-  
+
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport();
@@ -112,7 +112,7 @@ export class TrailerComponent {
         Swal.fire('Trailer', "Please select one row!", 'warning');
       }
       else {
-        var id: string=selectedRecords[0].vehicleRegNo;         
+        var id: string=selectedRecords[0].vehicleRegNo;
        if(args.item.id === 'edit'){
         this.router.navigate(["master/trailer-detail"], { queryParams: {id: id},skipLocationChange: true});
        }
