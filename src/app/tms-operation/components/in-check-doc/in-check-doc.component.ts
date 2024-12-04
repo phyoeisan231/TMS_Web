@@ -243,13 +243,13 @@ export class InCheckDocComponent {
     formData.createdUser = localStorage.getItem('currentUser');
     if(this.transporterList){
       const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
-      if(transporter){
+      if(transporter.length>0){
         formData.transporterName = transporter[0].transporterName;
       }
     }
-    if(this.driverList){
+    if(this.driverList.length>0){
       const driver = this.driverList.filter(x=>x.licenseNo==formData.driverLicenseNo);
-      if(driver){
+      if(driver.length>0){
         formData.driverName = driver[0].name;
         formData.driverContactNo = driver[0].contactNo;
       }
@@ -325,8 +325,14 @@ export class InCheckDocComponent {
 
     onTruckChange(id:string){
      const truck = this.truckList.filter(x=>x.vehicleRegNo==id);
-     this.detailForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:'');
-     this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:'');
+     if(this.driverList){
+      const driver = this.driverList.filter(x=>x.licenseNo==truck[0].driverLicenseNo);
+      if(driver.length>0){
+        console.log(driver)
+        this.detailForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:null);
+      }
+     }
+      this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
     }
 
 
