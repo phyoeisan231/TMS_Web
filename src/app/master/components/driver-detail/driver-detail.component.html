@@ -26,31 +26,29 @@
                             </div>
                           </div><br>
                         <div class="row my-0">
-                          <label class="col-md-2 requiredfield" *ngIf="isAdd">License No:</label>
-                          <label class="col-md-2 requiredfield" *ngIf="!isAdd">License No:</label>
-                          <div class="form-group col-md-4">
-                            <ejs-textbox
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-normal requiredfield" *ngIf="isAdd">License No:</label>
+                                <label class="font-weight-normal requiredfield" *ngIf="!isAdd">License No:</label>
+                                <ejs-textbox
                                 formControlName="licenseNo"
                                 tabindex="0" maxlength="50" />
-                            <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
-                                <small class="text-danger">This field is required.</small>
-                            </div>
-                        </div>
-                        <label class="col-md-2 requiredfield">NRC:</label>
-                        <div class="form-group col-md-4">
-                            <ejs-textbox
-                                formControlName="nrc"
-                                placeholder="Enter NRC"
-                                autocomplete="off"
-                                tabindex="1" maxlength="100"/>
                                 <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
                                     <small class="text-danger">This field is required.</small>
                                 </div>
-                        </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 requiredfield">Name:</label>
+                            </div>
                             <div class="form-group col-md-4">
+                                <label class="font-weight-normal requiredfield">NRC:</label>
+                                <ejs-textbox
+                                    formControlName="nrc"
+                                    placeholder="Enter NRC"
+                                    autocomplete="off"
+                                    tabindex="1" maxlength="100"/>
+                                    <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
+                                        <small class="text-danger">This field is required.</small>
+                                    </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-normal requiredfield">Name:</label>
                                 <ejs-textbox
                                     formControlName="name"
                                     placeholder="Enter Driver Name"
@@ -61,19 +59,19 @@
                                         <small class="text-danger">This field is required.</small>
                                     </div>
                             </div>
-                            <label class="col-md-2">Address:</label>
+                        </div>
+                        
+                        <div class="row mt-2">
                             <div class="form-group col-md-4">
+                                <label class="font-weight-normal">Address:</label>
                                 <ejs-textbox
                                     formControlName="address"
                                     placeholder="Enter Address"
                                     autocomplete="off"
                                     tabindex="3" maxlength="100"/>
-                                    
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 requiredfield">License Class:</label>
                             <div class="form-group col-md-4">
+                                <label class="font-weight-normal requiredfield">License Class:</label>
                                 <ejs-dropdownlist
                                     formControlName="licenseClass"
                                     [dataSource]="classList"
@@ -85,8 +83,8 @@
                                         <small class="text-danger">This field is required.</small>
                                     </div>
                             </div>
-                            <label class="col-md-2 requiredfield">Contact No.:</label>
                             <div class="form-group col-md-4">
+                                <label class="font-weight-normal requiredfield">Contact No.:</label>
                               <ejs-textbox
                                   formControlName="contactNo"
                                   autocomplete="off"
@@ -97,10 +95,11 @@
                                     <small class="text-danger">This field is required.</small>
                                 </div>
                             </div>
-                          </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 requiredfield">LicenseExpired Date:</label>
+                        </div>
+                        
+                        <div class="row mt-2">
                             <div class="form-group col-md-4">
+                                <label class="font-weight-normal requiredfield">LicenseExpired Date:</label>
                                 <ejs-datepicker
                                     formControlName="licenseExpiration"
                                     [format]="formatfilter"
@@ -113,8 +112,8 @@
                                     <small class="text-danger">This field is required.</small>
                                 </div>
                             </div>
-                            <label class="col-md-2">Email:</label>
                             <div class="form-group col-md-4">
+                                <label class="font-weight-normal">Email:</label>
                                 <ejs-textbox
                                     formControlName="email"
                                     autocomplete="off"
@@ -123,14 +122,8 @@
                                     maxlength="100">
                                 </ejs-textbox>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2">Active:</label>
                             <div class="form-group col-md-4">
-                                <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
-                            </div>
-                            <label class="col-md-2">Remarks:</label>
-                            <div class="form-group col-md-4">
+                                <label class="font-weight-normal">Remarks:</label>
                                 <textarea
                                     formControlName="remarks"
                                     class="form-control form-control-sm"
@@ -138,6 +131,12 @@
                                     placeholder="Remarks "
                                     tabindex="9"
                                     maxlength="100"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="form-group col-md-4">
+                                <ejs-checkbox formControlName="active" class="font-weight-normal" label="Active" tabindex="8"></ejs-checkbox>
                             </div>
                         </div>
                     </form>

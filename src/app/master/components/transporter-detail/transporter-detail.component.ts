@@ -51,11 +51,7 @@ export class TransporterDetailComponent{
       typeID: new FormControl('',Validators.required),
       remarks:new FormControl(''),
       active: new FormControl(false),
-      // isBlack:new FormControl(false),
-      // blackReason:new FormControl(''),
-      // blackDate:new FormControl(null),
-      // blackRemovedDate: new FormControl(null),
-      // blackRemovedReason:new FormControl(''),
+      sapID:new FormControl(''),
     });
     if(this.id!=null && this.id!=undefined){
       this.getTransporterById();
@@ -81,11 +77,7 @@ export class TransporterDetailComponent{
       this.transForm.controls['typeID'].setValue(result.typeID);
       this.transForm.controls['remarks'].setValue(result.remarks);
       this.transForm.controls['active'].setValue(result.active);
-      // this.transForm.controls['isBlack'].setValue(result.isBlack);
-      // this.transForm.controls['blackDate'].setValue(result.blackDate);
-      // this.transForm.controls['blackReason'].setValue(result.blackReason);
-      // this.transForm.controls['blackRemovedDate'].setValue(result.blackRemovedDate);
-      // this.transForm.controls['blackRemovedReason'].setValue(result.blackRemovedReason);
+      this.transForm.controls['sapID'].setValue(result.sapID);
       this.isAdd=false;
       this.breadCrumbItems = [{ label: 'Transporter',rounterLink:'master/transporter-detail',active:false }, { label: 'Edit Transporter', active: true }];
       this.spinner.hide();
@@ -115,6 +107,7 @@ export class TransporterDetailComponent{
     formData.append("TypeID",data.typeID);
     formData.append("Remarks",data.remarks);
     formData.append("Active",data.active);
+    formData.append("SAPID",data.sapID);
     this.service.createTransporter(formData)
     .pipe(catchError((err) => of(this.showError(err))))
     .subscribe((result) => {
@@ -142,6 +135,7 @@ export class TransporterDetailComponent{
       formData.append("TypeID",data.typeID);
       formData.append("Remarks",data.remarks);
       formData.append("Active",data.active);
+      formData.append("SAPID",data.sapID);;
       // formData.append("IsBlack",data.isBlack.toString());
       this.service.updateTransporter(formData)
         .pipe(catchError((err) => of(this.showError(err))))

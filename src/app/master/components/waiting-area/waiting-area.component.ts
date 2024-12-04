@@ -91,7 +91,6 @@ export class WaitingAreaComponent {
           }
           else {
             formData.updatedUser = localStorage.getItem('currentUser');
-            // formData.areaID='';
             this.editWaitingArea(formData);
           }
       } else {

@@ -127,14 +127,13 @@ export class CardComponent {
       yardID: new FormControl(data.yardID,Validators.required),
       groupName: new FormControl(data.groupName,Validators.required),
       active:new FormControl(data.active),
-      isUse:new FormControl(data.isUse)
     });
   }
 
   addCard(formData: any) {
     this.spinner.show();
     formData.active=true;
-    formData.isUse=true;
+    formData.isUse=false;
     this.service
       .createCard(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -155,7 +154,6 @@ export class CardComponent {
     this.spinner.show();
     formData.active=formData.active?true:false;
     formData.isUse=formData.isUse?true:false;
-
     this.service
       .updateCard(formData)
       .pipe(catchError((err) => of(this.showError(err))))

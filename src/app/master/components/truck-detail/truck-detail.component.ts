@@ -51,6 +51,7 @@ export class TruckDetailComponent {
       typeID: new FormControl('', Validators.required),
       transporterID:new FormControl('',Validators.required),
       active: new FormControl(false),
+      isRGL:new FormControl(false),
       // isBlack:new FormControl(false),
       driverLicenseNo:new FormControl('',Validators.required),
       lastPassedDate:new FormControl(null),
@@ -103,15 +104,13 @@ export class TruckDetailComponent {
       this.truckForm.controls['typeID'].setValue(result.typeID);
       this.truckForm.controls['transporterID'].setValue(result.transporterID);
       this.truckForm.controls['active'].setValue(result.active);
+      this.truckForm.controls['isRGL'].setValue(result.isRGL);
       // this.truckForm.controls['isBlack'].setValue(result.isBlack);
       this.truckForm.controls['driverLicenseNo'].setValue(result.driverLicenseNo);
       this.truckForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
       this.truckForm.controls['vehicleBackRegNo'].setValue(result.vehicleBackRegNo);
       this.truckForm.controls['remarks'].setValue(result.remarks);
-      // this.truckForm.controls['blackDate'].setValue(result.blackDate);
-      // this.truckForm.controls['blackReason'].setValue(result.blackReason);
-      // this.truckForm.controls['blackRemovedDate'].setValue(result.blackRemovedDate);
-      // this.truckForm.controls['blackRemovedReason'].setValue(result.blackRemovedReason);
+      
       this.isAdd=false;
       this.breadCrumbItems = [{ label: 'Truck',rounterLink:'/truck-detail',active:false }, { label: 'Edit Truck', active: true }];
       this.spinner.hide();
@@ -136,7 +135,6 @@ export class TruckDetailComponent {
 
   addNewTruck(data: any) {
     this.spinner.show();
-
     const formData = new FormData();
     formData.append("VehicleRegNo", data.vehicleRegNo);
     formData.append("ContainerType", data.containerType);
@@ -145,12 +143,11 @@ export class TruckDetailComponent {
     formData.append("TypeID",data.typeID);
     formData.append("TransporterID",data.transporterID);
     formData.append("Active",data.active);
+    formData.append("IsRGL",data.isRGL);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
     formData.append("VehicleBackRegNo",data.vehicleBackRegNo??"");
     formData.append("Remarks",data.remarks??"");
     // formData.append("IsBlack",data.isBlack);
-    // formData.append("BlackReason",data.blackReason);
-    // formData.append("BlackRemovedReason",data.blackRemovedReason);
 
     // if(data.blackRemovedDate){
     //   const blackRemoved=data.blackRemovedDate instanceof Date?data.blackRemovedDate:new Date(data.blackRemovedDate);
@@ -184,7 +181,6 @@ export class TruckDetailComponent {
   editTruck(data: any) {
     this.spinner.show();
     const formData = new FormData();
-    data.active=data.active?true:false;
     formData.append("VehicleRegNo",this.id);
     formData.append("ContainerType", data.containerType);
     formData.append("ContainerSize",data.containerSize??"");
@@ -192,6 +188,7 @@ export class TruckDetailComponent {
     formData.append("TypeID",data.typeID);
     formData.append("TransporterID",data.transporterID);
     formData.append("Active",data.active);
+    formData.append("IsRGL",data.isRGL);
     formData.append("DriverLicenseNo",data.driverLicenseNo);
     formData.append("VehicleBackRegNo",data.vehicleBackRegNo??"");
     formData.append("Remarks",data.remarks??"");

@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="true"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-                    <li class="breadcrumb-item active text-info">Truck</li>
+                    <li class="breadcrumb-item active text-primary">Truck</li>
                 </ol>
             </div>
         </div>
@@ -41,6 +41,14 @@
                                   </ng-template>
                                 </ng-template>
                             </e-column>
+                            <e-column field='isRGL' headerText="IsRGL" width="100">
+                              <ng-template #template let-data>
+                                <div *ngIf="data.isRGL;else False">Yes</div>
+                                <ng-template #False>
+                                  <div>No</div>
+                                </ng-template>
+                              </ng-template>
+                          </e-column>
                         </e-columns>
                     </ejs-grid>
                 </div>
