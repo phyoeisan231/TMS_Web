@@ -16,6 +16,10 @@ export class TruckService {
     return this.http.get<any>(environment.url+'Master/GetTruckList');
   }
   
+  onBlackForm(data: any) {
+    return this.http.put<any>(environment.url + 'Master/BlackFormForTruck/', data, httpOptions);
+  }
+
   deleteTruck(id:any){
     return this.http.delete<any>(environment.url+'Master/DeleteTruck/'+id,httpOptions);
   }

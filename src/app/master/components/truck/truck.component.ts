@@ -7,6 +7,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { MasterModule } from '../../master.module';
 import { TruckService } from './truck.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import * as moment from 'moment';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-truck',
@@ -21,11 +25,22 @@ export class TruckComponent {
   toolbar: any[] = [
   { text: "Add", tooltipText: "Add", id: "add" },
   { text: "Edit", tooltipText: "Edit", prefixIcon: "e-edit", id: "edit" },
+  { text: "IsBlack", tooltipText: "IsBlack", prefixIcon: "e-circle-check", id: "isblack" },
   'Delete','Search'];
   lines: GridLine = 'Both';
+  truckForm: any;
+  truckTypeList: any[]=[];
+  truckList: any[]=[];
+  public format: any = {type:"date", format:"dd/MM/yyyy"};
+  blackForm:any;
+  isBlack: boolean=true;
+  isShow: boolean=true;
+  today : Date = new Date();
   submitClicked: boolean = false;
   public data: Object[];
   @ViewChild('Grid') public grid: GridComponent;
+  @ViewChild('blackModal')blackModal: DialogComponent;
+  Dialog: any;
   constructor(
     private service: TruckService,
     private spinner: NgxSpinnerService,
@@ -33,6 +48,14 @@ export class TruckComponent {
   ) {}
   
   ngOnInit(){
+    this.blackForm= new FormGroup({
+      vehicleRegNo: new FormControl(''),
+      isBlack: new FormControl(''),
+      blackReason: new FormControl(''),
+      blackDate: new FormControl(this.today),
+      blackRemovedReason: new FormControl(''),
+      blackRemovedDate: new FormControl(this.today),
+    });
     this.loadTableData();
   }
 
@@ -54,7 +77,15 @@ export class TruckComponent {
       this.deleteTruck(id);
     }
   }
-  
+
+  // createFormGroup(data: any): FormGroup {
+  //   return new FormGroup({
+  //     vehicleRegNo: new FormControl(data.vehicleRegNo, Validators.required),
+  //     isBlack: new FormControl(data.isBlack),
+
+  //   });
+  // }
+
   deleteTruck(id: any) {
     Swal.fire({
       title: 'Are you sure?',
@@ -85,6 +116,45 @@ export class TruckComponent {
     });
   }
 
+  openDialog () {
+    this.blackModal.show();
+  }
+
+  hideDialog() {
+    this.blackModal.hide();
+  }
+
+  onBlackFormSubmit() {
+    this.spinner.show();
+    const formData = this.blackForm.value;
+    formData.isBlack=formData.isBlack?true:false;
+    if(formData.isBlack==true){
+      formData.blackRemovedDate=null;
+      formData.blackRemovedReason=null;
+      formData.blackDate=moment(formData.blackDate).format('MM/DD/YYYY HH:mm:ss');
+    }
+    else{
+      formData.isBlack=false;
+      formData.blackDate=null;
+      formData.blackReason=null;
+      formData.blackRemovedDate=moment(formData.blackRemovedDate).format('MM/DD/YYYY HH:mm:ss');
+    }
+    this.hideDialog();
+    console.log(formData)
+    this.service
+      .onBlackForm(formData)
+      .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        if (result.status == true) {
+          Swal.fire('Truck Black Form', result.messageContent,'success');
+          this.loadTableData();
+        } else {
+          Swal.fire('Truck Black Form', result.messageContent, 'error');
+        }
+      });
+      this.spinner.hide();
+  }
+
   showSuccess(msg: string) {
     this.spinner.hide();
     Swal.fire('Truck', msg, 'success');
@@ -95,27 +165,46 @@ export class TruckComponent {
     Swal.fire('Truck', error.statusText, 'error');
   }
 
-  toolbarClick(args: ClickEventArgs): void {
-    if(args.item.text === 'Excel Export'){
-      this.grid.excelExport();
-    }
-    else if (args.item.id ==='add'){
-      this.router.navigate(["master/truck-detail"], { queryParams: {id: null},skipLocationChange: true});
-    }
-    else if (args.item.id ==='edit') {
-      let selectedRecords: any[] = this.grid.getSelectedRecords();
-
-      if (selectedRecords.length == 0) {
-        Swal.fire('Truck', "Please select one row!", 'warning');
-      }
-      else {
-        var id: string=selectedRecords[0].vehicleRegNo;
-       if(args.item.id === 'edit'){
-        this.router.navigate(["master/truck-detail"], { queryParams: {id: id},skipLocationChange: true});
-       }
-        return;
-      }
-   }
+  validateControl(controlName: string) {
+    const control = this.truckForm.get(controlName);
+    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
+
+  toolbarClick(args: ClickEventArgs): void {
+    if (args.item.text === 'Excel Export') {
+        this.grid.excelExport();
+    }
+    else if (args.item.id === 'add') {
+        this.router.navigate(["master/truck-detail"], { queryParams: { id: null }, skipLocationChange: true });
+    }
+    else if (args.item.id === 'edit' || args.item.id === 'isblack') {
+        let selectedRecords: any[] = this.grid.getSelectedRecords();
+
+        if (selectedRecords.length == 0) {
+            Swal.fire('Truck', "Please select one row!", 'warning');
+        }
+        else {
+            var id: string = selectedRecords[0].vehicleRegNo;
+
+            if (args.item.id === 'edit') {
+                this.router.navigate(["master/truck-detail"], { queryParams: { id: id }, skipLocationChange: true });
+            }
+            else if (args.item.id === 'isblack') {
+                const isBlack = selectedRecords[0].isBlack;
+                this.blackForm.controls['vehicleRegNo'].setValue(id);  // Set 'id' instead of 'vehicleRegNo'
+                this.blackForm.controls['isBlack'].setValue(isBlack);
+
+                if (isBlack == true) {
+                    this.isShow = false;
+                }
+                else {
+                    this.isShow = true;
+                }
+                this.blackModal.show();
+            }
+        }
+    }
+}
+
 
 }

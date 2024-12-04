@@ -51,6 +51,7 @@ export class TruckDetailComponent {
       typeID: new FormControl('', Validators.required),
       transporterID:new FormControl('',Validators.required),
       active: new FormControl(false),
+      // isBlack:new FormControl(false),
       driverLicenseNo:new FormControl('',Validators.required),
       lastPassedDate:new FormControl(null),
       vehicleBackRegNo:new FormControl(''),
@@ -102,11 +103,11 @@ export class TruckDetailComponent {
       this.truckForm.controls['typeID'].setValue(result.typeID);
       this.truckForm.controls['transporterID'].setValue(result.transporterID);
       this.truckForm.controls['active'].setValue(result.active);
+      // this.truckForm.controls['isBlack'].setValue(result.isBlack);
       this.truckForm.controls['driverLicenseNo'].setValue(result.driverLicenseNo);
       this.truckForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
       this.truckForm.controls['vehicleBackRegNo'].setValue(result.vehicleBackRegNo);
       this.truckForm.controls['remarks'].setValue(result.remarks);
-      // this.truckForm.controls['isBlack'].setValue(result.isBlack);
       // this.truckForm.controls['blackDate'].setValue(result.blackDate);
       // this.truckForm.controls['blackReason'].setValue(result.blackReason);
       // this.truckForm.controls['blackRemovedDate'].setValue(result.blackRemovedDate);
@@ -135,6 +136,7 @@ export class TruckDetailComponent {
 
   addNewTruck(data: any) {
     this.spinner.show();
+
     const formData = new FormData();
     formData.append("VehicleRegNo", data.vehicleRegNo);
     formData.append("ContainerType", data.containerType);
@@ -146,20 +148,10 @@ export class TruckDetailComponent {
     formData.append("DriverLicenseNo",data.driverLicenseNo);
     formData.append("VehicleBackRegNo",data.vehicleBackRegNo??"");
     formData.append("Remarks",data.remarks??"");
-    // formData.append("IsBlack",data.isBlack.toString());
+    // formData.append("IsBlack",data.isBlack);
     // formData.append("BlackReason",data.blackReason);
     // formData.append("BlackRemovedReason",data.blackRemovedReason);
-    //formData.append("Name",data.name);
-    //formData.append("ContainerType",data.containerType);
-    //formData.append("ContainerSize",data.containerSize);
 
-    // if (data.blackDate) {
-    //   const blackedDate = data.blackDate instanceof Date ? data.blackDate : new Date(data.blackDate);
-    //   const localDate = new Date(blackedDate.getTime() - blackedDate.getTimezoneOffset() * 60000)
-    //     .toISOString()
-    //     .split("T")[0]; // Get only the date portion in 'yyyy-MM-dd' format
-    //   formData.append("BlackDate", localDate);
-    // }
     // if(data.blackRemovedDate){
     //   const blackRemoved=data.blackRemovedDate instanceof Date?data.blackRemovedDate:new Date(data.blackRemovedDate);
     //   const localRemovedDate=new Date(blackRemoved.getTime()-blackRemoved.getTimezoneOffset()*60000)
