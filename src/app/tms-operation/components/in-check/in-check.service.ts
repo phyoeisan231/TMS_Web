@@ -19,6 +19,10 @@ export class InCheckService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetGateInBoundList/?yard=' + yard);
   }
 
+  getWBDataList(yard: string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetWBDataList/?id=' + yard);
+  }
+
   getAreaList(yard: string) {
     return this.http.get<any>(environment.url + 'TMSOperation/GetOperationAreaDataList/?yard=' + yard);
   }
@@ -56,23 +60,11 @@ export class InCheckService {
   }
 
   deleteInBoundCheck(id: any,user:string) {
-    return this.http.delete<any>(environment.url + 'TMSOperation/DeleteInBoundCheck/?id=' + id+ '&user=' + user, httpOptions);
+    return this.http.delete<any>(environment.url + 'TMSOperation/DeleteInCheck/?id=' + id+ '&user=' + user, httpOptions);
   }
 
   getInBoundCheckById(id: string) {
     return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckById/?id=' + id);
-  }
-
-  updateInBoundCheck(data: any) {
-    return this.http.put<any>(environment.url + 'TMSOperation/UpdateInBoundCheck', data, httpOptions);
-  }
-
-  updateInBoundCheckDocument(docList:string,id:number,user:string) {
-    return this.http.put<any>(environment.url + 'TMSOperation/UpdateInBoundCheckDocument/?id=' + id+ '&docList=' + docList +'&user=' + user, httpOptions);
-  }
-
-  deleteInBoundCheckDocument(id: any,code:string) {
-    return this.http.delete<any>(environment.url + 'TMSOperation/DeleteInBoundCheckDocument/?id=' + id+ '&code=' + code, httpOptions);
   }
 
   getDocumentSettingList(id: string) {

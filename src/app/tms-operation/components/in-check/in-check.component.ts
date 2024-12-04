@@ -83,6 +83,7 @@ export class InCheckComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.grid.dataSource= result;
+        console.log(result)
         this.spinner.hide();
     });
   }
@@ -92,14 +93,8 @@ export class InCheckComponent {
       args.cancel = true;
       const data = args.data as any[];
       const id = data[0].inRegNo;
-      const status = data[0].status;
       const user = localStorage.getItem('currentUser');
-      if(!status){
-        this.deleteInBoundCheck(id,user);
-      }
-      else{
-        Swal.fire('In Check(ICD/Other)', 'Data can not delete!', 'error');
-      }
+      this.deleteInBoundCheck(id,user);
     }
   }
 
@@ -153,7 +148,7 @@ export class InCheckComponent {
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'InCheckICDOtherReport.xlsx',
+        fileName:'InCheckICDOReport.xlsx',
      });
     }
     if (args.item.id === 'detail') {
