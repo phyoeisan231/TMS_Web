@@ -55,7 +55,7 @@ export const NavigationItems: NavigationItem[] = [
             title: 'ICD/Other',
             type: 'item',
             classes: 'nav-item',
-            url: 'tms-operation/inbound-check',
+            url: 'tms-operation/in-check',
             icon: 'left-circle'
           },
           {

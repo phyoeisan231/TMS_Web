@@ -164,3 +164,43 @@
    </div>
  </div>
 </section>
+<!-- Black Form -->
+<!-- <ejs-dialog #blacModal isModal="true"  [showCloseIcon]="true" width="480px"  allowDragging="true" [visible]="false">
+  <ng-template #header>
+    <div class="font-weight-bold">Is Black Form</div>
+  </ng-template>
+  <form [formGroup]="blackForm" (ngSubmit)="onBlackFormSubmit()">
+    <div class="form-group col-md-12 " hidden>
+      <div class="e-float-input e-control-wrapper">
+        <input formControlName="vehicleRegNo"  type="text" readonly="true" autocomplete="off">
+        <span class="e-float-line"></span>
+        <label class="e-float-text e-label-top" for="vehicleRegNo">VehicleRegNo</label>
+      </div>
+    </div>
+    <div class="form-group col-md-4 col-lg-6">
+      <ejs-checkbox formControlName="isBlack" data-msg-containerid='isBlackError' label="IsBlack"  autocomplete="off"  tabindex="1"></ejs-checkbox>
+    </div>
+    <div class="form-group col-md-12" *ngIf="this.isShow">
+        <label for="blackDate" class="font-weight-normal">Black Date</label>
+        <ejs-datepicker formControlName="blackDate" data-msg-containerid='blackDateError' autocomplete="off" type="date" format="dd-MMM-yyyy" tabindex="2"  ></ejs-datepicker>
+    </div>
+    <div class="form-group col-md-12" *ngIf="!this.isShow">
+      <label for="blackRemovedDate" class="font-weight-normal">Black Removed Date</label>
+      <ejs-datepicker formControlName="blackRemovedDate" data-msg-containerid='blackRemovedDateError' autocomplete="off" type="date" format="dd-MMM-yyyy" tabindex="2"  ></ejs-datepicker>
+  </div>
+    <div class="form-group col-md-12" *ngIf="this.isShow">
+       <label for="blackReason" class="font-weight-normal">Black Reason</label>
+       <textarea formControlName="blackReason" class="e-input" type="text" id="blackReason"    tabindex="3"  ></textarea>
+    </div>
+    <div class="form-group col-md-12" *ngIf="!this.isShow">
+      <label for="blackRemovedReason" class="font-weight-normal">Black Removed Reason</label>
+      <textarea formControlName="blackRemovedReason" class="e-input" type="text" id="blackRemovedReason"    tabindex="3"  ></textarea>
+   </div>
+    <ng-template #footerTemplate>
+      <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit"  ejs-button (click)="onBlackFormSubmit()">Save</button>
+      <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="hideDialog()" ejs-button >Cancel</button>
+    </ng-template>
+  </form>
+</ejs-dialog> -->
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
