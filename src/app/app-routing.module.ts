@@ -93,12 +93,12 @@ const routes: Routes = [
         loadComponent:()=>import('./master/components/truck-entry-type/truck-entry-type.component').then((c)=>c.TruckEntryTypeComponent)
       },
       {
-        path:'tms-operation/inbound-check-doc',
-        loadComponent:()=>import('./tms-operation/components/inbound-check-doc/inbound-check-doc.component').then((c)=>c.InboundCheckDocComponent)
+        path:'tms-operation/in-check-doc',
+        loadComponent:()=>import('./tms-operation/components/in-check-doc/in-check-doc.component').then((c)=>c.InCheckDocComponent)
       },
       {
-        path:'tms-operation/inbound-check',
-        loadComponent:()=>import('./tms-operation/components/inbound-check/inbound-check.component').then((c)=>c.InboundCheckComponent)
+        path:'tms-operation/in-check',
+        loadComponent:()=>import('./tms-operation/components/in-check/in-check.component').then((c)=>c.InCheckComponent)
       },
       {
         path:'master/waiting-area',

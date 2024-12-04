@@ -18,7 +18,7 @@
                     </div>
                     <ejs-grid #Grid [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings' [editSettings]="editSettings" [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
                         <e-columns>
-                            <e-column type='checkbox' width="50"></e-column>
+                            <!-- <e-column type='checkbox' width="50"></e-column> -->
                             <e-column field="vehicleRegNo" headerText='RegNo' [isPrimaryKey]="true" width="150"></e-column>
                             <e-column field="containerType" headerText="Container Type" width="200"></e-column>
                             <e-column field="transporterID" headerText="Transporter" width="150"></e-column>
