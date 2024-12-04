@@ -33,8 +33,10 @@ export class InCheckDocComponent {
   cardForm:any;
   detailData:any;
   cargoTypeList:any[]=['Laden','MT'];
+  typeList:string[]=['FCL','LCL'];
   yardList:any[]=[];
   gateList:any[]=[];
+  wbList:any[]=[];
   truckList:any[]=[];
   trailerList:any[]=[];
   driverList:any[]=[];
@@ -46,6 +48,8 @@ export class InCheckDocComponent {
   truckTypeList:any[]=['RG','Customer','Supplier'];
   endDate : Date = new Date();
   type:string;
+  isInWb:boolean=false;
+  isOutWb:boolean=false;
   today : Date = new Date();
   public data: Object[];
   public placeholder: string = 'Select One';
@@ -85,13 +89,15 @@ export class InCheckDocComponent {
     remark:new FormControl(''),
     customer:new FormControl(''),
     status:new FormControl(''),
-    inboundWeight:new FormControl(''),
-    outboundWeight:new FormControl(''),
+    inboundWeight:new FormControl(false),
+    outboundWeight:new FormControl(false),
     });
 
     this.cardForm = new FormGroup({
     inRegNo: new FormControl(''),
     cardNo: new FormControl('', Validators.required),
+    inWeightBridgeID: new FormControl(''),
+    outWeightBridgeID: new FormControl(''),
     });
 
     this.getCategoryList();
@@ -192,6 +198,7 @@ export class InCheckDocComponent {
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.pcCodeList = result;
+         this.pcCodeList.unshift({pcCode:'None'});
          this.spinner.hide();
      });
   }
@@ -213,61 +220,24 @@ export class InCheckDocComponent {
       .subscribe((result) => {
         this.docList=result.documentList;
         this.detailData = result;
-        forkJoin({
-          areaList: this.service.getAreaList(result.inYardID).pipe(
-            catchError((err) => {
-              this.showError(err);
-              return of([]);
-            })
-          ),
-           cardList: this.service.getCardICDList(result.inYardID).pipe(
-            catchError((err) => {
-              this.showError(err);
-              return of([]);
-            })
-          )
-        }).subscribe(({ areaList,cardList }) => {
-          if (areaList) {
-            this.areaList  = areaList;
-          } else {
-            this.areaList=[];
-          }
-          if (cardList) {
-            this.cardList  = cardList;
-          } else {
-            this.cardList=[];
-          }
+
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'documentList') {
               this.detailForm.controls[key].setValue(this.detailData[key]);
             }
           }
-        }
+         }
         });
-
-        // this.detailForm.controls['inRegNo'].setValue(this.id);
-        // this.detailForm.controls['inCheckDateTime'].setValue(result.inCheckDateTime);
-        // this.detailForm.controls['inGateID'].setValue(result.inGateID);
-        // this.detailForm.controls['inYardID'].setValue(result.inYardID);
-        // this.detailForm.controls['inPCCode'].setValue(result.inPCCode);
-        // this.detailForm.controls['truckVehicleRegNo'].setValue(result.truckVehicleRegNo);
-        // this.detailForm.controls['driverLicenseNo'].setValue(result.driverLicenseNo);
-        // this.detailForm.controls['areaID'].setValue(result.areaID);
-        // this.detailForm.controls['driverName'].setValue(result.driverName);
-        // this.detailForm.controls['transporterID'].setValue(result.transporterID);
-        // this.detailForm.controls['transporterName'].setValue(result.transporterName);
-        // this.detailForm.controls['truckType'].setValue(result.truckType);
-        // this.detailForm.controls['trailerVehicleRegNo'].setValue(result.trailerVehicleRegNo);
-        // this.docList=result.documentList;
         this.spinner.hide();
-    });
   }
 
   onFormAssignCard(){
     const formData=this.detailForm.value;
     const cardForm = this.cardForm.value;
     formData.cardNo = cardForm.cardNo;
+    formData.inWeightBridgeID = cardForm.inWeightBridgeID;
+    formData.outWeightBridgeID = cardForm.outWeightBridgeID;
     formData.documentList = this.docList;
     formData.inRegNo=0;
     formData.createdUser = localStorage.getItem('currentUser');
@@ -281,18 +251,38 @@ export class InCheckDocComponent {
       const driver = this.driverList.filter(x=>x.licenseNo==formData.driverLicenseNo);
       if(driver){
         formData.driverName = driver[0].name;
+        formData.driverContactNo = driver[0].contactNo;
       }
     }
-    this.createInBoundCheck(formData);
+    if(this.isInWb){
+      if(!cardForm.inWeightBridgeID){
+        Swal.fire('In Check Document', 'Please add In Weight Bridge.', 'warning');
+        return;
+      }
+    }
+    if(this.isOutWb){
+      if(!cardForm.outWeightBridgeID){
+        Swal.fire('In Check Document', 'Please add Out Weight Bridge.', 'warning');
+        return;
+      }
+    }
+      console.log(formData);
+      this.createInBoundCheck(formData);
   }
 
   onFormSubmit(){
    this.spinner.show();
+   const formData=this.detailForm.value;
    const doc = this.docList.filter(x=>x.checkStatus!=true);
    if(doc.length>0 && this.docList.length>0){
     Swal.fire('In Check Document', 'Please check document.', 'warning');
    }
    else{
+      this.isInWb=formData.inboundWeight;
+      this.isOutWb=formData.outboundWeight;
+      if(this.isInWb || this.isOutWb){
+        this.getWBDataList(formData.inYardID)
+      }
       this.cardModel.show();
    }
    this.spinner.hide();
@@ -302,21 +292,6 @@ export class InCheckDocComponent {
     this.router.navigate(["/tms-operation/in-check"]);
   }
 
-  // updateInBoundCheck(formData: any) {
-  //   this.spinner.show();
-  //   this.service
-  //   .updateInBoundCheck(formData)
-  //   .pipe(catchError((err) => of(this.showError(err))))
-  //   .subscribe((result) => {
-  //     if (result.status == true) {
-  //       this.showSuccess(result.messageContent);
-  //       this.router.navigate(["/tms-operation/in-check"]);
-  //     } else {
-  //       this.spinner.hide();
-  //       Swal.fire('In Check Document', result.messageContent, 'error');
-  //     }
-  //   });
-  // }
   createInBoundCheck(formData: any) {
     this.spinner.show();
     this.service
@@ -355,121 +330,6 @@ export class InCheckDocComponent {
     }
 
 
-  //actionBegin(args: SaveEventArgs): void {
-    // if (args.requestType === 'add') {
-    //     this.submitClicked = false;
-    //     this.docForm = this.createFormGroup(args.rowData);
-    //     // const invMList = this.invMethodList.filter(x=> x.iMethodCode == 'FIFO');
-    //     // this.saleOrderItemForm.controls['invMethod'].setValue(invMList[0].description);
-    // }
-
-    // else if(args.requestType === 'beginEdit'){
-    //   this.submitClicked = false;
-    //   this.docForm = this.createFormGroup(args.rowData);
-    // }
-
-    // if (args.requestType === 'save') {
-    //     this.submitClicked = true;
-    //     if (this.docForm.valid) {
-    //       let formData = this.docForm.value;
-    //         if (args.action === 'add') {
-    //             formData.srNo=0;
-    //             formData.createdUser = localStorage.getItem('currentUser');
-
-    //         }
-    //         else {
-    //           formData.updatedUser = localStorage.getItem('currentUser');
-    //           this.updateInBoundCheckDocument(formData);
-    //         }
-    //     } else {
-    //         args.cancel = true;
-    //     }
-    // }
-
-    // if (args.requestType === 'delete') {
-    //   args.cancel = true;
-    //   const data = args.data as any[];
-    //   const id = data[0].inRegNo;
-    //   const code= data[0].docCode;
-    //   this.deleteInBoundCheckDocument(id, code);
-
-    // }
-  //}
-
-  // actionComplete(args: DialogEditEventArgs): void {
-  //   if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
-  //     args.dialog.width = 750;
-  //     if(args.requestType === 'add'){
-  //       args!.dialog!.header="New In Check Document" ;
-  //       }
-  //       else{
-  //         args!.dialog!.header="Edit In Check Document" ;
-  //       }
-  //       if (Browser.isDevice) {
-  //           args!.dialog!.height = window.innerHeight - 90 + 'px';
-  //           (<Dialog>args.dialog).dataBind();
-  //       }
-  //   }
-  // }
-
-
-
-  // createFormGroup(data: any): FormGroup {
-  //   return new FormGroup({
-  //     inRegNo:new FormControl(data.inRegNo),
-  //     docCode:new FormControl(data.docCode),
-  //     docName: new FormControl(data.docName),
-  //     checkStatus: new FormControl(data.checkStatus),
-  //   });
-  // }
-
-
-
-  // updateInBoundCheckDocument(docList:string,id:number,user:string) {
-  //   this.spinner.show();
-  //   this.service
-  //     .updateInBoundCheckDocument(docList,id,user)
-  //     .pipe(catchError((err) => of(this.showError(err))))
-  //     .subscribe((result) => {
-  //       if (result.status == true) {
-  //         // this.getInBoundCheckById();
-  //         this.showSuccess(result.messageContent);
-  //       } else {
-  //         this.spinner.hide();
-  //         Swal.fire('In Check Document', result.messageContent, 'error');
-  //       }
-  //     });
-  // }
-
-  // deleteInBoundCheckDocument(id:number,code: string){
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: 'You will not be able to recover this data!',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#DD6B55',
-  //     cancelButtonText: 'No, keep it',
-  //     confirmButtonText: 'Yes, I am sure!',
-  //   }).then((response: any) => {
-  //     if (response.value) {
-  //       this.spinner.show();
-  //       this.service
-  //         .deleteInBoundCheckDocument(id,code)
-  //         .pipe(catchError((err) => of(this.showError(err))))
-  //         .subscribe((result) => {
-  //           if (result.status == true) {
-  //             this.showSuccess(result.messageContent);
-  //             // this.getInBoundCheckById();
-  //           } else {
-  //             this.spinner.hide();
-  //             Swal.fire('In Check Document', result.messageContent, 'error');
-  //           }
-  //         });
-  //     } else if (response.dismiss === Swal.DismissReason.cancel) {
-  //       Swal.close();
-  //     }
-  //   });
-  // }
   getAreaList(yard:string){
     this.spinner.show();
     this.service.getAreaList(yard)
@@ -486,6 +346,17 @@ export class InCheckDocComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.cardList  = result;
+        this.spinner.hide();
+    });
+  }
+
+  getWBDataList(yard:string){
+    this.spinner.show();
+    this.service.getWBDataList(yard)
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.wbList  = result;
+        this.wbList.unshift({weightBridgeID:'None'});
         this.spinner.hide();
     });
   }
