@@ -328,7 +328,6 @@ export class InCheckDocComponent {
      if(this.driverList){
       const driver = this.driverList.filter(x=>x.licenseNo==truck[0].driverLicenseNo);
       if(driver.length>0){
-        console.log(driver)
         this.detailForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:null);
       }
      }
@@ -392,8 +391,8 @@ export class InCheckDocComponent {
         {
           for(var i=0;i<selectedRecords.length;i++){
             this.docList = this.docList.map((x) => {
-              if (x.docCode === this.docList[i].docCode) {
-                  return { ...x, docCode:  this.docList[i].docCode,docName: this.docList[i].docName,checkStatus: true};//update data
+              if (x.docCode === selectedRecords[i].docCode) {
+                  return { ...x, docCode:  selectedRecords[i].docCode,docName: selectedRecords[i].docName,checkStatus: true};//update data
               } else {
                   return x; // Keep other objects unchanged
              }
