@@ -50,7 +50,7 @@ export class TruckComponent {
   ngOnInit(){
     this.blackForm= new FormGroup({
       vehicleRegNo: new FormControl(''),
-      isBlack: new FormControl(''),
+      isBlack: new FormControl(false),
       blackReason: new FormControl(''),
       blackDate: new FormControl(this.today),
       blackRemovedReason: new FormControl(''),
@@ -131,12 +131,13 @@ export class TruckComponent {
     if(formData.isBlack==true){
       formData.blackRemovedDate=null;
       formData.blackRemovedReason=null;
+      formData.blackReason=formData.blackReason
       formData.blackDate=moment(formData.blackDate).format('MM/DD/YYYY HH:mm:ss');
     }
     else{
-      formData.isBlack=false;
       formData.blackDate=null;
       formData.blackReason=null;
+      formData.blackRemovedReason=formData.blackRemovedReason;
       formData.blackRemovedDate=moment(formData.blackRemovedDate).format('MM/DD/YYYY HH:mm:ss');
     }
     this.hideDialog();
@@ -170,6 +171,7 @@ export class TruckComponent {
     return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
 
+  
   toolbarClick(args: ClickEventArgs): void {
     if (args.item.text === 'Excel Export') {
         this.grid.excelExport();
@@ -190,6 +192,7 @@ export class TruckComponent {
                 this.router.navigate(["master/truck-detail"], { queryParams: { id: id }, skipLocationChange: true });
             }
             else if (args.item.id === 'isblack') {
+              this.blackForm.reset();
                 const isBlack = selectedRecords[0].isBlack;
                 this.blackForm.controls['vehicleRegNo'].setValue(id);  // Set 'id' instead of 'vehicleRegNo'
                 this.blackForm.controls['isBlack'].setValue(isBlack);

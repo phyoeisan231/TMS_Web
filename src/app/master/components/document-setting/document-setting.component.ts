@@ -129,12 +129,17 @@ createFormGroup(data: any): FormGroup {
     pcCode: new FormControl(data.pcCode,Validators.required),
     attachRequired: new FormControl(data.attachRequired),
     active: new FormControl(data.active),
+    isInDoc:new FormControl(data.isInDoc),
+    isOutDoc:new FormControl(data.isOutDoc)
   });
 }
 
 addDocSetting(formData: any) {
   this.spinner.show();
   formData.active = true;
+  formData.attachRequired=formData.attachRequired?true:false;
+  formData.isInDoc=formData.isInDoc?true:false;
+  formData.isOutDoc=formData.isOutDoc?true:false;
   this.service
     .createDocumentSetting(formData)
     .pipe(catchError((err) => of(this.showError(err))))
@@ -154,6 +159,9 @@ addDocSetting(formData: any) {
 updateDocSetting(formData: any) {
   this.spinner.show();
   formData.active=formData.active?true:false;
+  formData.attachRequired=formData.attachRequired?true:false;
+  formData.isInDoc=formData.isInDoc?true:false;
+  formData.isOutDoc=formData.isOutDoc?true:false;
   this.service
     .updateDocumentSetting(formData)
     .pipe(catchError((err) => of(this.showError(err))))

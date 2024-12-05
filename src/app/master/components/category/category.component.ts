@@ -64,8 +64,8 @@ export class CategoryComponent {
     return new FormGroup({
       pcCode: new FormControl(data.pcCode,Validators.required),
       categoryName: new FormControl(data.categoryName,Validators.required),
-      inboundWeight: new FormControl(data.inboundWeight??""),
-      outboundWeight: new FormControl(data.outboundWeight??""),
+      inboundWeight: new FormControl(data.inboundWeight),
+      outboundWeight: new FormControl(data.outboundWeight),
       groupName: new FormControl(data.groupName,Validators.required),
       active: new FormControl(data.active),
     });
@@ -125,6 +125,8 @@ export class CategoryComponent {
   addCategory(formData: any) {
     this.spinner.show();
     formData.active=true;
+    formData.inboundWeight=formData.inboundWeight?true:false;
+    formData.outboundWeight=formData.outboundWeight?true:false;
     this.service
       .createCategory(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -145,6 +147,8 @@ export class CategoryComponent {
   editCategory(formData: any) {
     this.spinner.show();
     formData.active=formData.active?true:false;
+    formData.inboundWeight=formData.inboundWeight?true:false;
+    formData.outboundWeight=formData.outboundWeight?true:false;
     this.service
       .updateCategory(formData)
       .pipe(catchError((err) => of(this.showError(err))))

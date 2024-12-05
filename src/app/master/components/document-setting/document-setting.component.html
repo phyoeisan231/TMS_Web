@@ -4,7 +4,7 @@
         <div class="col-md-12 ">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-            <li class="breadcrumb-item active text-info">Document Setting</li>
+            <li class="breadcrumb-item active text-primary">Document Setting</li>
           </ol>
         </div>
       </div>
@@ -24,6 +24,22 @@
                   <e-column field='active' headerText="Active" width="100">
                     <ng-template #template let-data>
                       <div *ngIf="data.active;else False">Yes</div>
+                      <ng-template #False>
+                        <div>No</div>
+                      </ng-template>
+                    </ng-template>
+                  </e-column>
+                  <e-column field='isInDoc' headerText="IsInDoc" width="100">
+                    <ng-template #template let-data>
+                      <div *ngIf="data.isInDoc;else False">Yes</div>
+                      <ng-template #False>
+                        <div>No</div>
+                      </ng-template>
+                    </ng-template>
+                  </e-column>
+                  <e-column field='isOutDoc' headerText="IsOutDoc" width="100">
+                    <ng-template #template let-data>
+                      <div *ngIf="data.isOutDoc;else False">Yes</div>
                       <ng-template #False>
                         <div>No</div>
                       </ng-template>
@@ -69,6 +85,14 @@
                       </div>
                       <div class="form-group col-md-6"><br>
                         <ejs-checkbox formControlName="attachRequired"  label="AttachRequired"  floatLabelType="Always" tabindex="5" [checked]="true"></ejs-checkbox>
+                      </div>
+                     </div>
+                     <div class="row">
+                      <div class="form-group col-md-6"><br>
+                        <ejs-checkbox formControlName="isInDoc"  label="IsInDoc"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
+                      </div>
+                      <div class="form-group col-md-6"><br>
+                        <ejs-checkbox formControlName="isOutDoc"  label="IsOutDoc"  floatLabelType="Always" tabindex="7" [checked]="true"></ejs-checkbox>
                       </div>
                      </div>
                   </form>

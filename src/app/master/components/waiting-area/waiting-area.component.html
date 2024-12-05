@@ -4,7 +4,7 @@
         <div class="col-md-12 ">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-            <li class="breadcrumb-item active text-info">Waiting Area</li>
+            <li class="breadcrumb-item active text-primary">Waiting Area</li>
           </ol>
         </div>
       </div>
@@ -62,6 +62,7 @@
                             </div>
                         </div>
                         <div class="form-row">
+                            
                             <div class="form-group col-md-6" *ngIf="!data.isAdd"><br>
                               <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="4" [checked]="true"></ejs-checkbox>
                             </div>

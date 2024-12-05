@@ -13,7 +13,76 @@
             <div class="card card-primary card-outline">
                 <div class="card-body">
                     <form [formGroup]="trailerForm">
-                        <div class="row">
+                      <div class="row">
+                        <div class="col-md-6 col-lg-6 text-left">
+                          <h5 class="card-title">Trailer Info</h5>
+                        </div>
+
+                        <div class="col-md-6 col-lg-6 text-end">
+                          <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!trailerForm.valid"  *ngIf="isAdd" (click)="saveTrailer()"><i class="fa fa-save"></i>  &nbsp;Save</button>
+                          <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!trailerForm.valid" *ngIf="!isAdd"  (click)="saveTrailer()"><i class="fa fa-save"></i>  &nbsp;Update</button>
+                          <a routerLink="master/trailer" class="btn btn-sm btn-secondary m-1" href="master/trailer">
+                            <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                          </a>
+                        </div>
+                      </div><br>
+
+                      <div class="row">
+                        <div class="form-group col-md-4">
+                          <label  class="requiredfield">Vehicle RegNo</label>
+                          <ejs-textbox formControlName="vehicleRegNo" tabindex="1"  maxlength="25" popupHeight='200px'></ejs-textbox>
+                          <div [style.visibility]='validateControl("vehicleRegNo")? "visible": "hidden"'>
+                            <label class="e-error" style="display: block;">*Vehicle RegNo is required</label>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label>Vehicle Back RegNo</label>
+                          <ejs-textbox formControlName="vehicleBackRegNo" tabindex="2" maxlength="25" popupHeight='200px'></ejs-textbox>
+                          <div [style.visibility]='validateControl("vehicleBackRegNo")? "visible": "hidden"'>
+                            <label class="e-error" style="display: block;">*Vehicle Back RegNo is required</label>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label  class="requiredfield">Container Type</label>
+                          <ejs-dropdownlist formControlName="containerType" tabindex="3" [dataSource]='containerTypeList' popupHeight='200px'></ejs-dropdownlist>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label >Container Size</label>
+                          <ejs-dropdownlist formControlName="containerSize" tabindex="4" [dataSource]='containerSizeList' popupHeight='200px'></ejs-dropdownlist>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label  class="requiredfield">Transporter</label>
+                          <ejs-dropdownlist formControlName="transporterID" tabindex="5" [dataSource]='transporterNames' [fields]="{ text: 'transporterName', value: 'transporterID' }"  popupHeight='200px'></ejs-dropdownlist>
+                          <div [style.visibility]='validateControl("transporterID")? "visible": "hidden"'>
+                            <label class="e-error" style="display: block;">*Transporter is required</label>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label >Trailer Weight</label>
+                          <ejs-numerictextbox formControlName="trailerWeight" [min]="0" [max]="100000" [decimals]="2"
+                          autocomplete="off"  tabindex="6"maxlength="100"/>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label >Driver License No</label>
+                          <ejs-dropdownlist formControlName="driverLicenseNo" maxlength="25" tabindex="7" [dataSource]='driverLicenseNoList' [fields]="{text:'driverName',value:'licenseNo'}" popupHeight='200px'></ejs-dropdownlist>
+                          <div [style.visibility]='validateControl("driverLicenseNo")? "visible": "hidden"'>
+                            <label class="e-error" style="display: block;">*License No is required</label>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label>Last Passed Date</label>
+                          <ejs-datepicker formControlName="lastPassedDate" tabindex="8" [format]="formatfilter"></ejs-datepicker>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label >Remarks</label>
+                          <textarea formControlName="remarks" class="form-control form-control-sm"
+                          autocomplete="off" placeholder="Remarks "tabindex="9"></textarea>
+                        </div>
+                      </div>
+                        <!-- <div class="row">
                             <div class="col-md-6 col-lg-6 text-left">
                               <h5 class="card-title">Trailer Info</h5>
                             </div>
@@ -50,7 +119,7 @@
                         <div class="row mt-3">
                             <label class="col-md-2 requiredfield">Container Type:</label>
                             <div class="form-group col-md-4">
-                                <ejs-dropdownlist 
+                                <ejs-dropdownlist
                                 formControlName="containerType"
                                 [dataSource]="containerTypeList"
                                 placeholder="Choose Container Type"
@@ -62,7 +131,7 @@
                             </div>
                             <label class="col-md-2">Container Size:</label>
                             <div class="form-group col-md-4">
-                                <ejs-dropdownlist 
+                                <ejs-dropdownlist
                                 formControlName="containerSize"
                                 [dataSource]="containerSizeList"
                                 placeholder="Choose Container Size"
@@ -143,7 +212,7 @@
                                     tabindex="9"
                                     maxlength="100"></textarea>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
             </div>
@@ -151,4 +220,3 @@
     </div>
 </section>
 
-  

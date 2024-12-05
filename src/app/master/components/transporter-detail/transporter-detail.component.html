@@ -27,27 +27,25 @@
                         </div>
                       </div><br>
                     <div class="row my-0">
-                    <label class="col-md-2 requiredfield" *ngIf="!this.isAdd">Transporter ID:</label>
-                    <div class="form-group col-md-4" *ngIf="!this.isAdd">
-                        <ejs-textbox
-                         formControlName="transporterID"
-                         tabindex="0" readonly="true" />
-                      </div>
-                    <label class="col-md-2 requiredfield">Transporter Name:</label>
-                    <div class="form-group col-md-4">
-                        <ejs-textbox
-                            formControlName="transporterName"
-                            placeholder="Enter Transporter Name"
-                            autocomplete="off"
-                            tabindex="1" maxlength="100"/>
-                            <div *ngIf="transForm.controls['transporterName'].invalid && (transForm.controls['transporterName'].touched || transForm.controls['transporterName'].dirty)">
-                                <small class="text-danger">This field is required.</small>
-                            </div>
-                    </div>
-                    </div>
-                    <div class="row mt-3">
-                        <label class="col-md-2">Address:</label>
+                        <div class="form-group col-md-4" *ngIf="!this.isAdd">
+                            <label class="font-weight-normal requiredfield" *ngIf="!this.isAdd">Transporter ID:</label>
+                            <ejs-textbox 
+                            formControlName="transporterID"
+                            tabindex="0" readonly="true" />
+                        </div>
                         <div class="form-group col-md-4">
+                            <label class="font-weight-normal requiredfield">Transporter Name:</label>
+                            <ejs-textbox
+                                formControlName="transporterName"
+                                placeholder="Enter Transporter Name"
+                                autocomplete="off"
+                                tabindex="1" maxlength="100"/>
+                                <div *ngIf="transForm.controls['transporterName'].invalid && (transForm.controls['transporterName'].touched || transForm.controls['transporterName'].dirty)">
+                                    <small class="text-danger">This field is required.</small>
+                                </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-normal">Address:</label>
                             <ejs-textbox
                                 formControlName="address"
                                 placeholder="Enter Address"
@@ -55,44 +53,46 @@
                                 tabindex="2"
                                 maxlength="100" />
                         </div>
-                        <label class="col-md-2 requiredfield">Contact No.:</label>
-                        <div class="form-group col-md-4">
-                            <ejs-textbox
-                                formControlName="contactNo"
-                                placeholder="Enter contactNo"
-                                autocomplete="off"
-                                tabindex="3" maxlength="100"/>
-                                <div *ngIf="transForm.controls['contactNo'].invalid && (transForm.controls['contactNo'].touched || transForm.controls['contactNo'].dirty)">
-                                    <small class="text-danger">This field is required.</small>
-                                </div>
-                        </div>
                     </div>
-                    <div class="row mt-3">
-                        <label class="col-md-2">Email:</label>
+                   
+                    <div class="row mt-2">
                         <div class="form-group col-md-4">
+                            <label class="font-weight-normal">Email:</label>
                             <ejs-textbox
                                 formControlName="email"
                                 autocomplete="off"
                                 placeholder="Enter email "
-                                tabindex="4"
+                                tabindex="3"
                                 maxlength="100"/>
                         </div>
-                        <label class="col-md-2 requiredfield">Contact Person:</label>
                         <div class="form-group col-md-4">
+                            <label class="font-weight-normal requiredfield">Contact Person:</label>
                           <ejs-textbox
                               formControlName="contactPerson"
                               autocomplete="off"
                               placeholder="Enter Contact Person"
-                              tabindex="5"
+                              tabindex="4"
                               maxlength="100"/>
                               <div *ngIf="transForm.controls['contactPerson'].invalid && (transForm.controls['contactPerson'].touched || transForm.controls['contactPerson'].dirty)">
                                 <small class="text-danger">This field is required.</small>
                             </div>
                         </div>
-                      </div>
-                    <div class="row mt-3">
-                        <label class="col-md-2 requiredfield">Transporter Type:</label>
                         <div class="form-group col-md-4">
+                            <label class="font-weight-normal requiredfield">Contact No.:</label>
+                            <ejs-textbox
+                                formControlName="contactNo"
+                                placeholder="Enter contactNo"
+                                autocomplete="off"
+                                tabindex="5" maxlength="100"/>
+                                <div *ngIf="transForm.controls['contactNo'].invalid && (transForm.controls['contactNo'].touched || transForm.controls['contactNo'].dirty)">
+                                    <small class="text-danger">This field is required.</small>
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-2">
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-normal requiredfield">Transporter Type:</label>
                             <ejs-dropdownlist
                                 formControlName="typeID"
                                 [dataSource]="transTypesList"
@@ -104,23 +104,30 @@
                                     <small class="text-danger">This field is required.</small>
                                 </div>
                         </div>
-                        <label class="col-md-2">Remarks:</label>
                         <div class="form-group col-md-4">
+                            <label class="font-weight-normal">SAPID:</label>
+                            <ejs-textbox
+                                formControlName="sapID"
+                                placeholder="Enter SAPID"
+                                autocomplete="off"
+                                tabindex="7" maxlength="100"/>
+                                
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="font-weight-normal">Remarks:</label>
                             <textarea
                                 formControlName="remarks"
                                 class="form-control form-control-sm"
                                 autocomplete="off"
                                 placeholder="Remarks "
-                                tabindex="7"
+                                tabindex="8"
                                 maxlength="100"></textarea>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <label class="col-md-2">Active:</label>
+                    <div class="row mt-2">
                         <div class="form-group col-md-4">
-                            <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
+                            <ejs-checkbox formControlName="active" label="IsActive" tabindex="9"></ejs-checkbox>
                         </div>
-                        
                     </div>
                 </form>
             </div>

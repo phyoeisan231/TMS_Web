@@ -135,7 +135,7 @@ createFormGroup(data: any): FormGroup {
 addOperationArea(formData: any) {
   this.spinner.show();
   formData.active = true;
-  formData.isWaitingArea=false;
+  formData.isWaitingArea=formData.isWaitingArea?true:false;
   this.service
     .createOperationArea(formData)
     .pipe(catchError((err) => of(this.showError(err))))
