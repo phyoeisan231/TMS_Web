@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -15,9 +15,7 @@ export class TruckDetailService {
   constructor(private injector:Injector,private http:HttpClient) { }
 
   createTruck(data:any){
-    return this.http.post<any>(environment.url+'Master/SaveTruck/',data,{
-      reportProgress:true,
-    });
+    return this.http.post<any>(environment.url+'Master/SaveTruck/',data);
   }
 
   getTruckTypes(active?: string): Observable<any[]> {
@@ -25,13 +23,18 @@ export class TruckDetailService {
     return this.http.get<any[]>(`${environment.url}Master/GetTruckTypeList`, { params });
   }
 
-  getDriverLicenseNo(active?:string):Observable<any[]>{
-    const params=active?{active}:{};
-    return this.http.get<any[]>(`${environment.url}Master/GetDriverList`,{params});
+  getDriverList(active: string, isBlack: string): Observable<any[]> {
+    const params = new HttpParams()
+      .set('active', active)
+      .set('isBlack', isBlack);
+    return this.http.get<any[]>(environment.url+'Master/GetDriverList', { params });
   }
 
-  getTransporterNames():Observable<any[]>{
-    return this.http.get<any[]>(environment.url+'Master/GetTransporterList');
+  getTransporterList(active: string, isBlack: string) {
+    const params = new HttpParams()
+      .set('active', active)
+      .set('isBlack', isBlack);
+    return this.http.get<any>(`${environment.url}Master/GetTransporterList`, { params });
   }
 
   getTruckId(id:any){
@@ -39,8 +42,6 @@ export class TruckDetailService {
   }
 
   updateTruck(data:any){
-    return this.http.put<any>(environment.url+'Master/UpdateTruck/',data,{
-      reportProgress:true,
-    });
+    return this.http.put<any>(environment.url+'Master/UpdateTruck/',data);
   }  
 }

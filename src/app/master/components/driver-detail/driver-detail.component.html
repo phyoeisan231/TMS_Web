@@ -27,8 +27,8 @@
                           </div><br>
                         <div class="row my-0">
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal requiredfield" *ngIf="isAdd">License No:</label>
-                                <label class="font-weight-normal requiredfield" *ngIf="!isAdd">License No:</label>
+                                <label class="font-weight-normal requiredfield" *ngIf="isAdd">License No.</label>
+                                <label class="font-weight-normal requiredfield" *ngIf="!isAdd">License No.</label>
                                 <ejs-textbox
                                 formControlName="licenseNo"
                                 tabindex="0" maxlength="50" />
@@ -37,18 +37,15 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal requiredfield">NRC:</label>
+                                <label class="font-weight-normal">NRC</label>
                                 <ejs-textbox
                                     formControlName="nrc"
                                     placeholder="Enter NRC"
                                     autocomplete="off"
                                     tabindex="1" maxlength="100"/>
-                                    <div *ngIf="driverForm.controls['licenseNo'].invalid && (driverForm.controls['licenseNo'].touched || driverForm.controls['licenseNo'].dirty)">
-                                        <small class="text-danger">This field is required.</small>
-                                    </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal requiredfield">Name:</label>
+                                <label class="font-weight-normal requiredfield">Name</label>
                                 <ejs-textbox
                                     formControlName="name"
                                     placeholder="Enter Driver Name"
@@ -63,7 +60,7 @@
                         
                         <div class="row mt-2">
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal">Address:</label>
+                                <label class="font-weight-normal">Address</label>
                                 <ejs-textbox
                                     formControlName="address"
                                     placeholder="Enter Address"
@@ -71,12 +68,12 @@
                                     tabindex="3" maxlength="100"/>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal requiredfield">License Class:</label>
+                                <label class="font-weight-normal requiredfield">License Class</label>
                                 <ejs-dropdownlist
                                     formControlName="licenseClass"
                                     [dataSource]="classList"
                                     autocomplete="off"
-                                    placeholder="Enter License Class"
+                                    placeholder="Choose License Class"
                                     tabindex="4"
                                     maxlength="100"/>
                                     <div *ngIf="driverForm.controls['licenseClass'].invalid && (driverForm.controls['licenseClass'].touched || driverForm.controls['licenseClass'].dirty)">
@@ -84,27 +81,27 @@
                                     </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal requiredfield">Contact No.:</label>
+                                <label class="font-weight-normal">Contact No.</label>
                               <ejs-textbox
                                   formControlName="contactNo"
                                   autocomplete="off"
                                   placeholder="Enter Contact No."
                                   tabindex="5"
                                   maxlength="100"/>
-                                  <div *ngIf="driverForm.controls['contactNo'].invalid && (driverForm.controls['contactNo'].touched || driverForm.controls['contactNo'].dirty)">
+                                  <!-- <div *ngIf="driverForm.controls['contactNo'].invalid && (driverForm.controls['contactNo'].touched || driverForm.controls['contactNo'].dirty)">
                                     <small class="text-danger">This field is required.</small>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         
                         <div class="row mt-2">
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal requiredfield">LicenseExpired Date:</label>
+                                <label class="font-weight-normal requiredfield">License Expired Date</label>
                                 <ejs-datepicker
                                     formControlName="licenseExpiration"
                                     [format]="formatfilter"
                                     autocomplete="off"
-                                    placeholder="LicenseExpiration Date"
+                                    placeholder="License Expired Date"
                                     tabindex="9"
                                     maxlength="120">
                                 </ejs-datepicker>
@@ -113,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal">Email:</label>
+                                <label class="font-weight-normal">Email</label>
                                 <ejs-textbox
                                     formControlName="email"
                                     autocomplete="off"
@@ -123,7 +120,7 @@
                                 </ejs-textbox>
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="font-weight-normal">Remarks:</label>
+                                <label class="font-weight-normal">Remarks</label>
                                 <textarea
                                     formControlName="remarks"
                                     class="form-control form-control-sm"

@@ -33,7 +33,7 @@
                 <form [formGroup]="typeForm">
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="typeID" class="font-weight-normal requiredfield">TruckType ID</label>
+                      <label for="typeID" class="font-weight-normal requiredfield">Truck Type ID</label>
                       <ejs-textbox formControlName="typeID" class="text-uppercase" tabindex="1" autocomplete="off" [readonly]="!data.isAdd"></ejs-textbox>
                       <div  [style.visibility]='validateControl("typeID")? "visible": "hidden"'>
                         <label class="e-error" for="typeID" style="display: block;">*This field is required</label>
@@ -48,7 +48,7 @@
                     </div>
                    </div>
                    <div class="form-row">
-                    <div class="form-group col-md-6"><br>
+                    <div class="form-group col-md-6" *ngIf="!data.isAdd"><br>
                       <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="3" [checked]="true"></ejs-checkbox>
                     </div>
                    </div>

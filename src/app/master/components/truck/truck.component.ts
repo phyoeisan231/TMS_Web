@@ -59,6 +59,14 @@ export class TruckComponent {
     this.loadTableData();
   }
 
+  rowDataBound(args: any): void {
+    if (args.row) {
+      if (args.data.isBlack==true) {
+        args.row.classList.add('not-Use');
+      }
+    }
+  }
+
   loadTableData() {
     this.spinner.show();
     this.service.getTruckList()
@@ -77,14 +85,6 @@ export class TruckComponent {
       this.deleteTruck(id);
     }
   }
-
-  // createFormGroup(data: any): FormGroup {
-  //   return new FormGroup({
-  //     vehicleRegNo: new FormControl(data.vehicleRegNo, Validators.required),
-  //     isBlack: new FormControl(data.isBlack),
-
-  //   });
-  // }
 
   deleteTruck(id: any) {
     Swal.fire({

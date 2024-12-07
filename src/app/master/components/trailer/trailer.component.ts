@@ -8,6 +8,9 @@ import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { MasterModule } from '../../master.module';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { FormControl, FormGroup } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
   selector: 'app-trailer',
@@ -22,12 +25,20 @@ export class TrailerComponent {
   toolbar: any[] = [
   { text: "Add", tooltipText: "Add", id: "add" },
   { text: "Edit", tooltipText: "Edit", prefixIcon: "e-edit", id: "edit" },
+  { text: "IsBlack", tooltipText: "IsBlack", prefixIcon: "e-circle-check", id: "isblack" },
   'Delete','Search'];
   driverList:any[];
   lines: GridLine = 'Both';
   submitClicked: boolean = false;
   public data: Object[];
+  blackForm:any;
+  isBlack: boolean=true;
+  isShow: boolean=true;
+
   @ViewChild('Grid') public grid: GridComponent;
+  @ViewChild('blackModal')blackModal: DialogComponent;
+  Dialog: any;
+  
   constructor(
     private service: TrailerService,
     private spinner: NgxSpinnerService,
@@ -35,6 +46,14 @@ export class TrailerComponent {
   ) {}
 
   ngOnInit(){
+    this.blackForm= new FormGroup({
+      vehicleRegNo:new FormControl(''),
+      isBlack: new FormControl(false),
+      blackReason: new FormControl(''),
+      blackDate: new FormControl(''),
+      blackRemovedReason: new FormControl(''),
+      blackRemovedDate: new FormControl(''),
+    });
     this.loadTableData();
   }
 
@@ -47,6 +66,14 @@ export class TrailerComponent {
       this.spinner.hide();
     });
 
+  }
+
+  rowDataBound(args: any): void {
+    if (args.row) {
+      if (args.data.isBlack==true) {
+        args.row.classList.add('not-Use');
+      }
+    }
   }
 
   actionBegin(args: SaveEventArgs): void {
@@ -98,26 +125,80 @@ export class TrailerComponent {
     Swal.fire('Trailer', error.statusText, 'error');
   }
 
+  openDialog () {
+    this.blackModal.show();
+  }
+
+  hideDialog() {
+    this.blackModal.hide();
+  }
+
+  onBlackFormSubmit() {
+    this.spinner.show();
+    const formData = this.blackForm.value;
+    formData.isBlack=formData.isBlack?true:false;
+    if(formData.isBlack==true){
+      formData.blackRemovedDate=null;
+      formData.blackRemovedReason=null;
+      formData.blackReason=formData.blackReason
+      formData.blackDate=moment(formData.blackDate).format('MM/DD/YYYY HH:mm:ss');
+    }
+    else{
+      formData.blackDate=null;
+      formData.blackReason=null;
+      formData.blackRemovedReason=formData.blackRemovedReason;
+      formData.blackRemovedDate=moment(formData.blackRemovedDate).format('MM/DD/YYYY HH:mm:ss');
+    }
+    this.hideDialog();
+    console.log(formData)
+    this.service
+      .onBlackForm(formData)
+      .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        if (result.status == true) {
+          Swal.fire('Trailer Black Form', result.messageContent,'success');
+          this.loadTableData();
+        } else {
+          Swal.fire('Trailer Black Form', result.messageContent, 'error');
+        }
+      });
+      this.spinner.hide();
+  }
+
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport();
     }
-    else if (args.item.id === 'add') {
-      this.router.navigate(["master/trailer-detail"], { queryParams: { id: null }, skipLocationChange: true });
+    else if (args.item.id ==='add'){
+      this.router.navigate(["master/trailer-detail"], { queryParams: {id: null},skipLocationChange: true});
     }
-    else if (args.item.id ==='edit') {
+    else if (args.item.id ==='edit' || args.item.id === 'isblack') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
 
       if (selectedRecords.length == 0) {
         Swal.fire('Trailer', "Please select one row!", 'warning');
       }
       else {
-        var id: string=selectedRecords[0].vehicleRegNo;
-       if(args.item.id === 'edit'){
-        this.router.navigate(["master/trailer-detail"], { queryParams: {id: id},skipLocationChange: true});
-       }
-        return;
-      }
+        var id: string = selectedRecords[0].vehicleRegNo;
+
+        if (args.item.id === 'edit') {
+            this.router.navigate(["master/trailer-detail"], { queryParams: { id: id }, skipLocationChange: true });
+        }
+        else if (args.item.id === 'isblack') {
+          this.blackForm.reset();
+            const isBlack = selectedRecords[0].isBlack;
+            this.blackForm.controls['vehicleRegNo'].setValue(id);  // Set 'id' instead of 'vehicleRegNo'
+            this.blackForm.controls['isBlack'].setValue(isBlack);
+
+            if (isBlack == true) {
+                this.isShow = false;
+            }
+            else {
+                this.isShow = true;
+            }
+            this.blackModal.show();
+        }
+    }
    }
   }
 
