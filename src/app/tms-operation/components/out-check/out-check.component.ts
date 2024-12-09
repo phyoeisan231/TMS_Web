@@ -160,7 +160,7 @@ export class OutCheckComponent {
       }
 
       else {
-        const id = selectedRecords[0].inRegNo;
+        const id = selectedRecords[0].outRegNo;
         if (args.item.id === 'detail')
         {
           this.router.navigate(["/tms-operation/out-check-doc"], { queryParams: { id: id}});

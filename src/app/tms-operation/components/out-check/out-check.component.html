@@ -4,7 +4,7 @@
       <div class="col-md-12 ">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-          <li class="breadcrumb-item active text-primary">In Check(ICD/Other)</li>
+          <li class="breadcrumb-item active text-primary">Out Check(ICD/Other)</li>
         </ol>
       </div>
     </div>
@@ -13,7 +13,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12 col-lg-12 text-left">
-                <h5 class="card-title">In Check(ICD/Other)</h5>
+                <h5 class="card-title">Out Check(ICD/Other)</h5>
                 <Form [formGroup]="optionForm">
                   <div class="row btns mb-2">
                     <div class="col-lg-5 col-12">
@@ -65,20 +65,19 @@
                     </div>
                   </ng-template>
                 </e-column>
-                <e-column field='inRegNo' headerText='In Check No' [isPrimaryKey]="true" width="150"></e-column>
-                <e-column field='inYardID' headerText="Yard" width="150"></e-column>
-                <e-column field='inGateID' headerText="Gate" width="100"></e-column>
+                <e-column field='outRegNo' headerText='Out Check No' [isPrimaryKey]="true" width="150"></e-column>
+                <e-column field='outYardID' headerText="Yard" width="150"></e-column>
+                <e-column field='outGateID' headerText="Gate" width="100"></e-column>
                 <e-column field='areaID' headerText="Area" width="100"></e-column>
-                <e-column field='inPCCode' headerText="Category" width="100"></e-column>
-                <e-column field='inType' headerText="Type" width="100"></e-column>
-                <e-column field='inCargoType' headerText="CargoType" width="100"></e-column>
-                <e-column field='inCargoInfo' headerText="Cargo Info" width="100"></e-column>
+                <e-column field='outPCCode' headerText="Category" width="100"></e-column>
+                <e-column field='outType' headerText="Type" width="100"></e-column>
+                <e-column field='outCargoType' headerText="CargoType" width="100"></e-column>
+                <e-column field='outCargoInfo' headerText="Cargo Info" width="100"></e-column>
                 <e-column field='truckType' headerText="Truck Type" width="100"></e-column>
                 <e-column field='truckVehicleRegNo' headerText="Truck No" width="100"></e-column>
                 <e-column field='driverName' headerText="Driver Name" width="100"></e-column>
                 <e-column field='driverLicenseNo' headerText="Driver License No" width="150"></e-column>
                 <e-column field='cardNo' headerText="Card No" width="100"></e-column>
-                <e-column field='inWeightBridgeID' headerText="In WeightBridge" width="100"></e-column>
                 <e-column field='outWeightBridgeID' headerText="Out WeightBridge" width="100"></e-column>
                 <e-column field='status' headerText="Status" width="100"></e-column>
                 <e-column field='remark' headerText="Remark" width="100"></e-column>
