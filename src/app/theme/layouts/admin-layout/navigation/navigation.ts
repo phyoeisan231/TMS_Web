@@ -60,10 +60,10 @@ export const NavigationItems: NavigationItem[] = [
           },
           {
             id: '36',
-            title: 'TMS',
+            title: 'TMS Proposal',
             type: 'item',
             classes: 'nav-item',
-            url: 'tms-operation/inbound-check',
+            url: 'tms-operation/proposal',
             icon: 'left-circle'
           },
         ]
@@ -86,14 +86,15 @@ export const NavigationItems: NavigationItem[] = [
           },
           {
             id: '39',
-            title: 'TMS',
+            title: 'TMS Operation',
             type: 'item',
             classes: 'nav-item',
-            url: 'master/driver',
+            url: 'tms-operation/proposal',
             icon: 'left-circle'
           },
         ]
       },
+
     ]
   },
   {
