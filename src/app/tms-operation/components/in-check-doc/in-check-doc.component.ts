@@ -283,6 +283,7 @@ export class InCheckDocComponent {
       if(this.isInWb || this.isOutWb){
         this.getWBDataList(formData.inYardID)
       }
+      this.getCardList(formData.inYardID);
       this.cardModel.show();
    }
    this.spinner.hide();
@@ -311,7 +312,6 @@ export class InCheckDocComponent {
   onYardChange(code: string) {
     this.getGateList(code);
     this.getAreaList(code);
-    this.getCardList(code);
    }
 
    onCategoryChange(code: string) {

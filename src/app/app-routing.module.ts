@@ -101,6 +101,14 @@ const routes: Routes = [
         loadComponent:()=>import('./tms-operation/components/in-check/in-check.component').then((c)=>c.InCheckComponent)
       },
       {
+        path:'tms-operation/out-check-doc',
+        loadComponent:()=>import('./tms-operation/components/out-check-doc/out-check-doc.component').then((c)=>c.OutCheckDocComponent)
+      },
+      {
+        path:'tms-operation/out-check',
+        loadComponent:()=>import('./tms-operation/components/out-check/out-check.component').then((c)=>c.OutCheckComponent)
+      },
+      {
         path:'master/waiting-area',
         loadComponent:()=>import('./master/components/waiting-area/waiting-area.component').then((c)=>c.WaitingAreaComponent)
       },
