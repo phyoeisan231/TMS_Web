@@ -1,0 +1,143 @@
+<section class="content mt-0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+          <li class="breadcrumb-item">Out Check</li>
+          <li class="breadcrumb-item active text-primary">Out Check(ICD/Other)</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+          <form [formGroup]="detailForm">
+            <div class="row">
+              <div class="col-md-6 col-lg-6 text-left">
+                <h5 class="card-title">Out Check(ICD/Other)</h5>
+              </div>
+              <div class="col-md-6 col-lg-6 text-end">
+                <button *ngIf="!this.id" type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!detailForm.valid"  (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Save</button>
+                <a  class="btn btn-sm btn-secondary m-1"  href="/tms-operation/out-check">
+                  <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                </a>
+              </div>
+            </div><br>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Yard</label>
+                <ejs-textbox *ngIf="this.id" formControlName="outYardID" [readonly]="true" tabindex="1" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="outYardID" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" (change)="onYardChange($event.value)" placeholder="Select One" ></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("outYardID")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Yard is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Gate</label>
+                <ejs-textbox *ngIf="this.id" formControlName="outGateID" [readonly]="true" tabindex="2" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id"  formControlName="outGateID" tabindex="2" [dataSource]='gateList' [fields]="{ text: 'gateID', value: 'gateID' }"  placeholder="Select One" ></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("outGateID")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Gate is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Card No</label>
+                <ejs-textbox *ngIf="this.id" formControlName="cardNo" [readonly]="true" tabindex="3" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="cardNo" tabindex="3" [dataSource]='cardList' [fields]="{ text: 'cardNo', value: 'cardNo' }"  placeholder="Enter some keys" allowFiltering="true" (filtering)='onCardFiltering($event)'  (change)="onCardChange($event.value)"></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("cardNo")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*CardNo is required</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Category</label>
+                <ejs-textbox *ngIf="this.id" formControlName="outPCCode" [readonly]="true" tabindex="4" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="outPCCode" tabindex="4" [dataSource]='pcCodeList' [fields]="{ text: 'pcCode', value: 'pcCode' }" allowFiltering="true" (change)="onCategoryChange($event.value)" placeholder="Select One"></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("outPCCode")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Category is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="font-weight-normal requiredfield">Check Date Time</label>
+                <ejs-timepicker  formControlName="outCheckDateTime" [format]="format" [step]="interval" autocomplete="off" tabindex="5" [readonly]="this.id"></ejs-timepicker>
+                <div [style.visibility]='validateControl("outCheckDateTime")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Check Date Time is required</label>
+                </div>
+               </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Operation Area</label>
+                <ejs-textbox formControlName="areaID" [readonly]="true" tabindex="6" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Truck Type</label>
+                <ejs-textbox  formControlName="truckType" [readonly]="true" tabindex="7" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Truck No</label>
+                <ejs-textbox formControlName="truckVehicleRegNo" [readonly]="true" tabindex="8" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Trailer No</label>
+                <ejs-textbox formControlName="trailerVehicleRegNo" [readonly]="true" tabindex="9" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Driver Name</label>
+                <ejs-textbox formControlName="driverLicenseNo" [readonly]="true" tabindex="10" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Type</label>
+                <ejs-textbox *ngIf="this.id" formControlName="outType" [readonly]="true" tabindex="11" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="outType" tabindex="11" [dataSource]='typeList'  placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Cargo Type</label>
+                <ejs-textbox *ngIf="this.id" formControlName="outCargoType" [readonly]="true" tabindex="12" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="outCargoType" tabindex="12" [dataSource]='cargoTypeList'  placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">CargoInfo</label>
+                <ejs-textbox formControlName="outCargoInfo" [multiline]="true" tabindex="13" [readonly]="this.id"></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Customer</label>
+                <ejs-textbox formControlName="customer" [multiline]="true" tabindex="14" [readonly]="this.id"></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Remark</label>
+                <ejs-textbox formControlName="remark" [multiline]="true" tabindex="15" [readonly]="this.id"></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Out WeightBridge ID</label>
+                <ejs-textbox formControlName="outWeightBridgeID" tabindex="16" readonly="true"></ejs-textbox>
+              </div>
+              <div class="form-group col-lg-2 col-md-2"><br>
+                <ejs-checkbox formControlName="outboundWeight"  label="Out Weight?"  autocomplete="off" floatLabelType="Always" tabindex="7"></ejs-checkbox>
+              </div>
+            </div>
+          </form><br>
+          <h6>Documents</h6>
+          <ejs-grid #Grid [dataSource]="docList" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)='rowDataBound($event)'>
+            <e-columns>
+              <e-column type='checkbox' width='40' ></e-column>
+              <e-column field='docCode' headerText="Doc No" width="100"></e-column>
+              <e-column field='docName' headerText="Name" width="110"></e-column>
+              <e-column field='checkStatus' headerText="Check Status" width="120"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+   </div>
+ </div>
+</section>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
