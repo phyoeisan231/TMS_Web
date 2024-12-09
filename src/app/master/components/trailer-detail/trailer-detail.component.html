@@ -26,193 +26,99 @@
                           </a>
                         </div>
                       </div><br>
-
-                      <div class="row">
+                      <div class="row my-0">
                         <div class="form-group col-md-4">
-                          <label  class="requiredfield">Vehicle RegNo</label>
-                          <ejs-textbox formControlName="vehicleRegNo" tabindex="1"  maxlength="25" popupHeight='200px'></ejs-textbox>
-                          <div [style.visibility]='validateControl("vehicleRegNo")? "visible": "hidden"'>
-                            <label class="e-error" style="display: block;">*Vehicle RegNo is required</label>
-                          </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label>Vehicle Back RegNo</label>
-                          <ejs-textbox formControlName="vehicleBackRegNo" tabindex="2" maxlength="25" popupHeight='200px'></ejs-textbox>
-                          <div [style.visibility]='validateControl("vehicleBackRegNo")? "visible": "hidden"'>
-                            <label class="e-error" style="display: block;">*Vehicle Back RegNo is required</label>
-                          </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label  class="requiredfield">Container Type</label>
-                          <ejs-dropdownlist formControlName="containerType" tabindex="3" [dataSource]='containerTypeList' popupHeight='200px'></ejs-dropdownlist>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label >Container Size</label>
-                          <ejs-dropdownlist formControlName="containerSize" tabindex="4" [dataSource]='containerSizeList' popupHeight='200px'></ejs-dropdownlist>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label  class="requiredfield">Transporter</label>
-                          <ejs-dropdownlist formControlName="transporterID" tabindex="5" [dataSource]='transporterNames' [fields]="{ text: 'transporterName', value: 'transporterID' }"  popupHeight='200px'></ejs-dropdownlist>
-                          <div [style.visibility]='validateControl("transporterID")? "visible": "hidden"'>
-                            <label class="e-error" style="display: block;">*Transporter is required</label>
-                          </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label >Trailer Weight</label>
-                          <ejs-numerictextbox formControlName="trailerWeight" [min]="0" [max]="100000" [decimals]="2"
-                          autocomplete="off"  tabindex="6"maxlength="100"/>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label >Driver License No</label>
-                          <ejs-dropdownlist formControlName="driverLicenseNo" maxlength="25" tabindex="7" [dataSource]='driverLicenseNoList' [fields]="{text:'driverName',value:'licenseNo'}" popupHeight='200px'></ejs-dropdownlist>
-                          <div [style.visibility]='validateControl("driverLicenseNo")? "visible": "hidden"'>
-                            <label class="e-error" style="display: block;">*License No is required</label>
-                          </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label>Last Passed Date</label>
-                          <ejs-datepicker formControlName="lastPassedDate" tabindex="8" [format]="formatfilter"></ejs-datepicker>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label >Remarks</label>
-                          <textarea formControlName="remarks" class="form-control form-control-sm"
-                          autocomplete="off" placeholder="Remarks "tabindex="9"></textarea>
-                        </div>
-                      </div>
-                        <!-- <div class="row">
-                            <div class="col-md-6 col-lg-6 text-left">
-                              <h5 class="card-title">Trailer Info</h5>
-                            </div>
-                            <div class="col-md-6 col-lg-6 text-end">
-                                <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!trailerForm.valid"  *ngIf="isAdd" (click)="saveTrailer()"><i class="fa fa-save"></i>  &nbsp;Save</button>
-                              <button type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!trailerForm.valid" *ngIf="!isAdd"  (click)="saveTrailer()"><i class="fa fa-save"></i>  &nbsp;Update</button>
-                              <a routerLink="master/trailer" class="btn btn-sm btn-secondary m-1" href="master/trailer">
-                                <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
-                              </a>
-                            </div>
-                          </div><br>
-                        <div class="row my-0">
-                          <label class="col-md-2 requiredfield" *ngIf="isAdd">Vehicle Reg No:</label>
-                          <label class="col-md-2 requiredfield" *ngIf="!isAdd">Vehicle Reg No:</label>
-                          <div class="form-group col-md-4">
+                          <label class="font-weight-normal requiredfield" *ngIf="isAdd">Vehicle Reg No.</label>
+                          <label class="font-weight-normal requiredfield" *ngIf="!isAdd">Vehicle Reg No.</label>
                             <ejs-textbox
-                                formControlName="vehicleRegNo"
-                                class="text-uppercase"
-                                placeholder="Enter Vehicle Reg No."
+                                formControlName="vehicleRegNo" class="text-uppercase"
                                 tabindex="0" maxlength="50" />
-                            <div *ngIf="trailerForm.controls['vehicleRegNo'].invalid && (trailerForm.controls['vehicleRegNo'].touched || trailerForm.controls['vehicleRegNo'].dirty)">
-                                <small class="text-danger">This field is required.</small>
-                            </div>
+                                <div *ngIf="trailerForm.controls['vehicleRegNo'].invalid && (trailerForm.controls['vehicleRegNo'].touched || trailerForm.controls['vehicleRegNo'].dirty)">
+                                  <small class="text-danger">This field is required.</small>
+                              </div>
                         </div>
-                        <label class="col-md-2">Vehicle BackRegNo:</label>
                         <div class="form-group col-md-4">
+                          <label class="font-weight-normal">Vehicle Back RegNo.</label>
                             <ejs-textbox
                                 formControlName="vehicleBackRegNo"
                                 class="text-uppercase"
                                 autocomplete="off"
                                 tabindex="1" maxlength="100"/>
                         </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 requiredfield">Container Type:</label>
-                            <div class="form-group col-md-4">
-                                <ejs-dropdownlist
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-normal">Container Type</label>
+                            <ejs-dropdownlist
                                 formControlName="containerType"
                                 [dataSource]="containerTypeList"
                                 placeholder="Choose Container Type"
-                                tabindex="2">
-                              </ejs-dropdownlist>
-                              <div *ngIf="trailerForm.controls['containerType'].invalid && (trailerForm.controls['containerType'].touched || trailerForm.controls['containerType'].dirty)">
-                                <small class="text-danger">This field is required.</small>
-                              </div>
-                            </div>
-                            <label class="col-md-2">Container Size:</label>
-                            <div class="form-group col-md-4">
-                                <ejs-dropdownlist
+                                autocomplete="off"
+                                tabindex="2"
+                                maxlength="100" />
+                        </div>
+                      </div>
+
+                      <div class="row mt-2">
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-normal">Container Size</label>
+                            <ejs-dropdownlist
                                 formControlName="containerSize"
                                 [dataSource]="containerSizeList"
+                                autocomplete="off"
                                 placeholder="Choose Container Size"
-                                tabindex="3">
-                              </ejs-dropdownlist>
-                              <div *ngIf="trailerForm.controls['containerSize'].invalid && (trailerForm.controls['containerSize'].touched || trailerForm.controls['containerSize'].dirty)">
-                                <small class="text-danger">This field is required.</small>
-                              </div>
-                            </div>
+                                tabindex="3"
+                                maxlength="100"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-normal requiredfield">Transporter</label>
+                          <ejs-dropdownlist
+                            formControlName="transporterID"
+                            [dataSource]="transporterNames"
+                            [fields]="{ text: 'transporterName', value: 'transporterID' }"
+                            autocomplete="off"
+                            placeholder="Choose Transpoter"
+                            tabindex="4"
+                            maxlength="100">
+                          </ejs-dropdownlist>
+                          <div *ngIf="trailerForm.controls['transporterID'].invalid && (trailerForm.controls['transporterID'].touched || trailerForm.controls['transporterID'].dirty)">
+                            <small class="text-danger">This field is required.</small>
+                        </div>
+                        </div>
+                          <div class="form-group col-md-4">
+                            <label class="font-weight-normal">Trailer Weight</label>
+                              <ejs-numerictextbox
+                                  formControlName="trailerWeight"
+                                  placeholder="Trailer Weight"
+                                  [min]="0"
+                                  [max]="100000"
+                                  [decimals]="2"
+                                  autocomplete="off"
+                                  tabindex="5"
+                                  maxlength="100"/>
                           </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 requiredfield">Transporter:</label>
-                            <div class="form-group col-md-4">
-                                <ejs-dropdownlist
-                                    formControlName="transporterID"
-                                    [dataSource]="transporterNames"
-                                    [fields]="{ text: 'transporterName', value: 'transporterID' }"
-                                    autocomplete="off"
-                                    placeholder="Choosse Transporter"
-                                    tabindex="4"
-                                    maxlength="100"/>
-                                    <div *ngIf="trailerForm.controls['transporterID'].invalid && (trailerForm.controls['transporterID'].touched || trailerForm.controls['transporterID'].dirty)">
-                                        <small class="text-danger">This field is required.</small>
-                                    </div>
-                            </div>
-                            <label class="col-md-2">Trailer Weight:</label>
-                            <div class="form-group col-md-4">
-                                <ejs-numerictextbox
-                                formControlName="trailerWeight"
-                                [min]="0"
-                                [max]="100000"
-                                [decimals]="2"
-                                autocomplete="off"
-                                placeholder="Enter Trailer Weight"
-                                tabindex="5"
-                                maxlength="100"/>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 requiredfield">Driver LicenseNo.:</label>
-                            <div class="form-group col-md-4">
-                                <ejs-dropdownlist
-                                formControlName="driverLicenseNo"
-                                [dataSource]="driverLicenseNoList"
-                                [fields]="{text:'driverName',value:'licenseNo'}"
-                                autocomplete="off"
-                                placeholder="choose Driver License Number"
-                                tabindex="6"
-                                maxlength="100"/>
-                                <div *ngIf="trailerForm.controls['driverLicenseNo'].invalid && (trailerForm.controls['driverLicenseNo'].touched || trailerForm.controls['driverLicenseNo'].dirty)">
-                                    <small class="text-danger">This field is required.</small>
-                                </div>
-                            </div>
-                            <label class="col-md-2">Last Passed Date:</label>
-                            <div class="form-group col-md-4">
-                                <ejs-datepicker
-                                    formControlName="lastPassedDate"
-                                    [format]="formatfilter"
-                                    autocomplete="off"
-                                    placeholder="Last Passed Date"
-                                    tabindex="7"
-                                    maxlength="100">
-                                </ejs-datepicker>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2">IsActive:</label>
-                            <div class="form-group col-md-4">
-                                <ejs-checkbox formControlName="active" tabindex="8"></ejs-checkbox>
-                            </div>
-                            <label class="col-md-2">Remarks:</label>
-                            <div class="form-group col-md-4">
-                                <textarea
-                                    formControlName="remarks"
-                                    class="form-control form-control-sm"
-                                    autocomplete="off"
-                                    placeholder="Remarks "
-                                    tabindex="9"
-                                    maxlength="100"></textarea>
-                            </div>
-                        </div> -->
+                      </div>
+                      
+                      <div class="row mt-2">
+                          <div class="form-group col-md-4">
+                            <label class="font-weight-normal">Driver</label>
+                              <ejs-dropdownlist
+                                  formControlName="driverLicenseNo"
+                                  [dataSource]="driverLicenseNoList"
+                                  [fields]="{text:'driverName',value:'licenseNo'}"
+                                  placeholder="Choose Driver"
+                                  autocomplete="off"
+                                  tabindex="7"
+                                  maxlength="100"/>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label >Remarks</label>
+                            <textarea formControlName="remarks" class="form-control form-control-sm"
+                            autocomplete="off" placeholder="Remarks "tabindex="9"></textarea>
+                          </div>
+                          <div class="form-group col-md-4"><br>
+                            <ejs-checkbox formControlName="active" tabindex="8" label="IsActive" [checked]="true"></ejs-checkbox>
+                          </div>
+                      </div>
+                      
                     </form>
                 </div>
             </div>

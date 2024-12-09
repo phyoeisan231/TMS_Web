@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MasterModule } from '../../master.module';
 import { error } from 'console';
 import { TruckDetailService } from './truck-detail.service';
+import moment from 'moment';
 @Component({
   selector: 'app-truck-detail',
   standalone: true,
@@ -52,9 +53,9 @@ export class TruckDetailComponent {
       transporterID:new FormControl('',Validators.required),
       active: new FormControl(false),
       isRGL:new FormControl(false),
-      // isBlack:new FormControl(false),
-      driverLicenseNo:new FormControl('',Validators.required),
-      lastPassedDate:new FormControl(null),
+      isBlack:new FormControl(''),
+      driverLicenseNo:new FormControl(''),
+      // lastPassedDate:new FormControl(null),
       vehicleBackRegNo:new FormControl(''),
       remarks:new FormControl(''),
     });
@@ -72,8 +73,8 @@ export class TruckDetailComponent {
       }
     });
     
-    this.service.getDriverLicenseNo('true').subscribe({
-      next:(LicenseNoList)=>{
+    this.service.getDriverList('true','false').subscribe({
+      next:(LicenseNoList:any[])=>{
         console.log("Driver License and Names Loaded:",LicenseNoList);
         this.driverLicenseNoList=LicenseNoList;
       },
@@ -81,8 +82,8 @@ export class TruckDetailComponent {
         console.log('Error Loading Transporter Names',error)
       }
     });
-    this.service.getTransporterNames().subscribe({
-      next:(names)=>{
+    this.service.getTransporterList('true','false').subscribe({
+      next:(names:any[])=>{
         console.log("Transporter Names Loaded:",names);
         this.transporterNames=names;
       },
@@ -105,9 +106,9 @@ export class TruckDetailComponent {
       this.truckForm.controls['transporterID'].setValue(result.transporterID);
       this.truckForm.controls['active'].setValue(result.active);
       this.truckForm.controls['isRGL'].setValue(result.isRGL);
-      // this.truckForm.controls['isBlack'].setValue(result.isBlack);
+      this.truckForm.controls['isBlack'].setValue(result.isBlack);
       this.truckForm.controls['driverLicenseNo'].setValue(result.driverLicenseNo);
-      this.truckForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
+      // this.truckForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
       this.truckForm.controls['vehicleBackRegNo'].setValue(result.vehicleBackRegNo);
       this.truckForm.controls['remarks'].setValue(result.remarks);
       
@@ -123,6 +124,7 @@ export class TruckDetailComponent {
       formData.createdUser = localStorage.getItem('currentUser');
       formData.vehicleRegNo=formData.vehicleRegNo.toUpperCase();
       formData.vehicleBackRegNo=formData.vehicleBackRegNo.toUpperCase();
+      formData.isBlack=formData.isBlack;
       this.addNewTruck(formData);
     } else {
       formData.updatedUser = localStorage.getItem('currentUser');
@@ -135,44 +137,35 @@ export class TruckDetailComponent {
 
   addNewTruck(data: any) {
     this.spinner.show();
-    const formData = new FormData();
-    formData.append("VehicleRegNo", data.vehicleRegNo);
-    formData.append("ContainerType", data.containerType);
-    formData.append("ContainerSize",data.containerSize);
-    formData.append("TruckWeight", data.truckWeight);
-    formData.append("TypeID",data.typeID);
-    formData.append("TransporterID",data.transporterID);
-    formData.append("Active",data.active);
-    formData.append("IsRGL",data.isRGL);
-    formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo??"");
-    formData.append("Remarks",data.remarks??"");
-    // formData.append("IsBlack",data.isBlack);
-
-    // if(data.blackRemovedDate){
-    //   const blackRemoved=data.blackRemovedDate instanceof Date?data.blackRemovedDate:new Date(data.blackRemovedDate);
-    //   const localRemovedDate=new Date(blackRemoved.getTime()-blackRemoved.getTimezoneOffset()*60000)
-    //   .toISOString()
-    //   .split("T")[0];
-    //   formData.append("BlackRemovedDate",localRemovedDate);
-    // }
-    if(data.lastPassedDate){
-      const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
-      const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
-      .toISOString()
-      .split("T")[0];
-      formData.append("LastPassedDate",localLastPassedDate);
-    }
-
+    const formData = {
+      VehicleRegNo: data.vehicleRegNo,
+      ContainerType: data.containerType,
+      ContainerSize: data.containerSize,
+      TruckWeight: data.truckWeight,
+      TypeID: data.typeID,
+      TransporterID: data.transporterID,
+      Active: data.active,
+      IsRGL: data.isRGL,
+      DriverLicenseNo: data.driverLicenseNo,
+      VehicleBackRegNo: data.vehicleBackRegNo ?? "",
+      Remarks: data.remarks ?? "",
+      IsBlack: data.isBlack,
+      // LastPassedDate: moment(data.lastPassedDate).format('YYYY/MM/DD'),
+    };
     this.service.createTruck(formData)
-      .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        if (result.status==true) {
+      .pipe(
+        catchError((err) => {
           this.spinner.hide();
-          this.showSuccess('Truck added successfully!');
+          this.showError(err);
+          return of({ status: false, messageContent: 'An error occurred while adding the truck.' });
+        })
+      )
+      .subscribe((result) => {
+        this.spinner.hide();
+        if (result.status) {
+          this.showSuccess('Truck Added Successfully!');
           this.router.navigate(["master/truck"]);
         } else {
-          this.spinner.hide();
           Swal.fire('Truck', result.messageContent, 'error');
         }
       });
@@ -180,39 +173,37 @@ export class TruckDetailComponent {
 
   editTruck(data: any) {
     this.spinner.show();
-    const formData = new FormData();
-    formData.append("VehicleRegNo",this.id);
-    formData.append("ContainerType", data.containerType);
-    formData.append("ContainerSize",data.containerSize??"");
-    formData.append("TruckWeight", data.truckWeight??"");
-    formData.append("TypeID",data.typeID);
-    formData.append("TransporterID",data.transporterID);
-    formData.append("Active",data.active);
-    formData.append("IsRGL",data.isRGL);
-    formData.append("DriverLicenseNo",data.driverLicenseNo);
-    formData.append("VehicleBackRegNo",data.vehicleBackRegNo??"");
-    formData.append("Remarks",data.remarks??"");
-    
-    if(data.lastPassedDate){
-      const lastPass=data.lastPassedDate instanceof Date? data.lastPassedDate:new Date(data.lastPassedDate);
-      const localLastPassedDate=new Date(lastPass.getTime()-lastPass.getTimezoneOffset()*60000)
-      .toISOString()
-      .split("T")[0];
-      formData.append("LastPassedDate",localLastPassedDate);
-    }
-    
+    const formData = {
+        VehicleRegNo: this.id,
+        ContainerType: data.containerType,
+        ContainerSize: data.containerSize ?? "",
+        TruckWeight: data.truckWeight ?? "",
+        TypeID: data.typeID,
+        TransporterID: data.transporterID,
+        Active: data.active,
+        IsRGL: data.isRGL,
+        IsBlack: data.isBlack,
+        DriverLicenseNo: data.driverLicenseNo,
+        VehicleBackRegNo: data.vehicleBackRegNo ?? "",
+        Remarks: data.remarks ?? "",
+        // LastPassedDate: moment(data.lastPassedDate).format('YYYY/MM/DD'),
+      };
     this.service.updateTruck(formData)
-      .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.spinner.hide();
-        if (result.status) {
-          this.showSuccess('Truck updated successfully!');
-          this.router.navigate(["master/truck"]);
-        } else {
-          Swal.fire('Truck', result.messageContent, 'error');
-        }
-      });
-  }
+        .pipe(catchError((err) => {
+            this.spinner.hide();
+            this.showError(err);
+            return of({ status: false, messageContent: 'An error occurred while updating the truck.' });
+        }))
+        .subscribe((result) => {
+            this.spinner.hide();
+            if (result.status) {
+                this.showSuccess('Truck Updated Successfully!');
+                this.router.navigate(["master/truck"]);
+            } else {
+                Swal.fire('Truck', result.messageContent, 'error');
+            }
+        });
+}
 
   showSuccess(msg: string) {
     Swal.fire('Truck', msg, 'success');

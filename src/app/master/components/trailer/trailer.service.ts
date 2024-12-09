@@ -16,11 +16,11 @@ export class TrailerService {
   getTrailerList(){
     return this.http.get<any>(environment.url+'Master/GetTrailerList');
   }
+
+  onBlackForm(data: any) {
+    return this.http.put<any>(environment.url + 'Master/BlackFormForTrailer/', data, httpOptions);
+  }
   
-  // getDriverLicenseNo(active?:string):Observable<any[]>{
-  //   const params=active?{active}:{};
-  //   return this.http.get<any[]>(`${environment.url}Master/GetDriverList`,{params});
-  // }
   deleteTrailer(id:any){
     return this.http.delete<any>(environment.url+'Master/DeleteTrailer/'+id,httpOptions);
   } 

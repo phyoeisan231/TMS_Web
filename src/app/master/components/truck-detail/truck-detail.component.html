@@ -28,8 +28,8 @@
                           
                         <div class="row my-0">
                           <div class="form-group col-md-4">
-                            <label class="font-weight-normal requiredfield" *ngIf="isAdd">Vehicle Reg No.:</label>
-                            <label class="font-weight-normal requiredfield" *ngIf="!isAdd">Vehicle Reg No.:</label>
+                            <label class="font-weight-normal requiredfield" *ngIf="isAdd">Vehicle Reg No.</label>
+                            <label class="font-weight-normal requiredfield" *ngIf="!isAdd">Vehicle Reg No.</label>
                               <ejs-textbox
                                   formControlName="vehicleRegNo" class="text-uppercase"
                                   tabindex="0" maxlength="50" />
@@ -38,7 +38,7 @@
                               </div>
                           </div>
                           <div class="form-group col-md-4">
-                            <label class="font-weight-normal">Vehicle BackRegNo:</label>
+                            <label class="font-weight-normal">Vehicle Back RegNo.</label>
                               <ejs-textbox
                                   formControlName="vehicleBackRegNo"
                                   class="text-uppercase"
@@ -46,19 +46,20 @@
                                   tabindex="1" maxlength="100"/>
                           </div>
                           <div class="form-group col-md-4">
-                            <label class="font-weight-normal">Container Type:</label>
+                            <label class="font-weight-normal">Container Type</label>
                               <ejs-dropdownlist
                                   formControlName="containerType"
                                   [dataSource]="containerTypeList"
-                                  placeholder="Choose ContainerType"
+                                  placeholder="Choose Container Type"
                                   autocomplete="off"
                                   tabindex="2"
                                   maxlength="100" />
                           </div>
                         </div>
+                        
                         <div class="row mt-2">
                           <div class="form-group col-md-4">
-                            <label class="font-weight-normal">Container Size:</label>
+                            <label class="font-weight-normal">Container Size</label>
                               <ejs-dropdownlist
                                   formControlName="containerSize"
                                   [dataSource]="containerSizeList"
@@ -68,7 +69,7 @@
                                   maxlength="100"/>
                           </div>
                           <div class="form-group col-md-4">
-                            <label class="font-weight-normal requiredfield">Truck Type:</label>
+                            <label class="font-weight-normal requiredfield">Truck Type</label>
                             <ejs-dropdownlist
                               formControlName="typeID"
                               [dataSource]="truckTypeList"
@@ -83,7 +84,7 @@
                             </div>
                           </div>
                             <div class="form-group col-md-4">
-                              <label class="font-weight-normal">Truck Weight:</label>
+                              <label class="font-weight-normal">Truck Weight</label>
                                 <ejs-numerictextbox
                                     formControlName="truckWeight"
                                     placeholder="Enter Truck Weight"
@@ -98,7 +99,7 @@
 
                         <div class="row mt-2">
                           <div class="form-group col-md-4">
-                            <label class="font-weight-normal requiredfield">Transporter:</label>
+                            <label class="font-weight-normal requiredfield">Transporter</label>
                             <ejs-dropdownlist
                               formControlName="transporterID"
                               [dataSource]="transporterNames"
@@ -113,12 +114,12 @@
                             </div>
                           </div>
                             <div class="form-group col-md-4">
-                              <label class="font-weight-normal requiredfield">Driver LicenseNo.:</label>
+                              <label class="font-weight-normal">Driver</label>
                                 <ejs-dropdownlist
                                     formControlName="driverLicenseNo"
                                     [dataSource]="driverLicenseNoList"
                                     [fields]="{text:'driverName',value:'licenseNo'}"
-                                    placeholder="Enter Driver LicenseNo."
+                                    placeholder="Choose Driver"
                                     autocomplete="off"
                                     tabindex="7"
                                     maxlength="100"/>
@@ -127,34 +128,22 @@
                                   </div>
                             </div>
                             <div class="form-group col-md-4">
-                              <label class="font-weight-normal">Last Passed Date:</label>
-                              <ejs-datepicker
-                                formControlName="lastPassedDate"
-                                [format]="formatfilter"
-                                autocomplete="off"
-                                placeholder="Last Passed Date"
-                                tabindex="9"
-                                maxlength="120">
-                              </ejs-datepicker>
-                            </div>
-                        </div>
-
-                          <div class="row mt-2">
-                            <div class="form-group col-md-4">
-                              <ejs-checkbox formControlName="active" tabindex="8" label="IsActive" [checked]="true"></ejs-checkbox>
-                            </div>
-                            <!-- <label class="col-md-2">IsRGL:</label> -->
-                            <div class="form-group col-md-4">
-                                <ejs-checkbox formControlName="isRGL" label="IsRGl" tabindex="10" [checked]="true"></ejs-checkbox>
-                            </div>
-                            <div class="form-group col-md-4">
                               <label class="font-weight-normal">Remarks</label>
                               <textarea 
                                 formControlName="remarks" class="form-control form-control-sm"
                                 tabindex="11" autocomplete="off" 
                                 placeholder="Remarks" maxlength="120"></textarea>
                             </div>
+                        </div>
+                        <div class="row mt-2">
+                          <div class="form-group col-md-4">
+                            <ejs-checkbox formControlName="active" tabindex="8" label="IsActive" [checked]="true"></ejs-checkbox>
                           </div>
+                          <div class="form-group col-md-4">
+                              <ejs-checkbox formControlName="isRGL" label="IsRGl" tabindex="10" [checked]="true"></ejs-checkbox>
+                          </div>
+                        </div>
+                          
                     </form>
                 </div>
             </div>

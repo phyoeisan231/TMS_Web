@@ -16,14 +16,13 @@
                           <h5 class="card-title">Truck</h5>
                         </div>
                     </div>
-                    <ejs-grid #Grid [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings' [editSettings]="editSettings" [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+                    <ejs-grid #Grid [allowSorting]="true" [allowPaging]="true" [pageSettings]='pageSettings' [editSettings]="editSettings" [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)="rowDataBound($event)">
                         <e-columns>
-                            <e-column type='checkbox' width="50"></e-column>
+                            <!-- <e-column type='checkbox' width="50"></e-column> -->
                             <e-column field="vehicleRegNo" headerText='RegNo' [isPrimaryKey]="true" width="150"></e-column>
                             <e-column field="truckWeight" headerText="TruckWeight" width="200"></e-column>
                             <e-column field="typeID" headerText="Truck TypeID" width="150"></e-column>
                             <e-column field="transporterID" headerText="Transporter ID" width="150"></e-column>
-                            <!-- <e-column field="blackDate" headerText="Black Date" width="200" type="date" format="dd-MM-yyyy"></e-column> -->
                             <e-column field='createdDate' headerText='Created Date' type="date" format="dd-MM-yyyy" width="130"></e-column>
                             <e-column field='isBlack' headerText='IsBlack'  width="90">
                                 <ng-template #template let-data>
@@ -77,25 +76,25 @@
       </div>
       <div class="row">
         <div class="form-group col-md-12" *ngIf="this.isShow">
-          <label class="col">Black Date</label>
+          <label for="blackDate">Black Date</label>
           <ejs-datepicker formControlName="blackDate" autocomplete="off" type="date" format="dd-MMM-yyyy" tabindex="2"  ></ejs-datepicker>
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-12" *ngIf="!this.isShow">
-          <label class="col">Black Removed Date</label>
+          <label for="blackRemovedDate">Black Removed Date</label>
           <ejs-datepicker formControlName="blackRemovedDate" autocomplete="off" type="date" format="dd-MMM-yyyy" tabindex="2"  ></ejs-datepicker>
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-12" *ngIf="this.isShow">
-          <label class="col">Black Reason</label>
+          <label for="blackReason">Black Reason</label>
           <textarea formControlName="blackReason" autocomplete="off" class="form-control form-control-sm" tabindex="3"></textarea>
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-12" *ngIf="!this.isShow">
-          <label class="col">Black Removed Reason</label>
+          <label for="blackRemovedReason">Black Removed Reason</label>
           <textarea formControlName="blackRemovedReason" autocomplete="off" class="form-control form-control-sm" tabindex="4"></textarea>
         </div>
       </div>
