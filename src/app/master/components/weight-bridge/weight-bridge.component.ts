@@ -42,13 +42,13 @@ export class WeightBridgeComponent {
     this.loadTableData();
   }
 
-  // rowDataBound(args: any): void {
-  //   if (args.row) {
-  //     if (args.data.active!=true) {
-  //       args.row.classList.add('not-Use');
-  //     }
-  //   }
-  // }
+  rowDataBound(args: any): void {
+    if (args.row) {
+      if (args.data.active!=true) {
+        args.row.classList.add('not-Use');
+      }
+    }
+  }
 
   loadTableData() {
     this.spinner.show();
@@ -124,11 +124,13 @@ export class WeightBridgeComponent {
       weightBridgeID: new FormControl(data.weightBridgeID,Validators.required),
       name: new FormControl(data.name,Validators.required),
       yardID: new FormControl(data.yardID,Validators.required),
+      active:new FormControl(data.active)
     });
   }
 
   addWeightBridge(formData: any) {
     this.spinner.show();
+    formData.active=true;
     this.service
       .createWeightBridge(formData)
       .pipe(catchError((err) => of(this.showError(err))))
@@ -147,6 +149,7 @@ export class WeightBridgeComponent {
 
   editWeightBridge(formData: any) {
     this.spinner.show();
+    formData.active=formData.active?true:false;
     this.service
       .updateWeightBridge(formData)
       .pipe(catchError((err) => of(this.showError(err))))

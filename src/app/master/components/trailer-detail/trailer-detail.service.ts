@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 const httpOptions={
 headers:new HttpHeaders({'Content-Type':'application/json'}),
@@ -19,13 +19,18 @@ export class TrailerDetailService {
     });
   }
 
-  getTransporterNames():Observable<any[]>{
-    return this.http.get<any[]>(environment.url+'Master/GetTransporterList');
+  getTransporterList(active: string, isBlack: string) {
+    const params = new HttpParams()
+      .set('active', active)
+      .set('isBlack', isBlack);
+    return this.http.get<any>(`${environment.url}Master/GetTransporterList`, { params });
   }
 
-  getDriverLicenseNo(active?:string):Observable<any[]>{
-    const params=active?{active}:{};
-    return this.http.get<any[]>(`${environment.url}Master/GetDriverList`,{params});
+  getDriverList(active: string, isBlack: string): Observable<any[]> {
+    const params = new HttpParams()
+      .set('active', active)
+      .set('isBlack', isBlack);
+    return this.http.get<any[]>(environment.url+'Master/GetDriverList', { params });
   }
   
   getTrailerId(id:any){

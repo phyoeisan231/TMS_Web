@@ -28,13 +28,13 @@
                       </div><br>
                     <div class="row my-0">
                         <div class="form-group col-md-4" *ngIf="!this.isAdd">
-                            <label class="font-weight-normal requiredfield" *ngIf="!this.isAdd">Transporter ID:</label>
+                            <label class="font-weight-normal requiredfield" *ngIf="!this.isAdd">Transporter ID</label>
                             <ejs-textbox 
                             formControlName="transporterID"
                             tabindex="0" readonly="true" />
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal requiredfield">Transporter Name:</label>
+                            <label class="font-weight-normal requiredfield">Transporter Name</label>
                             <ejs-textbox
                                 formControlName="transporterName"
                                 placeholder="Enter Transporter Name"
@@ -45,7 +45,7 @@
                                 </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal">Address:</label>
+                            <label class="font-weight-normal">Address</label>
                             <ejs-textbox
                                 formControlName="address"
                                 placeholder="Enter Address"
@@ -57,16 +57,16 @@
                    
                     <div class="row mt-2">
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal">Email:</label>
+                            <label class="font-weight-normal">Email</label>
                             <ejs-textbox
                                 formControlName="email"
                                 autocomplete="off"
-                                placeholder="Enter email "
+                                placeholder="Enter Email "
                                 tabindex="3"
                                 maxlength="100"/>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal requiredfield">Contact Person:</label>
+                            <label class="font-weight-normal requiredfield">Contact Person</label>
                           <ejs-textbox
                               formControlName="contactPerson"
                               autocomplete="off"
@@ -78,10 +78,10 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal requiredfield">Contact No.:</label>
+                            <label class="font-weight-normal requiredfield">Contact No.</label>
                             <ejs-textbox
                                 formControlName="contactNo"
-                                placeholder="Enter contactNo"
+                                placeholder="Enter Contact No."
                                 autocomplete="off"
                                 tabindex="5" maxlength="100"/>
                                 <div *ngIf="transForm.controls['contactNo'].invalid && (transForm.controls['contactNo'].touched || transForm.controls['contactNo'].dirty)">
@@ -92,12 +92,12 @@
                     
                     <div class="row mt-2">
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal requiredfield">Transporter Type:</label>
+                            <label class="font-weight-normal requiredfield">Transporter Type</label>
                             <ejs-dropdownlist
                                 formControlName="typeID"
                                 [dataSource]="transTypesList"
                                 autocomplete="off"
-                                placeholder="Choose Transporter Types"
+                                placeholder="Choose Transporter Type"
                                 tabindex="6"
                                 maxlength="100"/>
                                 <div *ngIf="transForm.controls['typeID'].invalid && (transForm.controls['typeID'].touched || transForm.controls['typeID'].dirty)">
@@ -105,7 +105,7 @@
                                 </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal">SAPID:</label>
+                            <label class="font-weight-normal">SAPID</label>
                             <ejs-textbox
                                 formControlName="sapID"
                                 placeholder="Enter SAPID"
@@ -114,7 +114,7 @@
                                 
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="font-weight-normal">Remarks:</label>
+                            <label class="font-weight-normal">Remarks</label>
                             <textarea
                                 formControlName="remarks"
                                 class="form-control form-control-sm"

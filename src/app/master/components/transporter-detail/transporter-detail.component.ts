@@ -20,7 +20,6 @@ export class TransporterDetailComponent{
   transForm: FormGroup;
   id: string;
   breadCrumbItems: Array<{}>;
-  // breadCrumbItems: Array<{ label: string, routerLink?: string, active?: boolean }>;
   isAdd: boolean = true;
   transTypesList:any[]=["Company","Gate"];
   formatfilter:string='dd-MMM-yyyy';
@@ -41,7 +40,6 @@ export class TransporterDetailComponent{
     { label: 'Add New Transporter', active: true }];
     this.id = this.route.snapshot.queryParams['id'];
     this.transForm = new FormGroup({
-      // transporterCode: new FormControl({value:this.id,disabled:!!this.id }),
       transporterID:new FormControl(this.id),
       transporterName: new FormControl('',Validators.required),
       address: new FormControl(''),
@@ -51,11 +49,11 @@ export class TransporterDetailComponent{
       typeID: new FormControl('',Validators.required),
       remarks:new FormControl(''),
       active: new FormControl(false),
+      isBlack:new FormControl(''),
       sapID:new FormControl(''),
     });
     if(this.id!=null && this.id!=undefined){
       this.getTransporterById();
-      // this.isAdd=false;
     }
   }
 
@@ -77,7 +75,9 @@ export class TransporterDetailComponent{
       this.transForm.controls['typeID'].setValue(result.typeID);
       this.transForm.controls['remarks'].setValue(result.remarks);
       this.transForm.controls['active'].setValue(result.active);
+      this.transForm.controls['isBlack'].setValue(result.isBlack);
       this.transForm.controls['sapID'].setValue(result.sapID);
+
       this.isAdd=false;
       this.breadCrumbItems = [{ label: 'Transporter',rounterLink:'master/transporter-detail',active:false }, { label: 'Edit Transporter', active: true }];
       this.spinner.hide();
@@ -88,6 +88,7 @@ export class TransporterDetailComponent{
     const formData = this.transForm.value;
     if (this.isAdd) {
       formData.createdUser = localStorage.getItem('currentUser');
+      formData.isBlack=formData.isBlack;
       this.addNewTransporter(formData);
     } else {
       formData.updatedUser = localStorage.getItem('currentUser');
@@ -97,52 +98,47 @@ export class TransporterDetailComponent{
 
   addNewTransporter(data: any) {
     this.spinner.show();
-    const formData = new FormData();
-    formData.append("TransporterID",'1');
-    formData.append("TransporterName",data.transporterName);
-    formData.append("Address",data.address);
-    formData.append("ContactNo",data.contactNo);
-    formData.append("Email",data.email);
-    formData.append("ContactPerson",data.contactPerson);
-    formData.append("TypeID",data.typeID);
-    formData.append("Remarks",data.remarks);
-    formData.append("Active",data.active);
-    formData.append("SAPID",data.sapID);
+    const formData = {
+      transporterID: '1',
+      transporterName: data.transporterName,
+      address: data.address,
+      contactNo: data.contactNo,
+      email: data.email,
+      contactPerson: data.contactPerson,
+      typeID: data.typeID,
+      remarks: data.remarks,
+      active: data.active,
+      isBlack: data.isBlack,
+      sapID: data.sapID
+    };
     this.service.createTransporter(formData)
-    .pipe(catchError((err) => of(this.showError(err))))
-    .subscribe((result) => {
-      if (result.status==true) {
+      .pipe(
+        catchError((err) => {
+          this.spinner.hide();
+          this.showError(err);
+          return of({ status: false, messageContent: 'An error occurred while adding the transporter.' });
+        })
+      )
+      .subscribe((result) => {
         this.spinner.hide();
-        this.showSuccess('Transporter added successfully!');
-        this.router.navigate(["master/transporter"]);
-      } else {
-        this.spinner.hide();
-        Swal.fire('Transporter', result.messageContent, 'error');
-      }
-    });
+        if (result.status) {
+          this.showSuccess('Transporter Added Successfully!');
+          this.router.navigate(["master/transporter"]);
+        } else {
+          Swal.fire('Transporter', result.messageContent, 'error');
+        }
+      });
   }
-   
+  
   editTransporter(data: any) {
       this.spinner.show();
-      const formData = new FormData();
-      data.active=data.active?true:false;
-      formData.append("TransporterID",this.id);
-      formData.append("TransporterName",data.transporterName);
-      formData.append("Address",data.address);
-      formData.append("ContactNo",data.contactNo);
-      formData.append("Email",data.email);
-      formData.append("ContactPerson",data.contactPerson);
-      formData.append("TypeID",data.typeID);
-      formData.append("Remarks",data.remarks);
-      formData.append("Active",data.active);
-      formData.append("SAPID",data.sapID);;
-      // formData.append("IsBlack",data.isBlack.toString());
+      const formData = this.transForm.value;   
       this.service.updateTransporter(formData)
         .pipe(catchError((err) => of(this.showError(err))))
         .subscribe((result) => {
           this.spinner.hide();
-          if (result.status) {
-            this.showSuccess('Transporter updated successfully!');
+          if (result.status==true) {
+            this.showSuccess('Transporter Updated Successfully!');
             this.router.navigate(["master/transporter"]);
           } else {
             Swal.fire('Transporter', result.messageContent, 'error');

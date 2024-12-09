@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MasterModule } from '../../master.module';
 import { error } from 'console';
 import { DriverDetailService } from './driver-detail.service';
+import moment from 'moment';
 @Component({
   selector: 'app-driver-detail',
   standalone: true,
@@ -20,7 +21,6 @@ export class DriverDetailComponent implements OnInit{
   driverForm: FormGroup;
   id: string;
   breadCrumbItems: Array<{}>;
-  // breadCrumbItems: Array<{ label: string, routerLink?: string, active?: boolean }>;
   isAdd: boolean = true;
   transporterNames:any[]=[];
   classList: string[]=['A','B','C','D','E'];
@@ -42,31 +42,23 @@ export class DriverDetailComponent implements OnInit{
     this.id = this.route.snapshot.queryParams['id'];
     this.driverForm = new FormGroup({
       licenseNo: new FormControl({value:this.id,disabled:!!this.id },Validators.required),
-      nrc: new FormControl('',Validators.required),
+      nrc: new FormControl(''),
       name: new FormControl('',Validators.required),
       address: new FormControl(''),
       licenseClass:new FormControl('',Validators.required),
-      contactNo: new FormControl('',Validators.required),
+      contactNo: new FormControl(''),
       licenseExpiration:new FormControl(null,Validators.required),
       // email: new FormControl('', Validators.compose([Validators.required,
       // Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])),
       email: new FormControl('',[Validators.email]),
       remarks:new FormControl(''),
       active: new FormControl(false),
+      isBlack:new FormControl(''),
     });
     if (this.id) {
       this.getDriverById();
-      this.isAdd=false;
     }
-    // this.service.getTransporterNames().subscribe({
-    //   next:(names)=>{
-    //     console.log("Transporter Names Loaded:",names);
-    //     this.transporterNames=names;
-    //   },
-    //   error:(error)=>{
-    //     console.log('Error Loading Transporter Names',error)
-    //   }
-    // });
+    
   }
 
   navigateToDriver() {
@@ -88,49 +80,19 @@ export class DriverDetailComponent implements OnInit{
       this.driverForm.controls['email'].setValue(result.email);
       this.driverForm.controls['remarks'].setValue(result.remarks);
       this.driverForm.controls['active'].setValue(result.active);
+      this.driverForm.controls['isBlack'].setValue(result.isBlack);
+
       this.isAdd=false;
       this.breadCrumbItems = [{ label: 'Driver List',rounterLink:'/driver-detail',active:false }, { label: 'Edit Driver', active: true }];
       this.spinner.hide();
     });
   }
 
-  // getDriverById() {
-  //   this.spinner.show();
-  //   this.service.getDriverId(this.id)
-  //       .pipe(catchError((err) => {
-  //           this.showError(err); 
-  //           return of(null); 
-  //       }))
-  //       .subscribe((result) => {
-  //           if (result) {
-  //               this.driverForm.patchValue({
-  //                 licenseNo: result.licenseNo,
-  //                 nrc: result.nrc,
-  //                 name: result.name ?? "",
-  //                 address: result.address ?? "",
-  //                 licenseClass: result.licenseClass ?? "",
-  //                 contactNo: result.contactNo ?? 0,
-  //                 email: result.email,
-  //                 transporter: result.transporter,
-  //                 remarks: result.remarks ?? "",
-  //                 active: result.active ?? false,
-  //               });
-                
-  //               this.breadCrumbItems = [
-  //                   { label: 'Driver List', routerLink: '/driver', active: false },
-  //                   { label: 'Edit Driver', active: true }
-  //               ];
-  //               this.isAdd = false; // Set to false since we are editing
-  //           } 
-  //           this.spinner.hide();
-  //       });
-  // }
-
-  
   saveDriverList() {
     const formData = this.driverForm.value;
     if (this.isAdd) {
       formData.createdUser = localStorage.getItem('currentUser');
+      this.driverForm=formData.isBlack
       this.addNewDriver(formData);
     } else {
       formData.updatedUser = localStorage.getItem('currentUser');
@@ -140,72 +102,60 @@ export class DriverDetailComponent implements OnInit{
 
   addNewDriver(data: any) {
     this.spinner.show();
-    const formData = new FormData();
-    formData.append("LicenseNo",data.licenseNo);
-    formData.append("NRC",data.nrc);
-    formData.append("Name",data.name);
-    formData.append("Address",data.address);
-    formData.append("LicenseClass",data.licenseClass);
-    formData.append("ContactNo",data.contactNo);
-    formData.append("Email",data.email);
-    formData.append("Remarks",data.remarks);
-    formData.append("Active",data.active);
-
-    if(data.licenseExpiration){
-      const lastExp=data.licenseExpiration instanceof Date? data.licenseExpiration:new Date(data.licenseExpiration);
-      const localLastDate=new Date(lastExp.getTime()-lastExp.getTimezoneOffset()*60000)
-      .toISOString()
-      .split("T")[0];
-      formData.append("LicenseExpiration",localLastDate);
-    }
-
+    const formData = {
+      LicenseNo: data.licenseNo,
+      NRC: data.nrc,
+      Name: data.name,
+      Address: data.address,
+      LicenseClass: data.licenseClass,
+      ContactNo: data.contactNo,
+      Email: data.email,
+      Remarks: data.remarks,
+      Active: data.active,
+      IsBlack:data.isBlack,
+      LicenseExpiration: moment(data.licenseExpiration).format('YYYY/MM/DD'),
+    };
     this.service.createDriver(formData)
-    .pipe(catchError((err) => of(this.showError(err))))
-    .subscribe((result) => {
-      this.spinner.hide();
-      if (result.status) {
-        this.showSuccess('Driver added successfully!');
-        this.router.navigate(["master/driver"]);
-      } else {
-        Swal.fire('driver', result.messageContent, 'error');
-        this.router.navigate(["master/driver"]);
-      }
-    });
+      .pipe(catchError((err) => of(this.showError(err)))) // Catch errors and show them
+      .subscribe((result) => {
+        this.spinner.hide();
+        if (result.status) {
+          this.showSuccess('Driver Added Successfully!');
+          this.router.navigate(["master/driver"]);
+        } else {
+          Swal.fire('Driver', result.messageContent, 'error');
+          this.router.navigate(["master/driver"]);
+        }
+      });
   }
    
   editDriver(data: any) {
-      this.spinner.show();
-      const formData = new FormData();
-      data.active=data.active?true:false;
-      formData.append("LicenseNo",this.id);
-      formData.append("NRC",data.nrc);
-      formData.append("Name",data.name);
-      formData.append("Address",data.address??"");
-      formData.append("licenseClass",data.licenseClass);
-      formData.append("ContactNo",data.contactNo);
-      formData.append("Email",data.email??"");
-      formData.append("Remarks",data.remarks??"");
-      formData.append("Active", data.active); 
-
-      if(data.licenseExpiration){
-        const lastExp=data.licenseExpiration instanceof Date? data.licenseExpiration:new Date(data.licenseExpiration);
-        const localLastDate=new Date(lastExp.getTime()-lastExp.getTimezoneOffset()*60000)
-        .toISOString()
-        .split("T")[0];
-        formData.append("LicenseExpiration",localLastDate);
-      }      
-      this.service.updateDriver(formData)
-        .pipe(catchError((err) => of(this.showError(err))))
-        .subscribe((result) => {
-          this.spinner.hide();
-          if (result.status) {
-            this.showSuccess('Driver updated successfully!');
-            this.router.navigate(["master/driver"]);
-          } else {
-            Swal.fire('Driver', result.messageContent, 'error');
-          }
-        });
-    }
+    this.spinner.show();
+    const formData = {
+      LicenseNo: this.id,
+      NRC: data.nrc,
+      Name: data.name,
+      Address: data.address ?? "",  
+      LicenseClass: data.licenseClass,
+      ContactNo: data.contactNo,
+      Email: data.email ?? "",
+      Remarks: data.remarks ?? "", 
+      Active: data.active ? true : false,
+      IsBlack:data.isBlack,
+      LicenseExpiration: moment(data.licenseExpiration).format('YYYY/MM/DD'),
+    };
+    this.service.updateDriver(formData)
+      .pipe(catchError((err) => of(this.showError(err)))) // Catch errors and show them
+      .subscribe((result) => {
+        this.spinner.hide();
+        if (result.status) {
+          this.showSuccess('Driver Updated Successfully!');
+          this.router.navigate(["master/driver"]);
+        } else {
+          Swal.fire('Driver', result.messageContent, 'error');
+        }
+      });
+  }
   
     showSuccess(msg: string) {
       Swal.fire('Driver', msg, 'success');

@@ -46,7 +46,7 @@ export class CardComponent {
 
   rowDataBound(args: any): void {
     if (args.row) {
-      if (args.data.isUse==true) {
+      if (args.data.active==false){
         args.row.classList.add('not-Use');
       }
     }
@@ -127,6 +127,7 @@ export class CardComponent {
       yardID: new FormControl(data.yardID,Validators.required),
       groupName: new FormControl(data.groupName,Validators.required),
       active:new FormControl(data.active),
+      // isUse:new FormControl(data.isUse),//process
     });
   }
 

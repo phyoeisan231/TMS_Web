@@ -27,9 +27,9 @@ export class GateComponent {
   lines: GridLine = 'Both';
   gateForm: any;
   lblText:string;
-  // yardList: string[]=['YTG','MDY','MG']
   yardList:any[]=[];
   gateList:any[]=[];
+  typeList:any[]=['InBound','OutBound','Both'];
   submitClicked: boolean = false;
   public data: Object[]=[{'gateId':1,'name':'YTGGate1','yard':'YTG'},{'gateId':2,'name':'YTGGate2','yard':'YTG'}];
   formatfilter:string='dd-MMM-yyyy';
@@ -129,6 +129,7 @@ loadTableData() {
       gateID: new FormControl(data.gateID,Validators.required),
       name: new FormControl(data.name,Validators.required),
       yardID: new FormControl(data.yardID,Validators.required),
+      type:new FormControl(data.type,Validators.required),
       active: new FormControl(data.active),
     });
   }

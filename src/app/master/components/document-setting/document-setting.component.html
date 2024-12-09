@@ -81,20 +81,20 @@
                      </div>
                      <div class="row">
                       <div class="form-group col-md-6"><br>
-                        <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="4" [checked]="true"></ejs-checkbox>
+                        <ejs-checkbox formControlName="isInDoc"  label="IsInDoc"  floatLabelType="Always" tabindex="4" [checked]="true"></ejs-checkbox>
                       </div>
                       <div class="form-group col-md-6"><br>
-                        <ejs-checkbox formControlName="attachRequired"  label="AttachRequired"  floatLabelType="Always" tabindex="5" [checked]="true"></ejs-checkbox>
+                        <ejs-checkbox formControlName="isOutDoc"  label="IsOutDoc"  floatLabelType="Always" tabindex="5" [checked]="true"></ejs-checkbox>
                       </div>
                      </div>
                      <div class="row">
                       <div class="form-group col-md-6"><br>
-                        <ejs-checkbox formControlName="isInDoc"  label="IsInDoc"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
+                        <ejs-checkbox formControlName="attachRequired"  label="AttachRequired"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
                       </div>
-                      <div class="form-group col-md-6"><br>
-                        <ejs-checkbox formControlName="isOutDoc"  label="IsOutDoc"  floatLabelType="Always" tabindex="7" [checked]="true"></ejs-checkbox>
+                      <div class="form-group col-md-6" *ngIf="!data.isAdd"><br>
+                        <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="7" [checked]="true"></ejs-checkbox>
                       </div>
-                     </div>
+                    </div>
                   </form>
                 </ng-template>
               </ejs-grid>
@@ -103,7 +103,7 @@
       </div>
     </div>
   </section>
-  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
   
   
   
