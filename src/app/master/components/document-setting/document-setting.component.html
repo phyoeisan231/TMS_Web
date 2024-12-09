@@ -48,7 +48,7 @@
                 </e-columns>
                 <ng-template #editSettingsTemplate let-data>
                   <form [formGroup]="docForm">
-                    <div class="form-row">
+                    <div class="row">
                       <div class="form-group col-md-12">
                         <label for="docCode" class="font-weight-normal requiredfield">Document Code</label>
                         <ejs-textbox formControlName="docCode" tabindex="1" autocomplete="off" class="text-uppercase" [readonly]="!data.isAdd"></ejs-textbox>
@@ -56,6 +56,8 @@
                           <label class="e-error" for="docCode" style="display: block;">*This field is required</label>
                         </div>
                       </div>
+                    </div>
+                    <div class="row">
                       <div class="form-group col-md-12">
                         <label for="docName" class="font-weight-normal requiredfield">Document Name</label>
                         <ejs-textbox formControlName="docName" tabindex="2" autocomplete="off"></ejs-textbox>
@@ -63,8 +65,8 @@
                           <label class="e-error" for="docName" style="display: block;">*This field is required</label>
                         </div>
                       </div>
-                     </div>
-                     <div class="form-row">
+                    </div>
+                    <div class="row">
                       <div class="form-group col-md-12">
                         <label class="font-weight-normal requiredfield">Category Code</label>
                         <ejs-dropdownlist
@@ -80,21 +82,22 @@
                        </div>
                      </div>
                      <div class="row">
-                      <div class="form-group col-md-6"><br>
+                      <div class="form-group col-md-4"><br>
                         <ejs-checkbox formControlName="isInDoc"  label="IsInDoc"  floatLabelType="Always" tabindex="4" [checked]="true"></ejs-checkbox>
                       </div>
-                      <div class="form-group col-md-6"><br>
+                      <div class="form-group col-md-4"><br>
                         <ejs-checkbox formControlName="isOutDoc"  label="IsOutDoc"  floatLabelType="Always" tabindex="5" [checked]="true"></ejs-checkbox>
+                      </div>
+                      <div class="form-group col-md-4"><br>
+                        <ejs-checkbox formControlName="attachRequired"  label="AttachRequired"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
                       </div>
                      </div>
                      <div class="row">
-                      <div class="form-group col-md-6"><br>
-                        <ejs-checkbox formControlName="attachRequired"  label="AttachRequired"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
-                      </div>
+                      
                       <div class="form-group col-md-6" *ngIf="!data.isAdd"><br>
                         <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="7" [checked]="true"></ejs-checkbox>
                       </div>
-                    </div>
+                    </div>                      
                   </form>
                 </ng-template>
               </ejs-grid>

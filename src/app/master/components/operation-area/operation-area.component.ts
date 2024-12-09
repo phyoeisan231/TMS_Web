@@ -28,6 +28,7 @@ export class OperationAreaComponent {
   lblText:string;
   yardList:any[]=[];
   areaList:any[];
+  groupNameList:any[]=["ICD","TMS","Others"];
   submitClicked: boolean = false;
   public data: Object[]=[];
   formatfilter:string='dd-MMM-yyyy';
@@ -129,6 +130,7 @@ createFormGroup(data: any): FormGroup {
     yardID: new FormControl(data.yardID,Validators.required),
     active: new FormControl(data.active),
     isWaitingArea:new FormControl(data.isWaitingArea),
+    groupName:new FormControl(data.groupName,Validators.required),
   });
 }
 

@@ -52,7 +52,7 @@ export class TruckDetailComponent {
       typeID: new FormControl('', Validators.required),
       transporterID:new FormControl('',Validators.required),
       active: new FormControl(false),
-      isRGL:new FormControl(false),
+      // isRGL:new FormControl(false),
       isBlack:new FormControl(''),
       driverLicenseNo:new FormControl(''),
       // lastPassedDate:new FormControl(null),
@@ -105,7 +105,7 @@ export class TruckDetailComponent {
       this.truckForm.controls['typeID'].setValue(result.typeID);
       this.truckForm.controls['transporterID'].setValue(result.transporterID);
       this.truckForm.controls['active'].setValue(result.active);
-      this.truckForm.controls['isRGL'].setValue(result.isRGL);
+      // this.truckForm.controls['isRGL'].setValue(result.isRGL);
       this.truckForm.controls['isBlack'].setValue(result.isBlack);
       this.truckForm.controls['driverLicenseNo'].setValue(result.driverLicenseNo);
       // this.truckForm.controls['lastPassedDate'].setValue(result.lastPassedDate);
@@ -145,7 +145,7 @@ export class TruckDetailComponent {
       TypeID: data.typeID,
       TransporterID: data.transporterID,
       Active: data.active,
-      IsRGL: data.isRGL,
+      // IsRGL: data.isRGL,
       DriverLicenseNo: data.driverLicenseNo,
       VehicleBackRegNo: data.vehicleBackRegNo ?? "",
       Remarks: data.remarks ?? "",
@@ -181,7 +181,7 @@ export class TruckDetailComponent {
         TypeID: data.typeID,
         TransporterID: data.transporterID,
         Active: data.active,
-        IsRGL: data.isRGL,
+        // IsRGL: data.isRGL,
         IsBlack: data.isBlack,
         DriverLicenseNo: data.driverLicenseNo,
         VehicleBackRegNo: data.vehicleBackRegNo ?? "",
@@ -203,7 +203,7 @@ export class TruckDetailComponent {
                 Swal.fire('Truck', result.messageContent, 'error');
             }
         });
-}
+  }
 
   showSuccess(msg: string) {
     Swal.fire('Truck', msg, 'success');
