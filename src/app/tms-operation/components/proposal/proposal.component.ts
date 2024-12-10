@@ -30,7 +30,7 @@ export class ProposalComponent {
   lines: GridLine = 'Both';
 
   optionForm: FormGroup;
-  gateOutForm: FormGroup;
+  proposalForm: FormGroup;
   submitClicked: boolean = false;
   public formatfilter: any ="MM/dd/yyyy";
   yardList:any[]=[];
@@ -187,9 +187,9 @@ export class ProposalComponent {
 
    onTruckChange(id:string){
     const truck = this.truckList.filter(x=>x.truckVehicleRegNo==id);
-    this.gateOutForm.controls['driverLicenseNo'].setValue(truck[0].inNo)
-    this.gateOutForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo);
-    this.gateOutForm.controls['driverName'].setValue(truck[0].driverName);
+    this.proposalForm.controls['driverLicenseNo'].setValue(truck[0].inNo)
+    this.proposalForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo);
+    this.proposalForm.controls['driverName'].setValue(truck[0].driverName);
    }
 
   loadTableData() {
@@ -215,24 +215,26 @@ export class ProposalComponent {
   actionBegin(args: SaveEventArgs): void {
     if (args.requestType === 'add') {
         this.submitClicked = false;
-        this.gateOutForm = this.createFormGroup(args.rowData);
+        this.router.navigate(["/tms-operation/proposal-form"]);
     }
     else if(args.requestType === 'beginEdit') {
       this.submitClicked = false;
-      this.gateOutForm = this.createFormGroup(args.rowData);
+      this.proposalForm = this.createFormGroup(args.rowData);
    }
     if (args.requestType === 'save') {
         this.submitClicked = true;
-        if (this.gateOutForm.valid) {
-            let formData = this.gateOutForm.value;
-            if (args.action === 'add') {
-              formData.inRegNo =0;
-              formData.createdUser = localStorage.getItem('currentUser');
-              this.addOutBoundCheck(formData);
-            }
-        } else {
-            args.cancel = true;
-        }
+        this.router.navigate(["/tms-operation/proposal-form"]);
+
+        // if (this.proposalForm.valid) {
+        //     let formData = this.proposalForm.value;
+        //     if (args.action === 'add') {
+        //       formData.inRegNo =0;
+        //       formData.createdUser = localStorage.getItem('currentUser');
+        //       this.addOutBoundCheck(formData);
+        //     }
+        // } else {
+        //     args.cancel = true;
+        // }
     }
     if (args.requestType === 'delete') {
       args.cancel = true;
@@ -324,7 +326,7 @@ export class ProposalComponent {
   }
 
   validateControl(controlName: string) {
-    const control = this.gateOutForm.get(controlName);
+    const control = this.proposalForm.get(controlName);
     return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
   }
 

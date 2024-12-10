@@ -58,14 +58,6 @@ export const NavigationItems: NavigationItem[] = [
             url: 'tms-operation/in-check',
             icon: 'left-circle'
           },
-          {
-            id: '36',
-            title: 'TMS Proposal',
-            type: 'item',
-            classes: 'nav-item',
-            url: 'tms-operation/proposal',
-            icon: 'left-circle'
-          },
         ]
       },
       {
@@ -84,9 +76,19 @@ export const NavigationItems: NavigationItem[] = [
             url: 'master/driver',
             icon: 'left-circle'
           },
+        ]
+      },
+      {
+        id: '37',
+        title: 'TMS Proposal',
+        type: 'collapse',
+        classes: 'nav-item',
+        url: '',
+        icon: 'left-circle',
+        children: [
           {
-            id: '39',
-            title: 'TMS Operation',
+            id: '38',
+            title: 'Proposal',
             type: 'item',
             classes: 'nav-item',
             url: 'tms-operation/proposal',

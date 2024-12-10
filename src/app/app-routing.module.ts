@@ -105,6 +105,14 @@ const routes: Routes = [
         loadComponent:()=>import('./tms-operation/components/proposal/proposal.component').then((c)=>c.ProposalComponent)
       },
       {
+        path:'tms-operation/proposal-form',
+        loadComponent:()=>import('./tms-operation/components/proposal-form/proposal-form.component').then((c)=>c.ProposalFormComponent)
+      },
+      {
+        path:'tms-operation/proposal-detail',
+        loadComponent:()=>import('./tms-operation/components/proposal-detail/proposal-detail.component').then((c)=>c.ProposalDetailComponent)
+      },
+      {
         path:'master/waiting-area',
         loadComponent:()=>import('./master/components/waiting-area/waiting-area.component').then((c)=>c.WaitingAreaComponent)
       },
