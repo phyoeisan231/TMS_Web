@@ -266,7 +266,6 @@ export class InCheckDocComponent {
         return;
       }
     }
-      console.log(formData);
       this.createInBoundCheck(formData);
   }
 
