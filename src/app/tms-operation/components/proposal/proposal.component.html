@@ -4,14 +4,14 @@
       <div class="col-md-12 ">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-          <li class="breadcrumb-item active text-primary">In Check(TMS Proposal)</li>
+          <li class="breadcrumb-item active text-primary">TMS Proposal</li>
         </ol>
       </div>
     </div>
     <div class="row">
       <div class="card card-primary card-outline">
         <div class="card-header">
-          <h5 class="card-title">In Check (TMS Proposal)</h5>
+          <h5 class="card-title">TMS Proposal</h5>
         </div>
         <div class="card-body">
           <div class="row">
@@ -36,8 +36,8 @@
 
                   <div class="col-lg-3 col-md-6">
                     <div class="mb-2">
-                      <label class="requiredfield">Yard</label>
-                      <ejs-multiselect formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'name', value: 'yardID' }" placeholder="Select One"  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
+                      <label class="requiredfield">Dept Type</label>
+                      <ejs-multiselect formControlName="deptType" [dataSource]='deptTypeList'  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
                     </div>
                   </div>
 
@@ -52,40 +52,21 @@
               </Form>
             </div>
           </div>
-          <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+          <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
             <e-columns>
-              <e-column field='inCheckDateTime' headerText='Check Date Time' width="150">
-                <ng-template #template let-data>
-                  <div *ngIf="!data.status">
-                    <span class="badge" style="background-color: rgb(223, 144, 144);">{{data.inCheckDateTime}}</span>
-                  </div>
-                  <div *ngIf="data.status">
-                    <span class="badge" style="background-color: #519df4;">{{data.inCheckDateTime}}</span>
-                  </div>
-                </ng-template>
-              </e-column>
-              <e-column field='inRegNo' headerText='In Check No' [isPrimaryKey]="true" width="150"></e-column>
-              <e-column field='inYardID' headerText="Yard" width="150"></e-column>
-              <e-column field='inGateID' headerText="Gate" width="100"></e-column>
-              <e-column field='areaID' headerText="Area" width="100"></e-column>
-              <e-column field='inPCCode' headerText="Category" width="100"></e-column>
-              <e-column field='inContainerType' headerText="ContainerType" width="100"></e-column>
-              <e-column field='inContainerSize' headerText="ContainerSize" width="100"></e-column>
-              <e-column field='inType' headerText="Type" width="100"></e-column>
-              <e-column field='inCargoType' headerText="CargoType" width="100"></e-column>
-              <e-column field='inCargoInfo' headerText="Cargo Info" width="100"></e-column>
-              <e-column field='inNoOfContainer' headerText="No Of Container" width="100"></e-column>
-              <e-column field='truckType' headerText="Truck Type" width="100"></e-column>
-              <e-column field='truckVehicleRegNo' headerText="Truck No" width="100"></e-column>
-              <e-column field='driverName' headerText="Driver Name" width="100"></e-column>
-              <e-column field='driverLicenseNo' headerText="Driver License No" width="150"></e-column>
-              <e-column field='cardNo' headerText="Card No" width="100"></e-column>
-              <e-column field='status' headerText="Status" width="100"></e-column>
-              <e-column field='jobCode' headerText="Job Code" width="100"></e-column>
-              <e-column field='jobDescription' headerText="Job Description" width="100"></e-column>
-              <e-column field='remark' headerText="Remark" width="100"></e-column>
+              <e-column field='yard' headerText="Yard" width="150"></e-column>
+              <e-column field='estDate' headerText='Estimate Date' type="date" format="dd-MM-yyyy" width="130"></e-column>
+              <e-column field='jobCode' headerText="JobCode" width="100"></e-column>
+              <e-column field='jobDescription' headerText="JobDescription" width="200"></e-column>
+              <e-column field='jobType' headerText="JobType" width="100"></e-column>
+              <e-column field='noOfTruck' headerText="NoOfTruck" width="100"></e-column>
+              <e-column field='noOfTEU' headerText="NoOfTEU" width="100"></e-column>
+              <e-column field='noOfFEU' headerText="NoOfFEU" width="100"></e-column>
+              <e-column field='lclQty' headerText="LCLQty" width="100"></e-column>
+              <e-column field='customerName' headerText="Customer Name" width="250"></e-column>
+              <e-column field='companyName' headerText="Company" width="250"></e-column>
             </e-columns>
-            <ng-template #editSettingsTemplate let-data>
+            <!-- <ng-template #editSettingsTemplate let-data>
               <form [formGroup]="proposalForm">
                 <div class="row">
                   <div class="form-group col-md-12">
@@ -110,7 +91,7 @@
                 </div>
 
               </form>
-            </ng-template>
+            </ng-template> -->
           </ejs-grid>
         </div>
       </div>

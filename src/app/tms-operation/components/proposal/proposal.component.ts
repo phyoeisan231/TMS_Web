@@ -6,8 +6,6 @@ import { catchError, debounceTime, of, Subject, switchMap } from 'rxjs';
 import { ProposalService } from './proposal.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { FilteringEventArgs } from '@syncfusion/ej2-angular-dropdowns';
-import { Browser, EmitType } from '@syncfusion/ej2/base';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { Dialog } from '@syncfusion/ej2-angular-popups';
@@ -30,34 +28,15 @@ export class ProposalComponent {
   lines: GridLine = 'Both';
 
   optionForm: FormGroup;
-  proposalForm: FormGroup;
   submitClicked: boolean = false;
   public formatfilter: any ="MM/dd/yyyy";
-  yardList:any[]=[];
-  gateList:any[]=[];
-  truckList:any[]=[];
-  trailerList:any[]=[];
-  driverList:any[]=[];
-  transporterList:any[]=[];
-  areaList:any[]=[];
-  pcCodeList:any[]=[];
-  containerTypeList:any[]=['Laden','Empty'];
-  containerSize:any[]=['20','40','45'];
-  truckTypeList:any[]=['RGL','Customer'];
-  typeList: any[]=['FCL','LCL'];
-  interval: number =1;
-  endDate : Date = new Date();
-  type:string;
+  deptTypeList:any[]=["CCA","Warehouse","Rail"];
   today : Date = new Date();
   public data: Object[];
   public placeholder: string = 'Select One';
   public mode?: string;
   public selectAllText: string| any;
-  private searchTruckTerms = new Subject<string>();
-  private searchDriverTerms = new Subject<string>();
-  private searchTrailerTerms= new Subject<string>();
   @ViewChild('Grid') public grid: GridComponent;
-   // end multi file upload
   constructor(
     private service: ProposalService,
     private spinner: NgxSpinnerService,
@@ -69,142 +48,24 @@ export class ProposalComponent {
     this.mode = 'CheckBox';
     // set the select all text to MultiSelect checkbox label.
     this.selectAllText= 'Select All';
-    this.getLocationList();
+    //this.getLocationList();
     this.optionForm = new FormGroup({
       fromDate: new FormControl(sessionStorage.getItem("icfromDate")?sessionStorage.getItem("icfromDate"):this.today,Validators.required),
       toDate: new FormControl(sessionStorage.getItem("ictoDate")?sessionStorage.getItem("ictoDate"):this.today,Validators.required),
-      yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
-    });
-    this.getCategoryList();
-    this.getTransporterList();
-
-    this.searchTruckTerms.pipe(
-      debounceTime(300),
-      switchMap((term: string) => this.service.getTruckList(term))
-    ).subscribe(data => {
-      this.truckList  = data;
-    });
-
-    this.searchDriverTerms.pipe(
-      debounceTime(300),
-      switchMap((term: string) => this.service.getDriverList(term))
-    ).subscribe(data => {
-      this.driverList  = data;
-    });
-
-    this.searchTrailerTerms.pipe(
-      debounceTime(300),
-      switchMap((term: string) => this.service.getTrailerList(term))
-    ).subscribe(data => {
-      this.trailerList  = data;
+      deptType: new FormControl(sessionStorage.getItem("deptType")?sessionStorage.getItem("deptType").split(','):null,Validators.required),
     });
 
   }
-
-
-  public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
-
-  }
-
-  onTruckFiltering(e: any) {
-    if (e.text) {
-      this.searchTruckTerms.next(e.text);
-    }
-  }
-
-  onTrailerFiltering(e:any){
-    if (e.text && this.type) {
-      this.searchTrailerTerms.next(e.text);
-    }
-  }
-
-  onDriverFiltering(e: any) {
-    if (e.text) {
-      this.searchDriverTerms.next(e.text);
-    }
-  }
-
-  getLocationList() {
-    this.spinner.show();
-    this.service.getYardList('true')
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.yardList = result;
-        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null);
-        this.spinner.hide();
-    });
-  }
-
-  getGateList(yard:string){
-    this.spinner.show();
-    this.service.getGateList(yard)
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.gateList  = result;
-        this.spinner.hide();
-    });
-  }
-
-  getAreaList(yard:string){
-    this.spinner.show();
-    this.service.getAreaList(yard)
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.areaList  = result;
-        this.spinner.hide();
-    });
-  }
-
-  getCategoryList(){
-     this.service.getCategoryList('true')
-     .pipe(catchError((err) => of(this.showError(err))))
-       .subscribe((result) => {
-         this.pcCodeList = result;
-         this.spinner.hide();
-     });
-  }
-
-  getTransporterList(){
-    this.service.getTransporterList()
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.transporterList = result;
-        this.spinner.hide();
-    });
- }
-
-
-  onTruckNoChange(code: string) {
-  //  this.getGateList(code);
-  //  this.getAreaList(code);
-
-  }
-
-  onTruckTypeChange(code: string) {
-    this.type = code;
-    this.truckList =[];
-   }
-
-   onTruckChange(id:string){
-    const truck = this.truckList.filter(x=>x.truckVehicleRegNo==id);
-    this.proposalForm.controls['driverLicenseNo'].setValue(truck[0].inNo)
-    this.proposalForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo);
-    this.proposalForm.controls['driverName'].setValue(truck[0].driverName);
-   }
 
   loadTableData() {
    this.spinner.show();
    const formData = this.optionForm.value;
    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-   let loc:any ="";
-   if(formData.yardID.length>0){
-    loc = this.formatParams(formData.yardID);
-   }
     sessionStorage.setItem("icfromDate", fromDate);
     sessionStorage.setItem("ictoDate", toDate);
-    sessionStorage.setItem("icloc", formData.yardID);
-    this.service.getInBoundCheckList(fromDate,toDate,loc)
+    sessionStorage.setItem("deptType", formData.deptType);
+    this.service.getProposalList(fromDate,toDate,formData.deptType)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.grid.dataSource= result;
@@ -219,23 +80,9 @@ export class ProposalComponent {
     }
     else if(args.requestType === 'beginEdit') {
       this.submitClicked = false;
-      this.proposalForm = this.createFormGroup(args.rowData);
+      //this.proposalForm = this.createFormGroup(args.rowData);
    }
-    if (args.requestType === 'save') {
-        this.submitClicked = true;
-        this.router.navigate(["/tms-operation/proposal-form"]);
 
-        // if (this.proposalForm.valid) {
-        //     let formData = this.proposalForm.value;
-        //     if (args.action === 'add') {
-        //       formData.inRegNo =0;
-        //       formData.createdUser = localStorage.getItem('currentUser');
-        //       this.addOutBoundCheck(formData);
-        //     }
-        // } else {
-        //     args.cancel = true;
-        // }
-    }
     if (args.requestType === 'delete') {
       args.cancel = true;
       const data = args.data as any[];
@@ -246,7 +93,7 @@ export class ProposalComponent {
         this.deleteInBoundCheck(id,user);
       }
       else{
-        Swal.fire('In Check(ICD/Other)', 'Data can not delete!', 'error');
+        Swal.fire('TMS Proposal', 'Data can not delete!', 'error');
       }
     }
   }
@@ -255,28 +102,6 @@ export class ProposalComponent {
     return paramArray.map(item => `'${item}'`).join(',');
   }
 
-  actionComplete(args: DialogEditEventArgs): void {
-    if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
-      args.dialog.width = 500;
-      if(args.requestType === 'add'){
-        args!.dialog!.header="New Out Check" ;
-        }
-        if (Browser.isDevice) {
-            args!.dialog!.height = window.innerHeight - 90 + 'px';
-            (<Dialog>args.dialog).dataBind();
-        }
-    }
-  }
-
-  createFormGroup(data: any): FormGroup {
-    return new FormGroup({
-      inNo: new FormControl(data.inNo,Validators.required),
-      truckVehicleRegNo:new FormControl(data.truckVehicleRegNo,Validators.required),
-      driverLicenseNo:new FormControl(data.driverLicenseNo,Validators.required),
-      driverName:new FormControl(data.driverName,Validators.required),
-      outCheckDateTime: new FormControl(this.today, Validators.required),
-    });
-  }
 
   addOutBoundCheck(formData: any) {
     this.spinner.show();
@@ -316,7 +141,7 @@ export class ProposalComponent {
               this.loadTableData();
             } else {
               this.spinner.hide();
-              Swal.fire('In Check(ICD/Other)', result.messageContent, 'error');
+              Swal.fire('TMS Proposal', result.messageContent, 'error');
             }
           });
       } else if (response.dismiss === Swal.DismissReason.cancel) {
@@ -325,32 +150,32 @@ export class ProposalComponent {
     });
   }
 
-  validateControl(controlName: string) {
-    const control = this.proposalForm.get(controlName);
-    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
-  }
+  // validateControl(controlName: string) {
+  //   const control = this.proposalForm.get(controlName);
+  //   return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
+  // }
 
 
   showSuccess(msg: string) {
     this.spinner.hide();
-    Swal.fire('Out Check(ICD/Other)', msg, 'success');
+    Swal.fire('TMS Proposal', msg, 'success');
   }
 
   showError(error: HttpErrorResponse) {
     this.spinner.hide();
-    Swal.fire('Out Check(ICD/Other)', error.statusText, 'error');
+    Swal.fire('TMS Proposal', error.statusText, 'error');
   }
 
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'OutCheckICDOtherReport.xlsx',
+        fileName:'Proposal.xlsx',
      });
     }
     if (args.item.id === 'detail') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
-        Swal.fire('Out Check(ICD/Other)', "Please select one row!", 'warning');
+        Swal.fire('TMS Proposal', "Please select one row!", 'warning');
       }
 
       else {
@@ -358,7 +183,7 @@ export class ProposalComponent {
         const user = localStorage.getItem('currentUser');
         if (args.item.id === 'detail')
         {
-          this.router.navigate(["/tms-operation/inbound-check-doc"], { queryParams: { id: id}});
+          this.router.navigate(["/tms-operation/proposal-detail"], { queryParams: { id: id}});
         }
         return;
       }
