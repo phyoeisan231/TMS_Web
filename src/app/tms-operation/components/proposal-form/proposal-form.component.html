@@ -1,0 +1,142 @@
+<section class="content mt-0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+          <li class="breadcrumb-item">In Check</li>
+          <li class="breadcrumb-item active text-primary">In Check(TMS Operation)</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card card-primary card-outline">
+        <div class="card-body">
+          <form [formGroup]="proposalForm">
+            <div class="row">
+              <div class="col-md-6 col-lg-6 text-left">
+                <h5 class="card-title">In Check (TMS Operation)</h5>
+              </div>
+              <div class="col-md-6 col-lg-6 text-end">
+                <button *ngIf="!this.id" type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!proposalForm.valid"  (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Save</button>
+                <a  class="btn btn-sm btn-secondary m-1"  href="/tms-operation/propal">
+                  <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                </a>
+              </div>
+            </div><br>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Yard</label>
+                <ejs-dropdownlist  formControlName="yard" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  popupHeight='200px' ></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("yard")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Yard is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="font-weight-normal requiredfield">Est Date</label>
+                <ejs-datepicker  formControlName="estDate" [format]="format1" autocomplete="off" tabindex="5"></ejs-datepicker>
+                <div [style.visibility]='validateControl("estDate")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Est Date Time is required</label>
+                </div>
+               </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Job Department</label>
+                <ejs-textbox  *ngIf="this.id" formControlName="jobDept" [readonly]="true" tabindex="2" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id"  formControlName="jobDept" tabindex="2" [dataSource]="jobDeptList" (change)="onjobDeptChange($event.value)"  popupHeight='200px' placeholder="Select One" ></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("jobDept")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Job Dept is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">JobType</label>
+                <ejs-textbox *ngIf="this.id" formControlName="jobType" [readonly]="true" tabindex="4" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="jobType" (change)="onJobTypeChange($event.value)"  tabindex="4" [dataSource]='jobTypeList' ></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("jobType")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Job Type is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Job Code</label>
+                <ejs-textbox *ngIf="this.id" formControlName="jobCode" [readonly]="true" tabindex="6" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id"  formControlName="jobCode" tabindex="6" placeholder="Select One" [dataSource]='jobIdList' [fields]="{ text: 'jobCode', value: 'jobCode' }" (change)="onJobCodeChange($event.value)"></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("jobCode")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Job Code is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Customer Id</label>
+                <ejs-textbox  formControlName="customerId" [readonly]="true" tabindex="6" ></ejs-textbox>
+                <div [style.visibility]='validateControl("customerId")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Customer Id is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Customer Name</label>
+                <ejs-textbox formControlName="customerName" [readonly]="true" tabindex="6" ></ejs-textbox>
+                <div [style.visibility]='validateControl("customerName")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Customer Name is required</label>
+                </div>
+              </div>
+              <div class="form-group col-md-8">
+                <label >Company Name</label>
+                <ejs-textbox formControlName="companyName" [readonly]="true" tabindex="6" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">NoOfTEU</label>
+                <ejs-numerictextbox formControlName="noOfTEU" tabindex="6" ></ejs-numerictextbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">NoOfFEU</label>
+                <ejs-numerictextbox formControlName="noOfFEU"  tabindex="6" ></ejs-numerictextbox>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">LCL Qty</label>
+                <ejs-numerictextbox formControlName="lclQty" tabindex="6" ></ejs-numerictextbox>
+              </div>
+              <div class="form-group col-md-8">
+                <label >Cargo Info</label>
+                <ejs-textbox formControlName="cargoInfo" tabindex="6" ></ejs-textbox>
+              </div>
+          </div>
+        </form><br>
+          <!-- <h6>Documents</h6>
+          <ejs-grid #Grid [dataSource]="docList" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)='rowDataBound($event)'>
+            <e-columns>
+              <e-column type='checkbox' width='40' ></e-column>
+              <e-column field='docCode' headerText="Doc No" width="100"></e-column>
+              <e-column field='docName' headerText="Name" width="110"></e-column>
+              <e-column field='checkStatus' headerText="Check Status" width="120"></e-column>
+            </e-columns>
+          </ejs-grid> -->
+        </div>
+      </div>
+   </div>
+ </div>
+ <ejs-dialog #cardModel isModal="true"  [showCloseIcon]="true" height="55%" width="400px"  allowDragging="true" [visible]="false">
+  <ng-template #header>
+    <div class="font-weight-bold">Assign Card Form</div>
+  </ng-template>
+  <form [formGroup]="cardForm">
+  <div class="row">
+    <div class="form-group col-md-12">
+      <label  class="requiredfield">Card</label>
+      <ejs-dropdownlist formControlName="cardNo" tabindex="1" [dataSource]='cardList' [fields]="{ text: 'cardNo', value: 'cardNo' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
+    </div>
+    <div class="form-group col-md-12" *ngIf="this.isInWb">
+      <label  class="requiredfield">In Weight Bridge</label>
+      <ejs-dropdownlist formControlName="inWeightBridgeID" tabindex="2" [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
+    </div>
+    <div class="form-group col-md-12" *ngIf="this.isOutWb">
+      <label  class="requiredfield">Out Weight Bridge</label>
+      <ejs-dropdownlist formControlName="outWeightBridgeID" tabindex="3" [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
+    </div>
+   </div>
+    <ng-template #footerTemplate>
+      <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.cardForm.valid"  ejs-button (click)="onFormAssignCard()">Valid</button>
+      <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="cardModel.hide()" ejs-button >Close</button>
+    </ng-template>
+  </form>
+</ejs-dialog>
+</section>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+

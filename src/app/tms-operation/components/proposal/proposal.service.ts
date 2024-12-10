@@ -16,6 +16,31 @@ export class ProposalService {
     return this.http.get<any>(environment.url + 'Master/GetYardList/?active=' + active);
   }
 
+  getRailDailyJobList(sDate:any,jobType:string,yard:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetRailDailyJobList/?sDate=' + sDate+ '&jobType=' + jobType+ '&yard='+yard);
+  }
+
+  getCustomerList(){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetCustomerList');
+
+  }
+
+  getWHDailyJobList(sDate:any,jobType:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetWHDailyJobList/?sDate=' + sDate+ '&jobType=' + jobType);
+  }
+
+  getCCADailyJobList(sDate:any,jobType:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetCCADailyJobList/?sDate=' + sDate+ '&jobType=' + jobType);
+  }
+
+  addTMSProposal(data: any) {
+    console.log(data)
+    return this.http.post<any>(environment.url + 'TMSProposal/CreateTMSProposal', data, httpOptions);
+  }
+
+
+
+
   getTransporterList() {
     return this.http.get<any>(environment.url + 'TMSOperation/GetTransporterDataList');
   }

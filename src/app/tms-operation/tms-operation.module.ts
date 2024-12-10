@@ -6,7 +6,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { AggregateService, EditService, ExcelExportService, GridModule, PageService, ResizeService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { CheckBoxSelectionService, DropDownListAllModule, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
 import { NumericTextBoxAllModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { DatePickerModule, TimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DatePickerModule, DateTimePicker, TimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { SharedModule } from '../theme/shared/shared.module';
@@ -35,7 +35,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     TimePickerModule,
     CheckBoxModule,
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    
+
   ],
   providers: [PageService,ResizeService, SortService, EditService, ToolbarService,ExcelExportService,AggregateService,CheckBoxSelectionService]
 })
