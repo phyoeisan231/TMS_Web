@@ -124,10 +124,10 @@
                 <ejs-textbox formControlName="remark" [multiline]="true" tabindex="14" [readonly]="this.id"></ejs-textbox>
               </div>
               <div class="form-group col-lg-2 col-md-2"><br>
-                <ejs-checkbox formControlName="inboundWeight"  label="In Weight?"  autocomplete="off" floatLabelType="Always" tabindex="15"></ejs-checkbox>
+                <ejs-checkbox formControlName="inboundWeight"  label="In Weight?"  autocomplete="off" floatLabelType="Always" tabindex="15" [disabled]="this.type=='RG'"></ejs-checkbox>
               </div>
               <div class="form-group col-lg-2 col-md-2"><br>
-                <ejs-checkbox formControlName="outboundWeight"  label="Out Weight?"  autocomplete="off" floatLabelType="Always" tabindex="16"></ejs-checkbox>
+                <ejs-checkbox formControlName="outboundWeight"  label="Out Weight?"  autocomplete="off" floatLabelType="Always" tabindex="16" [disabled]="this.type=='RG'"></ejs-checkbox>
               </div>
             </div>
           </form><br>
@@ -154,13 +154,25 @@
       <label  class="requiredfield">Card</label>
       <ejs-dropdownlist formControlName="cardNo" tabindex="1" [dataSource]='cardList' [fields]="{ text: 'cardNo', value: 'cardNo' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
     </div>
-    <div class="form-group col-md-12" *ngIf="this.isInWb">
+   </div>
+   <div class="row">
+    <div class="form-group col-md-6" *ngIf="this.isInWb">
       <label  class="requiredfield">In Weight Bridge</label>
       <ejs-dropdownlist formControlName="inWeightBridgeID" tabindex="2" [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
     </div>
-    <div class="form-group col-md-12" *ngIf="this.isOutWb">
+    <div class="form-group col-md-6" *ngIf="this.isOutWb">
       <label  class="requiredfield">Out Weight Bridge</label>
       <ejs-dropdownlist formControlName="outWeightBridgeID" tabindex="3" [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
+    </div>
+   </div>
+   <div class="row">
+    <div class="form-group col-md-6" *ngIf="this.isInWb">
+      <label  class="requiredfield">In Weight Bridge Option</label>
+      <ejs-dropdownlist formControlName="inWBOption" tabindex="4" [dataSource]='wbOptionList'  placeholder="Select One" ></ejs-dropdownlist>
+    </div>
+    <div class="form-group col-md-6" *ngIf="this.isOutWb">
+      <label  class="requiredfield">Out Weight Bridge Option</label>
+      <ejs-dropdownlist formControlName="outWeightBridgeID" tabindex="5" [dataSource]='wbOptionList' placeholder="Select One" ></ejs-dropdownlist>
     </div>
    </div>
     <ng-template #footerTemplate>
