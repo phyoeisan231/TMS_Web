@@ -73,7 +73,7 @@ export const NavigationItems: NavigationItem[] = [
             title: 'ICD/Other',
             type: 'item',
             classes: 'nav-item',
-            url: 'master/driver',
+            url: 'tms-operation/out-check',
             icon: 'left-circle'
           },
         ]

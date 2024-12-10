@@ -40,14 +40,6 @@
                                   </ng-template>
                                 </ng-template>
                             </e-column>
-                            <e-column field='isRGL' headerText="IsRGL" width="100">
-                              <ng-template #template let-data>
-                                <div *ngIf="data.isRGL;else False">Yes</div>
-                                <ng-template #False>
-                                  <div>No</div>
-                                </ng-template>
-                              </ng-template>
-                          </e-column>
                         </e-columns>
                     </ejs-grid>
                 </div>
