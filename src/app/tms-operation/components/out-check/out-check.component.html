@@ -55,32 +55,34 @@
             </div>
             <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
               <e-columns>
-                <e-column field='inCheckDateTime' headerText='Check Date Time' width="150">
+                <e-column field='truckVehicleRegNo' headerText="Truck No" width="100">
                   <ng-template #template let-data>
                     <div *ngIf="!data.status">
-                      <span class="badge" style="background-color: rgb(223, 144, 144);">{{data.inCheckDateTime}}</span>
+                      <span class="badge" style="background-color: rgb(223, 144, 144);">{{data.truckVehicleRegNo}}</span>
                     </div>
                     <div *ngIf="data.status">
-                      <span class="badge" style="background-color: #519df4;">{{data.inCheckDateTime}}</span>
+                      <span class="badge" style="background-color: #519df4;">{{data.truckVehicleRegNo}}</span>
                     </div>
                   </ng-template>
                 </e-column>
-                <e-column field='outRegNo' headerText='Out Check No' [isPrimaryKey]="true" width="150"></e-column>
+                <e-column field='driverName' headerText="Driver Name" width="100"></e-column>
+                <e-column field='driverLicenseNo' headerText="Driver License No" width="150"></e-column>
+                <e-column field='driverContactNo' headerText="Driver Contact No" width="150"></e-column>
+                <e-column field='outPCCode' headerText="Category" width="100"></e-column>
+                <e-column field='cardNo' headerText="Card No" width="100"></e-column>
+                <e-column field='customer' headerText="Customer" width="150"></e-column>
+                <e-column field='outCheckDateTime' headerText='Check Date Time' width="150"></e-column>
                 <e-column field='outYardID' headerText="Yard" width="150"></e-column>
                 <e-column field='outGateID' headerText="Gate" width="100"></e-column>
                 <e-column field='areaID' headerText="Area" width="100"></e-column>
-                <e-column field='outPCCode' headerText="Category" width="100"></e-column>
                 <e-column field='outType' headerText="Type" width="100"></e-column>
                 <e-column field='outCargoType' headerText="CargoType" width="100"></e-column>
                 <e-column field='outCargoInfo' headerText="Cargo Info" width="100"></e-column>
                 <e-column field='truckType' headerText="Truck Type" width="100"></e-column>
-                <e-column field='truckVehicleRegNo' headerText="Truck No" width="100"></e-column>
-                <e-column field='driverName' headerText="Driver Name" width="100"></e-column>
-                <e-column field='driverLicenseNo' headerText="Driver License No" width="150"></e-column>
-                <e-column field='cardNo' headerText="Card No" width="100"></e-column>
                 <e-column field='outWeightBridgeID' headerText="Out WeightBridge" width="100"></e-column>
                 <e-column field='status' headerText="Status" width="100"></e-column>
                 <e-column field='remark' headerText="Remark" width="100"></e-column>
+                <e-column field='outRegNo' headerText='Out Check No' [isPrimaryKey]="true" width="90" hidden="true"></e-column>
               </e-columns>
             </ejs-grid>
           </div>
