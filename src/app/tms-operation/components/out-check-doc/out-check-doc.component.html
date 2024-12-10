@@ -115,7 +115,7 @@
                 <ejs-textbox formControlName="remark" [multiline]="true" tabindex="15" [readonly]="this.id"></ejs-textbox>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Out WeightBridge ID</label>
                 <ejs-textbox formControlName="outWeightBridgeID" tabindex="16" readonly="true"></ejs-textbox>
@@ -123,7 +123,7 @@
               <div class="form-group col-lg-2 col-md-2"><br>
                 <ejs-checkbox formControlName="outboundWeight"  label="Out Weight?"  autocomplete="off" floatLabelType="Always" tabindex="7"></ejs-checkbox>
               </div>
-            </div>
+            </div> -->
           </form><br>
           <h6>Documents</h6>
           <ejs-grid #Grid [dataSource]="docList" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines" (rowDataBound)='rowDataBound($event)'>
