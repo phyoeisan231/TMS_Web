@@ -61,6 +61,7 @@ export class CardComponent {
       next: ({cards,yardList }) => {
         this.cardList=cards;
         this.grid.dataSource = this.cardList;
+        this.grid.searchSettings.operator = "equal";
         this.yardList = yardList;
       },
       error: (error) => {

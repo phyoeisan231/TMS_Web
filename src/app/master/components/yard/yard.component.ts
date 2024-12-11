@@ -55,6 +55,7 @@ export class YardComponent {
        .subscribe((result) => {
         this.yardList=result;
          this.grid.dataSource = this.yardList;
+         this.grid.searchSettings.operator = "equal";
          this.spinner.hide();
      });
    this.spinner.hide();

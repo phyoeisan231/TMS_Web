@@ -59,6 +59,7 @@ export class WeightBridgeComponent {
       next: ({wbridges,yardList }) => {
         this.wbList=wbridges;
         this.grid.dataSource = this.wbList;
+        this.grid.searchSettings.operator = "equal";
         this.yardList = yardList;
       },
       error: (error) => {

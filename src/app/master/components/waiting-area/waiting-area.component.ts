@@ -61,6 +61,7 @@ export class WaitingAreaComponent {
         this.wAreaList=wAreas;
         this.grid.dataSource = this.wAreaList;
         this.yardList = yardList;
+        this.grid.searchSettings.operator="equal";
       },
       error: (error) => {
         console.error('Error loading data', error);
