@@ -58,6 +58,14 @@ export const NavigationItems: NavigationItem[] = [
             url: 'tms-operation/in-check',
             icon: 'left-circle'
           },
+          {
+            id: '39',
+            title: 'TMS',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'tms-operation/in-check',
+            icon: 'left-circle'
+          },
         ]
       },
       {
@@ -76,10 +84,18 @@ export const NavigationItems: NavigationItem[] = [
             url: 'tms-operation/out-check',
             icon: 'left-circle'
           },
+          {
+            id: '40',
+            title: 'TMS',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'tms-operation/in-check',
+            icon: 'left-circle'
+          },
         ]
       },
       {
-        id: '37',
+        id: '41',
         title: 'TMS Proposal',
         type: 'collapse',
         classes: 'nav-item',
@@ -87,7 +103,7 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'left-circle',
         children: [
           {
-            id: '38',
+            id: '42',
             title: 'Proposal',
             type: 'item',
             classes: 'nav-item',
@@ -572,4 +588,4 @@ export const NavigationItems: NavigationItem[] = [
   //   ]
   // }
 ];
-//39
+//42

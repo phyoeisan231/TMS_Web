@@ -37,6 +37,13 @@ export class ProposalService {
     console.log(data)
     return this.http.post<any>(environment.url + 'TMSProposal/CreateTMSProposal', data, httpOptions);
   }
+  getProposalList(startDate:any,endDate:any,deptType) {
+    alert("access")
+    return this.http.get<any>(environment.url + 'TMSProposal/GetProposalList/?startDate=' + startDate+ '&endDate=' + endDate+ '&deptType=' + deptType);
+  }
+
+
+
 
 
 
@@ -73,9 +80,7 @@ export class ProposalService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetDriverDataList/?id=' + id);
   }
 
-  getInBoundCheckList(startDate:any,endDate:any,yard:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
-  }
+
 
   createOutBoundCheck(data: any) {
     return this.http.post<any>(environment.url + 'TMSOperation/CreateOutBoundCheck', data, httpOptions);

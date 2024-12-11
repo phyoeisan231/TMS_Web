@@ -46,6 +46,7 @@ export class InCheckDocComponent {
   docList:any[]=[];
   cardList:any[]=[];
   truckTypeList:any[]=['RG','Customer','Supplier'];
+  wbOptionList:any[]=['None','Credit','Foc','Cash'];
   endDate : Date = new Date();
   type:string;
   isInWb:boolean=false;
@@ -98,6 +99,8 @@ export class InCheckDocComponent {
     cardNo: new FormControl('', Validators.required),
     inWeightBridgeID: new FormControl(''),
     outWeightBridgeID: new FormControl(''),
+    inWBOption:new FormControl(''),
+    outWBOption:new FormControl(''),
     });
 
     this.getCategoryList();
