@@ -112,9 +112,17 @@ export const NavigationItems: NavigationItem[] = [
           },
         ]
       },
-
+      {
+        id: '43',
+        title: 'Truck Status',
+        type: 'item',
+        classes: 'nav-item',
+        url: 'report-mtn/truck-in',
+        icon: 'left-circle'
+      },
     ]
   },
+  
   {
     id: '24',
     title: 'Report',
@@ -172,6 +180,24 @@ export const NavigationItems: NavigationItem[] = [
             icon: 'left-circle'
           },
         ]
+      },
+    ]
+  },
+
+  
+  {
+    id:'43',
+    title:'Report Mtn',
+    type:'group',
+    icon:'icon-navigation',
+    children: [
+      {
+        id: '20',
+        title: 'Truck Status',
+        type: 'item',
+        classes: 'nav-item',
+        url: 'report-mtn/truck-status',
+        icon: 'left-circle'
       },
     ]
   },

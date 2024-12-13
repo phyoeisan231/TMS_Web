@@ -61,6 +61,7 @@ export class OperationAreaComponent {
       next: ({ opAreas, yards }) => {
         this.areaList = opAreas;
         this.grid.dataSource=this.areaList;
+        this.grid.searchSettings.operator = "equal";
         this.yardList = yards;
       },
       error: (error) => {

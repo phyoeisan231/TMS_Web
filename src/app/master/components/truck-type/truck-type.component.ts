@@ -50,6 +50,7 @@ export class TruckTypeComponent {
        .subscribe((result) => {
         this.truckTypeList=result;
          this.grid.dataSource = this.truckTypeList;
+         this.grid.searchSettings.operator="equal";
          this.spinner.hide();
      });
    this.spinner.hide();

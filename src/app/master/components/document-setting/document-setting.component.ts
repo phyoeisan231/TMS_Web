@@ -60,6 +60,7 @@ export class DocumentSettingComponent {
       next: ({ documents, categories }) => {
         this.docSettingList=documents;
         this.grid.dataSource = this.docSettingList;
+        this.grid.searchSettings.operator = "equal";
         this.categoryList = categories;
       },
       error: (error) => {
