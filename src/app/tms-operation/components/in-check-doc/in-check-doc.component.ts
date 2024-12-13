@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
-import { catchError, debounceTime, forkJoin, of, Subject, switchMap } from 'rxjs';
+import { catchError, debounceTime,of, Subject, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { InCheckService } from '../in-check/in-check.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -46,7 +46,7 @@ export class InCheckDocComponent {
   docList:any[]=[];
   cardList:any[]=[];
   truckTypeList:any[]=['RG','Customer','Supplier'];
-  wbOptionList:any[]=['None','Credit','Foc','Cash'];
+  wbOptionList:any[]=['None','Credit','Cash'];
   endDate : Date = new Date();
   type:string;
   isInWb:boolean=false;
@@ -241,6 +241,8 @@ export class InCheckDocComponent {
     formData.cardNo = cardForm.cardNo;
     formData.inWeightBridgeID = cardForm.inWeightBridgeID;
     formData.outWeightBridgeID = cardForm.outWeightBridgeID;
+    formData.outWBOption = cardForm.outWBOption;
+    formData.inWBOption = cardForm.inWBOption;
     formData.documentList = this.docList;
     formData.inRegNo=0;
     formData.createdUser = localStorage.getItem('currentUser');
