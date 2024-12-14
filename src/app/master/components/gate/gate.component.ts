@@ -62,6 +62,8 @@ loadTableData() {
     next: ({ gates, yardList }) => {
       this.gateList=gates;
       this.grid.dataSource = this.gateList;
+      this.grid.searchSettings.operator = "equal";
+
       this.yardList = yardList;
     },
     error: (error) => {

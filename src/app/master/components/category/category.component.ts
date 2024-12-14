@@ -55,6 +55,7 @@ export class CategoryComponent {
        .subscribe((result) => {
          this.categoryList=result;
          this.grid.dataSource=this.categoryList;
+         this.grid.searchSettings.operator = "equal";
          this.spinner.hide();
      });
    this.spinner.hide();

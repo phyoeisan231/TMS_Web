@@ -6,10 +6,10 @@ import { RouterModule, Routes } from '@angular/router';
 // Project import
 import { AdminComponent } from './theme/layouts/admin-layout/admin-layout.component';
 import { GuestComponent } from './theme/layouts/guest/guest.component';
-import { MasterModule } from './master/master.module';
-import { GateComponent } from './master/components/gate/gate.component';
 import LoginComponent from './demo/authentication/login/login.component';
 import { AuthGuard } from './theme/shared/guards/auth.guard';
+import { MasterModule } from './master/master.module';
+import { ReportMtnModule } from './report-mtn/report-mtn.module';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -120,6 +120,7 @@ const routes: Routes = [
         path:'tms-operation/out-check',
         loadComponent:()=>import('./tms-operation/components/out-check/out-check.component').then((c)=>c.OutCheckComponent)
       },
+      
       {
         path:'master/waiting-area',
         loadComponent:()=>import('./master/components/waiting-area/waiting-area.component').then((c)=>c.WaitingAreaComponent)
@@ -139,9 +140,16 @@ const routes: Routes = [
       {
         path:'master/operation-area',
         loadComponent:()=>import('./master/components/operation-area/operation-area.component').then((c)=>c.OperationAreaComponent)
-      }
-
-
+      },
+      // {
+      //   path:'report-mtn/truck-in',
+      //   loadChildren:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
+      // }
+      {
+        path:'report-mtn/truck-in',
+        loadComponent:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
+      },
+      
       // {
       //   path: 'typography',
       //   loadComponent: () => import('./demo/ui-component/typography/typography.component')

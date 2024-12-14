@@ -83,6 +83,7 @@ export class OutCheckComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.grid.dataSource= result;
+        this.grid.searchSettings.operator = "equal";
         this.spinner.hide();
     });
   }
