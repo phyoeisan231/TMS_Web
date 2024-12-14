@@ -12,97 +12,68 @@ const httpOptions = {
 export class ProposalService {
   constructor (private http: HttpClient) { }
 
-  getYardList(active: string) {
-    return this.http.get<any>(environment.url + 'Master/GetYardList/?active=' + active);
+  getYardList() {
+    return this.http.get<any>(environment.url + 'TMSProposal/GetYardList');
   }
 
-  getRailDailyJobList(sDate:any,jobType:string,yard:string){
-    return this.http.get<any>(environment.url + 'TMSProposal/GetRailDailyJobList/?sDate=' + sDate+ '&jobType=' + jobType+ '&yard='+yard);
+  getRailDailyJobList(jobType:string,yard:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetRailDailyJobList/?jobType=' + jobType+'&yard='+yard);
   }
 
   getCustomerList(){
     return this.http.get<any>(environment.url + 'TMSProposal/GetCustomerList');
-
   }
 
-  getWHDailyJobList(sDate:any,jobType:string){
-    return this.http.get<any>(environment.url + 'TMSProposal/GetWHDailyJobList/?sDate=' + sDate+ '&jobType=' + jobType);
+  getWHDailyJobList(jobType:string,yard:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetWHDailyJobList/?jobType=' + jobType+'&yard='+yard);
   }
 
-  getCCADailyJobList(sDate:any,jobType:string){
-    return this.http.get<any>(environment.url + 'TMSProposal/GetCCADailyJobList/?sDate=' + sDate+ '&jobType=' + jobType);
+  getCCADailyJobList(jobType:string,yard:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetCCADailyJobList/?jobType=' + jobType+'&yard='+yard);
   }
 
   addTMSProposal(data: any) {
-    console.log(data)
     return this.http.post<any>(environment.url + 'TMSProposal/CreateTMSProposal', data, httpOptions);
   }
   getProposalList(startDate:any,endDate:any,deptType) {
-    alert("access")
     return this.http.get<any>(environment.url + 'TMSProposal/GetProposalList/?startDate=' + startDate+ '&endDate=' + endDate+ '&deptType=' + deptType);
   }
 
-
-
-
-
-
-
-  getTransporterList() {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetTransporterDataList');
+  createProposalDetail(data: any) {
+    return this.http.post<any>(environment.url + 'TMSProposal/CreateProposalDetail', data, httpOptions);
   }
 
-  getGateList(yard: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetGateInBoundList/?yard=' + yard);
+  getTruckList(type: string,jobType:string) {
+    return this.http.get<any>(environment.url + 'TMSProposal/GetTruckList/?type=' + type+'&jobType='+jobType);
   }
 
-  getAreaList(yard: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetOperationAreaDataList/?yard=' + yard);
+  getProposalDetailList(propNo:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetProposalDetailList/?propNo=' + propNo);
   }
 
-  getCategoryList(active: string) {
-    return this.http.get<any>(environment.url + 'Master/GetPCategoryList/?active=' + active);
+
+  getCusTruckList(){
+    return this.http.get<any>(environment.url + 'Master/GetTruckList');
   }
 
-  getCardICDList(yard: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCardICDList/?yard=' + yard);
-  }
-
-  getTruckList(id: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetTruckList/?id=' + id);
-  }
-
-  getTrailerList(searchedText: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetTrailerList/?searchedText=' + searchedText);
-  }
-
-  getDriverList(id: string) {
+  getCusDriverList(id: string) {
     return this.http.get<any>(environment.url + 'TMSOperation/GetDriverDataList/?id=' + id);
   }
 
-
-
-  createOutBoundCheck(data: any) {
-    return this.http.post<any>(environment.url + 'TMSOperation/CreateOutBoundCheck', data, httpOptions);
+  deleteProposal(id: any) {
+    return this.http.delete<any>(environment.url + 'TMSProposal/DeleteProposal/?id=' + id, httpOptions);
   }
 
-  deleteInBoundCheck(id: any,user:string) {
-    return this.http.delete<any>(environment.url + 'TMSOperation/DeleteInBoundCheck/?id=' + id+ '&user=' + user, httpOptions);
+  getProposalListById(id: string) {
+    return this.http.get<any>(environment.url + 'TMSProposal/GetProposalListById/?id=' + id);
   }
 
-  getInBoundCheckById(id: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckById/?id=' + id);
+  updateTMSProposal(data: any) {
+    return this.http.put<any>(environment.url + 'TMSProposal/UpdateTMSProposal', data, httpOptions);
   }
 
-  updateInBoundCheck(data: any) {
-    return this.http.put<any>(environment.url + 'TMSOperation/UpdateInBoundCheck', data, httpOptions);
+  deleteProposalDetail(id: any,truckNo:any) {
+    return this.http.delete<any>(environment.url + 'TMSProposal/DeleteProposalDetail/?id=' + id+'&truckNo='+truckNo, httpOptions);
   }
 
-  updateInBoundCheckDocument(docList:string,id:number,user:string) {
-    return this.http.put<any>(environment.url + 'TMSOperation/UpdateInBoundCheckDocument/?id=' + id+ '&docList=' + docList +'&user=' + user, httpOptions);
-  }
-
-  deleteInBoundCheckDocument(id: any,code:string) {
-    return this.http.delete<any>(environment.url + 'TMSOperation/DeleteInBoundCheckDocument/?id=' + id+ '&code=' + code, httpOptions);
-  }
 }

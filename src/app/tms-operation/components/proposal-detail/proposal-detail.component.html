@@ -1,1 +1,80 @@
-<p>proposal-detail works!</p>
+<section class="content mt-0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+          <li class="breadcrumb-item active text-primary">TMS Proposal</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="card-title">TMS Proposal</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12 text-left">
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label>Proposal No</label>
+                    <ejs-textbox [ngModel]="this.id" readonly="true" popupHeight='200px'></ejs-textbox>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 align-self-end">
+                  <div class="mb-2">
+                    <a  class="btn btn-sm btn-secondary m-1"  href="/tms-operation/proposal">
+                      <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ejs-grid #Grid [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings" (actionBegin)='actionBegin($event)' [allowExcelExport]='true' [toolbar]="toolbar"  (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+            <e-columns>
+              <e-column field='truckNo' headerText="Truck No" width="150"></e-column>
+              <e-column field='driverName' headerText="DriverName" width="150"></e-column>
+              <e-column field='driverContact' headerText="Driver Contact" width="200"></e-column>
+              <e-column field='nightStop' headerText="Night Stop" width="100"></e-column>
+              <e-column field='truckAssignOption' headerText="TruckAssignOption" width="180"></e-column>
+              <e-column field='truckAssignId' headerText="Truck AssingId" width="250"></e-column>
+            </e-columns>
+            <!-- <ng-template #editSettingsTemplate let-data>
+              <form [formGroup]="proposalForm">
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label  class="requiredfield">Truck No</label>
+                    <ejs-dropdownlist formControlName="truckVehicleRegNo" tabindex="1" [dataSource]='truckList' [fields]="{ text: 'truckVehicleRegNo', value: 'truckVehicleRegNo' }" (change)="onTruckChange($event.value)" allowFiltering="true" (filtering)='onTruckFiltering($event)' popupHeight='200px'></ejs-dropdownlist>
+                    <div [style.visibility]='validateControl("truckVehicleRegNo")? "visible": "hidden"'>
+                      <label class="e-error" style="display: block;">*Truck No is required</label>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label  class="requiredfield">Driver LicenseNo</label>
+                    <ejs-textbox formControlName="driverLicenseNo" tabindex="3" readonly="true"  popupHeight='200px'></ejs-textbox>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label  class="requiredfield">Driver Name</label>
+                    <ejs-textbox formControlName="driverName" tabindex="4" readonly="true"  popupHeight='200px'></ejs-textbox>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label class="requiredfield">OutCheck DateTime</label>
+                    <ejs-datetimepicker formControlName="outCheckDateTime"></ejs-datetimepicker>
+                  </div>
+                </div>
+
+              </form>
+            </ng-template> -->
+          </ejs-grid>
+        </div>
+      </div>
+  </div>
+  </div>
+
+</section>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+

@@ -57,7 +57,7 @@
               <e-column field='yard' headerText="Yard" width="150"></e-column>
               <e-column field='estDate' headerText='Estimate Date' type="date" format="dd-MM-yyyy" width="130"></e-column>
               <e-column field='jobCode' headerText="JobCode" width="100"></e-column>
-              <e-column field='jobDescription' headerText="JobDescription" width="200"></e-column>
+              <e-column field='jobDept' headerText="JobDept" width="200"></e-column>
               <e-column field='jobType' headerText="JobType" width="100"></e-column>
               <e-column field='noOfTruck' headerText="NoOfTruck" width="100"></e-column>
               <e-column field='noOfTEU' headerText="NoOfTEU" width="100"></e-column>
@@ -66,35 +66,119 @@
               <e-column field='customerName' headerText="Customer Name" width="250"></e-column>
               <e-column field='companyName' headerText="Company" width="250"></e-column>
             </e-columns>
-            <!-- <ng-template #editSettingsTemplate let-data>
-              <form [formGroup]="proposalForm">
-                <div class="row">
-                  <div class="form-group col-md-12">
-                    <label  class="requiredfield">Truck No</label>
-                    <ejs-dropdownlist formControlName="truckVehicleRegNo" tabindex="1" [dataSource]='truckList' [fields]="{ text: 'truckVehicleRegNo', value: 'truckVehicleRegNo' }" (change)="onTruckChange($event.value)" allowFiltering="true" (filtering)='onTruckFiltering($event)' popupHeight='200px'></ejs-dropdownlist>
-                    <div [style.visibility]='validateControl("truckVehicleRegNo")? "visible": "hidden"'>
-                      <label class="e-error" style="display: block;">*Truck No is required</label>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-12">
-                    <label  class="requiredfield">Driver LicenseNo</label>
-                    <ejs-textbox formControlName="driverLicenseNo" tabindex="3" readonly="true"  popupHeight='200px'></ejs-textbox>
-                  </div>
-                  <div class="form-group col-md-12">
-                    <label  class="requiredfield">Driver Name</label>
-                    <ejs-textbox formControlName="driverName" tabindex="4" readonly="true"  popupHeight='200px'></ejs-textbox>
-                  </div>
-                  <div class="form-group col-md-12">
-                    <label class="requiredfield">OutCheck DateTime</label>
-                    <ejs-datetimepicker formControlName="outCheckDateTime"></ejs-datetimepicker>
-                  </div>
-                </div>
-
-              </form>
-            </ng-template> -->
           </ejs-grid>
         </div>
       </div>
   </div>
   </div>
+  <ejs-dialog #assignModel isModal="true"  [showCloseIcon]="true" height="67%" width="700px"  allowDragging="true" [visible]="false">
+    <ng-template #header>
+      <div class="font-weight-bold">Detail Form AssingIn</div>
+    </ng-template>
+    <form [formGroup]="assignInForm">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label  class="requiredfield">Assign Type</label>
+        <ejs-dropdownlist formControlName="assignType" tabindex="1" [dataSource]='assignList' (change)="onAssignTypeChange($event.value)" ></ejs-dropdownlist>
+        <div [style.visibility]='validateControl("assignType")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*Assign Type is required</label>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label  class="requiredfield">Job Type</label>
+        <ejs-dropdownlist formControlName="jobType" tabindex="2" [dataSource]='jobTypeList' (change)="onJobTypeChange($event.value)"></ejs-dropdownlist>
+        <div [style.visibility]='validateControl("jobType")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*Jobtype is required</label>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label  class="requiredfield">TruckNo</label>
+        <ejs-dropdownlist formControlName="truckNo" tabindex="2" [dataSource]='truckList' [fields]="{ text: 'truckNo', value: 'truckNo' }" (change)="onTruckChange($event.value)"></ejs-dropdownlist>
+        <div [style.visibility]='validateControl("truckNo")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*Truck No is required</label>
+        </div>
+      </div>
+      <div class="form-group col-md-6" >
+        <label  class="requiredfield">Driver Name</label>
+        <ejs-textbox  formControlName="driverName" [readonly]="true" tabindex="3" ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-6" >
+        <label  class="requiredfield">Driver Contact</label>
+        <ejs-textbox  formControlName="driverContact" [readonly]="true" tabindex="4" ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-6" >
+        <label>TruckAssignId</label>
+        <ejs-textbox  formControlName="truckAssignId" [readonly]="true" tabindex="5" ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-6" >
+        <label>OtherInfo</label>
+        <ejs-textbox  formControlName="otherInfo" tabindex="6" ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="mb-2 mt-4">
+          <ejs-checkbox formControlName="nightStop" label="Night Stop"></ejs-checkbox>
+        </div>
+      </div>
+
+     </div>
+      <ng-template #footerTemplate>
+        <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.assignInForm.valid"  ejs-button (click)="onAssignInSubmit()">Save</button>
+        <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="assignModel.hide()" ejs-button >Close</button>
+      </ng-template>
+    </form>
+  </ejs-dialog>
+
+  <ejs-dialog #customerModel isModal="true"  [showCloseIcon]="true" height="67%" width="700px"  allowDragging="true" [visible]="false">
+    <ng-template #header>
+      <div class="font-weight-bold">Detail Form Customer</div>
+    </ng-template>
+    <form [formGroup]="customerForm">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label  class="requiredfield">Assign Type</label>
+        <ejs-textbox  formControlName="assignType" [readonly]="true" tabindex="1" ></ejs-textbox>
+        <div [style.visibility]='customerValidateControl("assignType")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*Assign Type is required</label>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label  class="requiredfield">Job Type</label>
+        <ejs-textbox  formControlName="jobType" maxLength="50" tabindex="2" ></ejs-textbox>
+        <div [style.visibility]='customerValidateControl("jobType")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*Jobtype is required</label>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label  class="requiredfield">TruckNo</label>
+        <ejs-dropdownlist formControlName="truckNo" tabindex="2" [dataSource]='cusTruckList' [fields]="{ text: 'vehicleRegNo', value: 'vehicleRegNo' }" (change)="onCusTruckChange($event.value)"></ejs-dropdownlist>
+        <div [style.visibility]='customerValidateControl("truckNo")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*Truck No is required</label>
+        </div>
+      </div>
+      <div class="form-group col-md-6" >
+        <label  class="requiredfield">Driver Name</label>
+        <ejs-textbox  formControlName="driverName" [readonly]="true" tabindex="3" ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-6" >
+        <label  class="requiredfield">Driver Contact</label>
+        <ejs-textbox  formControlName="driverContact" [readonly]="true" tabindex="4" ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-6" >
+        <label>OtherInfo</label>
+        <ejs-textbox  formControlName="otherInfo" tabindex="6" ></ejs-textbox>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="mb-2 mt-4">
+          <ejs-checkbox formControlName="nightStop" label="Night Stop"></ejs-checkbox>
+        </div>
+      </div>
+     </div>
+      <ng-template #footerTemplate>
+        <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.customerForm.valid"  ejs-button (click)="onCustomerSubmit()">Save</button>
+        <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="customerModel.hide()" ejs-button >Close</button>
+      </ng-template>
+    </form>
+  </ejs-dialog>
 </section>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
