@@ -4,7 +4,7 @@
       <div class="col-md-12 ">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-          <li class="breadcrumb-item active text-primary">In Check(ICD/Other)</li>
+          <li class="breadcrumb-item active text-primary">Truck Status</li>
         </ol>
       </div>
     </div>
@@ -13,7 +13,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12 col-lg-12 text-left">
-                <h5 class="card-title">In Check(ICD/Other)</h5>
+                <h5 class="card-title">Truck Status</h5>
                 <Form [formGroup]="optionForm">
                   <div class="row btns mb-2">
                     <div class="col-lg-5 col-12">
@@ -80,7 +80,7 @@
                       </button>
                     </div>
                   </div>
-                  
+
                 </Form>
               </div>
             </div>
@@ -118,11 +118,10 @@
               </ejs-grid>
               <div class="mt-3">
                 <span class="mx-3">Status:</span>
-                <span class="mx-3"><i class="fa fa-square text-orchid font-small-2 mr-1"></i> In(Check)</span>
+                <span class="mx-3"><i class="fa fa-square text-primary font-small-2 mr-1"></i> In(Check)</span>
                 <span class="mx-3"><i class="fa fa-square text-purple font-small-2 mr-1"></i> In</span>
                 <span class="mx-3"><i class="fa fa-square text-mediumSeaGreen font-small-2 mr-1"></i> Out(Check)</span>
                 <span class="mx-3"><i class="fa fa-square text-gray font-small-2 mr-1"></i> Out</span>
-                <!-- <span class="mx-3"><i class="fa fa-square text-light font-small-2 mr-1"></i> GateIn</span> -->
               </div>
             </div>
           </div>
@@ -130,7 +129,6 @@
     </div>
   </section>
   <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
-  
-  
-  
-  
+
+
+

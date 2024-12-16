@@ -98,6 +98,17 @@ export class OutCheckComponent {
     }
   }
 
+  getBadgeColor(status: string): string {
+    switch (status) {
+       case 'Out(Check)':
+           return 'rgba(40, 167, 69, 0.8)'; // Medium Green
+       case 'Out':
+           return 'rgb(140, 140, 140)'; // Gray
+       default:
+           return 'rgb(199, 73, 73)'; // Red for unknown status
+    }
+   }
+
   formatParams(paramArray) {
     return paramArray.map(item => `'${item}'`).join(',');
   }

@@ -67,10 +67,10 @@ export class TruckStatusComponent {
   }
 
 
-getBadgeColor(status: string): string {
-  switch (status) {
+  getBadgeColor(status: string): string {
+   switch (status) {
       case 'In(Check)':
-          return 'rgb(216, 58, 216)'; // Orchid
+          return '#519df4'; // Orchid
       case 'In':
           return 'rgb(106, 90, 205)'; // Purple
       case 'Out(Check)':
@@ -78,9 +78,9 @@ getBadgeColor(status: string): string {
       case 'Out':
           return 'rgb(140, 140, 140)'; // Gray
       default:
-          return 'rgb(250, 0, 0)'; // Red for unknown status
+          return 'rgb(199, 73, 73)'; // Red for unknown status
+   }
   }
-}
 
   loadTableData() {
     this.spinner.show();
