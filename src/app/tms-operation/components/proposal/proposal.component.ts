@@ -95,7 +95,7 @@ export class ProposalComponent {
     //   jobType:new FormControl('',Validators.required),
     // });
 
-    this.loadTableData();
+    //this.loadTableData();
    // this.getCusTruckList();
   }
 

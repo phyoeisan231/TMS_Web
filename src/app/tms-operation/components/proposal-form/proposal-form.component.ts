@@ -93,10 +93,14 @@ export class ProposalFormComponent {
         this.proposalForm.controls['propNo'].setValue(result[0].propNo);
         this.proposalForm.controls["yard"].setValue(result[0].yard);
         this.proposalForm.controls["jobDept"].setValue(result[0].jobDept);
+        this.proposalForm.controls.jobDept.setValue(result[0].jobDept);
         this.onjobDeptChange(result[0].jobDept)
-        this.proposalForm.controls["jobType"].setValue(result[0].jobType);
+       // this.proposalForm.controls["jobType"].setValue(result[0].jobType);
+        this.proposalForm.controls.jobType.setValue(result[0].jobType);
         this.onJobTypeChange(result[0].jobType)
-        this.proposalForm.controls["customerId"].setValue(result[0].customer);
+       // this.proposalForm.controls["customerId"].setValue(result.customer);
+        this.proposalForm.controls.customerId.setValue(result[0].customer);
+        this.onCustomerChange(result[0].customerId);
         this.proposalForm.controls['jobCode'].setValue(result[0].jobCode);
         this.proposalForm.controls["noOfTruck"].setValue(result[0].noOfTruck);
         this.proposalForm.controls["noOfTEU"].setValue(result[0].noOfTEU);
