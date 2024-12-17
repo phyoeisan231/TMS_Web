@@ -45,8 +45,9 @@ export class InCheckDocComponent {
   pcCodeList:any[]=[];
   docList:any[]=[];
   cardList:any[]=[];
-  truckTypeList:any[]=['RG','Customer','Supplier'];
-  wbOptionList:any[]=['None','Credit','Cash'];
+  truckTypeList:any[]=['RGL','Customer','Supplier'];
+  wbOptionList:any[]=['None','Single','Both'];
+  billOptionList:any[]=['None','Credit','Cash'];
   endDate : Date = new Date();
   type:string;
   isInWb:boolean=false;
@@ -90,8 +91,7 @@ export class InCheckDocComponent {
     remark:new FormControl(''),
     customer:new FormControl(''),
     status:new FormControl(''),
-    inboundWeight:new FormControl(false),
-    outboundWeight:new FormControl(false),
+    wbOption:new FormControl(''),
     });
 
     this.cardForm = new FormGroup({
@@ -99,8 +99,8 @@ export class InCheckDocComponent {
     cardNo: new FormControl('', Validators.required),
     inWeightBridgeID: new FormControl(''),
     outWeightBridgeID: new FormControl(''),
-    inWBOption:new FormControl(''),
-    outWBOption:new FormControl(''),
+    inWBBillOption:new FormControl(''),
+    outWBBillOption:new FormControl(''),
     });
 
     this.getCategoryList();
@@ -128,9 +128,7 @@ export class InCheckDocComponent {
     ).subscribe(data => {
       this.driverList  = data;
     });
-
   }
-
 
   public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
 
@@ -241,8 +239,8 @@ export class InCheckDocComponent {
     formData.cardNo = cardForm.cardNo;
     formData.inWeightBridgeID = cardForm.inWeightBridgeID;
     formData.outWeightBridgeID = cardForm.outWeightBridgeID;
-    formData.outWBOption = cardForm.outWBOption;
-    formData.inWBOption = cardForm.inWBOption;
+    formData.outWBBillOption = cardForm.outWBBillOption;
+    formData.inWBBillOption = cardForm.inWBBillOption;
     formData.documentList = this.docList;
     formData.inRegNo=0;
     formData.createdUser = localStorage.getItem('currentUser');
@@ -282,8 +280,18 @@ export class InCheckDocComponent {
     Swal.fire('In Check Document', 'Please check document.', 'warning');
    }
    else{
-      this.isInWb=formData.inboundWeight;
-      this.isOutWb=formData.outboundWeight;
+      if(formData.wbOption=='Single'){
+        this.isInWb=true;
+        this.isOutWb=false;
+      }
+      else if (formData.wbOption=='Both'){
+        this.isInWb=true;
+        this.isOutWb=true;
+      }
+      else{
+        this.isInWb=false;
+        this.isOutWb=false;
+      }
       if(this.isInWb || this.isOutWb){
         this.getWBDataList(formData.inYardID)
       }
