@@ -24,15 +24,15 @@ export class ProposalComponent {
   editSettings: EditSettingsModel = {  allowAdding: true, allowDeleting: true };
   toolbar: any[] = ['Add',
   { text: "Edit", tooltipText: "Edit", prefixIcon: "e-icons e-edit", id: "edit" },
-  { text: "AssignIn", tooltipText: "AssignIn", prefixIcon: "e-icons e-circle-add", id: "assignIn" },
-  { text: "Customer", tooltipText: "Customer", prefixIcon: "e-icons e-circle-add", id: "customer" },
-  { text: "Details", tooltipText: "Details", prefixIcon: "e-icons e-selection", id: "detail" },
+  // { text: "AssignIn", tooltipText: "AssignIn", prefixIcon: "e-icons e-circle-add", id: "assignIn" },
+  // { text: "Customer", tooltipText: "Customer", prefixIcon: "e-icons e-circle-add", id: "customer" },
+  { text: "Truck Details", tooltipText: "Truck Details", prefixIcon: "e-icons e-selection", id: "detail" },
   'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
 
-  assignInForm:FormGroup;
+ // assignInForm:FormGroup;
   optionForm: FormGroup;
-  customerForm:FormGroup;
+ // customerForm:FormGroup;
   submitClicked: boolean = false;
   public formatfilter: any ="MM/dd/yyyy";
   deptTypeList:any[]=["CCA","Warehouse","Rail"];
@@ -41,11 +41,11 @@ export class ProposalComponent {
   public placeholder: string = 'Select One';
   public mode?: string;
   public selectAllText: string| any;
-  assignList:any[]=["RGL","Supplier"]
-  truckList:any[]=[];
+  //assignList:any[]=["RGL","Supplier"]
+  //truckList:any[]=[];
   jobDept:string;
   jobTypeList:any[]=[];
-  cusTruckList:any[]=[];
+ // cusTruckList:any[]=[];
   type:string;
   driverList:any[]=[];
   @ViewChild('Grid') public grid: GridComponent;
@@ -70,53 +70,54 @@ export class ProposalComponent {
       deptType: new FormControl(sessionStorage.getItem("deptType")?sessionStorage.getItem("deptType").split(','):null,Validators.required),
     });
 
-    this.assignInForm = new FormGroup({
-      propNo:new FormControl(''),
-      jobDept:new FormControl(''),
-      assignType: new FormControl('',Validators.required),
-      truckNo: new FormControl('', Validators.required),
-      driverName: new FormControl('',Validators.required),
-      driverContact:new FormControl('',Validators.required),
-      nightStop: new FormControl(''),
-      otherInfo:new FormControl(''),
-      jobType:new FormControl('',Validators.required),
-      truckAssignId: new FormControl(''),
-      });
+    // this.assignInForm = new FormGroup({
+    //   propNo:new FormControl(''),
+    //   jobDept:new FormControl(''),
+    //   assignType: new FormControl('',Validators.required),
+    //   truckNo: new FormControl('', Validators.required),
+    //   driverName: new FormControl('',Validators.required),
+    //   driverContact:new FormControl('',Validators.required),
+    //   nightStop: new FormControl(''),
+    //   otherInfo:new FormControl(''),
+    //   jobType:new FormControl('',Validators.required),
+    //   truckAssignId: new FormControl(''),
+    //   });
 
-      this.customerForm = new FormGroup({
-        propNo:new FormControl(''),
-        jobDept:new FormControl(''),
-        assignType: new FormControl('',Validators.required),
-        truckNo: new FormControl('', Validators.required),
-        driverName: new FormControl('',Validators.required),
-        driverContact:new FormControl('',Validators.required),
-        nightStop: new FormControl(''),
-        otherInfo:new FormControl(''),
-        jobType:new FormControl('',Validators.required),
-        });
-      this.loadTableData();
-      this.getCusTruckList();
+    // this.customerForm = new FormGroup({
+    //   propNo:new FormControl(''),
+    //   jobDept:new FormControl(''),
+    //   assignType: new FormControl('',Validators.required),
+    //   truckNo: new FormControl('', Validators.required),
+    //   driverName: new FormControl('',Validators.required),
+    //   driverContact:new FormControl('',Validators.required),
+    //   nightStop: new FormControl(''),
+    //   otherInfo:new FormControl(''),
+    //   jobType:new FormControl('',Validators.required),
+    // });
+
+    this.loadTableData();
+   // this.getCusTruckList();
   }
 
-  getCusTruckList(){
-    this.service.getCusTruckList()
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.cusTruckList= result;
-        this.spinner.hide();
-    });
-  }
+  // getCusTruckList(){
+  //   this.service.getCusTruckList()
+  //   .pipe(catchError((err) => of(this.showError(err))))
+  //     .subscribe((result) => {
+  //       this.cusTruckList= result;
+  //       this.spinner.hide();
+  //   });
+  // }
 
-  getCusDriverList(licenseNo:string){
-    this.service.getCusDriverList(licenseNo)
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.driverList= result;
-        this.customerForm.controls["driverName"].setValue(this.driverList[0].driverName);
-        this.customerForm.controls["driverContact"].setValue(this.driverList[0].contactNo);
-        this.spinner.hide();
-    });
-  }
+  // getCusDriverList(licenseNo:string){
+  //   this.service.getCusDriverList(licenseNo)
+  //   .pipe(catchError((err) => of(this.showError(err))))
+  //     .subscribe((result) => {
+  //       this.driverList= result;
+  //       this.customerForm.controls["driverName"].setValue(this.driverList[0].driverName);
+  //       this.customerForm.controls["driverContact"].setValue(this.driverList[0].contactNo);
+  //       this.spinner.hide();
+  //   });
+  // }
 
   loadTableData() {
    this.spinner.show();
@@ -189,17 +190,17 @@ export class ProposalComponent {
     });
   }
 
-  onAssignInSubmit(){
-    const formData=this.assignInForm.value;
-    formData.createdUser = localStorage.getItem('currentUser');
-    this.createProposalDetail(formData);
-  }
+  // onAssignInSubmit(){
+  //   const formData=this.assignInForm.value;
+  //   formData.createdUser = localStorage.getItem('currentUser');
+  //   this.createProposalDetail(formData);
+  // }
 
-  onCustomerSubmit(){
-    const formData=this.customerForm.value;
-    formData.createdUser = localStorage.getItem('currentUser');
-    this.createProposalDetail(formData);
-  }
+  // onCustomerSubmit(){
+  //   const formData=this.customerForm.value;
+  //   formData.createdUser = localStorage.getItem('currentUser');
+  //   this.createProposalDetail(formData);
+  // }
 
   createProposalDetail(formData: any) {
     this.spinner.show();
@@ -236,7 +237,7 @@ export class ProposalComponent {
      });
     }
 
-    if (args.item.id === 'detail' || args.item.id=== 'assignIn' || args.item.id==='customer' || args.item.id==='edit') {
+    if (args.item.id === 'detail' || args.item.id==='edit') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
         Swal.fire('TMS Proposal', "Please select one row!", 'warning');
@@ -249,22 +250,6 @@ export class ProposalComponent {
         if (args.item.id === 'detail')
         {
           this.router.navigate(["/tms-operation/proposal-detail"], { queryParams: { id: id}});
-          return;
-        }
-        if(args.item.id==='assignIn'){
-          this.assignInForm.reset();
-          this.assignInForm.controls['propNo'].setValue(selectedRecords[0].propNo);
-          this.assignInForm.controls['jobDept'].setValue(selectedRecords[0].jobDept);
-          this.assignModel.show();
-          return;
-        }
-        if(args.item.id==='customer'){
-          this.customerForm.reset();
-          this.customerForm.controls['assignType'].setValue("Customer");
-
-          this.customerForm.controls['propNo'].setValue(selectedRecords[0].propNo);
-          this.customerForm.controls['jobDept'].setValue(selectedRecords[0].jobDept);
-          this.customerModel.show();
           return;
         }
         if(args.item.id==='edit'){
@@ -284,7 +269,7 @@ export class ProposalComponent {
     }
     else if(this.jobDept=="Warehouse"){
       this.jobTypeList=[];
-      this.jobTypeList=['WH Pick Up','Bonded Delivery','Bonded Transport','Import','Export']
+      this.jobTypeList=['WH Pick Up','WH Delivery','Bonded Delivery','Bonded Transport','Import','Export']
     }
     else{
       this.jobTypeList=[];
@@ -293,39 +278,30 @@ export class ProposalComponent {
   }
   }
 
-  onJobTypeChange(jobType:string){
-    if(this.type==null){
-      Swal.fire("Proposal","Please Select type!","warning");
-      return;
-    }
-    if(this.type!=null && jobType!=null){
-     this.service
-     .getTruckList(this.type,jobType)
-     .pipe(catchError((err) => of(this.showError(err))))
-     .subscribe((result) => {
-      this.truckList=result;
-    });
-    }
-  }
+  // onJobTypeChange(jobType:string){
+  //   if(this.type==null){
+  //     Swal.fire("Proposal","Please Select type!","warning");
+  //     return;
+  //   }
+  //   if(this.type!=null && jobType!=null){
+  //    this.service
+  //    .getTruckList(this.type,jobType)
+  //    .pipe(catchError((err) => of(this.showError(err))))
+  //    .subscribe((result) => {
+  //     this.truckList=result;
+  //   });
+  //   }
+  // }
 
-  onTruckChange(truckNo:string){
-    let truckInfo=this.truckList.filter(t=>t.truckNo==truckNo);
-    this.assignInForm.controls['driverName'].setValue(truckInfo[0].driverName);
-    this.assignInForm.controls['driverContact'].setValue(truckInfo[0].driverContact);
-    this.assignInForm.controls['truckAssignId'].setValue(truckInfo[0].regId);
-  }
 
-  onCusTruckChange(truckNo:string){
-    let truckInfo=this.cusTruckList.filter(t=>t.vehicleRegNo==truckNo);
-    this.getCusDriverList(truckInfo[0].driverLicenseNo);
-  }
 
-  validateControl(controlName: string) {
-    const control = this.assignInForm.get(controlName);
-    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
-  }
-  customerValidateControl(controlName: string) {
-    const control = this.customerForm.get(controlName);
-    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
-  }
+  // onCusTruckChange(truckNo:string){
+  //   let truckInfo=this.cusTruckList.filter(t=>t.vehicleRegNo==truckNo);
+  //   this.getCusDriverList(truckInfo[0].driverLicenseNo);
+  // }
+
+  // customerValidateControl(controlName: string) {
+  //   const control = this.customerForm.get(controlName);
+  //   return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
+  // }
 }

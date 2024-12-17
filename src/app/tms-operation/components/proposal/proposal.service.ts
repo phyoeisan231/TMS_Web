@@ -20,9 +20,9 @@ export class ProposalService {
     return this.http.get<any>(environment.url + 'TMSProposal/GetRailDailyJobList/?jobType=' + jobType+'&yard='+yard);
   }
 
-  getCustomerList(){
-    return this.http.get<any>(environment.url + 'TMSProposal/GetCustomerList');
-  }
+  // getJobCodeList(id:string){
+  //   return this.http.get<any>(environment.url + 'TMSProposal/GetJobCodeList/?jobType=' + id);
+  // }
 
   getWHDailyJobList(jobType:string,yard:string){
     return this.http.get<any>(environment.url + 'TMSProposal/GetWHDailyJobList/?jobType=' + jobType+'&yard='+yard);

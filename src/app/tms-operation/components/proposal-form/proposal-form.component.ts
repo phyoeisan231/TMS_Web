@@ -46,6 +46,7 @@ export class ProposalFormComponent {
   sDate:Date;
   yard:string;
   proposalList:any[]=[];
+  jDept:string;
 
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
@@ -69,7 +70,7 @@ export class ProposalFormComponent {
     noOfFEU: new FormControl(''),
     lclQty: new FormControl(''),
     customerId:new FormControl('',Validators.required),
-    customerName:new FormControl('',Validators.required),
+    customerName:new FormControl(''),
     companyName:new FormControl(''),
     cargoInfo:new FormControl(''),
     noOfTruck: new FormControl('',Validators.required)
@@ -81,7 +82,7 @@ export class ProposalFormComponent {
     }
 
     this.getLocationList();
-    this.getCustomerList();
+    //this.getCustomerList();
   }
 
   getProposalList(id:string){
@@ -95,10 +96,8 @@ export class ProposalFormComponent {
         this.onjobDeptChange(result[0].jobDept)
         this.proposalForm.controls["jobType"].setValue(result[0].jobType);
         this.onJobTypeChange(result[0].jobType)
+        this.proposalForm.controls["customerId"].setValue(result[0].customer);
         this.proposalForm.controls['jobCode'].setValue(result[0].jobCode);
-        this.proposalForm.controls["customerId"].setValue(result[0].customerId);
-        this.proposalForm.controls["customerName"].setValue(result[0].customerName);
-        this.proposalForm.controls["companyName"].setValue(result[0].companyName);
         this.proposalForm.controls["noOfTruck"].setValue(result[0].noOfTruck);
         this.proposalForm.controls["noOfTEU"].setValue(result[0].noOfTEU);
         this.proposalForm.controls["noOfFEU"].setValue(result[0].noOfFEU);
@@ -118,22 +117,34 @@ export class ProposalFormComponent {
     });
   }
 
-  getCustomerList(){
-    this.spinner.show();
-    this.service.getCustomerList()
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.customerList = result;
-        this.spinner.hide();
-    });
-  }
+  // getCustomerList(){
+  //   this.spinner.show();
+  //   this.service.getCustomerList()
+  //   .pipe(catchError((err) => of(this.showError(err))))
+  //     .subscribe((result) => {
+  //       this.customerList = result;
+  //       this.spinner.hide();
+  //   });
+  // }
+
+  // getJobCodeList(id:string,){
+  //   this.spinner.show();
+  //   this.service.getJobCodeList(id)
+  //   .pipe(catchError((err) => of(this.showError(err))))
+  //     .subscribe((result) => {
+  //       this.customerList = result;
+  //       this.spinner.hide();
+  //   });
+  // }
 
   onjobDeptChange(id:string){
+    this.jDept=id;
     if(id=="Rail"){
       this.jobTypeList=[];
       this.jobTypeList=["Pickup","Receive BC","Receive GC","Receive SC","Delivery","Issue BC","Issue GC","Issue SC"]
     }
     else if(id=="Warehouse"){
+
       this.jobTypeList=[];
       this.jobTypeList=["Inbound","Outbound"];
     }
@@ -147,32 +158,38 @@ export class ProposalFormComponent {
    onJobTypeChange(jobType:string){
     let formData=this.proposalForm.value;
     const sDate=moment(formData.estDate).format('MM/DD/YYYY');
-    const jDept=formData.jobDept;
     this.yard=formData.yard;
-    if(jDept=="Rail"){
+    if(this.jDept=="Rail"){
      this.service.getRailDailyJobList(jobType,this.yard)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
-         this.jobIdList=[];
-         this.jobIdList = result;
+         this.customerList=[];
+         this.customerList = result;
      });
     }
-    else if(jDept=="Warehouse"){
+    else if(this.jDept=="Warehouse"){
       this.service.getWHDailyJobList(jobType,this.yard)
       .pipe(catchError((err) => of(this.showError(err))))
         .subscribe((result) => {
-          this.jobIdList=[];
-          this.jobIdList = result;
+          this.customerList=[];
+          this.customerList = result;
       });
     }
     else{
       this.service.getCCADailyJobList(jobType,this.yard)
       .pipe(catchError((err) => of(this.showError(err))))
         .subscribe((result) => {
-          this.jobIdList=[];
-          this.jobIdList = result;
+          this.customerList=[];
+          this.customerList = result;
       });
     }
+    }
+
+    onCustomerChange(customer:string){
+      const cusList=this.customerList.filter(i=>i.customerId==customer);
+      this.proposalForm.controls['customerName'].setValue(cusList[0].name);
+      this.jobIdList=cusList;
+      //this.getJobCodeList(customer);
     }
 
     onJobCodeChange(code: string) {
@@ -181,12 +198,12 @@ export class ProposalFormComponent {
       this.proposalForm.controls['noOfFEU'].setValue(newJobCodeList[0].noOfFEU);
       this.proposalForm.controls['lclQty'].setValue(newJobCodeList[0].lclQty);
       this.proposalForm.controls['cargoInfo'].setValue(newJobCodeList[0].remark);
-      if(newJobCodeList[0].customerId){
-        this.proposalForm.controls['customerId'].setValue(newJobCodeList[0].customerId);
-        const cusName=this.customerList.filter(c=>c.customerId==newJobCodeList[0].customerId);
-        this.proposalForm.controls['customerName'].setValue(cusName[0].name);
-        this.proposalForm.controls['companyName'].setValue(cusName[0].groupName);
-      }
+      // if(newJobCodeList[0].customerId){
+      //   this.proposalForm.controls['customerId'].setValue(newJobCodeList[0].customerId);
+      //   const cusName=this.customerList.filter(c=>c.customerId==newJobCodeList[0].customerId);
+      //   this.proposalForm.controls['customerName'].setValue(cusName[0].name);
+      //   this.proposalForm.controls['companyName'].setValue(cusName[0].groupName);
+      // }
     }
 
 

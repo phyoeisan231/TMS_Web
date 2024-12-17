@@ -64,14 +64,14 @@
               <e-column field='noOfFEU' headerText="NoOfFEU" width="100"></e-column>
               <e-column field='lclQty' headerText="LCLQty" width="100"></e-column>
               <e-column field='customerName' headerText="Customer Name" width="250"></e-column>
-              <e-column field='companyName' headerText="Company" width="250"></e-column>
             </e-columns>
           </ejs-grid>
         </div>
       </div>
   </div>
   </div>
-  <ejs-dialog #assignModel isModal="true"  [showCloseIcon]="true" height="67%" width="700px"  allowDragging="true" [visible]="false">
+
+  <!-- <ejs-dialog #assignModel isModal="true"  [showCloseIcon]="true" height="67%" width="700px"  allowDragging="true" [visible]="false">
     <ng-template #header>
       <div class="font-weight-bold">Detail Form AssingIn</div>
     </ng-template>
@@ -126,9 +126,9 @@
         <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="assignModel.hide()" ejs-button >Close</button>
       </ng-template>
     </form>
-  </ejs-dialog>
+  </ejs-dialog> -->
 
-  <ejs-dialog #customerModel isModal="true"  [showCloseIcon]="true" height="67%" width="700px"  allowDragging="true" [visible]="false">
+  <!-- <ejs-dialog #customerModel isModal="true"  [showCloseIcon]="true" height="67%" width="700px"  allowDragging="true" [visible]="false">
     <ng-template #header>
       <div class="font-weight-bold">Detail Form Customer</div>
     </ng-template>
@@ -178,7 +178,7 @@
         <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="customerModel.hide()" ejs-button >Close</button>
       </ng-template>
     </form>
-  </ejs-dialog>
+  </ejs-dialog> -->
 </section>
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 
