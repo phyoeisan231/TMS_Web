@@ -131,11 +131,17 @@
         </div>
       </div>
       <div class="form-group col-md-6">
+        <ejs-multiselect formControlName="truckNo" [dataSource]='truckList' [fields]="{ text: 'truckNo', value: 'truckNo' }" placeholder="Truck No" floatLabelType='Always'></ejs-multiselect>
+        <div [style.visibility]='validateControl("truckNo")? "visible": "hidden"'>
+          <label class="e-error" style="display: block;">*Truck No is required</label>
+        </div>
+      </div>
+      <!-- <div class="form-group col-md-6">
         <ejs-multiselect formControlName="truckNo" [dataSource]='cusTruckList' [fields]="{ text: 'vehicleRegNo', value: 'vehicleRegNo' }" placeholder="Truck No" floatLabelType='Always'></ejs-multiselect>
          <div [style.visibility]='validateControl("truckNo")? "visible": "hidden"'>
           <label class="e-error" style="display: block;">*Truck No is required</label>
         </div>
-      </div>
+      </div> -->
       <!-- <div class="form-group col-md-6" >
         <label  class="requiredfield">Driver Name</label>
         <ejs-textbox  formControlName="driverName" [readonly]="true" tabindex="3" ></ejs-textbox>
