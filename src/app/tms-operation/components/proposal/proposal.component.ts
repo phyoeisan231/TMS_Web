@@ -274,7 +274,6 @@ export class ProposalComponent {
       if (selectedRecords.length == 0) {
         Swal.fire('TMS Proposal', "Please select one row!", 'warning');
       }
-
       else {
         const id = selectedRecords[0].propNo;
         this.jobDept=selectedRecords[0].jobDept;
@@ -292,6 +291,7 @@ export class ProposalComponent {
 
           this.completeProposal(id,user);
         }
+
       }
     }
   }

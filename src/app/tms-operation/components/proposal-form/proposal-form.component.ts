@@ -190,7 +190,6 @@ export class ProposalFormComponent {
       const cusList=this.customerList.filter(i=>i.customerId==customer);
       //this.proposalForm.controls['customerName'].setValue(cusList[0].name);
       this.jobIdList=cusList;
-      console.log(this.jobIdList);
       //this.getJobCodeList(customer);
     }
 
@@ -208,15 +207,6 @@ export class ProposalFormComponent {
       // }
     }
 
-
-  rowDataBound(args: any): void {
-    if (args.row) {
-      //args.isSelectable = args.data.status === 'Draft';
-      if (args.data.checkStatus) {
-        (args.row as Element).classList.add('bluegreen');
-      }
-     }
-   }
 
   onFormSubmit(){
    this.spinner.show();
@@ -260,9 +250,7 @@ export class ProposalFormComponent {
     });
   }
 
-  onBackSubmit(){
-    this.router.navigate(["/tms-operation/in-check"]);
-  }
+
 
   showError(error:HttpErrorResponse){
     this.spinner.hide();
