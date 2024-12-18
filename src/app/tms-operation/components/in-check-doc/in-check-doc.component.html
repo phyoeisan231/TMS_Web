@@ -168,26 +168,25 @@
    <div class="row" *ngIf="this.isWb">
     <div class="form-group col-md-6">
       <label  class="requiredfield">In Weight Bridge</label>
-      <ejs-dropdownlist formControlName="inWeightBridgeID" tabindex="2" [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
+      <ejs-dropdownlist formControlName="inWeightBridgeID" tabindex="2" (change)="onWBChange($event.value)"  [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
     </div>
     <div class="form-group col-md-6">
-      <label  class="requiredfield">In WB Option</label>
-      <ejs-dropdownlist formControlName="inWBBillOption" tabindex="3" [dataSource]='billOptionList'  placeholder="Select One" ></ejs-dropdownlist>
+      <label  class="requiredfield">Out Weight Bridge</label>
+      <ejs-dropdownlist formControlName="outWeightBridgeID" tabindex="3" [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
     </div>
    </div>
    <div class="row"  *ngIf="this.isWb">
-    <div class="form-group col-md-6">
-      <label  class="requiredfield">Out Weight Bridge</label>
-      <ejs-dropdownlist formControlName="outWeightBridgeID" tabindex="4" [dataSource]='wbList' [fields]="{ text: 'weightBridgeID', value: 'weightBridgeID' }" [allowFiltering]="true" placeholder="Select One" ></ejs-dropdownlist>
+    <div class="form-group col-md-12">
+      <label  class="requiredfield">WB Bill Option</label>
+      <ejs-dropdownlist formControlName="inWBBillOption" tabindex="4" [dataSource]='billOptionList'  placeholder="Select One" ></ejs-dropdownlist>
     </div>
-
-    <div class="form-group col-md-6">
+    <!-- <div class="form-group col-md-6">
       <label  class="requiredfield">Out WB Option</label>
       <ejs-dropdownlist formControlName="outWBBillOption" tabindex="5" [dataSource]='billOptionList' placeholder="Select One" ></ejs-dropdownlist>
-    </div>
+    </div> -->
    </div>
     <ng-template #footerTemplate>
-      <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.cardForm.valid"  ejs-button (click)="onFormAssignCard()">Valid</button>
+      <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.cardForm.valid"  ejs-button (click)="onFormAssignCard()">Add</button>
       <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="cardModel.hide()" ejs-button >Close</button>
     </ng-template>
   </form>

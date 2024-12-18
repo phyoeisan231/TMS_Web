@@ -277,7 +277,7 @@ export class TmsInCheckProposalDocComponent {
     formData.cardNo = cardForm.cardNo;
     formData.inWeightBridgeID = cardForm.inWeightBridgeID;
     formData.outWeightBridgeID = cardForm.outWeightBridgeID;
-    formData.outWBBillOption = cardForm.outWBBillOption;
+    formData.outWBBillOption = cardForm.inWBBillOption;
     formData.inWBBillOption = cardForm.inWBBillOption;
     formData.documentList = this.docList;
     formData.inRegNo=0;
@@ -309,6 +309,15 @@ export class TmsInCheckProposalDocComponent {
     }
       this.createInBoundCheck(formData);
   }
+
+  onWBChange(code: string) {
+    this.detailForm.controls['outWeightBridgeID'].setValue(code);
+   }
+
+  onTruckTypeChange(code: string) {
+    this.type = code;
+    this.truckList =[];
+   }
 
   onFormSubmit(){
    this.spinner.show();
@@ -368,13 +377,6 @@ export class TmsInCheckProposalDocComponent {
    onCategoryChange(code: string) {
     this.getDocumentSettingList(code);
    }
-
-
-
-   onTruckTypeChange(code: string) {
-     this.type = code;
-     this.truckList =[];
-    }
 
     onTruckChange(id:string){
      const truck = this.truckList.filter(x=>x.vehicleRegNo==id);

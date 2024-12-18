@@ -236,44 +236,47 @@ export class InCheckDocComponent {
   }
 
   onFormAssignCard(){
-    const formData=this.detailForm.value;
-    const cardForm = this.cardForm.value;
-    formData.cardNo = cardForm.cardNo;
-    formData.inWeightBridgeID = cardForm.inWeightBridgeID;
-    formData.outWeightBridgeID = cardForm.outWeightBridgeID;
-    formData.outWBBillOption = cardForm.outWBBillOption;
-    formData.inWBBillOption = cardForm.inWBBillOption;
-    formData.documentList = this.docList;
-    formData.inRegNo=0;
-    formData.createdUser = localStorage.getItem('currentUser');
-    if(this.transporterList){
-      const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
-      if(transporter.length>0){
-        formData.transporterName = transporter[0].transporterName;
+      const formData=this.detailForm.value;
+      const cardForm = this.cardForm.value;
+      formData.cardNo = cardForm.cardNo;
+      formData.inWeightBridgeID = cardForm.inWeightBridgeID;
+      formData.outWeightBridgeID = cardForm.outWeightBridgeID;
+      formData.outWBBillOption = cardForm.inWBBillOption;
+      formData.inWBBillOption = cardForm.inWBBillOption;
+      formData.documentList = this.docList;
+      formData.inRegNo=0;
+      formData.createdUser = localStorage.getItem('currentUser');
+      if(this.transporterList){
+        const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
+        if(transporter.length>0){
+          formData.transporterName = transporter[0].transporterName;
+        }
       }
-    }
-    if(this.driverList.length>0){
-      const driver = this.driverList.filter(x=>x.licenseNo==formData.driverLicenseNo);
-      if(driver.length>0){
-        formData.driverName = driver[0].name;
-        formData.driverContactNo = driver[0].contactNo;
+      if(this.driverList.length>0){
+        const driver = this.driverList.filter(x=>x.licenseNo==formData.driverLicenseNo);
+        if(driver.length>0){
+          formData.driverName = driver[0].name;
+          formData.driverContactNo = driver[0].contactNo;
+        }
       }
-    }
-    if(this.isWb){
-      if(!cardForm.inWeightBridgeID){
-        Swal.fire('In Check Document', 'Please add In Weight Bridge.', 'warning');
-        return;
+      if(this.isWb){
+        if(!cardForm.inWeightBridgeID){
+          Swal.fire('In Check Document', 'Please add In Weight Bridge.', 'warning');
+          return;
+        }
       }
-    }
-    if(this.isWb){
-      if(!cardForm.outWeightBridgeID){
-        Swal.fire('In Check Document', 'Please add Out Weight Bridge.', 'warning');
-        return;
+      if(this.isWb){
+        if(!cardForm.outWeightBridgeID){
+          Swal.fire('In Check Document', 'Please add Out Weight Bridge.', 'warning');
+          return;
+        }
       }
+        this.createInBoundCheck(formData);
     }
-      this.createInBoundCheck(formData);
-  }
 
+    onWBChange(code: string) {
+      this.detailForm.controls['outWeightBridgeID'].setValue(code);
+  }
   onFormSubmit(){
    this.spinner.show();
    const formData=this.detailForm.value;
