@@ -51,7 +51,8 @@ export class OutCheckComponent {
     this.optionForm = new FormGroup({
       fromDate: new FormControl(sessionStorage.getItem("ocfromDate")?sessionStorage.getItem("ocfromDate"):this.today,Validators.required),
       toDate: new FormControl(sessionStorage.getItem("octoDate")?sessionStorage.getItem("octoDate"):this.today,Validators.required),
-      yardID: new FormControl(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc").split(','):null,Validators.required),
+      yardID: new FormControl(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc"):null,Validators.required),
+      // yardID: new FormControl(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc").split(','):null,Validators.required),
     });
   }
 
@@ -61,7 +62,8 @@ export class OutCheckComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.yardList = result;
-        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc").split(','):null);
+        // this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc").split(','):null);
+        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc"):null);
         this.spinner.hide();
     });
   }
@@ -72,14 +74,14 @@ export class OutCheckComponent {
    const formData = this.optionForm.value;
    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-   let loc:any ="";
-   if(formData.yardID.length>0){
-    loc = this.formatParams(formData.yardID);
-   }
+  //  let loc:any ="";
+  //  if(formData.yardID.length>0){
+  //   loc = this.formatParams(formData.yardID);
+  //  }
     sessionStorage.setItem("ocfromDate", fromDate);
     sessionStorage.setItem("octoDate", toDate);
     sessionStorage.setItem("ocloc", formData.yardID);
-    this.service.getOutBoundCheckList(fromDate,toDate,loc)
+    this.service.getOutBoundCheckList(fromDate,toDate, formData.yardID)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.grid.dataSource= result;

@@ -10,6 +10,7 @@ import LoginComponent from './demo/authentication/login/login.component';
 import { AuthGuard } from './theme/shared/guards/auth.guard';
 import { MasterModule } from './master/master.module';
 import { ReportMtnModule } from './report-mtn/report-mtn.module';
+import { TmsInCheckProposalComponent } from './tms-operation/components/tms-in-check-proposal/tms-in-check-proposal.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -120,7 +121,18 @@ const routes: Routes = [
         path:'tms-operation/out-check',
         loadComponent:()=>import('./tms-operation/components/out-check/out-check.component').then((c)=>c.OutCheckComponent)
       },
-      
+      {
+        path:'tms-operation/tms-in-check-proposal',
+        loadComponent:()=>import('./tms-operation/components/tms-in-check-proposal/tms-in-check-proposal.component').then((c)=>c.TmsInCheckProposalComponent)
+      },
+      {
+        path:'tms-operation/tms-in-check-proposal-doc',
+        loadComponent:()=>import('./tms-operation/components/tms-in-check-proposal-doc/tms-in-check-proposal-doc.component').then((c)=>c.TmsInCheckProposalDocComponent)
+      },
+      {
+        path:'tms-operation/tms-in-check',
+        loadComponent:()=>import('./tms-operation/components/tms-in-check/tms-in-check.component').then((c)=>c.TmsInCheckComponent)
+      },
       {
         path:'master/waiting-area',
         loadComponent:()=>import('./master/components/waiting-area/waiting-area.component').then((c)=>c.WaitingAreaComponent)
@@ -149,7 +161,8 @@ const routes: Routes = [
         path:'report-mtn/truck-in',
         loadComponent:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
       },
-      
+
+
       // {
       //   path: 'typography',
       //   loadComponent: () => import('./demo/ui-component/typography/typography.component')

@@ -80,9 +80,9 @@ export class OutCheckDocComponent  {
     status:new FormControl(''),
     outboundWeight:new FormControl(false),
     outWeightBridgeID: new FormControl(''),
+    groupName: new FormControl(''),
     });
 
-    this.getCategoryList();
     this.getLocationList();
     if(this.id){
       this.getOutBoundCheckById();
@@ -138,8 +138,8 @@ export class OutCheckDocComponent  {
     });
   }
 
-  getCategoryList(){
-     this.service.getCategoryList()
+  getCategoryList(type:string){
+     this.service.getCategoryList(type)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.pcCodeList = result;
@@ -228,6 +228,7 @@ export class OutCheckDocComponent  {
     onCardChange(id:string){
      const card = this.cardList.filter(x=>x.cardNo==id);
      if(card){
+      this.getCategoryList(card[0].groupName);
       this.detailForm.controls['inRegNo'].setValue(card[0].inRegNo?card[0].inRegNo:null);
       this.detailForm.controls['truckVehicleRegNo'].setValue(card[0].truckVehicleRegNo?card[0].truckVehicleRegNo:null);
       this.detailForm.controls['driverLicenseNo'].setValue(card[0].driverLicenseNo?card[0].driverLicenseNo:null);
@@ -241,6 +242,8 @@ export class OutCheckDocComponent  {
       this.detailForm.controls['customer'].setValue(card[0].customer?card[0].customer:null);
       this.detailForm.controls['outboundWeight'].setValue(card[0].outboundWeight?card[0].outboundWeight:null);
       this.detailForm.controls['outWeightBridgeID'].setValue(card[0].outWeightBridgeID?card[0].outWeightBridgeID:null);
+      this.detailForm.controls['groupName'].setValue(card[0].groupName?card[0].groupName:null);
+
      }
     }
 

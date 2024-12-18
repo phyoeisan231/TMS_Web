@@ -60,10 +60,18 @@ export const NavigationItems: NavigationItem[] = [
           },
           {
             id: '39',
+            title: 'TMS Proposal',
+            type: 'item',
+            classes: 'nav-item',
+            url: 'tms-operation/tms-in-check-proposal',
+            icon: 'left-circle'
+          },
+          {
+            id: '44',
             title: 'TMS',
             type: 'item',
             classes: 'nav-item',
-            url: 'tms-operation/in-check',
+            url: 'tms-operation/tms-in-check',
             icon: 'left-circle'
           },
         ]
@@ -122,7 +130,7 @@ export const NavigationItems: NavigationItem[] = [
       },
     ]
   },
-  
+
   {
     id: '24',
     title: 'Report',
@@ -184,7 +192,7 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
 
-  
+
   {
     id:'43',
     title:'Report Mtn',
@@ -614,4 +622,4 @@ export const NavigationItems: NavigationItem[] = [
   //   ]
   // }
 ];
-//42
+//44

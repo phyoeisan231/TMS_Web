@@ -286,7 +286,7 @@ export class ProposalComponent {
       this.jobTypeList=[];
       this.jobTypeList=['WH Pick Up','Bonded Delivery','Bonded Transport','Import','Export']
     }
-    else{
+    else{//Rail
       this.jobTypeList=[];
       this.jobTypeList=['Rail Delivery','Rail Pick Up'];
     }
