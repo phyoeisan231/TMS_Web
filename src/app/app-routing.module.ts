@@ -11,6 +11,7 @@ import { AuthGuard } from './theme/shared/guards/auth.guard';
 import { MasterModule } from './master/master.module';
 import { ReportMtnModule } from './report-mtn/report-mtn.module';
 import { TmsInCheckProposalComponent } from './tms-operation/components/tms-in-check-proposal/tms-in-check-proposal.component';
+import { WServiceBillComponent } from './report-mtn/components/wservice-bill/wservice-bill.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -153,14 +154,15 @@ const routes: Routes = [
         path:'master/operation-area',
         loadComponent:()=>import('./master/components/operation-area/operation-area.component').then((c)=>c.OperationAreaComponent)
       },
-      // {
-      //   path:'report-mtn/truck-in',
-      //   loadChildren:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
-      // }
+      
       {
         path:'report-mtn/truck-in',
         loadComponent:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
       },
+      {
+        path:'report-mtn/weight-bill',
+        loadComponent:()=>import('./report-mtn/components/wservice-bill/wservice-bill.component').then((c)=>WServiceBillComponent)
+      }
 
 
       // {

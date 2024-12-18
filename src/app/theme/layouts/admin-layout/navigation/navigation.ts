@@ -128,6 +128,14 @@ export const NavigationItems: NavigationItem[] = [
         url: 'report-mtn/truck-in',
         icon: 'left-circle'
       },
+      {
+        id:'44',
+        title:'Weight-Service-Bill',
+        type:'item',
+        classes:'nav-item',
+        url:'report-mtn/weight-bill',
+        icon:'left-circle'
+      },
     ]
   },
 
