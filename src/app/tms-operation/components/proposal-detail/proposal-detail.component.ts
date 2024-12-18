@@ -131,16 +131,6 @@ export class ProposalDetailComponent {
     });
   }
 
-  createFormGroup(data: any): FormGroup {
-    return new FormGroup({
-      inRegNo:new FormControl(data.inRegNo),
-      docCode:new FormControl(data.docCode),
-      docName: new FormControl(data.docName),
-      checkStatus: new FormControl(data.checkStatus),
-    });
-  }
-
-
     actionBegin(args: SaveEventArgs): void {
       if (args.requestType === 'delete') {
         args.cancel = true;
@@ -250,12 +240,12 @@ export class ProposalDetailComponent {
       }
     }
 
-    onTruckChange(truckNo:string){
-      let truckInfo=this.truckList.filter(t=>t.truckNo==truckNo);
-      this.rglTruckForm.controls['driverName'].setValue(truckInfo[0].driverName);
-      this.rglTruckForm.controls['driverContact'].setValue(truckInfo[0].driverContact);
-      this.rglTruckForm.controls['truckAssignId'].setValue(truckInfo[0].regId);
-    }
+    // onTruckChange(truckNo:string){
+    //   let truckInfo=this.truckList.filter(t=>t.truckNo==truckNo);
+    //   this.rglTruckForm.controls['driverName'].setValue(truckInfo[0].driverName);
+    //   this.rglTruckForm.controls['driverContact'].setValue(truckInfo[0].driverContact);
+    //   this.rglTruckForm.controls['truckAssignId'].setValue(truckInfo[0].regId);
+    // }
 
     // onCusTruckChange(truckNo:string){
     //   let truckInfo=this.cusTruckList.filter(t=>t.vehicleRegNo==truckNo);

@@ -27,6 +27,7 @@ export class ProposalComponent {
   // { text: "AssignIn", tooltipText: "AssignIn", prefixIcon: "e-icons e-circle-add", id: "assignIn" },
   // { text: "Customer", tooltipText: "Customer", prefixIcon: "e-icons e-circle-add", id: "customer" },
   { text: "Truck Details", tooltipText: "Truck Details", prefixIcon: "e-icons e-selection", id: "detail" },
+  { text: "JobDone Import", tooltipText: "JobDone Import", prefixIcon: "e-icons e-selection", id: "import" },
   'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
 
@@ -237,7 +238,7 @@ export class ProposalComponent {
      });
     }
 
-    if (args.item.id === 'detail' || args.item.id==='edit') {
+    if (args.item.id === 'detail' || args.item.id==='edit' || args.item.id==='import') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
         Swal.fire('TMS Proposal', "Please select one row!", 'warning');
@@ -252,10 +253,13 @@ export class ProposalComponent {
           this.router.navigate(["/tms-operation/proposal-detail"], { queryParams: { id: id}});
           return;
         }
+        if(args.item.id==='import'){
+          //this.router.navigate(["/tms-operation/proposal-form"],{ queryParams: { id: id}});
+        }
         if(args.item.id==='edit'){
           this.router.navigate(["/tms-operation/proposal-form"],{ queryParams: { id: id}});
-
         }
+
       }
     }
   }

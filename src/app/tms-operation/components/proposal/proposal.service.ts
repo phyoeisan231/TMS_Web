@@ -20,9 +20,6 @@ export class ProposalService {
     return this.http.get<any>(environment.url + 'TMSProposal/GetRailDailyJobList/?jobType=' + jobType+'&yard='+yard);
   }
 
-  // getJobCodeList(id:string){
-  //   return this.http.get<any>(environment.url + 'TMSProposal/GetJobCodeList/?jobType=' + id);
-  // }
 
   getWHDailyJobList(jobType:string,yard:string){
     return this.http.get<any>(environment.url + 'TMSProposal/GetWHDailyJobList/?jobType=' + jobType+'&yard='+yard);
@@ -56,9 +53,9 @@ export class ProposalService {
     return this.http.get<any>(environment.url + 'Master/GetTruckList');
   }
 
-  getCusDriverList(id: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetDriverDataList/?id=' + id);
-  }
+  // getCusDriverList(id: string) {
+  //   return this.http.get<any>(environment.url + 'TMSOperation/GetDriverDataList/?id=' + id);
+  // }
 
   deleteProposal(id: any) {
     return this.http.delete<any>(environment.url + 'TMSProposal/DeleteProposal/?id=' + id, httpOptions);
