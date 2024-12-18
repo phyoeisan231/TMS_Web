@@ -12,6 +12,7 @@ import { FilteringEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 import { EmitType } from '@syncfusion/ej2/base';
 import { TmsOperationModule } from '../../tms-operation.module';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import moment from 'moment';
 
 @Component({
   selector: 'app-in-check-doc',
@@ -92,7 +93,6 @@ export class InCheckDocComponent {
     cardNo:new FormControl(''),
     remark:new FormControl(''),
     customer:new FormControl(''),
-    status:new FormControl(''),
     isUseWB:new FormControl(false),
     groupName:new FormControl('',Validators.required),
     });
@@ -246,6 +246,7 @@ export class InCheckDocComponent {
       formData.documentList = this.docList;
       formData.inRegNo=0;
       formData.createdUser = localStorage.getItem('currentUser');
+      formData.inCheckDateTime = moment(formData.inCheckDateTime).format('MM/DD/YYYY HH:mm:ss');
       if(this.transporterList){
         const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
         if(transporter.length>0){
@@ -275,7 +276,7 @@ export class InCheckDocComponent {
     }
 
     onWBChange(code: string) {
-      this.detailForm.controls['outWeightBridgeID'].setValue(code);
+      this.cardForm.controls['outWeightBridgeID'].setValue(code);
   }
   onFormSubmit(){
    this.spinner.show();

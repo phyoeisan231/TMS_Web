@@ -53,21 +53,21 @@
               </div>
               <div class="form-group col-md-3">
                 <label  class="font-weight-normal requiredfield">Category</label>
-                <ejs-textbox *ngIf="this.id" formControlName="inPCCode" [readonly]="true" tabindex="4" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="inPCCode" tabindex="4" [dataSource]='pcCodeList' [fields]="{ text: 'pcCode', value: 'pcCode' }" allowFiltering="true" (change)="onCategoryChange($event.value)" placeholder="Select One"></ejs-dropdownlist>
+                <ejs-textbox  formControlName="inPCCode" [readonly]="true" tabindex="4" ></ejs-textbox>
+                <!-- <ejs-dropdownlist *ngIf="!this.id" formControlName="inPCCode" tabindex="4" [dataSource]='pcCodeList' [fields]="{ text: 'pcCode', value: 'pcCode' }" allowFiltering="true" (change)="onCategoryChange($event.value)" placeholder="Select One"></ejs-dropdownlist>
                 <div [style.visibility]='validateControl("inPCCode")? "visible": "hidden"'>
                   <label class="e-error" style="display: block;">*Category is required</label>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="row">
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal requiredfield">Operation Area</label>
-                <ejs-textbox *ngIf="this.id" formControlName="areaID" [readonly]="true" tabindex="5" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="areaID" tabindex="5" [dataSource]='areaList' [fields]="{ text: 'areaID', value: 'areaID' }" placeholder="Select One" ></ejs-dropdownlist>
+                <ejs-textbox formControlName="areaID" [readonly]="true" tabindex="5" ></ejs-textbox>
+                <!-- <ejs-dropdownlist *ngIf="!this.id" formControlName="areaID" tabindex="5" [dataSource]='areaList' [fields]="{ text: 'areaID', value: 'areaID' }" placeholder="Select One" ></ejs-dropdownlist>
                 <div [style.visibility]='validateControl("areaID")? "visible": "hidden"'>
                   <label class="e-error" style="display: block;">*Operation Area is required</label>
-                </div>
+                </div> -->
               </div>
               <div class="form-group col-md-4">
                 <label class="font-weight-normal requiredfield">Check Date Time</label>
@@ -76,22 +76,22 @@
                   <label class="e-error" style="display: block;">*Check Date Time is required</label>
                 </div>
                </div>
-              <div class="form-group col-md-4">
-                <label  class="font-weight-normal requiredfield">Truck Type</label>
-                <ejs-textbox *ngIf="this.id" formControlName="truckType" [readonly]="true" tabindex="7" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id"  formControlName="truckType" tabindex="7" placeholder="Select One" [dataSource]='truckTypeList'  (change)="onTruckTypeChange($event.value)"></ejs-dropdownlist>
-                <div [style.visibility]='validateControl("truckType")? "visible": "hidden"'>
-                  <label class="e-error" style="display: block;">*Truck Type is required</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-md-4">
+               <div class="form-group col-md-4">
                 <label  class="font-weight-normal requiredfield">Truck No</label>
                 <ejs-textbox *ngIf="this.id" formControlName="truckVehicleRegNo" [readonly]="true" tabindex="8" ></ejs-textbox>
                 <ejs-dropdownlist *ngIf="!this.id" formControlName="truckVehicleRegNo" tabindex="8" placeholder="Enter some keys" [dataSource]='truckList' [fields]="{ text: 'vehicleRegNo', value: 'vehicleRegNo' }" (change)="onTruckChange($event.value)" allowFiltering="true" (filtering)='onTruckFiltering($event)'></ejs-dropdownlist>
                 <div [style.visibility]='validateControl("truckVehicleRegNo")? "visible": "hidden"'>
                   <label class="e-error" style="display: block;">*Truck No is required</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal requiredfield">Truck Type</label>
+                <ejs-textbox *ngIf="this.id" formControlName="truckType" [readonly]="true" tabindex="7" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id"  formControlName="truckType" tabindex="7" placeholder="Select One" [dataSource]='truckTypeList'></ejs-dropdownlist>
+                <div [style.visibility]='validateControl("truckType")? "visible": "hidden"'>
+                  <label class="e-error" style="display: block;">*Truck Type is required</label>
                 </div>
               </div>
               <div class="form-group col-md-4">
