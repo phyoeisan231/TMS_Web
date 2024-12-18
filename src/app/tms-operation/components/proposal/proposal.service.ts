@@ -76,4 +76,9 @@ export class ProposalService {
     return this.http.delete<any>(environment.url + 'TMSProposal/DeleteProposalDetail/?id=' + id+'&truckNo='+truckNo, httpOptions);
   }
 
+  completeProposal(id: any,user:any) {
+    return this.http.put<any>(environment.url + 'TMSProposal/CompleteProposal/?id=' + id+'&user='+user, httpOptions);
+  }
+
+
 }

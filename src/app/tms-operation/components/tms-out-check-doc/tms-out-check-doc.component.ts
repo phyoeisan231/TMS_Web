@@ -247,6 +247,7 @@ pageSettings: PageSettingsModel = { pageSize: 10 };
       this.detailForm.controls['truckType'].setValue(card[0].truckType?card[0].truckType:null);
       this.detailForm.controls['trailerVehicleRegNo'].setValue(card[0].trailerVehicleRegNo?card[0].trailerVehicleRegNo:null);
       this.detailForm.controls['customer'].setValue(card[0].customer?card[0].customer:null);
+      this.detailForm.controls['groupName'].setValue(card[0].groupName?card[0].groupName:null);
       this.detailForm.controls['outboundWeight'].setValue(card[0].outboundWeight?card[0].outboundWeight:null);
       this.detailForm.controls['outWeightBridgeID'].setValue(card[0].outWeightBridgeID?card[0].outWeightBridgeID:null);
       this.detailForm.controls['outContainerType'].setValue(card[0].inContainerType?card[0].inContainerType:null);
