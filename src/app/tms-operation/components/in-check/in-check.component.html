@@ -40,7 +40,8 @@
                       <div class="row">
                         <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
                         <div class="col-sm-8 p-0">
-                          <ejs-multiselect formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
+                          <ejs-dropdownlist formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="3" ></ejs-dropdownlist>
+                          <!-- <ejs-multiselect formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="3" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect> -->
                         </div>
                       </div>
                     </div>
@@ -68,6 +69,7 @@
                 <e-column field='driverLicenseNo' headerText="Driver License No" width="150"></e-column>
                 <e-column field='driverContactNo' headerText="Driver Contact No" width="150"></e-column>
                 <e-column field='inPCCode' headerText="Category" width="100"></e-column>
+                <e-column field='groupName' headerText="Group Name" width="150"></e-column>
                 <e-column field='cardNo' headerText="Card No" width="100"></e-column>
                 <e-column field='customer' headerText="Customer" width="150"></e-column>
                 <e-column field='inCheckDateTime' headerText='Check Date Time' width="150"></e-column>
@@ -80,7 +82,7 @@
                 <e-column field='truckType' headerText="Truck Type" width="100"></e-column>
                 <e-column field='inWeightBridgeID' headerText="In WeightBridge" width="100"></e-column>
                 <e-column field='outWeightBridgeID' headerText="Out WeightBridge" width="100"></e-column>
-                <e-column field='wbOption' headerText="WB Option" width="100"></e-column>
+                <e-column field='isUseWB' headerText="Use WB?" width="100"></e-column>
                 <e-column field='inWBBillOption' headerText="In WB BillOption" width="100"></e-column>
                 <e-column field='outWBBillOption' headerText="Out WB BillOption" width="100"></e-column>
                 <e-column field='status' headerText="Status" width="100"></e-column>

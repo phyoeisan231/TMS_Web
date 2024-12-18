@@ -5,7 +5,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
           <li class="breadcrumb-item">Out Check</li>
-          <li class="breadcrumb-item active text-primary">Out Check(ICD/Other)</li>
+          <li class="breadcrumb-item active text-primary">Out Check(TMS)</li>
         </ol>
       </div>
     </div>
@@ -15,11 +15,11 @@
           <form [formGroup]="detailForm">
             <div class="row">
               <div class="col-md-6 col-lg-6 text-left">
-                <h5 class="card-title">Out Check(ICD/Other)</h5>
+                <h5 class="card-title">Out Check(TMS)</h5>
               </div>
               <div class="col-md-6 col-lg-6 text-end">
                 <button *ngIf="!this.id" type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!detailForm.valid"  (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Save</button>
-                <a  class="btn btn-sm btn-secondary m-1"  href="/tms-operation/out-check">
+                <a  class="btn btn-sm btn-secondary m-1"  href="/tms-operation/tms-out-check">
                   <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
                 </a>
               </div>
@@ -113,6 +113,38 @@
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Remark</label>
                 <ejs-textbox formControlName="remark" [multiline]="true" tabindex="15" [readonly]="this.id"></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Container Type</label>
+                <ejs-dropdownlist formControlName="outContainerType" tabindex="16" [dataSource]='containerTypeList' [readonly]="this.id" placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Container Size</label>
+                <ejs-dropdownlist formControlName="outContainerSize" tabindex="17" [dataSource]='containerSizeList'[readonly]="this.id" placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Container No</label>
+                <ejs-textbox formControlName="outContainerNo" [multiline]="true" tabindex="18" [readonly]="this.id"></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">Job Dept Type</label>
+                <ejs-textbox  formControlName="jobDept" [readonly]="true" tabindex="19" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">Job Type</label>
+                <ejs-textbox  formControlName="jobType" [readonly]="true" tabindex="20" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">Job Code</label>
+                <ejs-textbox  formControlName="jobCode" [readonly]="true" tabindex="21" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">BL No.</label>
+                <ejs-textbox  formControlName="blNo" [readonly]="this.id" tabindex="22" ></ejs-textbox>
               </div>
             </div>
             <!-- <div class="row">

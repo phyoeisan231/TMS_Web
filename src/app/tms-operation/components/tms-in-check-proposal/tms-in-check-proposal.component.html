@@ -1,0 +1,88 @@
+<section class="content mt-0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+          <li class="breadcrumb-item">In Check</li>
+          <li class="breadcrumb-item active text-primary">TMS Proposal</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="card-title">TMS Proposal</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12 text-left">
+              <Form [formGroup]="optionForm">
+                <div class="row btns mb-2">
+                  <div class="col-lg-4 col-12">
+                    <div class="row">
+                      <label for="fromDate" class="col-sm-4 col-form-label requiredfield">Date:</label>
+                      <div class="col-sm-8 p-0">
+                          <ejs-datepicker formControlName="fromDate" [format]="formatfilter" floatLabelType='Always'>
+                          </ejs-datepicker>
+                      </div>
+                     </div>
+                    </div>
+                    <div class="col-lg-5 col-12">
+                     <div class="row">
+                       <label for="toDate" class="col-sm-4 col-form-label requiredfield">To:</label>
+                        <div class="col-sm-7 p-0">
+                          <ejs-datepicker formControlName="toDate"   [format]="formatfilter"   floatLabelType='Always'>
+                           </ejs-datepicker>
+                         </div>
+                       </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-lg-4 col-12">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
+                      <div class="col-sm-8 p-0">
+                        <ejs-dropdownlist formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="3" ></ejs-dropdownlist>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-5 col-12">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label requiredfield">Dept Type:</label>
+                      <div class="col-sm-8 p-0">
+                        <ejs-multiselect formControlName="deptType" [dataSource]='deptTypeList'  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-12 justify-content-end">
+                    <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
+                      <i class="fas fa-eye"></i> &nbsp; View
+                    </button>
+                  </div>
+                </div>
+              </Form>
+            </div>
+          </div>
+          <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+            <e-columns>
+              <e-column field='yard' headerText="Yard" width="150"></e-column>
+              <e-column field='estDate' headerText='Estimate Date' width="130"></e-column>
+              <e-column field='jobCode' headerText="JobCode" width="100"></e-column>
+              <e-column field='jobDept' headerText="JobDept" width="200"></e-column>
+              <e-column field='jobType' headerText="JobType" width="100"></e-column>
+              <e-column field='noOfTruck' headerText="NoOfTruck" width="100"></e-column>
+              <e-column field='noOfTEU' headerText="NoOfTEU" width="100"></e-column>
+              <e-column field='noOfFEU' headerText="NoOfFEU" width="100"></e-column>
+              <e-column field='lclQty' headerText="LCLQty" width="100"></e-column>
+              <e-column field='customerName' headerText="Customer Name" width="250"></e-column>
+              <e-column field='companyName' headerText="Company" width="250"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+

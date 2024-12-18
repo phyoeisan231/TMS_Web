@@ -4,7 +4,7 @@
       <div class="col-md-12 ">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
-          <li class="breadcrumb-item active text-primary">Out Check(ICD/Other)</li>
+          <li class="breadcrumb-item active text-primary">In Check(TMS)</li>
         </ol>
       </div>
     </div>
@@ -13,7 +13,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12 col-lg-12 text-left">
-                <h5 class="card-title">Out Check(ICD/Other)</h5>
+                <h5 class="card-title">In Check(TMS)</h5>
                 <Form [formGroup]="optionForm">
                   <div class="row btns mb-2">
                     <div class="col-lg-5 col-12">
@@ -40,10 +40,10 @@
                       <div class="row">
                         <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
                         <div class="col-sm-8 p-0">
-                          <ejs-dropdownlist formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="4" ></ejs-dropdownlist>
+                          <ejs-dropdownlist formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="3" ></ejs-dropdownlist>
+                          <!-- <ejs-multiselect formControlName="yardID" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  tabindex="3" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect> -->
                         </div>
                       </div>
-                      <!-- [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true -->
                     </div>
                     <div class="col-lg-2 col-12 justify-content-end">
                       <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
@@ -65,29 +65,36 @@
                   </div>
                   </ng-template>
                 </e-column>
-                <e-column field='driverName' headerText="Driver Name" width="100"></e-column>
+                <e-column field='driverName' headerText="Driver Name" width="150"></e-column>
                 <e-column field='driverLicenseNo' headerText="Driver License No" width="150"></e-column>
                 <e-column field='driverContactNo' headerText="Driver Contact No" width="150"></e-column>
-                <e-column field='outPCCode' headerText="Category" width="100"></e-column>
+                <e-column field='inPCCode' headerText="Category" width="100"></e-column>
                 <e-column field='groupName' headerText="Group Name" width="150"></e-column>
                 <e-column field='cardNo' headerText="Card No" width="100"></e-column>
                 <e-column field='customer' headerText="Customer" width="150"></e-column>
-                <e-column field='outCheckDateTime' headerText='Check Date Time' width="150"></e-column>
-                <e-column field='outYardID' headerText="Yard" width="150"></e-column>
-                <e-column field='outGateID' headerText="Gate" width="100"></e-column>
+                <e-column field='inCheckDateTime' headerText='Check Date Time' width="150"></e-column>
+                <e-column field='inYardID' headerText="Yard" width="150"></e-column>
+                <e-column field='inGateID' headerText="Gate" width="100"></e-column>
                 <e-column field='areaID' headerText="Area" width="100"></e-column>
-                <e-column field='outType' headerText="Type" width="100"></e-column>
-                <e-column field='outCargoType' headerText="CargoType" width="100"></e-column>
-                <e-column field='outCargoInfo' headerText="Cargo Info" width="100"></e-column>
+                <e-column field='inType' headerText="Type" width="100"></e-column>
+                <e-column field='inCargoType' headerText="CargoType" width="100"></e-column>
+                <e-column field='inCargoInfo' headerText="Cargo Info" width="100"></e-column>
                 <e-column field='truckType' headerText="Truck Type" width="100"></e-column>
+                <e-column field='inWeightBridgeID' headerText="In WeightBridge" width="100"></e-column>
                 <e-column field='outWeightBridgeID' headerText="Out WeightBridge" width="100"></e-column>
+                <e-column field='isUseWB' headerText="Use WB?" width="100"></e-column>
+                <e-column field='inWBBillOption' headerText="In WB BillOption" width="100"></e-column>
+                <e-column field='outWBBillOption' headerText="Out WB BillOption" width="100"></e-column>
                 <e-column field='status' headerText="Status" width="100"></e-column>
                 <e-column field='remark' headerText="Remark" width="100"></e-column>
-                <e-column field='outRegNo' headerText='Out Check No' [isPrimaryKey]="true" width="90" [visible]="false"></e-column>
+                <e-column field='inRegNo' headerText='In Check No' [isPrimaryKey]="true" width="90" [visible]="false"></e-column>
+                <e-column field='propNo' headerText='Prop No'  width="90" [visible]="false"></e-column>
               </e-columns>
             </ejs-grid>
             <div class="mt-3">
               <span class="mx-3">Status:</span>
+              <span class="mx-3"><i class="fa fa-square text-primary font-small-2 mr-1"></i> In(Check)</span>
+              <span class="mx-3"><i class="fa fa-square text-purple font-small-2 mr-1"></i> In</span>
               <span class="mx-3"><i class="fa fa-square text-mediumSeaGreen font-small-2 mr-1"></i> Out(Check)</span>
               <span class="mx-3"><i class="fa fa-square text-gray font-small-2 mr-1"></i> Out</span>
             </div>

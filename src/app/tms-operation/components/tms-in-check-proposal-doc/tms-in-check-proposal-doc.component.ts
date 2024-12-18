@@ -1,26 +1,26 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
+import { FilteringEventArgs } from '@syncfusion/ej2-angular-dropdowns';
+import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
-import { catchError, debounceTime,of, Subject, switchMap } from 'rxjs';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { EmitType } from '@syncfusion/ej2/base';
+import { catchError, debounceTime, of, Subject, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
-import { InCheckService } from '../in-check/in-check.service';
+import { TmsInCheckPorposalService } from '../tms-in-check-proposal/tms-in-check-proposal.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FilteringEventArgs } from '@syncfusion/ej2-angular-dropdowns';
-import { EmitType } from '@syncfusion/ej2/base';
 import { TmsOperationModule } from '../../tms-operation.module';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 @Component({
-  selector: 'app-in-check-doc',
+  selector: 'app-tms-in-check-proposal-doc',
   standalone: true,
   imports: [TmsOperationModule],
-  templateUrl: './in-check-doc.component.html',
-  styleUrl: './in-check-doc.component.scss'
+  templateUrl: './tms-in-check-proposal-doc.component.html',
+  styleUrl: './tms-in-check-proposal-doc.component.scss'
 })
-export class InCheckDocComponent {
+export class TmsInCheckProposalDocComponent {
   pageSettings: PageSettingsModel = { pageSize: 10 };
   editSettings: EditSettingsModel = { allowEditing: false, allowAdding: false, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = [{ text: "Checked", tooltipText: "Checked", prefixIcon: "e-icons e-check", id: "check" },'Search'];
@@ -46,24 +46,25 @@ export class InCheckDocComponent {
   docList:any[]=[];
   cardList:any[]=[];
   truckTypeList:any[]=['RGL','Customer','Supplier'];
-  wbOptionList:any[]=['None','Single','Both'];
   billOptionList:any[]=['None','Credit','Cash'];
+  containerTypeList:any[]=["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
+  containerSizeList:any[]=[20,40,45];
   endDate : Date = new Date();
   type:string;
   isWb:boolean=false;
-  gpName:string;
+  gpName:string='TMS';
   yard:string;
   today : Date = new Date();
+  poNo : any;
   public data: Object[];
   public placeholder: string = 'Select One';
   public filterPlaceholder: string = 'Search';
-  groupNameList:any[]=["ICD","Others"];
   private searchTruckTerms = new Subject<string>();
   private searchDriverTerms = new Subject<string>();
   @ViewChild('cardModel') cardModel: DialogComponent;
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
-    private service: InCheckService,
+    private service: TmsInCheckPorposalService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
@@ -72,6 +73,7 @@ export class InCheckDocComponent {
 
   ngOnInit(){
     this.id = this.route.snapshot.queryParams['id'];
+    this.poNo = this.route.snapshot.queryParams['poNo'];
     this.detailForm = new FormGroup({
     inRegNo: new FormControl(''),
     inCheckDateTime: new FormControl(this.today, Validators.required),
@@ -81,6 +83,7 @@ export class InCheckDocComponent {
     truckVehicleRegNo: new FormControl('',Validators.required),
     driverLicenseNo: new FormControl('',Validators.required),
     areaID: new FormControl('',Validators.required),
+    propNo:new FormControl(this.poNo,Validators.required),
     driverName: new FormControl(''),
     transporterID: new FormControl(''),
     transporterName: new FormControl(''),
@@ -93,8 +96,15 @@ export class InCheckDocComponent {
     remark:new FormControl(''),
     customer:new FormControl(''),
     status:new FormControl(''),
-    isUseWB:new FormControl(false),
-    groupName:new FormControl('',Validators.required),
+    isUseWB:new FormControl(true),
+    groupName:new FormControl(this.gpName,Validators.required),
+    inContainerType:new FormControl(''),
+    inContainerSize:new FormControl(''),
+    inContainerNo:new FormControl(''),
+    jobDept:new FormControl(''),
+    jobCode:new FormControl(''),
+    jobType:new FormControl(''),
+    blNo:new FormControl(''),
     });
 
     this.cardForm = new FormGroup({
@@ -112,11 +122,18 @@ export class InCheckDocComponent {
     if(this.id){
       this.getInBoundCheckById();
     }
+    else{
+      if(this.poNo){
+        this.getTMSProposalById();
+        this.getCategoryList(this.gpName);
+      }
+    }
+
     this.searchTruckTerms.pipe(
       debounceTime(300),
-      switchMap((term: string) => this.service.getTruckList(term,this.type))
+      switchMap((term: string) => this.service.getTruckList(term,this.poNo))
     ).subscribe(data => {
-      if(this.type){
+      if(this.poNo){
         this.truckList  = data;
       }
       else{
@@ -235,6 +252,25 @@ export class InCheckDocComponent {
         this.spinner.hide();
   }
 
+  getTMSProposalById(){
+    this.spinner.show();
+    this.service.getTMSProposalById(this.poNo)
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.truckList=result.detailList;
+        this.detailData = result;
+
+        for (let key in this.detailData) {
+          if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
+            if (key != 'detailList') {
+              this.detailForm.controls[key].setValue(this.detailData[key]);
+            }
+          }
+         }
+        });
+        this.spinner.hide();
+  }
+
   onFormAssignCard(){
     const formData=this.detailForm.value;
     const cardForm = this.cardForm.value;
@@ -278,9 +314,6 @@ export class InCheckDocComponent {
    this.spinner.show();
    const formData=this.detailForm.value;
    const doc = this.docList.filter(x=>x.checkStatus!=true);
-   if(this.gpName=='ICD'){
-    formData.isUseWB=false;
-   }
    if(doc.length>0 && this.docList.length>0){
     Swal.fire('In Check Document', 'Please check document.', 'warning');
    }
@@ -291,10 +324,11 @@ export class InCheckDocComponent {
       else{
         this.isWb=false
       }
+
       if(this.isWb){
         this.getWBDataList(formData.inYardID)
       }
-      this.getCardList(formData.inYardID,this.gpName);
+      this.getCardList(formData.inYardID,'TMS');
       this.cardModel.show();
    }
    this.spinner.hide();
@@ -312,7 +346,7 @@ export class InCheckDocComponent {
     .subscribe((result) => {
       if (result.status == true) {
         this.showSuccess(result.messageContent);
-        this.router.navigate(["/tms-operation/in-check"]);
+        this.router.navigate(["/tms-operation/tms-in-check"]);
       } else {
         this.spinner.hide();
         Swal.fire('In Check Document', result.messageContent, 'error');
@@ -335,11 +369,6 @@ export class InCheckDocComponent {
     this.getDocumentSettingList(code);
    }
 
-   onGroupNameChange(code: string) {
-    this.gpName=code;
-    this.getCategoryList(code);
-    this.getAreaList(this.yard,code);
-   }
 
 
    onTruckTypeChange(code: string) {

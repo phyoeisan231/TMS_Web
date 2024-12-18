@@ -1,26 +1,26 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
-import { TmsOperationModule } from '../../tms-operation.module';
-import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FilteringEventArgs } from '@syncfusion/ej2-angular-dropdowns';
-import { EmitType } from '@syncfusion/ej2/base';
-import { catchError, debounceTime, forkJoin, of, Subject, switchMap } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-import Swal from 'sweetalert2';
+import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
-import { OutCheckService } from '../out-check/out-check.service';
+import { EmitType } from '@syncfusion/ej2/base';
+import { catchError, debounceTime, of, Subject, switchMap } from 'rxjs';
+import Swal from 'sweetalert2';
+import { TmsOutCheckService } from '../tms-out-check/tms-out-check.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TmsOperationModule } from '../../tms-operation.module';
 
 @Component({
-  selector: 'app-out-check-doc',
+  selector: 'app-tms-out-check-doc',
   standalone: true,
   imports: [TmsOperationModule],
-  templateUrl: './out-check-doc.component.html',
-  styleUrl: './out-check-doc.component.scss'
+  templateUrl: './tms-out-check-doc.component.html',
+  styleUrl: './tms-out-check-doc.component.scss'
 })
-export class OutCheckDocComponent  {
-  pageSettings: PageSettingsModel = { pageSize: 10 };
+export class TmsOutCheckDocComponent {
+pageSettings: PageSettingsModel = { pageSize: 10 };
   editSettings: EditSettingsModel = { allowEditing: false, allowAdding: false, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = [{ text: "Checked", tooltipText: "Checked", prefixIcon: "e-icons e-check", id: "check" },'Search'];
   lines: GridLine = 'Both';
@@ -32,6 +32,8 @@ export class OutCheckDocComponent  {
   detailData:any;
   cargoTypeList:any[]=['Laden','MT'];
   typeList:string[]=['FCL','LCL'];
+  containerTypeList:any[]=["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
+  containerSizeList:any[]=[20,40,45];
   yardList:any[]=[];
   gateList:any[]=[];
   pcCodeList:any[]=[];
@@ -46,7 +48,7 @@ export class OutCheckDocComponent  {
   private searchCardTerms = new Subject<string>();
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
-    private service: OutCheckService,
+    private service: TmsOutCheckService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
@@ -81,6 +83,13 @@ export class OutCheckDocComponent  {
     outboundWeight:new FormControl(false),
     outWeightBridgeID: new FormControl(''),
     groupName: new FormControl(''),
+    outContainerType:new FormControl(''),
+    outContainerSize:new FormControl(''),
+    outContainerNo:new FormControl(''),
+    jobDept:new FormControl(''),
+    jobCode:new FormControl(''),
+    jobType:new FormControl(''),
+    blNo:new FormControl(''),
     });
 
     this.getLocationList();
@@ -98,7 +107,6 @@ export class OutCheckDocComponent  {
   }
 
   public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
-
   }
 
 
@@ -206,7 +214,7 @@ export class OutCheckDocComponent  {
     .subscribe((result) => {
       if (result.status == true) {
         this.showSuccess(result.messageContent);
-        this.router.navigate(["/tms-operation/out-check"]);
+        this.router.navigate(["/tms-operation/tms-out-check"]);
       } else {
         this.spinner.hide();
         Swal.fire('Out Check Document', result.messageContent, 'error');
@@ -224,7 +232,6 @@ export class OutCheckDocComponent  {
    }
 
 
-
     onCardChange(id:string){
      const card = this.cardList.filter(x=>x.cardNo==id);
      if(card){
@@ -240,10 +247,16 @@ export class OutCheckDocComponent  {
       this.detailForm.controls['truckType'].setValue(card[0].truckType?card[0].truckType:null);
       this.detailForm.controls['trailerVehicleRegNo'].setValue(card[0].trailerVehicleRegNo?card[0].trailerVehicleRegNo:null);
       this.detailForm.controls['customer'].setValue(card[0].customer?card[0].customer:null);
+      this.detailForm.controls['groupName'].setValue(card[0].groupName?card[0].groupName:null);
       this.detailForm.controls['outboundWeight'].setValue(card[0].outboundWeight?card[0].outboundWeight:null);
       this.detailForm.controls['outWeightBridgeID'].setValue(card[0].outWeightBridgeID?card[0].outWeightBridgeID:null);
-      this.detailForm.controls['groupName'].setValue(card[0].groupName?card[0].groupName:null);
-
+      this.detailForm.controls['outContainerType'].setValue(card[0].inContainerType?card[0].inContainerType:null);
+      this.detailForm.controls['outContainerSize'].setValue(card[0].inContainerSize?card[0].inContainerSize:null);
+      this.detailForm.controls['outContainerNo'].setValue(card[0].inContainerNo?card[0].inContainerNo:null);
+      this.detailForm.controls['jobDept'].setValue(card[0].jobDept?card[0].jobDept:null);
+      this.detailForm.controls['jobType'].setValue(card[0].jobType?card[0].jobType:null);
+      this.detailForm.controls['jobCode'].setValue(card[0].jobCode?card[0].jobCode:null);
+      this.detailForm.controls['blNo'].setValue(card[0].blNo?card[0].blNo:null);
      }
     }
 

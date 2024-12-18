@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
-import { OutCheckService } from './out-check.service';
+import { TmsOutCheckService } from './tms-out-check.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
@@ -12,14 +12,14 @@ import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { TmsOperationModule } from '../../tms-operation.module';
 
 @Component({
-  selector: 'app-out-check',
+  selector: 'app-tms-out-check',
   standalone: true,
   imports: [TmsOperationModule],
-  templateUrl: './out-check.component.html',
-  styleUrl: './out-check.component.scss'
+  templateUrl: './tms-out-check.component.html',
+  styleUrl: './tms-out-check.component.scss'
 })
-export class OutCheckComponent {
-  pageSettings: PageSettingsModel = { pageSize: 50 };
+export class TmsOutCheckComponent {
+pageSettings: PageSettingsModel = { pageSize: 50 };
   editSettings: EditSettingsModel = { allowEditing: false, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
   toolbar: any[] = [{ text: "Add", tooltipText: "Add", prefixIcon: "e-icons e-add", id: "detail" },
   'Delete','ExcelExport','Search'];
@@ -37,7 +37,7 @@ export class OutCheckComponent {
   @ViewChild('Grid') public grid: GridComponent;
    // end multi file upload
   constructor(
-    private service: OutCheckService,
+    private service: TmsOutCheckService,
     private spinner: NgxSpinnerService,
     private router: Router,
   ) {}
@@ -52,7 +52,6 @@ export class OutCheckComponent {
       fromDate: new FormControl(sessionStorage.getItem("ocfromDate")?sessionStorage.getItem("ocfromDate"):this.today,Validators.required),
       toDate: new FormControl(sessionStorage.getItem("octoDate")?sessionStorage.getItem("octoDate"):this.today,Validators.required),
       yardID: new FormControl(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc"):null,Validators.required),
-      // yardID: new FormControl(sessionStorage.getItem("ocloc")?sessionStorage.getItem("ocloc").split(','):null,Validators.required),
     });
   }
 
@@ -137,7 +136,7 @@ export class OutCheckComponent {
               this.loadTableData();
             } else {
               this.spinner.hide();
-              Swal.fire('Out Check(ICD/Other)', result.messageContent, 'error');
+              Swal.fire('Out Checkk(TMS)', result.messageContent, 'error');
             }
           });
       } else if (response.dismiss === Swal.DismissReason.cancel) {
@@ -150,18 +149,18 @@ export class OutCheckComponent {
 
   showSuccess(msg: string) {
     this.spinner.hide();
-    Swal.fire('Out Check(ICD/Other)', msg, 'success');
+    Swal.fire('Out Check(TMS)', msg, 'success');
   }
 
   showError(error: HttpErrorResponse) {
     this.spinner.hide();
-    Swal.fire('Out Check(ICD/Other)', error.statusText, 'error');
+    Swal.fire('Out Checkk(TMS)', error.statusText, 'error');
   }
 
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'OutCheckICDOReport.xlsx',
+        fileName:'OutCheckTMSReport.xlsx',
      });
     }
     if (args.item.id === 'detail') {
@@ -169,7 +168,7 @@ export class OutCheckComponent {
       if (selectedRecords.length == 0) {
         if (args.item.id === 'detail')
           {
-            this.router.navigate(["/tms-operation/out-check-doc"], { queryParams: { id: null}});
+            this.router.navigate(["/tms-operation/tms-out-check-doc"], { queryParams: { id: null}});
           }
       }
 
@@ -177,7 +176,7 @@ export class OutCheckComponent {
         const id = selectedRecords[0].outRegNo;
         if (args.item.id === 'detail')
         {
-          this.router.navigate(["/tms-operation/out-check-doc"], { queryParams: { id: id}});
+          this.router.navigate(["/tms-operation/tms-out-check-doc"], { queryParams: { id: id}});
         }
        return;
      }

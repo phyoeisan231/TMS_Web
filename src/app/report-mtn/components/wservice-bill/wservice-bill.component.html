@@ -1,0 +1,141 @@
+<section class="content mt-0">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+            <li class="breadcrumb-item active text-primary">Weight Service Bill</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+          <div class="card card-primary card-outline">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 col-lg-12 text-left">
+                  <h5 class="card-title">Weight Service Bill</h5>
+                  <Form [formGroup]="optionForm">
+                    <div class="row btns mb-2">
+                      <div class="col-lg-5 col-12">
+                        <div class="row">
+                          <label for="fromDate" class="col-sm-4 col-form-label requiredfield">Date:</label>
+                          <div class="col-sm-8 p-0">
+                              <ejs-datepicker formControlName="fromDate" [format]="formatfilter" floatLabelType='Always'>
+                              </ejs-datepicker>
+                          </div>
+                        </div>
+                        </div>
+                        <div class="col-lg-5 col-12">
+                         <div class="row">
+                           <label for="toDate" class="col-sm-4 col-form-label requiredfield">To:</label>
+                            <div class="col-sm-8 p-0">
+                              <ejs-datepicker formControlName="toDate"   [format]="formatfilter"   floatLabelType='Always'>
+                               </ejs-datepicker>
+                             </div>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                      <div class="col-lg-5 col-12">
+                        <div class="row">
+                          <label class="col-sm-4 col-form-label requiredfield">Gate:</label>
+                          <div class="col-sm-8 p-0">
+                            <ejs-multiselect
+                              formControlName="gateID"
+                              [dataSource]="gateList"
+                              [fields]="{ text: 'gateID', value: 'gateID' }"
+                              [mode]="mode"
+                              [selectAllText]="selectAllText"
+                              placeholder="Select Gate"
+                              tabindex="4"
+                              showSelectAll="true">
+                            </ejs-multiselect>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- [allowFiltering]="true"> -->
+  
+                      <!-- Status Field -->
+                      <!-- <div class="col-lg-5 col-12">
+                        <div class="row">
+                          <label class="col-sm-4 col-form-label requiredfield">Status:</label>
+                          <div class="col-sm-8 p-0">
+                            <ejs-multiselect
+                              formControlName="status"
+                              [dataSource]="statusList"
+                              placeholder="Select Status"
+                              [placeholder]='placeholder'
+                              [mode]="mode"
+                              [showSelectAll]="true"
+                              [selectAllText]="selectAllText">
+                            </ejs-multiselect>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- View Button -->
+                      <div class="col-lg-2 col-12 justify-content-end">
+                        <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
+                          <i class="fas fa-eye"></i> &nbsp; View
+                        </button>
+                      </div>
+                    </div>
+  
+                  </Form>
+                </div>
+              </div>
+                <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+                  <e-columns>
+                  <e-column field="serviceBillNo" headerText="Truck No" width="100" [isPrimaryKey]="true">
+                    <!-- <ng-template #template let-data>
+                        <div>
+                            <span class="badge" [style.background-color]="getBadgeColor(data?.status)">
+                              {{ data?.serviceBillNo || 'N/A' }}
+                          </span>
+                        </div>
+                    </ng-template> -->
+                  </e-column>
+                    <e-column field='serviceBillDate' headerText="Driver Name" width="150"></e-column>
+                    <e-column field='weightBridgeID' headerText="Driver License No" width="150"></e-column>
+                    <e-column field='inWeightTime' headerText="Driver Contact No" width="150"></e-column>
+                    <e-column field='truckNo' headerText="In Category" width="100"></e-column>
+                    <e-column field='trailerNo' headerText="Group Name" width="150"></e-column>
+                    <e-column field='inWeight' headerText="Customer" width="150"></e-column>
+                    <e-column field='netWeight' headerText='In Check Date Time' width="150"></e-column>
+                    <e-column field='weightType' headerText="Yard" width="100"></e-column>
+                    <e-column field='cargoInfo' headerText="Gate" width="100"></e-column>
+                    <e-column field='weightOption' headerText="Area" width="100"></e-column>
+                    <e-column field='billOption' headerText="In Type" width="100"></e-column>
+                    <e-column field='customerName' headerText="In CargoType" width="100"></e-column>
+                    <e-column field='cashAmt' headerText="In Cargo Info" width="100"></e-column>
+                    <e-column field='weightCategory' headerText="In WeightBridge" width="150"></e-column>
+                    <e-column field='driverName' headerText="Out WeightBridge" width="150"></e-column>
+                    <e-column field='driverLicense' headerText="Out Category" width="100"></e-column>
+                    <e-column field='containerNo' headerText='In GatePas Time' width="150"></e-column>
+                    <e-column field='doNo' headerText='Out Check Date Time' width="150"></e-column>
+                    <e-column field='blNo' headerText='Out GatePas Time' width="150"></e-column>
+                    <e-column field='vesselName' headerText="Out Gate" width="100"></e-column>
+                    <e-column field='transporterID' headerText="Out Type" width="100"></e-column>
+                    <e-column field='yardID' headerText="Out CargoType" width="100"></e-column>
+                    <e-column field='gateID' headerText="Out Cargo Info" width="100"></e-column>
+                    <e-column field='checkInRegNo' headerText="Card No" width="100"></e-column>
+
+                    <!-- <e-column field='status' headerText="Status" width="100"></e-column> -->
+                    <e-column field='remark' headerText="Remark" width="100"></e-column>
+                    <e-column field='qRegNo' headerText='In Check No' width="110"></e-column>
+                  </e-columns>
+                </ejs-grid>
+                <!-- <div class="mt-3">
+                  <span class="mx-3">Status:</span>
+                  <span class="mx-3"><i class="fa fa-square text-primary font-small-2 mr-1"></i> In(Check)</span>
+                  <span class="mx-3"><i class="fa fa-square text-purple font-small-2 mr-1"></i> In</span>
+                  <span class="mx-3"><i class="fa fa-square text-mediumSeaGreen font-small-2 mr-1"></i> Out(Check)</span>
+                  <span class="mx-3"><i class="fa fa-square text-gray font-small-2 mr-1"></i> Out</span>
+                </div> -->
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+  
+  

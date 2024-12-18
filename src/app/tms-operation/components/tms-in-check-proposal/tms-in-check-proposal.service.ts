@@ -1,14 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
  };
   @Injectable({
     providedIn: 'root'
   })
-export class InCheckService {
+export class TmsInCheckPorposalService {
   constructor (private http: HttpClient) { }
   getYardList(active: string) {
     return this.http.get<any>(environment.url + 'Master/GetYardList/?active=' + active);
@@ -34,8 +33,8 @@ export class InCheckService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetCardList/?yard=' + yard+ '&gpName='+ gpName);
   }
 
-  getTruckList(id: string,type:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetTruckDataList/?id=' + id+ '&type='+ type );
+  getTruckList(id: string,poNo:any) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetTruckDataListByProposal/?id=' + id+ '&poNo='+ poNo );
   }
 
   getTrailerList() {
@@ -50,8 +49,12 @@ export class InCheckService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetDriverDataList/?id=' + id);
   }
 
-  getInBoundCheckList(startDate:any,endDate:any,yard:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
+  getTMSProposalList(startDate:any,endDate:any,yard:string,deptType:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetTMSProposalList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard+ '&deptType=' + deptType);
+  }
+
+  getDocumentSettingList(id: string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetDocumentSettingList/?id=' + id);
   }
 
   createInBoundCheck(data: any) {
@@ -66,8 +69,13 @@ export class InCheckService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckById/?id=' + id);
   }
 
-  getDocumentSettingList(id: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetDocumentSettingList/?id=' + id);
+  getTMSProposalById(id: string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetTMSProposalById/?id=' + id);
   }
+
+  getInBoundCheckTMSList(startDate:any,endDate:any,yard:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckTMSList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
+  }
+
 
 }

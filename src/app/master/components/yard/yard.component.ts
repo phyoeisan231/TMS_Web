@@ -114,6 +114,9 @@ export class YardComponent {
     return new FormGroup({
       yardID: new FormControl(data.yardID,Validators.required),
       name: new FormControl(data.name,Validators.required),
+      phone:new FormControl(data.phone,Validators.required),
+      email:new FormControl(data.email,[Validators.email,Validators.required]),
+      address:new FormControl(data.address,Validators.required),
       active: new FormControl(data.active),
     });
   }

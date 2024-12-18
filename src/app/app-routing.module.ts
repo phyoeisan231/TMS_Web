@@ -10,6 +10,8 @@ import LoginComponent from './demo/authentication/login/login.component';
 import { AuthGuard } from './theme/shared/guards/auth.guard';
 import { MasterModule } from './master/master.module';
 import { ReportMtnModule } from './report-mtn/report-mtn.module';
+import { TmsInCheckProposalComponent } from './tms-operation/components/tms-in-check-proposal/tms-in-check-proposal.component';
+import { WServiceBillComponent } from './report-mtn/components/wservice-bill/wservice-bill.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -120,7 +122,26 @@ const routes: Routes = [
         path:'tms-operation/out-check',
         loadComponent:()=>import('./tms-operation/components/out-check/out-check.component').then((c)=>c.OutCheckComponent)
       },
-      
+      {
+        path:'tms-operation/tms-in-check-proposal',
+        loadComponent:()=>import('./tms-operation/components/tms-in-check-proposal/tms-in-check-proposal.component').then((c)=>c.TmsInCheckProposalComponent)
+      },
+      {
+        path:'tms-operation/tms-in-check-proposal-doc',
+        loadComponent:()=>import('./tms-operation/components/tms-in-check-proposal-doc/tms-in-check-proposal-doc.component').then((c)=>c.TmsInCheckProposalDocComponent)
+      },
+      {
+        path:'tms-operation/tms-in-check',
+        loadComponent:()=>import('./tms-operation/components/tms-in-check/tms-in-check.component').then((c)=>c.TmsInCheckComponent)
+      },
+      {
+        path:'tms-operation/tms-out-check',
+        loadComponent:()=>import('./tms-operation/components/tms-out-check/tms-out-check.component').then((c)=>c.TmsOutCheckComponent)
+      },
+      {
+        path:'tms-operation/tms-out-check-doc',
+        loadComponent:()=>import('./tms-operation/components/tms-out-check-doc/tms-out-check-doc.component').then((c)=>c.TmsOutCheckDocComponent)
+      },
       {
         path:'master/waiting-area',
         loadComponent:()=>import('./master/components/waiting-area/waiting-area.component').then((c)=>c.WaitingAreaComponent)
@@ -141,15 +162,17 @@ const routes: Routes = [
         path:'master/operation-area',
         loadComponent:()=>import('./master/components/operation-area/operation-area.component').then((c)=>c.OperationAreaComponent)
       },
-      // {
-      //   path:'report-mtn/truck-in',
-      //   loadChildren:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
-      // }
+
       {
         path:'report-mtn/truck-in',
         loadComponent:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
       },
-      
+      {
+        path:'report-mtn/weight-bill',
+        loadComponent:()=>import('./report-mtn/components/wservice-bill/wservice-bill.component').then((c)=>WServiceBillComponent)
+      }
+
+
       // {
       //   path: 'typography',
       //   loadComponent: () => import('./demo/ui-component/typography/typography.component')

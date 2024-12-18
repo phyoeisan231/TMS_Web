@@ -98,22 +98,32 @@
                   <e-column field='driverName' headerText="Driver Name" width="150"></e-column>
                   <e-column field='driverLicenseNo' headerText="Driver License No" width="150"></e-column>
                   <e-column field='driverContactNo' headerText="Driver Contact No" width="150"></e-column>
-                  <e-column field='inPCCode' headerText="Category" width="100"></e-column>
+                  <e-column field='inPCCode' headerText="In Category" width="100"></e-column>
+                  <e-column field='groupName' headerText="Group Name" width="150"></e-column>
                   <e-column field='cardNo' headerText="Card No" width="100"></e-column>
                   <e-column field='customer' headerText="Customer" width="150"></e-column>
-                  <e-column field='inCheckDateTime' headerText='Check Date Time' width="150"></e-column>
+                  <e-column field='inCheckDateTime' headerText='In Check Date Time' width="150"></e-column>
                   <e-column field='inYardID' headerText="Yard" width="100"></e-column>
                   <e-column field='inGateID' headerText="Gate" width="100"></e-column>
                   <e-column field='areaID' headerText="Area" width="100"></e-column>
-                  <e-column field='inType' headerText="Type" width="100"></e-column>
-                  <e-column field='inCargoType' headerText="CargoType" width="100"></e-column>
-                  <e-column field='inCargoInfo' headerText="Cargo Info" width="100"></e-column>
+                  <e-column field='inType' headerText="In Type" width="100"></e-column>
+                  <e-column field='inCargoType' headerText="In CargoType" width="100"></e-column>
+                  <e-column field='inCargoInfo' headerText="In Cargo Info" width="100"></e-column>
                   <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
                   <e-column field='inWeightBridgeID' headerText="In WeightBridge" width="150"></e-column>
                   <e-column field='outWeightBridgeID' headerText="Out WeightBridge" width="150"></e-column>
+                  <e-column field='inPCCode' headerText="Out Category" width="100"></e-column>
+                  <e-column field='inGatePassTime' headerText='In GatePas Time' width="150"></e-column>
+                  <e-column field='outCheckDateTime' headerText='Out Check Date Time' width="150"></e-column>
+                  <e-column field='outCheckDateTime' headerText='Out GatePas Time' width="150"></e-column>
+                  <e-column field='outGateID' headerText="Out Gate" width="100"></e-column>
+                  <e-column field='outType' headerText="Out Type" width="100"></e-column>
+                  <e-column field='outCargoType' headerText="Out CargoType" width="100"></e-column>
+                  <e-column field='outCargoInfo' headerText="Out Cargo Info" width="100"></e-column>
                   <e-column field='status' headerText="Status" width="100"></e-column>
                   <e-column field='remark' headerText="Remark" width="100"></e-column>
-                  <e-column field='inRegNo' headerText='In Check No' [isPrimaryKey]="true" width="110" hidden></e-column>
+                  <e-column field='inRegNo' headerText='In Check No' [isPrimaryKey]="true" width="110" [visible]="false"></e-column>
+                  <e-column field='outRegNo' headerText='Out Check No' width="110" [visible]="false"></e-column>
                 </e-columns>
               </ejs-grid>
               <div class="mt-3">
