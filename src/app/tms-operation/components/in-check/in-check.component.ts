@@ -51,7 +51,8 @@ export class InCheckComponent {
     this.optionForm = new FormGroup({
       fromDate: new FormControl(sessionStorage.getItem("icfromDate")?sessionStorage.getItem("icfromDate"):this.today,Validators.required),
       toDate: new FormControl(sessionStorage.getItem("ictoDate")?sessionStorage.getItem("ictoDate"):this.today,Validators.required),
-      yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
+      yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc"):null,Validators.required),
+      // yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
     });
   }
 
@@ -61,7 +62,7 @@ export class InCheckComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.yardList = result;
-        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null);
+        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc"):null);
         this.spinner.hide();
     });
   }
@@ -72,14 +73,14 @@ export class InCheckComponent {
    const formData = this.optionForm.value;
    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-   let loc:any ="";
-   if(formData.yardID.length>0){
-    loc = this.formatParams(formData.yardID);
-   }
+  //  let loc:any ="";
+  //  if(formData.yardID.length>0){
+  //   loc = this.formatParams(formData.yardID);
+  //  }
     sessionStorage.setItem("icfromDate", fromDate);
     sessionStorage.setItem("ictoDate", toDate);
     sessionStorage.setItem("icloc", formData.yardID);
-    this.service.getInBoundCheckList(fromDate,toDate,loc)
+    this.service.getInBoundCheckList(fromDate,toDate,formData.yardID)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.grid.dataSource= result;
@@ -102,6 +103,20 @@ export class InCheckComponent {
     return paramArray.map(item => `'${item}'`).join(',');
   }
 
+  getBadgeColor(status: string): string {
+    switch (status) {
+       case 'In(Check)':
+           return '#519df4'; // Orchid
+       case 'In':
+           return 'rgb(106, 90, 205)'; // Purple
+       case 'Out(Check)':
+           return 'rgba(40, 167, 69, 0.8)'; // Medium Green
+       case 'Out':
+           return 'rgb(140, 140, 140)'; // Gray
+       default:
+           return 'rgb(199, 73, 73)'; // Red for unknown status
+    }
+   }
 
   deleteInBoundCheck(id: any,user:string) {
     Swal.fire({

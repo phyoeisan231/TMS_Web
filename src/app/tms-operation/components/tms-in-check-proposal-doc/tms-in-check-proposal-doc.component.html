@@ -15,7 +15,7 @@
           <form [formGroup]="detailForm">
             <div class="row">
               <div class="col-md-6 col-lg-6 text-left">
-                <h5 class="card-title">In Check(ICD/Other)</h5>
+                <h5 class="card-title">In Check(TMS)</h5>
               </div>
               <div class="col-md-6 col-lg-6 text-end">
                 <button *ngIf="!this.id" type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!detailForm.valid"  (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Save</button>
@@ -43,8 +43,7 @@
               </div>
               <div class="form-group col-md-3">
                 <label  class="font-weight-normal requiredfield">Group Name</label>
-                <ejs-textbox *ngIf="this.id" formControlName="groupName" [readonly]="true" tabindex="3" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="groupName" tabindex="3" [dataSource]='groupNameList' (change)="onGroupNameChange($event.value)" placeholder="Select One"></ejs-dropdownlist>
+                <ejs-textbox  formControlName="groupName" [readonly]="true" tabindex="3" ></ejs-textbox>
                 <div [style.visibility]='validateControl("groupName")? "visible": "hidden"'>
                   <label class="e-error" style="display: block;">*Group Name is required</label>
                 </div>
@@ -131,11 +130,6 @@
                 <label  class="font-weight-normal">Remark</label>
                 <ejs-textbox formControlName="remark" [multiline]="true" tabindex="15" [readonly]="this.id"></ejs-textbox>
               </div>
-              <!-- <div class="form-group col-md-4" *ngIf="type!='RGL'">
-                <label  class="font-weight-normal">WB Option</label>
-                <ejs-textbox *ngIf="this.id" formControlName="wbOption" [readonly]="true" tabindex="15" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="wbOption" tabindex="15" [dataSource]='wbOptionList'  placeholder="Select One" ></ejs-dropdownlist>
-              </div> -->
               <div class="form-group col-lg-3 col-md-2" *ngIf="this.gpName!='ICD'"><br>
                 <ejs-checkbox formControlName="isUseWB"  label="Use Weight Bridge?"  floatLabelType="Always"  tabindex="16"></ejs-checkbox>
               </div>

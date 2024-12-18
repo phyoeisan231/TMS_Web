@@ -25,8 +25,8 @@ export class OutCheckService {
   //   return this.http.get<any>(environment.url + 'TMSOperation/GetOperationAreaDataList/?yard=' + yard);
   // }
 
-  getCategoryList() {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryICDOList');
+  getCategoryList(type:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryICDOOutList/?type=' + type);
   }
 
   getCardICDList(card:string,yard: string) {

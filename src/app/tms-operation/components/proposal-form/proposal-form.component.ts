@@ -6,11 +6,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { TmsOperationModule } from '../../tms-operation.module';
 import moment from 'moment';
-import { GridComponent, GridLine, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
-import { EditSettingsModel } from '@syncfusion/ej2/treegrid';
+import { EditSettingsModel, PageSettingsModel } from '@syncfusion/ej2/treegrid';
+import { GridComponent, GridLine } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-proposal-form',
@@ -29,21 +28,7 @@ export class ProposalFormComponent {
   proposalForm:any;
   public format1='dd-MMM-yy hh:mm a';
   id:any;
-  cardForm:any;
-  detailData:any;
-  cargoTypeList:any[]=['Laden','MT'];
-  typeList:string[]=['FCL','LCL'];
   yardList:any[]=[];
-  gateList:any[]=[];
-  wbList:any[]=[];
-  truckList:any[]=[];
-  trailerList:any[]=[];
-  driverList:any[]=[];
-  transporterList:any[]=[];
-  areaList:any[]=[];
-  pcCodeList:any[]=[];
-  docList:any[]=[];
-  cardList:any[]=[];
   truckTypeList:any[]=['RG','Customer','Supplier'];
   endDate : Date = new Date();
   type:string;
@@ -60,6 +45,8 @@ export class ProposalFormComponent {
   customerList:any[]=[];
   sDate:Date;
   yard:string;
+  proposalList:any[]=[];
+  jDept:string;
 
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
@@ -83,25 +70,47 @@ export class ProposalFormComponent {
     noOfFEU: new FormControl(''),
     lclQty: new FormControl(''),
     customerId:new FormControl('',Validators.required),
-    customerName:new FormControl('',Validators.required),
+    customerName:new FormControl(''),
     companyName:new FormControl(''),
     cargoInfo:new FormControl(''),
+    noOfTruck: new FormControl('',Validators.required)
     });
 
-    this.cardForm = new FormGroup({
-    inRegNo: new FormControl(''),
-    cardNo: new FormControl('', Validators.required),
-    inWeightBridgeID: new FormControl(''),
-    outWeightBridgeID: new FormControl(''),
-    });
+
+    if(this.id){
+      this.getProposalList(this.id);
+    }
+
     this.getLocationList();
-    this.getCustomerList();
+    //this.getCustomerList();
+  }
 
+  getProposalList(id:string){
+    this.spinner.show();
+    this.service.getProposalListById(id)
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.proposalForm.controls['propNo'].setValue(result[0].propNo);
+        this.proposalForm.controls["yard"].setValue(result[0].yard);
+        this.proposalForm.controls["jobDept"].setValue(result[0].jobDept);
+        //this.onjobDeptChange(result[0].jobDept)
+        this.proposalForm.controls["jobType"].setValue(result[0].jobType);
+        //this.onJobTypeChange(result[0].jobType)
+        this.proposalForm.controls["customerId"].setValue(result[0].customer);
+        //this.onCustomerChange(result[0].customerId);
+        this.proposalForm.controls['jobCode'].setValue(result[0].jobCode);
+        this.proposalForm.controls["noOfTruck"].setValue(result[0].noOfTruck);
+        this.proposalForm.controls["noOfTEU"].setValue(result[0].noOfTEU);
+        this.proposalForm.controls["noOfFEU"].setValue(result[0].noOfFEU);
+        this.proposalForm.controls["lclQty"].setValue(result[0].lclQty);
+        this.proposalForm.controls["cargoInfo"].setValue(result[0].cargoInfo);
+        this.spinner.hide();
+    });
   }
 
   getLocationList() {
     this.spinner.show();
-    this.service.getYardList('true')
+    this.service.getYardList()
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.yardList = result;
@@ -109,22 +118,34 @@ export class ProposalFormComponent {
     });
   }
 
-  getCustomerList(){
-    this.spinner.show();
-    this.service.getCustomerList()
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.customerList = result;
-        this.spinner.hide();
-    });
-  }
+  // getCustomerList(){
+  //   this.spinner.show();
+  //   this.service.getCustomerList()
+  //   .pipe(catchError((err) => of(this.showError(err))))
+  //     .subscribe((result) => {
+  //       this.customerList = result;
+  //       this.spinner.hide();
+  //   });
+  // }
+
+  // getJobCodeList(id:string,){
+  //   this.spinner.show();
+  //   this.service.getJobCodeList(id)
+  //   .pipe(catchError((err) => of(this.showError(err))))
+  //     .subscribe((result) => {
+  //       this.customerList = result;
+  //       this.spinner.hide();
+  //   });
+  // }
 
   onjobDeptChange(id:string){
+    this.jDept=id;
     if(id=="Rail"){
       this.jobTypeList=[];
-      this.jobTypeList=["Pick Up","Receive BC","Receive GC","Receive SC","Delivery","Issue BC","Issue GC","Issue SC"]
+      this.jobTypeList=["Pickup","Receive BC","Receive GC","Receive SC","Delivery","Issue BC","Issue GC","Issue SC"]
     }
     else if(id=="Warehouse"){
+
       this.jobTypeList=[];
       this.jobTypeList=["Inbound","Outbound"];
     }
@@ -138,44 +159,53 @@ export class ProposalFormComponent {
    onJobTypeChange(jobType:string){
     let formData=this.proposalForm.value;
     const sDate=moment(formData.estDate).format('MM/DD/YYYY');
-    const jDept=formData.jobDept;
     this.yard=formData.yard;
-    if(jDept=="Rail"){
-     this.service.getRailDailyJobList(sDate,jobType,this.yard)
+    if(this.jDept=="Rail"){
+     this.service.getRailDailyJobList(jobType,this.yard)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
-         this.jobIdList=[];
-         this.jobIdList = result;
+         this.customerList=[];
+         this.customerList = result;
      });
     }
-    else if(jDept=="Warehouse"){
-      this.service.getWHDailyJobList(sDate,jobType)
+    else if(this.jDept=="Warehouse"){
+      this.service.getWHDailyJobList(jobType,this.yard)
       .pipe(catchError((err) => of(this.showError(err))))
         .subscribe((result) => {
-          this.jobIdList=[];
-          this.jobIdList = result;
+          this.customerList=[];
+          this.customerList = result;
       });
     }
     else{
-      this.service.getCCADailyJobList(sDate,jobType)
+      this.service.getCCADailyJobList(jobType,this.yard)
       .pipe(catchError((err) => of(this.showError(err))))
         .subscribe((result) => {
-          this.jobIdList=[];
-          this.jobIdList = result;
+          this.customerList=[];
+          this.customerList = result;
       });
     }
+    }
 
+    onCustomerChange(customer:string){
+      const cusList=this.customerList.filter(i=>i.customerId==customer);
+      //this.proposalForm.controls['customerName'].setValue(cusList[0].name);
+      this.jobIdList=cusList;
+      console.log(this.jobIdList);
+      //this.getJobCodeList(customer);
     }
 
     onJobCodeChange(code: string) {
       const newJobCodeList=this.jobIdList.filter(i=>i.jobCode==code);
-      if(newJobCodeList[0].customerId){
-        this.proposalForm.controls['customerId'].setValue(newJobCodeList[0].customerId);
-        const cusName=this.customerList.filter(c=>c.customerId==newJobCodeList[0].customerId);
-        this.proposalForm.controls['customerName'].setValue(cusName[0].name);
-        this.proposalForm.controls['companyName'].setValue(cusName[0].groupName);
-      }
-
+      this.proposalForm.controls['noOfTEU'].setValue(newJobCodeList[0].noOfTEU);
+      this.proposalForm.controls['noOfFEU'].setValue(newJobCodeList[0].noOfFEU);
+      this.proposalForm.controls['lclQty'].setValue(newJobCodeList[0].lclQty);
+      this.proposalForm.controls['cargoInfo'].setValue(newJobCodeList[0].remark);
+      // if(newJobCodeList[0].customerId){
+      //   this.proposalForm.controls['customerId'].setValue(newJobCodeList[0].customerId);
+      //   const cusName=this.customerList.filter(c=>c.customerId==newJobCodeList[0].customerId);
+      //   this.proposalForm.controls['customerName'].setValue(cusName[0].name);
+      //   this.proposalForm.controls['companyName'].setValue(cusName[0].groupName);
+      // }
     }
 
 
@@ -188,72 +218,36 @@ export class ProposalFormComponent {
      }
    }
 
-  getInBoundCheckById(){
-    this.spinner.show();
-    this.service.getInBoundCheckById(this.id)
-    .pipe(catchError((err) => of(this.showError(err))))
-      .subscribe((result) => {
-        this.docList=result.documentList;
-        this.detailData = result;
-
-        for (let key in this.detailData) {
-          if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.proposalForm.controls[key]) {
-            if (key != 'documentList') {
-              this.proposalForm.controls[key].setValue(this.detailData[key]);
-            }
-          }
-         }
-        });
-        this.spinner.hide();
-  }
-
-  onFormAssignCard(){
-    const formData=this.proposalForm.value;
-    const cardForm = this.cardForm.value;
-    formData.cardNo = cardForm.cardNo;
-    formData.inWeightBridgeID = cardForm.inWeightBridgeID;
-    formData.outWeightBridgeID = cardForm.outWeightBridgeID;
-    formData.documentList = this.docList;
-    formData.inRegNo=0;
-    formData.createdUser = localStorage.getItem('currentUser');
-    if(this.transporterList){
-      const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
-      if(transporter.length>0){
-        formData.transporterName = transporter[0].transporterName;
-      }
-    }
-    if(this.driverList.length>0){
-      const driver = this.driverList.filter(x=>x.licenseNo==formData.driverLicenseNo);
-      if(driver.length>0){
-        formData.driverName = driver[0].name;
-        formData.driverContactNo = driver[0].contactNo;
-      }
-    }
-    if(this.isInWb){
-      if(!cardForm.inWeightBridgeID){
-        Swal.fire('In Check Document', 'Please add In Weight Bridge.', 'warning');
-        return;
-      }
-    }
-    if(this.isOutWb){
-      if(!cardForm.outWeightBridgeID){
-        Swal.fire('In Check Document', 'Please add Out Weight Bridge.', 'warning');
-        return;
-      }
-    }
-      console.log(formData);
-      this.createInBoundCheck(formData);
-  }
-
   onFormSubmit(){
    this.spinner.show();
    const formData=this.proposalForm.value;
-   formData.propNo=1;
-   this.addTMSProposal(formData);
+   if(formData.propNo!=0){
+    this.updateTMSproposal(formData);
+   }
+   else {
+    this.addTMSProposal(formData);
+   }
   }
 
   addTMSProposal(formData:any){
+    formData.propNo=0;
+    formData.createdUser=localStorage.getItem('currentUser');
     this.service.addTMSProposal(formData)
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        if (result.status == true) {
+          this.showSuccess(result.messageContent);
+          this.router.navigate(["/tms-operation/proposal"]);
+        } else {
+          this.spinner.hide();
+          Swal.fire('Proposal', result.messageContent, 'error');
+        }
+    });
+  }
+
+  updateTMSproposal(formData){
+    formData.updatedUser=localStorage.getItem('currentUser');
+    this.service.updateTMSProposal(formData)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         if (result.status == true) {
@@ -270,38 +264,11 @@ export class ProposalFormComponent {
     this.router.navigate(["/tms-operation/in-check"]);
   }
 
-  createInBoundCheck(formData: any) {
-    this.spinner.show();
-    this.service
-    .createOutBoundCheck(formData)
-    .pipe(catchError((err) => of(this.showError(err))))
-    .subscribe((result) => {
-      if (result.status == true) {
-        this.showSuccess(result.messageContent);
-        this.router.navigate(["/tms-operation/in-check"]);
-      } else {
-        this.spinner.hide();
-        Swal.fire('In Check Document', result.messageContent, 'error');
-      }
-    });
-  }
-
-    onTruckChange(id:string){
-     const truck = this.truckList.filter(x=>x.vehicleRegNo==id);
-     if(this.driverList){
-      const driver = this.driverList.filter(x=>x.licenseNo==truck[0].driverLicenseNo);
-      if(driver.length>0){
-        this.proposalForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:null);
-      }
-     }
-      this.proposalForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
-    }
-
-
   showError(error:HttpErrorResponse){
     this.spinner.hide();
     Swal.fire('TMS Proposal',error.statusText,'error');
   }
+
   showSuccess(msg: string) {
     this.spinner.hide();
     Swal.fire('TMS Proposal', msg, 'success');
@@ -310,29 +277,5 @@ export class ProposalFormComponent {
   validateControl(controlName: string) {
     const control = this.proposalForm.get(controlName);
     return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
-  }
-
-  toolbarClick(args: ClickEventArgs): void {
-    if (args.item.id === 'check') {
-      let selectedRecords: any[] = this.grid.getSelectedRecords();
-      if (selectedRecords.length == 0) {
-        Swal.fire('Check Document', "Please select one row!", 'warning');
-      }
-      else {
-        if (args.item.id === 'check')
-        {
-          for(var i=0;i<selectedRecords.length;i++){
-            this.docList = this.docList.map((x) => {
-              if (x.docCode === selectedRecords[i].docCode) {
-                  return { ...x, docCode:  selectedRecords[i].docCode,docName: selectedRecords[i].docName,checkStatus: true};//update data
-              } else {
-                  return x; // Keep other objects unchanged
-             }
-             });
-           }
-        }
-        return;
-      }
-    }
   }
 }
