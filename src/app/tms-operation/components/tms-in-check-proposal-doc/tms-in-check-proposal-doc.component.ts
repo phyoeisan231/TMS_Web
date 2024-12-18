@@ -46,8 +46,9 @@ export class TmsInCheckProposalDocComponent {
   docList:any[]=[];
   cardList:any[]=[];
   truckTypeList:any[]=['RGL','Customer','Supplier'];
-  wbOptionList:any[]=['None','Single','Both'];
   billOptionList:any[]=['None','Credit','Cash'];
+  containerTypeList:any[]=["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
+  containerSizeList:any[]=[20,40,45];
   endDate : Date = new Date();
   type:string;
   isWb:boolean=false;
@@ -95,8 +96,15 @@ export class TmsInCheckProposalDocComponent {
     remark:new FormControl(''),
     customer:new FormControl(''),
     status:new FormControl(''),
-    isUseWB:new FormControl(false),
+    isUseWB:new FormControl(true),
     groupName:new FormControl(this.gpName,Validators.required),
+    inContainerType:new FormControl(''),
+    inContainerSize:new FormControl(''),
+    inContainerNo:new FormControl(''),
+    jobDept:new FormControl(''),
+    jobCode:new FormControl(''),
+    jobType:new FormControl(''),
+    blNo:new FormControl(''),
     });
 
     this.cardForm = new FormGroup({
@@ -114,7 +122,6 @@ export class TmsInCheckProposalDocComponent {
     if(this.id){
       this.getInBoundCheckById();
     }
-
     else{
       if(this.poNo){
         this.getTMSProposalById();
@@ -314,6 +321,9 @@ export class TmsInCheckProposalDocComponent {
       if(formData.isUseWB){
         this.isWb=true;
       }
+      else{
+        this.isWb=false
+      }
 
       if(this.isWb){
         this.getWBDataList(formData.inYardID)
@@ -336,7 +346,7 @@ export class TmsInCheckProposalDocComponent {
     .subscribe((result) => {
       if (result.status == true) {
         this.showSuccess(result.messageContent);
-        this.router.navigate(["/tms-operation/in-check"]);
+        this.router.navigate(["/tms-operation/tms-in-check"]);
       } else {
         this.spinner.hide();
         Swal.fire('In Check Document', result.messageContent, 'error');

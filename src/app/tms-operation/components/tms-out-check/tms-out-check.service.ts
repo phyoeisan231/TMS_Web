@@ -7,7 +7,7 @@ const httpOptions = {
   @Injectable({
     providedIn: 'root'
   })
-export class OutCheckService {
+export class TmsOutCheckService {
   constructor (private http: HttpClient) { }
   getYardList(active: string) {
     return this.http.get<any>(environment.url + 'Master/GetYardList/?active=' + active);
@@ -17,25 +17,16 @@ export class OutCheckService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetGateOutBoundList/?yard=' + yard);
   }
 
-  // getWBDataList(yard: string) {
-  //   return this.http.get<any>(environment.url + 'TMSOperation/GetWBDataList/?id=' + yard);
-  // }
-
-  // getAreaList(yard: string) {
-  //   return this.http.get<any>(environment.url + 'TMSOperation/GetOperationAreaDataList/?yard=' + yard);
-  // }
-
   getCategoryList(type:string) {
     return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryOutList/?type=' + type);
   }
 
   getCardICDList(card:string,yard: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCardICDOInList/?card=' + card+ '&yard=' + yard);
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCardTMSInList/?card=' + card+ '&yard=' + yard);
   }
 
-
   getOutBoundCheckList(startDate:any,endDate:any,yard:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetOutBoundCheckList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
+    return this.http.get<any>(environment.url + 'TMSOperation/GetOutBoundCheckTMSList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
   }
 
   createOutBoundCheck(data: any) {

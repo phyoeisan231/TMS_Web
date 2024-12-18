@@ -288,7 +288,9 @@ export class InCheckDocComponent {
       if(formData.isUseWB){
         this.isWb=true;
       }
-
+      else{
+        this.isWb=false
+      }
       if(this.isWb){
         this.getWBDataList(formData.inYardID)
       }

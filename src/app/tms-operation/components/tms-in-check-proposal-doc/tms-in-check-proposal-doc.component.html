@@ -5,7 +5,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
           <li class="breadcrumb-item">In Check</li>
-          <li class="breadcrumb-item active text-primary">In Check(ICD/Other)</li>
+          <li class="breadcrumb-item active text-primary">In Check(TMS)</li>
         </ol>
       </div>
     </div>
@@ -19,7 +19,10 @@
               </div>
               <div class="col-md-6 col-lg-6 text-end">
                 <button *ngIf="!this.id" type="submit" class="btn btn-sm btn-primary mr-2 " [disabled]="!detailForm.valid"  (click)="onFormSubmit()"><i class="fa fa-save"></i>  &nbsp;Save</button>
-                <a  class="btn btn-sm btn-secondary m-1"  href="/tms-operation/in-check">
+                <a *ngIf="!this.id" class="btn btn-sm btn-secondary m-1"  href="/tms-operation/tms-in-check-proposal">
+                  <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
+                </a>
+                <a *ngIf="this.id" class="btn btn-sm btn-secondary m-1"  href="/tms-operation/tms-in-check">
                   <i class="fa fa-arrow-circle-left"></i> &nbsp; Back
                 </a>
               </div>
@@ -28,7 +31,7 @@
               <div class="form-group col-md-3">
                 <label  class="font-weight-normal requiredfield">Yard</label>
                 <ejs-textbox *ngIf="this.id" formControlName="inYardID" [readonly]="true" tabindex="1" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="inYardID" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" (change)="onYardChange($event.value)" placeholder="Select One"  popupHeight='200px' ></ejs-dropdownlist>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="inYardID" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" (change)="onYardChange($event.value)" placeholder="Select One"></ejs-dropdownlist>
                 <div [style.visibility]='validateControl("inYardID")? "visible": "hidden"'>
                   <label class="e-error" style="display: block;">*Yard is required</label>
                 </div>
@@ -106,33 +109,65 @@
               </div>
             </div>
             <div class="row">
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">Job Dept Type</label>
+                <ejs-textbox  formControlName="jobDept" [readonly]="true" tabindex="11" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">Job Type</label>
+                <ejs-textbox  formControlName="jobType" [readonly]="true" tabindex="12" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">Job Code</label>
+                <ejs-textbox  formControlName="jobCode" [readonly]="true" tabindex="13" ></ejs-textbox>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-normal">BL No.</label>
+                <ejs-textbox  formControlName="blNo" [readonly]="this.id" tabindex="14" ></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Type</label>
-                <ejs-textbox *ngIf="this.id" formControlName="inType" [readonly]="true" tabindex="11" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="inType" tabindex="11" [dataSource]='typeList'  placeholder="Select One" ></ejs-dropdownlist>
+                <ejs-textbox *ngIf="this.id" formControlName="inType" [readonly]="true" tabindex="15" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="inType" tabindex="15" [dataSource]='typeList'  placeholder="Select One" ></ejs-dropdownlist>
               </div>
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Cargo Type</label>
-                <ejs-textbox *ngIf="this.id" formControlName="inCargoType" [readonly]="true" tabindex="12" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="inCargoType" tabindex="12" [dataSource]='cargoTypeList'  placeholder="Select One" ></ejs-dropdownlist>
+                <ejs-textbox *ngIf="this.id" formControlName="inCargoType" [readonly]="true" tabindex="16" ></ejs-textbox>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="inCargoType" tabindex="16" [dataSource]='cargoTypeList'  placeholder="Select One" ></ejs-dropdownlist>
               </div>
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">CargoInfo</label>
-                <ejs-textbox formControlName="inCargoInfo" [multiline]="true" tabindex="13" [readonly]="this.id"></ejs-textbox>
+                <ejs-textbox formControlName="inCargoInfo" [multiline]="true" tabindex="17" [readonly]="this.id"></ejs-textbox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Container Type</label>
+                <ejs-dropdownlist formControlName="inContainerType" tabindex="18" [dataSource]='containerTypeList' [readonly]="this.id" placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Container Size</label>
+                <ejs-dropdownlist formControlName="inContainerSize" tabindex="19" [dataSource]='containerSizeList'[readonly]="this.id" placeholder="Select One" ></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-4">
+                <label  class="font-weight-normal">Container No</label>
+                <ejs-textbox formControlName="inContainerNo" [multiline]="true" tabindex="20" [readonly]="this.id"></ejs-textbox>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Customer</label>
-                <ejs-textbox formControlName="customer" [multiline]="true" tabindex="14" [readonly]="this.id"></ejs-textbox>
+                <ejs-textbox formControlName="customer" [multiline]="true" tabindex="21" [readonly]="this.id"></ejs-textbox>
               </div>
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal">Remark</label>
-                <ejs-textbox formControlName="remark" [multiline]="true" tabindex="15" [readonly]="this.id"></ejs-textbox>
+                <ejs-textbox formControlName="remark" [multiline]="true" tabindex="22" [readonly]="this.id"></ejs-textbox>
               </div>
-              <div class="form-group col-lg-3 col-md-2" *ngIf="this.gpName!='ICD'"><br>
-                <ejs-checkbox formControlName="isUseWB"  label="Use Weight Bridge?"  floatLabelType="Always"  tabindex="16"></ejs-checkbox>
-              </div>
+              <!-- <div class="form-group col-lg-3 col-md-3" *ngIf="this.gpName!='ICD'"><br>
+                <ejs-checkbox formControlName="isUseWB"  label="Use Weight Bridge?"  floatLabelType="Always"  tabindex="23"></ejs-checkbox>
+              </div> -->
             </div>
           </form><br>
           <h6>Documents</h6>
