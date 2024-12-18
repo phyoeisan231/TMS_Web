@@ -135,6 +135,14 @@ const routes: Routes = [
         loadComponent:()=>import('./tms-operation/components/tms-in-check/tms-in-check.component').then((c)=>c.TmsInCheckComponent)
       },
       {
+        path:'tms-operation/tms-out-check',
+        loadComponent:()=>import('./tms-operation/components/tms-out-check/tms-out-check.component').then((c)=>c.TmsOutCheckComponent)
+      },
+      {
+        path:'tms-operation/tms-out-check-doc',
+        loadComponent:()=>import('./tms-operation/components/tms-out-check-doc/tms-out-check-doc.component').then((c)=>c.TmsOutCheckDocComponent)
+      },
+      {
         path:'master/waiting-area',
         loadComponent:()=>import('./master/components/waiting-area/waiting-area.component').then((c)=>c.WaitingAreaComponent)
       },
@@ -154,7 +162,7 @@ const routes: Routes = [
         path:'master/operation-area',
         loadComponent:()=>import('./master/components/operation-area/operation-area.component').then((c)=>c.OperationAreaComponent)
       },
-      
+
       {
         path:'report-mtn/truck-in',
         loadComponent:()=>import('./report-mtn/components/truck-status/truck-status.component').then((c)=>c.TruckStatusComponent)
