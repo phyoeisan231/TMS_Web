@@ -84,7 +84,7 @@
                 </Form>
               </div>
             </div>
-              <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+              <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true" [allowGrouping]='true' [groupSettings]='groupOptions' [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
                 <e-columns>
                 <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
                   <ng-template #template let-data>

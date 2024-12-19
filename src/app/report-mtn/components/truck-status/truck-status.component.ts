@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
+import { EditSettingsModel, GridComponent, GridLine, GroupSettingsModel, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, of } from 'rxjs';
 import moment from 'moment';
@@ -28,12 +28,13 @@ export class TruckStatusComponent {
   yardList:[]=[];
   endDate : Date = new Date();
   today : Date = new Date();
-  statusList:any[]=['In(Check)','In','Out(Check)','Out'];
+  statusList:string[]=['In(Check)','In','Out(Check)','Out'];
   // statusList:any[];
   public data: Object[];
   public placeholder: string = 'Select One';
   public mode?: string;
   public selectAllText: string| any;
+  public groupOptions: GroupSettingsModel;
   @ViewChild('Grid') public grid: GridComponent;
    // end multi file upload
   constructor(
@@ -46,6 +47,7 @@ export class TruckStatusComponent {
     this.mode = 'CheckBox';
     // set the select all text to MultiSelect checkbox label.
     this.selectAllText= 'Select All';
+    this.groupOptions = { showDropArea: false, columns: ['groupName'] };
     this.getLocationList();
     this.optionForm = new FormGroup({
       fromDate: new FormControl(sessionStorage.getItem("icfromDate")?sessionStorage.getItem("icfromDate"):this.today,Validators.required),
