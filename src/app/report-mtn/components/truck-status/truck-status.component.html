@@ -40,36 +40,27 @@
                       <div class="row">
                         <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
                         <div class="col-sm-8 p-0">
-                          <ejs-multiselect
+                          <ejs-dropdownlist
                             formControlName="yardID"
                             [dataSource]="yardList"
                             [fields]="{ text: 'yardID', value: 'yardID' }"
-                            [mode]="mode"
-                            [selectAllText]="selectAllText"
                             placeholder="Select Yard"
-                            [placeholder]='placeholder'
-                            tabindex="4"
-                            showSelectAll="true">
-                          </ejs-multiselect>
+                            tabindex="4">
+                          </ejs-dropdownlist>
                         </div>
                       </div>
                     </div>
-                    <!-- [allowFiltering]="true"> -->
-
                     <!-- Status Field -->
                     <div class="col-lg-5 col-12">
                       <div class="row">
                         <label class="col-sm-4 col-form-label requiredfield">Status:</label>
                         <div class="col-sm-8 p-0">
-                          <ejs-multiselect
+                          <ejs-dropdownlist
                             formControlName="status"
                             [dataSource]="statusList"
                             placeholder="Select Status"
-                            [placeholder]='placeholder'
-                            [mode]="mode"
-                            [showSelectAll]="true"
-                            [selectAllText]="selectAllText">
-                          </ejs-multiselect>
+                            tabindex="5">
+                          </ejs-dropdownlist>
                         </div>
                       </div>
                     </div>
