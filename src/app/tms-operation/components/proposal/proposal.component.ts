@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
+import { selfClosingTags } from '@syncfusion/ej2/richtexteditor';
 
 @Component({
   selector: 'app-proposal',
@@ -24,14 +25,14 @@ export class ProposalComponent {
   editSettings: EditSettingsModel = {  allowAdding: true, allowDeleting: true };
   toolbar: any[] = ['Add',
   { text: "Edit", tooltipText: "Edit", prefixIcon: "e-icons e-edit", id: "edit" },
-  // { text: "AssignIn", tooltipText: "AssignIn", prefixIcon: "e-icons e-circle-add", id: "assignIn" },
+   { text: "Close Import", tooltipText: "Close Import", prefixIcon: "e-download", id: "close" },
   // { text: "Customer", tooltipText: "Customer", prefixIcon: "e-icons e-circle-add", id: "customer" },
   { text: "Truck Details", tooltipText: "Truck Details", prefixIcon: "e-icons e-selection", id: "detail" },
   { text: "Complete", tooltipText: "Complete", prefixIcon: "e-icons e-check", id: "complete" },
   'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
 
- // assignInForm:FormGroup;
+  closeForm:FormGroup;
   optionForm: FormGroup;
  // customerForm:FormGroup;
   submitClicked: boolean = false;
@@ -42,7 +43,8 @@ export class ProposalComponent {
   public placeholder: string = 'Select One';
   public mode?: string;
   public selectAllText: string| any;
-  //assignList:any[]=["RGL","Supplier"]
+
+  deptList:any[]=["CCA","Warehouse","Rail"]
   //truckList:any[]=[];
   jobDept:string;
   jobTypeList:any[]=[];
@@ -50,8 +52,7 @@ export class ProposalComponent {
   type:string;
   driverList:any[]=[];
   @ViewChild('Grid') public grid: GridComponent;
-  @ViewChild('assignModel') assignModel: DialogComponent;
-  @ViewChild('customerModel') customerModel: DialogComponent;
+  @ViewChild('closeModel') closeModel: DialogComponent;
 
   constructor(
     private service: ProposalService,
@@ -71,32 +72,14 @@ export class ProposalComponent {
       deptType: new FormControl(sessionStorage.getItem("deptType")?sessionStorage.getItem("deptType").split(','):null,Validators.required),
     });
 
-    // this.assignInForm = new FormGroup({
-    //   propNo:new FormControl(''),
-    //   jobDept:new FormControl(''),
-    //   assignType: new FormControl('',Validators.required),
-    //   truckNo: new FormControl('', Validators.required),
-    //   driverName: new FormControl('',Validators.required),
-    //   driverContact:new FormControl('',Validators.required),
-    //   nightStop: new FormControl(''),
-    //   otherInfo:new FormControl(''),
-    //   jobType:new FormControl('',Validators.required),
-    //   truckAssignId: new FormControl(''),
-    //   });
 
-    // this.customerForm = new FormGroup({
-    //   propNo:new FormControl(''),
-    //   jobDept:new FormControl(''),
-    //   assignType: new FormControl('',Validators.required),
-    //   truckNo: new FormControl('', Validators.required),
-    //   driverName: new FormControl('',Validators.required),
-    //   driverContact:new FormControl('',Validators.required),
-    //   nightStop: new FormControl(''),
-    //   otherInfo:new FormControl(''),
-    //   jobType:new FormControl('',Validators.required),
-    // });
+    this.closeForm = new FormGroup({
+      jobDept:new FormControl(''),
+      file: new FormControl('', Validators.required),
+      uploadedFile: new FormControl('', Validators.required),
+      });
 
-    this.loadTableData();
+    //this.loadTableData();
    // this.getCusTruckList();
   }
 
@@ -109,16 +92,7 @@ export class ProposalComponent {
   //   });
   // }
 
-  // getCusDriverList(licenseNo:string){
-  //   this.service.getCusDriverList(licenseNo)
-  //   .pipe(catchError((err) => of(this.showError(err))))
-  //     .subscribe((result) => {
-  //       this.driverList= result;
-  //       this.customerForm.controls["driverName"].setValue(this.driverList[0].driverName);
-  //       this.customerForm.controls["driverContact"].setValue(this.driverList[0].contactNo);
-  //       this.spinner.hide();
-  //   });
-  // }
+
 
   loadTableData() {
    this.spinner.show();
@@ -159,6 +133,12 @@ export class ProposalComponent {
 
   formatParams(paramArray) {
     return paramArray.map(item => `'${item}'`).join(',');
+  }
+
+  handleFileInput(files: FileList) {
+    if (files.length > 0) {
+      this.closeForm.controls['uploadedFile'].setValue(files.item(0));
+    }
   }
 
 
@@ -222,11 +202,11 @@ export class ProposalComponent {
     });
   }
 
-  // onAssignInSubmit(){
-  //   const formData=this.assignInForm.value;
-  //   formData.createdUser = localStorage.getItem('currentUser');
-  //   this.createProposalDetail(formData);
-  // }
+  onCloseInSubmit(){
+    const formData=this.closeForm.value;
+    formData.createdUser = localStorage.getItem('currentUser');
+    this.createProposalDetail(formData);
+  }
 
   // onCustomerSubmit(){
   //   const formData=this.customerForm.value;
@@ -241,8 +221,6 @@ export class ProposalComponent {
     .pipe(catchError((err) => of(this.showError(err))))
     .subscribe((result) => {
       if (result.status == true) {
-        this.assignModel.hide();
-        this.customerModel.hide();
         this.showSuccess(result.messageContent);
         this.router.navigate(["/tms-operation/proposal"]);
       } else {
@@ -269,7 +247,7 @@ export class ProposalComponent {
      });
     }
 
-    if (args.item.id === 'detail' || args.item.id==='edit' || args.item.id==='complete') {
+    if (args.item.id === 'detail' || args.item.id==='edit' || args.item.id==='complete' || args.item.id=='close') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
         Swal.fire('TMS Proposal', "Please select one row!", 'warning');
@@ -285,34 +263,38 @@ export class ProposalComponent {
         }
         else if(args.item.id==='edit'){
           this.router.navigate(["/tms-operation/proposal-form"],{ queryParams: { id: id}});
-
         }
         else if(args.item.id==='complete'){
-
           this.completeProposal(id,user);
+          return;
+        }
+        else if(args.item.id==='close'){
+          this.closeForm.reset();
+          this.closeForm.controls['jobDept'].setValue(this.jobDept);
+          this.closeModel.show();
         }
 
       }
     }
   }
 
-  onAssignTypeChange(type:string){
-  if(type!=null && this.jobDept!=null){
-    this.type=type;
-    if(this.jobDept=="CCA"){
-      this.jobTypeList=[];
-      this.jobTypeList=['Import','Export']
-    }
-    else if(this.jobDept=="Warehouse"){
-      this.jobTypeList=[];
-      this.jobTypeList=['WH Pick Up','WH Delivery','Bonded Delivery','Bonded Transport','Import','Export']
-    }
-    else{//Rail
-      this.jobTypeList=[];
-      this.jobTypeList=['Rail Delivery','Rail Pick Up'];
-    }
-  }
-  }
+  // onAssignTypeChange(type:string){
+  // if(type!=null && this.jobDept!=null){
+  //   this.type=type;
+  //   if(this.jobDept=="CCA"){
+  //     this.jobTypeList=[];
+  //     this.jobTypeList=['Import','Export']
+  //   }
+  //   else if(this.jobDept=="Warehouse"){
+  //     this.jobTypeList=[];
+  //     this.jobTypeList=['WH Pick Up','WH Delivery','Bonded Delivery','Bonded Transport','Import','Export']
+  //   }
+  //   else{//Rail
+  //     this.jobTypeList=[];
+  //     this.jobTypeList=['Rail Delivery','Rail Pick Up'];
+  //   }
+  // }
+  // }
 
   // onJobTypeChange(jobType:string){
   //   if(this.type==null){
@@ -336,8 +318,8 @@ export class ProposalComponent {
   //   this.getCusDriverList(truckInfo[0].driverLicenseNo);
   // }
 
-  // customerValidateControl(controlName: string) {
-  //   const control = this.customerForm.get(controlName);
-  //   return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
-  // }
+  validateControl(controlName: string) {
+    const control = this.closeForm.get(controlName);
+    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
+  }
 }

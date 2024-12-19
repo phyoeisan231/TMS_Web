@@ -53,9 +53,17 @@ export class ProposalService {
     return this.http.get<any>(environment.url + 'Master/GetTruckList');
   }
 
-  // getCusDriverList(id: string) {
-  //   return this.http.get<any>(environment.url + 'TMSOperation/GetDriverDataList/?id=' + id);
-  // }
+  getOperationAreas(active: string) {
+    return this.http.get<any>(environment.url + 'Master/GetOperationAreaList/?active=' + active);
+  }
+
+  getCategoryList(active: string) {
+    return this.http.get<any>(environment.url + 'Master/GetPCategoryList/?active=' + active);
+  }
+
+  getBLNoList(code:string,dept:string){
+    return this.http.get<any>(environment.url + 'TMSProposal/GetBLNoList/?code=' + code+'&dept='+dept);
+  }
 
   deleteProposal(id: any) {
     return this.http.delete<any>(environment.url + 'TMSProposal/DeleteProposal/?id=' + id, httpOptions);

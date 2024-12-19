@@ -47,7 +47,9 @@ export class ProposalFormComponent {
   yard:string;
   proposalList:any[]=[];
   jDept:string;
-
+  areaList:any[]=[];
+  categoryList:any[]=[];
+  blNoList:any[]=[];
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
     private service: ProposalService,
@@ -62,6 +64,7 @@ export class ProposalFormComponent {
     this.proposalForm = new FormGroup({
     propNo:new FormControl(''),
     yard: new FormControl('',Validators.required),
+    areaID:new FormControl('',Validators.required),
     estDate: new FormControl(this.today, Validators.required),
     jobDept: new FormControl('',Validators.required),
     jobType: new FormControl('',Validators.required),
@@ -71,9 +74,10 @@ export class ProposalFormComponent {
     lclQty: new FormControl(''),
     customerId:new FormControl('',Validators.required),
     customerName:new FormControl(''),
-    companyName:new FormControl(''),
+    pcCode:new FormControl('',Validators.required),
     cargoInfo:new FormControl(''),
-    noOfTruck: new FormControl('',Validators.required)
+    noOfTruck: new FormControl('',Validators.required),
+    blNo:new FormControl('')
     });
 
 
@@ -82,7 +86,8 @@ export class ProposalFormComponent {
     }
 
     this.getLocationList();
-    //this.getCustomerList();
+    this.getAreaList();
+    this.getCategoryList();
   }
 
   getProposalList(id:string){
@@ -92,6 +97,7 @@ export class ProposalFormComponent {
       .subscribe((result) => {
         this.proposalForm.controls['propNo'].setValue(result[0].propNo);
         this.proposalForm.controls["yard"].setValue(result[0].yard);
+        this.proposalForm.controls["areaID"].setValue(result[0].areaID);
         this.proposalForm.controls["jobDept"].setValue(result[0].jobDept);
         //this.onjobDeptChange(result[0].jobDept)
         this.proposalForm.controls["jobType"].setValue(result[0].jobType);
@@ -99,6 +105,8 @@ export class ProposalFormComponent {
         this.proposalForm.controls["customerId"].setValue(result[0].customer);
         //this.onCustomerChange(result[0].customerId);
         this.proposalForm.controls['jobCode'].setValue(result[0].jobCode);
+        this.proposalForm.controls['blNo'].setValue(result[0].blNo);
+        this.proposalForm.controls['pcCode'].setValue(result[0].pcCode);
         this.proposalForm.controls["noOfTruck"].setValue(result[0].noOfTruck);
         this.proposalForm.controls["noOfTEU"].setValue(result[0].noOfTEU);
         this.proposalForm.controls["noOfFEU"].setValue(result[0].noOfFEU);
@@ -118,15 +126,25 @@ export class ProposalFormComponent {
     });
   }
 
-  // getCustomerList(){
-  //   this.spinner.show();
-  //   this.service.getCustomerList()
-  //   .pipe(catchError((err) => of(this.showError(err))))
-  //     .subscribe((result) => {
-  //       this.customerList = result;
-  //       this.spinner.hide();
-  //   });
-  // }
+  getAreaList(){
+    this.spinner.show();
+    this.service.getOperationAreas('true')
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.areaList = result;
+        this.spinner.hide();
+    });
+  }
+
+  getCategoryList(){
+    this.spinner.show();
+    this.service.getCategoryList('true')
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.categoryList = result;
+        this.spinner.hide();
+    });
+  }
 
   // getJobCodeList(id:string,){
   //   this.spinner.show();
@@ -188,7 +206,7 @@ export class ProposalFormComponent {
 
     onCustomerChange(customer:string){
       const cusList=this.customerList.filter(i=>i.customerId==customer);
-      //this.proposalForm.controls['customerName'].setValue(cusList[0].name);
+      this.proposalForm.controls['customerName'].setValue(cusList[0].name);
       this.jobIdList=cusList;
       //this.getJobCodeList(customer);
     }
@@ -205,6 +223,17 @@ export class ProposalFormComponent {
       //   this.proposalForm.controls['customerName'].setValue(cusName[0].name);
       //   this.proposalForm.controls['companyName'].setValue(cusName[0].groupName);
       // }
+      this.getBLNoList(code);
+    }
+
+    getBLNoList(code:string){
+      this.spinner.show();
+      this.service.getBLNoList(code,this.jDept)
+      .pipe(catchError((err) => of(this.showError(err))))
+        .subscribe((result) => {
+          this.proposalForm.controls['blNo'].setValue(result[0].blNo);
+          this.spinner.hide();
+      });
     }
 
 
