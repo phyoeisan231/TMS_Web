@@ -24,6 +24,7 @@ export class ProposalDetailComponent {
   toolbar: any[] = [
     { text: "RGLTruck", tooltipText: "RGLTruck", prefixIcon: "e-icons e-circle-add", id: "rglTruck" },
     { text: "CustomerTruck", tooltipText: "CustomerTruck", prefixIcon: "e-icons e-circle-add", id: "customerTruck" },
+    { text: "In Check", tooltipText: "In Check", prefixIcon: "e-icons e-circle-add", id: "check" },
     'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
   public format1='dd-MMM-yy hh:mm a';
@@ -259,11 +260,10 @@ export class ProposalDetailComponent {
      });
     }
 
-    if (args.item.id=== 'rglTruck' || args.item.id==='customerTruck') {
-      //let selectedRecords: any[] = this.grid.getSelectedRecords();
-      //const id = selectedRecords[0].propNo;
-      //const user = localStorage.getItem('currentUser');
-
+    if (args.item.id=== 'rglTruck' || args.item.id==='customerTruck' || args.item.id==='check' ) {
+      let selectedRecords: any[] = this.grid.getSelectedRecords();
+      const id = selectedRecords[0].propNo;
+      const truckNo = selectedRecords[0].truckNo;
       if(args.item.id==='rglTruck'){
         this.rglTruckForm.reset();
         this.rglTruckForm.controls['propNo'].setValue(this.propNo);
@@ -272,13 +272,16 @@ export class ProposalDetailComponent {
         return;
       }
 
-      if(args.item.id==='customerTruck'){
+      else if(args.item.id==='customerTruck'){
         this.customerTruckForm.reset();
         this.customerTruckForm.controls['assignType'].setValue("Customer");
         this.customerTruckForm.controls['propNo'].setValue(this.propNo);
         this.customerTruckForm.controls['jobDept'].setValue(this.jobDept);
         this.customerModel.show();
         return;
+      }
+      else if(args.item.id==='check'){
+        this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:truckNo}});
       }
     }
 

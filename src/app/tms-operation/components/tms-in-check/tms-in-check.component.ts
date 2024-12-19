@@ -176,9 +176,10 @@ export class TmsInCheckComponent {
       else {
         const id = selectedRecords[0].inRegNo;
         const poNo = selectedRecords[0].propNo;
+        const truck = selectedRecords[0].truckVehicleRegNo;
         if (args.item.id === 'detail')
         {
-          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: poNo, id: id}});
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: poNo, id: id,truck:truck}});
         }
        return;
      }

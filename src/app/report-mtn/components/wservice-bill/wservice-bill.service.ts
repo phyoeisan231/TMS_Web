@@ -11,11 +11,15 @@ const httpOptions = {
 export class WserviceBillService {
 
   constructor (private http: HttpClient) { }
-  GetGateList(active: string) {
-    return this.http.get<any>(environment.url + 'Master/GetGateList/?active=' + active);
+  GetYardList(active: string) {
+    return this.http.get<any>(environment.url + 'Master/GetYardList/?active=' + active);
+  }
+
+  GetGateList(active:string){
+    return this.http.get<any>(environment.url+'Master/GetGateList/?active='+active);
   }
   
-  getServiceBillList(fromDate:any,toDate:any,gate:any){
-    return this.http.get<any>(environment.url+'WeightSupport/GetServiceBillList/?fromDate='+fromDate+'&toDate='+toDate+'&gate='+gate);
-  }  
+  getServiceBillList(startDate:any,endDate:any,yard:string,gate:string) {
+    return this.http.get<any>(environment.url + 'WeightSupport/GetWeightServiceBillList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard+'&gate='+gate);
+  }
 }

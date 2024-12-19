@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { EditSettingsModel, GridComponent, GridLine, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
+import { EditSettingsModel, GridComponent, GridLine, GroupSettingsModel, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, of } from 'rxjs';
 import moment from 'moment';
@@ -28,12 +28,13 @@ export class TruckStatusComponent {
   yardList:[]=[];
   endDate : Date = new Date();
   today : Date = new Date();
-  statusList:any[]=['In(Check)','In','Out(Check)','Out'];
+  statusList:string[]=['In(Check)','In','Out(Check)','Out'];
   // statusList:any[];
   public data: Object[];
   public placeholder: string = 'Select One';
   public mode?: string;
   public selectAllText: string| any;
+  public groupOptions: GroupSettingsModel;
   @ViewChild('Grid') public grid: GridComponent;
    // end multi file upload
   constructor(
@@ -46,12 +47,13 @@ export class TruckStatusComponent {
     this.mode = 'CheckBox';
     // set the select all text to MultiSelect checkbox label.
     this.selectAllText= 'Select All';
+    this.groupOptions = { showDropArea: false, columns: ['groupName'] };
     this.getLocationList();
     this.optionForm = new FormGroup({
-      fromDate: new FormControl(sessionStorage.getItem("icfromDate")?sessionStorage.getItem("icfromDate"):this.today,Validators.required),
-      toDate: new FormControl(sessionStorage.getItem("ictoDate")?sessionStorage.getItem("ictoDate"):this.today,Validators.required),
-      yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
-      status: new FormControl(sessionStorage.getItem("icstatus")?sessionStorage.getItem("icstatus").split(','):null,Validators.required),
+      fromDate: new FormControl(sessionStorage.getItem("tsfromDate")?sessionStorage.getItem("tsfromDate"):this.today,Validators.required),
+      toDate: new FormControl(sessionStorage.getItem("tstoDate")?sessionStorage.getItem("tstoDate"):this.today,Validators.required),
+      yardID: new FormControl(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc").split(','):null,Validators.required),
+      status: new FormControl(sessionStorage.getItem("tstatus")?sessionStorage.getItem("tstatus").split(','):null,Validators.required),
     });
   }
 
@@ -61,11 +63,10 @@ export class TruckStatusComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.yardList = result;
-        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null);
+        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc").split(','):null);
         this.spinner.hide();
     });
   }
-
 
   getBadgeColor(status: string): string {
    switch (status) {
@@ -93,10 +94,10 @@ export class TruckStatusComponent {
       loc = this.formatParams(formData.yardID);
       sloc = this.formatParams(formData.status);
     }
-     sessionStorage.setItem('icfromDate', fromDate);
-     sessionStorage.setItem('ictoDate', toDate);
-     sessionStorage.setItem('icloc', JSON.stringify(formData.yardID));
-     sessionStorage.setItem('icstatus', JSON.stringify(formData.status));
+     sessionStorage.setItem('tsfromDate', fromDate);
+     sessionStorage.setItem('tstoDate', toDate);
+     sessionStorage.setItem('tsloc', JSON.stringify(formData.yardID));
+     sessionStorage.setItem('tstatus', JSON.stringify(formData.status));
 
      this.service.getTruckProcessList(fromDate,toDate,sloc,loc)
      .pipe(catchError((err) => of(this.showError(err))))
