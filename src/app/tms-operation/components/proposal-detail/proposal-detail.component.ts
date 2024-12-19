@@ -261,9 +261,6 @@ export class ProposalDetailComponent {
     }
 
     if (args.item.id=== 'rglTruck' || args.item.id==='customerTruck' || args.item.id==='check' ) {
-      let selectedRecords: any[] = this.grid.getSelectedRecords();
-      const id = selectedRecords[0].propNo;
-      const truckNo = selectedRecords[0].truckNo;
       if(args.item.id==='rglTruck'){
         this.rglTruckForm.reset();
         this.rglTruckForm.controls['propNo'].setValue(this.propNo);
@@ -281,7 +278,16 @@ export class ProposalDetailComponent {
         return;
       }
       else if(args.item.id==='check'){
-        this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:truckNo}});
+        let selectedRecords: any[] = this.grid.getSelectedRecords();
+        if(selectedRecords.length==0){
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:null}});
+        }
+        else{
+          const id = selectedRecords[0].propNo;
+          const truckNo = selectedRecords[0].truckNo;
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:truckNo}});
+        }
+
       }
     }
 
