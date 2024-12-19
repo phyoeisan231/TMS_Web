@@ -25,6 +25,7 @@ export class WServiceBillComponent {
   optionForm: FormGroup;
   submitClicked: boolean = false;
   public formatfilter: any ="MM/dd/yyyy";
+  yardList:[]=[];
   gateList:[]=[];
   endDate : Date = new Date();
   today : Date = new Date();
@@ -42,26 +43,33 @@ export class WServiceBillComponent {
 
   ngOnInit(){
     this.mode = 'CheckBox';
-    // set the select all text to MultiSelect checkbox label.
     this.selectAllText= 'Select All';
     this.getLocationList();
     this.optionForm = new FormGroup({
-      fromDate: new FormControl(sessionStorage.getItem("icfromDate")?sessionStorage.getItem("icfromDate"):this.today,Validators.required),
-      toDate: new FormControl(sessionStorage.getItem("ictoDate")?sessionStorage.getItem("ictoDate"):this.today,Validators.required),
-      gateID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
-      // status: new FormControl(sessionStorage.getItem("icstatus")?sessionStorage.getItem("icstatus").split(','):null,Validators.required),
+      fromDate: new FormControl(sessionStorage.getItem("wsfromDate")?sessionStorage.getItem("wsfromDate"):this.today,Validators.required),
+      toDate: new FormControl(sessionStorage.getItem("wstoDate")?sessionStorage.getItem("wstoDate"):this.today,Validators.required),
+      yardID: new FormControl(sessionStorage.getItem("wsloc")?sessionStorage.getItem("wsloc").split(','):null,Validators.required),
+      gateID: new FormControl(sessionStorage.getItem("gloc")?sessionStorage.getItem("gloc").split(','):null,Validators.required),
+
     });
   }
 
   getLocationList() {
     this.spinner.show();
-    this.service.GetGateList('All')
+    this.service.GetYardList('true')
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
-        this.gateList = result;
-        this.optionForm.controls['gateID'].setValue(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null);
+        this.yardList = result;
+        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("wsloc")?sessionStorage.getItem("wsloc").split(','):null);
         this.spinner.hide();
     });
+    this.service.GetGateList('true')
+    .pipe(catchError((err)=>of(this.showError(err))))
+    .subscribe((result)=>{
+      this.gateList=result;
+      this.optionForm.controls['gateID'].setValue(sessionStorage.getItem("gloc")?sessionStorage.getItem("gloc").split(','):null);
+      this.spinner.hide();
+    })
   }
 
   loadTableData() {
@@ -69,16 +77,13 @@ export class WServiceBillComponent {
     const formData = this.optionForm.value;
     const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
     const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-    let loc:any ='';
-    if (formData.gateID?.length > 0) {
-      loc = this.formatParams(formData.gateID);
-    }
-     sessionStorage.setItem('icfromDate', fromDate);
-     sessionStorage.setItem('ictoDate', toDate);
-     sessionStorage.setItem('icloc', JSON.stringify(formData.gateID));
-    //  sessionStorage.setItem('icstatus', JSON.stringify(formData.status));
+    
+     sessionStorage.setItem('wsfromDate', fromDate);
+     sessionStorage.setItem('wstoDate', toDate);
+     sessionStorage.setItem('wsloc', formData.yardID);
+     sessionStorage.setItem('gloc',formData.gateID);
 
-     this.service.getServiceBillList(fromDate,toDate,loc)
+     this.service.getServiceBillList(fromDate,toDate,formData.yardID,formData.gateID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.grid.dataSource= result;

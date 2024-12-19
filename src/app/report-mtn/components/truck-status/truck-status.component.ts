@@ -48,10 +48,10 @@ export class TruckStatusComponent {
     this.selectAllText= 'Select All';
     this.getLocationList();
     this.optionForm = new FormGroup({
-      fromDate: new FormControl(sessionStorage.getItem("icfromDate")?sessionStorage.getItem("icfromDate"):this.today,Validators.required),
-      toDate: new FormControl(sessionStorage.getItem("ictoDate")?sessionStorage.getItem("ictoDate"):this.today,Validators.required),
-      yardID: new FormControl(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null,Validators.required),
-      status: new FormControl(sessionStorage.getItem("icstatus")?sessionStorage.getItem("icstatus").split(','):null,Validators.required),
+      fromDate: new FormControl(sessionStorage.getItem("tsfromDate")?sessionStorage.getItem("tsfromDate"):this.today,Validators.required),
+      toDate: new FormControl(sessionStorage.getItem("tstoDate")?sessionStorage.getItem("tstoDate"):this.today,Validators.required),
+      yardID: new FormControl(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc").split(','):null,Validators.required),
+      status: new FormControl(sessionStorage.getItem("tstatus")?sessionStorage.getItem("tstatus").split(','):null,Validators.required),
     });
   }
 
@@ -61,11 +61,10 @@ export class TruckStatusComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.yardList = result;
-        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("icloc")?sessionStorage.getItem("icloc").split(','):null);
+        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc").split(','):null);
         this.spinner.hide();
     });
   }
-
 
   getBadgeColor(status: string): string {
    switch (status) {
@@ -93,10 +92,10 @@ export class TruckStatusComponent {
       loc = this.formatParams(formData.yardID);
       sloc = this.formatParams(formData.status);
     }
-     sessionStorage.setItem('icfromDate', fromDate);
-     sessionStorage.setItem('ictoDate', toDate);
-     sessionStorage.setItem('icloc', JSON.stringify(formData.yardID));
-     sessionStorage.setItem('icstatus', JSON.stringify(formData.status));
+     sessionStorage.setItem('tsfromDate', fromDate);
+     sessionStorage.setItem('tstoDate', toDate);
+     sessionStorage.setItem('tsloc', JSON.stringify(formData.yardID));
+     sessionStorage.setItem('tstatus', JSON.stringify(formData.status));
 
      this.service.getTruckProcessList(fromDate,toDate,sloc,loc)
      .pipe(catchError((err) => of(this.showError(err))))

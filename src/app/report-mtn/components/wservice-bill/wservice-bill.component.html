@@ -38,40 +38,33 @@
                     <div class="row mb-2">
                       <div class="col-lg-5 col-12">
                         <div class="row">
-                          <label class="col-sm-4 col-form-label requiredfield">Gate:</label>
+                          <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
                           <div class="col-sm-8 p-0">
-                            <ejs-multiselect
-                              formControlName="gateID"
-                              [dataSource]="gateList"
-                              [fields]="{ text: 'gateID', value: 'gateID' }"
-                              [mode]="mode"
-                              [selectAllText]="selectAllText"
-                              placeholder="Select Gate"
+                            <ejs-dropdownlist
+                              formControlName="yardID"
+                              [dataSource]="yardList"
+                              [fields]="{ text: 'yardID', value: 'yardID' }"
+                              placeholder="Select Yard"
                               tabindex="4"
                               showSelectAll="true">
-                            </ejs-multiselect>
+                            </ejs-dropdownlist>
                           </div>
                         </div>
                       </div>
-                      <!-- [allowFiltering]="true"> -->
   
-                      <!-- Status Field -->
-                      <!-- <div class="col-lg-5 col-12">
+                      <div class="col-lg-5 col-12">
                         <div class="row">
-                          <label class="col-sm-4 col-form-label requiredfield">Status:</label>
+                          <label class="col-sm-4 col-form-label requiredfield">Gate:</label>
                           <div class="col-sm-8 p-0">
-                            <ejs-multiselect
-                              formControlName="status"
-                              [dataSource]="statusList"
-                              placeholder="Select Status"
-                              [placeholder]='placeholder'
-                              [mode]="mode"
-                              [showSelectAll]="true"
-                              [selectAllText]="selectAllText">
-                            </ejs-multiselect>
+                            <ejs-dropdownlist
+                              formControlName="gateID"
+                              [dataSource]="gateList"
+                              [fields]="{text:'gateID',value:'gateID'}"
+                              placeholder="Select Gate">
+                            </ejs-dropdownlist>
                           </div>
                         </div>
-                      </div> -->
+                      </div>
                       <!-- View Button -->
                       <div class="col-lg-2 col-12 justify-content-end">
                         <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
@@ -85,7 +78,7 @@
               </div>
                 <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
                   <e-columns>
-                  <e-column field="serviceBillNo" headerText="Truck No" width="100" [isPrimaryKey]="true">
+                  <e-column field="serviceBillNo" headerText="Service BillNo" width="100" [isPrimaryKey]="true">
                     <!-- <ng-template #template let-data>
                         <div>
                             <span class="badge" [style.background-color]="getBadgeColor(data?.status)">
@@ -94,34 +87,34 @@
                         </div>
                     </ng-template> -->
                   </e-column>
-                    <e-column field='serviceBillDate' headerText="Driver Name" width="150"></e-column>
-                    <e-column field='weightBridgeID' headerText="Driver License No" width="150"></e-column>
-                    <e-column field='inWeightTime' headerText="Driver Contact No" width="150"></e-column>
-                    <e-column field='truckNo' headerText="In Category" width="100"></e-column>
-                    <e-column field='trailerNo' headerText="Group Name" width="150"></e-column>
-                    <e-column field='inWeight' headerText="Customer" width="150"></e-column>
-                    <e-column field='netWeight' headerText='In Check Date Time' width="150"></e-column>
-                    <e-column field='weightType' headerText="Yard" width="100"></e-column>
-                    <e-column field='cargoInfo' headerText="Gate" width="100"></e-column>
-                    <e-column field='weightOption' headerText="Area" width="100"></e-column>
-                    <e-column field='billOption' headerText="In Type" width="100"></e-column>
-                    <e-column field='customerName' headerText="In CargoType" width="100"></e-column>
-                    <e-column field='cashAmt' headerText="In Cargo Info" width="100"></e-column>
-                    <e-column field='weightCategory' headerText="In WeightBridge" width="150"></e-column>
-                    <e-column field='driverName' headerText="Out WeightBridge" width="150"></e-column>
-                    <e-column field='driverLicense' headerText="Out Category" width="100"></e-column>
-                    <e-column field='containerNo' headerText='In GatePas Time' width="150"></e-column>
-                    <e-column field='doNo' headerText='Out Check Date Time' width="150"></e-column>
-                    <e-column field='blNo' headerText='Out GatePas Time' width="150"></e-column>
-                    <e-column field='vesselName' headerText="Out Gate" width="100"></e-column>
-                    <e-column field='transporterID' headerText="Out Type" width="100"></e-column>
-                    <e-column field='yardID' headerText="Out CargoType" width="100"></e-column>
-                    <e-column field='gateID' headerText="Out Cargo Info" width="100"></e-column>
-                    <e-column field='checkInRegNo' headerText="Card No" width="100"></e-column>
+                    <e-column field='serviceBillDate' headerText="Service Bill Date" width="150"></e-column>
+                    <e-column field='weightBridgeID' headerText="Weight BridgeID" width="150"></e-column>
+                    <e-column field='inWeightTime' headerText="In Weight Time" width="150"></e-column>
+                    <e-column field='truckNo' headerText="TruckNo" width="100"></e-column>
+                    <e-column field='trailerNo' headerText="TrailerNo" width="150"></e-column>
+                    <e-column field='inWeight' headerText="InWeight" width="150"></e-column>
+                    <e-column field='netWeight' headerText='Net Weight' width="150"></e-column>
+                    <e-column field='weightType' headerText="Weight Type" width="100"></e-column>
+                    <e-column field='cargoInfo' headerText="Cargo Info" width="100"></e-column>
+                    <e-column field='weightOption' headerText="Weight Option" width="100"></e-column>
+                    <e-column field='billOption' headerText="Bill Option" width="100"></e-column>
+                    <e-column field='customerName' headerText="Customer Name" width="100"></e-column>
+                    <e-column field='cashAmt' headerText="Cash Amt" width="100"></e-column>
+                    <e-column field='weightCategory' headerText="Weight Category" width="150"></e-column>
+                    <e-column field='driverName' headerText="Driver Name" width="150"></e-column>
+                    <e-column field='driverLicense' headerText="Driver License" width="100"></e-column>
+                    <e-column field='containerNo' headerText='Container No' width="150"></e-column>
+                    <e-column field='doNo' headerText='DONo' width="150"></e-column>
+                    <e-column field='blNo' headerText='BLNo' width="150"></e-column>
+                    <e-column field='vesselName' headerText="VesselName" width="100"></e-column>
+                    <e-column field='transporterID' headerText="TransporterID" width="100"></e-column>
+                    <e-column field='yardID' headerText="YardID" width="100"></e-column>
+                    <e-column field='gateID' headerText="GateID" width="100"></e-column>
+                    <e-column field='checkInRegNo' headerText="CheckInRegNo" width="100"></e-column>
 
                     <!-- <e-column field='status' headerText="Status" width="100"></e-column> -->
                     <e-column field='remark' headerText="Remark" width="100"></e-column>
-                    <e-column field='qRegNo' headerText='In Check No' width="110"></e-column>
+                    <e-column field='qRegNo' headerText='QRegNo' width="110"></e-column>
                   </e-columns>
                 </ejs-grid>
                 <!-- <div class="mt-3">
