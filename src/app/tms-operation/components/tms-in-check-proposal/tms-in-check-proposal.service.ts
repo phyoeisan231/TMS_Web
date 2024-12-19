@@ -26,7 +26,7 @@ export class TmsInCheckPorposalService {
   }
 
   getCategoryList(type:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryICDOList/?type=' + type);
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryInList/?type=' + type);
   }
 
   getCardICDList(yard: string,gpName:string) {
@@ -58,20 +58,24 @@ export class TmsInCheckPorposalService {
   }
 
   createInBoundCheck(data: any) {
-      return this.http.post<any>(environment.url + 'TMSOperation/SaveInCheck', data, httpOptions);
-    }
+    return this.http.post<any>(environment.url + 'TMSOperation/SaveInCheck', data, httpOptions);
+  }
 
-    deleteInBoundCheck(id: any,user:string) {
-      return this.http.delete<any>(environment.url + 'TMSOperation/DeleteInCheck/?id=' + id+ '&user=' + user, httpOptions);
-    }
+  deleteInBoundCheck(id: any,user:string) {
+    return this.http.delete<any>(environment.url + 'TMSOperation/DeleteInCheck/?id=' + id+ '&user=' + user, httpOptions);
+  }
 
-    getInBoundCheckById(id: string) {
-      return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckById/?id=' + id);
-    }
+  getInBoundCheckById(id: string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckById/?id=' + id);
+  }
 
+  getTMSProposalById(id: string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetTMSProposalById/?id=' + id);
+  }
 
-    getTMSProposalById(id: string) {
-      return this.http.get<any>(environment.url + 'TMSOperation/GetTMSProposalById/?id=' + id);
-    }
+  getInBoundCheckTMSList(startDate:any,endDate:any,yard:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetInBoundCheckTMSList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
+  }
+
 
 }

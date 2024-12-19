@@ -12,6 +12,7 @@ import { TmsInCheckPorposalService } from '../tms-in-check-proposal/tms-in-check
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TmsOperationModule } from '../../tms-operation.module';
+import moment from 'moment';
 
 @Component({
   selector: 'app-tms-in-check-proposal-doc',
@@ -46,8 +47,9 @@ export class TmsInCheckProposalDocComponent {
   docList:any[]=[];
   cardList:any[]=[];
   truckTypeList:any[]=['RGL','Customer','Supplier'];
-  wbOptionList:any[]=['None','Single','Both'];
   billOptionList:any[]=['None','Credit','Cash'];
+  containerTypeList:any[]=["DV","FR","GP", "HC", "HQ","HG","OS","OT","PF","RF","RH","TK", "IC", "FL", "BC", "HT", "VC", "PL"];
+  containerSizeList:any[]=[20,40,45];
   endDate : Date = new Date();
   type:string;
   isWb:boolean=false;
@@ -55,6 +57,7 @@ export class TmsInCheckProposalDocComponent {
   yard:string;
   today : Date = new Date();
   poNo : any;
+  truckNo:string;
   public data: Object[];
   public placeholder: string = 'Select One';
   public filterPlaceholder: string = 'Search';
@@ -73,6 +76,7 @@ export class TmsInCheckProposalDocComponent {
   ngOnInit(){
     this.id = this.route.snapshot.queryParams['id'];
     this.poNo = this.route.snapshot.queryParams['poNo'];
+    this.truckNo = this.route.snapshot.queryParams['truck'];
     this.detailForm = new FormGroup({
     inRegNo: new FormControl(''),
     inCheckDateTime: new FormControl(this.today, Validators.required),
@@ -94,9 +98,15 @@ export class TmsInCheckProposalDocComponent {
     cardNo:new FormControl(''),
     remark:new FormControl(''),
     customer:new FormControl(''),
-    status:new FormControl(''),
-    isUseWB:new FormControl(false),
+    isUseWB:new FormControl(true),
     groupName:new FormControl(this.gpName,Validators.required),
+    inContainerType:new FormControl(''),
+    inContainerSize:new FormControl(''),
+    inContainerNo:new FormControl(''),
+    jobDept:new FormControl(''),
+    jobCode:new FormControl(''),
+    jobType:new FormControl(''),
+    blNo:new FormControl(''),
     });
 
     this.cardForm = new FormGroup({
@@ -114,7 +124,6 @@ export class TmsInCheckProposalDocComponent {
     if(this.id){
       this.getInBoundCheckById();
     }
-
     else{
       if(this.poNo){
         this.getTMSProposalById();
@@ -156,7 +165,7 @@ export class TmsInCheckProposalDocComponent {
   }
 
   onTruckFiltering(e: any) {
-    if (e.text && this.type) {
+    if (e.text) {
       this.searchTruckTerms.next(e.text);
     }
   }
@@ -233,7 +242,6 @@ export class TmsInCheckProposalDocComponent {
       .subscribe((result) => {
         this.docList=result.documentList;
         this.detailData = result;
-
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'documentList') {
@@ -252,7 +260,8 @@ export class TmsInCheckProposalDocComponent {
       .subscribe((result) => {
         this.truckList=result.detailList;
         this.detailData = result;
-
+        this.getGateList(result.yard);
+        this.getDocumentSettingList(result.inPCCode);
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'detailList') {
@@ -260,6 +269,11 @@ export class TmsInCheckProposalDocComponent {
             }
           }
          }
+         console.log(this.truckNo)
+         if(this.truckNo){
+          this.searchTruckTerms.next(this.truckNo);
+         }
+        //  this.detailForm.controls['truckVehicleRegNo'].setValue(this.truckNo?this.truckNo:null);
         });
         this.spinner.hide();
   }
@@ -270,11 +284,12 @@ export class TmsInCheckProposalDocComponent {
     formData.cardNo = cardForm.cardNo;
     formData.inWeightBridgeID = cardForm.inWeightBridgeID;
     formData.outWeightBridgeID = cardForm.outWeightBridgeID;
-    formData.outWBBillOption = cardForm.outWBBillOption;
+    formData.outWBBillOption = cardForm.inWBBillOption;
     formData.inWBBillOption = cardForm.inWBBillOption;
     formData.documentList = this.docList;
     formData.inRegNo=0;
     formData.createdUser = localStorage.getItem('currentUser');
+    formData.inCheckDateTime = moment(formData.inCheckDateTime).format('MM/DD/YYYY HH:mm:ss');
     if(this.transporterList){
       const transporter = this.transporterList.filter(x=>x.transporterID==formData.transporterID);
       if(transporter.length>0){
@@ -303,6 +318,15 @@ export class TmsInCheckProposalDocComponent {
       this.createInBoundCheck(formData);
   }
 
+  onWBChange(code: string) {
+    this.cardForm.controls['outWeightBridgeID'].setValue(code);
+  }
+
+  onTruckTypeChange(code: string) {
+    this.type = code;
+    this.truckList =[];
+   }
+
   onFormSubmit(){
    this.spinner.show();
    const formData=this.detailForm.value;
@@ -313,6 +337,9 @@ export class TmsInCheckProposalDocComponent {
    else{
       if(formData.isUseWB){
         this.isWb=true;
+      }
+      else{
+        this.isWb=false
       }
 
       if(this.isWb){
@@ -329,6 +356,7 @@ export class TmsInCheckProposalDocComponent {
   }
 
   createInBoundCheck(formData: any) {
+    console.log(formData)
     this.spinner.show();
     this.service
     .createInBoundCheck(formData)
@@ -336,7 +364,7 @@ export class TmsInCheckProposalDocComponent {
     .subscribe((result) => {
       if (result.status == true) {
         this.showSuccess(result.messageContent);
-        this.router.navigate(["/tms-operation/in-check"]);
+        this.router.navigate(["/tms-operation/tms-in-check"]);
       } else {
         this.spinner.hide();
         Swal.fire('In Check Document', result.messageContent, 'error');
@@ -359,13 +387,6 @@ export class TmsInCheckProposalDocComponent {
     this.getDocumentSettingList(code);
    }
 
-
-
-   onTruckTypeChange(code: string) {
-     this.type = code;
-     this.truckList =[];
-    }
-
     onTruckChange(id:string){
      const truck = this.truckList.filter(x=>x.vehicleRegNo==id);
      if(this.driverList){
@@ -374,7 +395,8 @@ export class TmsInCheckProposalDocComponent {
         this.detailForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:null);
       }
      }
-      this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
+     this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
+      this.detailForm.controls['truckType'].setValue(truck[0].truckType?truck[0].truckType:null);
     }
 
 

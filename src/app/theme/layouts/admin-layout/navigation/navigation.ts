@@ -97,7 +97,7 @@ export const NavigationItems: NavigationItem[] = [
             title: 'TMS',
             type: 'item',
             classes: 'nav-item',
-            url: 'tms-operation/in-check',
+            url: 'tms-operation/tms-out-check',
             icon: 'left-circle'
           },
         ]

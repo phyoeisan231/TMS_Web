@@ -27,6 +27,7 @@ export class ProposalComponent {
   // { text: "AssignIn", tooltipText: "AssignIn", prefixIcon: "e-icons e-circle-add", id: "assignIn" },
   // { text: "Customer", tooltipText: "Customer", prefixIcon: "e-icons e-circle-add", id: "customer" },
   { text: "Truck Details", tooltipText: "Truck Details", prefixIcon: "e-icons e-selection", id: "detail" },
+  { text: "Complete", tooltipText: "Complete", prefixIcon: "e-icons e-check", id: "complete" },
   'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
 
@@ -139,6 +140,7 @@ export class ProposalComponent {
           this.spinner.hide();
       });
     }
+    this.spinner.hide();
 
   }
 
@@ -174,6 +176,36 @@ export class ProposalComponent {
         this.spinner.show();
         this.service
           .deleteProposal(id)
+          .pipe(catchError((err) => of(this.showError(err))))
+          .subscribe((result) => {
+            if (result.status == true) {
+              this.showSuccess(result.messageContent);
+              this.loadTableData();
+            } else {
+              this.spinner.hide();
+              Swal.fire('TMS Proposal', result.messageContent, 'error');
+            }
+          });
+      } else if (response.dismiss === Swal.DismissReason.cancel) {
+        Swal.close();
+      }
+    });
+  }
+
+  completeProposal(id: any,user:string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This proposal will be completed!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'blue',
+      cancelButtonText: 'No, keep it',
+      confirmButtonText: 'Yes, I am sure!',
+    }).then((response: any) => {
+      if (response.value) {
+        this.spinner.show();
+        this.service
+          .completeProposal(id,user)
           .pipe(catchError((err) => of(this.showError(err))))
           .subscribe((result) => {
             if (result.status == true) {
@@ -237,12 +269,11 @@ export class ProposalComponent {
      });
     }
 
-    if (args.item.id === 'detail' || args.item.id==='edit') {
+    if (args.item.id === 'detail' || args.item.id==='edit' || args.item.id==='complete') {
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
         Swal.fire('TMS Proposal', "Please select one row!", 'warning');
       }
-
       else {
         const id = selectedRecords[0].propNo;
         this.jobDept=selectedRecords[0].jobDept;
@@ -252,10 +283,15 @@ export class ProposalComponent {
           this.router.navigate(["/tms-operation/proposal-detail"], { queryParams: { id: id}});
           return;
         }
-        if(args.item.id==='edit'){
+        else if(args.item.id==='edit'){
           this.router.navigate(["/tms-operation/proposal-form"],{ queryParams: { id: id}});
 
         }
+        else if(args.item.id==='complete'){
+
+          this.completeProposal(id,user);
+        }
+
       }
     }
   }
