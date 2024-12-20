@@ -28,7 +28,7 @@ export class TruckStatusComponent {
   yardList:[]=[];
   endDate : Date = new Date();
   today : Date = new Date();
-  statusList:string[]=['In(Check)','In','Out(Check)','Out'];
+  statusList:string[]=['In(Check)', 'In','In(Weight)','Operation','Out(Weight)', 'Out(Check)', 'Out'];
   // statusList:any[];
   public data: Object[];
   public placeholder: string = 'Select One';
@@ -52,7 +52,7 @@ export class TruckStatusComponent {
     this.optionForm = new FormGroup({
       fromDate: new FormControl(sessionStorage.getItem("tsfromDate")?sessionStorage.getItem("tsfromDate"):this.today,Validators.required),
       toDate: new FormControl(sessionStorage.getItem("tstoDate")?sessionStorage.getItem("tstoDate"):this.today,Validators.required),
-      yardID: new FormControl(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc").split(','):null,Validators.required),
+      yardID: new FormControl(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc"):null,Validators.required),
       status: new FormControl(sessionStorage.getItem("tstatus")?sessionStorage.getItem("tstatus").split(','):null,Validators.required),
     });
   }
@@ -63,43 +63,62 @@ export class TruckStatusComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.yardList = result;
-        this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc").split(','):null);
+        // this.optionForm.controls['yardID'].setValue(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc").split(','):null);
         this.spinner.hide();
     });
   }
 
+  // getBadgeColor(status: string): string {
+  //  switch (status) {
+  //     case 'In(Check)':
+  //         return '#519df4'; // Orchid
+  //     case 'In':
+  //         return 'rgb(106, 90, 205)'; // Purple
+  //     case 'Out(Check)':
+  //         return 'rgba(40, 167, 69, 0.8)'; // Medium Green
+  //     case 'Out':
+  //         return 'rgb(140, 140, 140)'; // Gray
+  //     default:
+  //         return 'rgb(199, 73, 73)'; // Red for unknown status
+  //  }
+  // }
+
   getBadgeColor(status: string): string {
-   switch (status) {
+    switch (status) {
       case 'In(Check)':
-          return '#519df4'; // Orchid
+        return ' rgb(248, 144, 32)'; // orange
       case 'In':
-          return 'rgb(106, 90, 205)'; // Purple
-      case 'Out(Check)':
-          return 'rgba(40, 167, 69, 0.8)'; // Medium Green
-      case 'Out':
-          return 'rgb(140, 140, 140)'; // Gray
-      default:
-          return 'rgb(199, 73, 73)'; // Red for unknown status
+        return ' rgb(171, 127, 195)'; // Purple
+       case 'In(Weight)':
+           return '#d83ad8'; // Orchid
+       case 'Operation':
+           return '#0dcaf0'; // info
+       case 'Out(Weight)':
+           return 'rgb(23, 117, 223)'; // primary
+       case 'Out(Check)':
+           return 'rgba(52, 187, 52, 0.8)'; // Medium Green
+       case 'Out':
+           return 'rgb(23, 106, 23)'; // Green
+       default:
+           return 'rgb(199, 73, 73)'; // Red for unknown status
+    }
    }
-  }
 
   loadTableData() {
     this.spinner.show();
     const formData = this.optionForm.value;
     const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
     const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-    let loc:any ='';
     let sloc:any='';
-    if (formData.yardID?.length > 0 && formData.status?.length > 0) {
-      loc = this.formatParams(formData.yardID);
+    if (formData.status?.length > 0) {
       sloc = this.formatParams(formData.status);
     }
      sessionStorage.setItem('tsfromDate', fromDate);
      sessionStorage.setItem('tstoDate', toDate);
-     sessionStorage.setItem('tsloc', JSON.stringify(formData.yardID));
-     sessionStorage.setItem('tstatus', JSON.stringify(formData.status));
+     sessionStorage.setItem('tsloc', formData.yardID);
+     sessionStorage.setItem('tstatus', formData.status);
 
-     this.service.getTruckProcessList(fromDate,toDate,sloc,loc)
+     this.service.getTruckProcessList(fromDate,toDate,sloc,formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.grid.dataSource= result;
