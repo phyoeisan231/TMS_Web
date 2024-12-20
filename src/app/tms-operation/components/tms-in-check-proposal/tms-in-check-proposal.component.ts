@@ -173,7 +173,7 @@ export class TmsInCheckProposalComponent {
         const id = selectedRecords[0].propNo;
         if (args.item.id === 'detail')
         {
-          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:null}});
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:null,type:null}});
           return;
         }
 

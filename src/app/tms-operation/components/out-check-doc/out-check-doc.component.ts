@@ -228,7 +228,7 @@ export class OutCheckDocComponent  {
     onCardChange(id:string){
      const card = this.cardList.filter(x=>x.cardNo==id);
      if(card){
-      this.getCategoryList(card[0].groupName);
+      // this.getCategoryList(card[0].groupName);
       this.detailForm.controls['inRegNo'].setValue(card[0].inRegNo?card[0].inRegNo:null);
       this.detailForm.controls['truckVehicleRegNo'].setValue(card[0].truckVehicleRegNo?card[0].truckVehicleRegNo:null);
       this.detailForm.controls['driverLicenseNo'].setValue(card[0].driverLicenseNo?card[0].driverLicenseNo:null);
@@ -243,7 +243,8 @@ export class OutCheckDocComponent  {
       this.detailForm.controls['outboundWeight'].setValue(card[0].outboundWeight?card[0].outboundWeight:null);
       this.detailForm.controls['outWeightBridgeID'].setValue(card[0].outWeightBridgeID?card[0].outWeightBridgeID:null);
       this.detailForm.controls['groupName'].setValue(card[0].groupName?card[0].groupName:null);
-
+      this.detailForm.controls['outPCCode'].setValue(card[0].inPCCode?card[0].inPCCode:null);
+      this.getDocumentSettingList(card[0].inPCCode);
      }
     }
 
