@@ -77,6 +77,7 @@ export class TmsInCheckProposalDocComponent {
     this.id = this.route.snapshot.queryParams['id'];
     this.poNo = this.route.snapshot.queryParams['poNo'];
     this.truckNo = this.route.snapshot.queryParams['truck'];
+    this.type = this.route.snapshot.queryParams['type'];
     this.detailForm = new FormGroup({
     inRegNo: new FormControl(''),
     inCheckDateTime: new FormControl(this.today, Validators.required),
@@ -133,10 +134,14 @@ export class TmsInCheckProposalDocComponent {
 
     this.searchTruckTerms.pipe(
       debounceTime(300),
-      switchMap((term: string) => this.service.getTruckList(term,this.poNo))
+      switchMap((term: string) => this.service.getTruckList(term,this.poNo,this.type))
     ).subscribe(data => {
-      if(this.poNo){
+      if(this.poNo && this.type){
         this.truckList  = data;
+        if(this.truckList.length==1){
+          this.detailForm.controls['truckVehicleRegNo'].setValue(this.truckList[0].vehicleRegNo?this.truckList[0].vehicleRegNo:null);
+          this.onTruckChange(this.truckList[0].vehicleRegNo);
+        }
       }
       else{
         this.truckList =[];

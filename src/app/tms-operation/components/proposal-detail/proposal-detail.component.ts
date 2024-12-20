@@ -280,12 +280,13 @@ export class ProposalDetailComponent {
       else if(args.item.id==='check'){
         let selectedRecords: any[] = this.grid.getSelectedRecords();
         if(selectedRecords.length==0){
-          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:null}});
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:null,type:null}});
         }
         else{
           const id = selectedRecords[0].propNo;
           const truckNo = selectedRecords[0].truckNo;
-          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:truckNo}});
+          const type = selectedRecords[0].assignType;
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:truckNo,type:type}});
         }
 
       }
