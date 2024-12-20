@@ -359,6 +359,7 @@ export class InCheckDocComponent {
         this.detailForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:null);
       }
      }
+      this.detailForm.controls['trailerVehicleRegNo'].setValue(truck[0].trailer?truck[0].trailer:null);
       this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
     }
 
