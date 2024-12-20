@@ -26,7 +26,7 @@ export class TmsInCheckPorposalService {
   }
 
   getCategoryList(type:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryInList/?type=' + type);
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryList/?type=' + type);
   }
 
   getCardICDList(yard: string,gpName:string) {
