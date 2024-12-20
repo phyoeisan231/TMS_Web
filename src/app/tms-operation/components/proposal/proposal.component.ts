@@ -74,9 +74,9 @@ export class ProposalComponent {
 
 
     this.closeForm = new FormGroup({
-      jobDept:new FormControl(''),
-      file: new FormControl('', Validators.required),
-      uploadedFile: new FormControl('', Validators.required),
+      jobDept:new FormControl('',Validators.required),
+      file: new FormControl('',Validators.required),
+      uploadedFile: new FormControl(''),
       });
 
     //this.loadTableData();
@@ -202,17 +202,29 @@ export class ProposalComponent {
     });
   }
 
-  onCloseInSubmit(){
-    const formData=this.closeForm.value;
-    formData.createdUser = localStorage.getItem('currentUser');
-    this.createProposalDetail(formData);
+  onCloseFormSubmit(){
+    const data = this.closeForm.value;
+    const formData = new FormData();
+    formData.append("UploadedFile", data.uploadedFile);
+    formData.append("jobDept", data.jobDept);
+    this.statusChange(formData);
   }
 
-  // onCustomerSubmit(){
-  //   const formData=this.customerForm.value;
-  //   formData.createdUser = localStorage.getItem('currentUser');
-  //   this.createProposalDetail(formData);
-  // }
+  statusChange(formData: any) {
+    this.spinner.show();
+    this.service
+    .statusChange(formData)
+    .pipe(catchError((err) => of(this.showError(err))))
+    .subscribe((result) => {
+      if (result.status == true) {
+        this.showSuccess(result.messageContent);
+        this.router.navigate(["/tms-operation/proposal"]);
+      } else {
+        this.spinner.hide();
+        Swal.fire('Proposal', result.messageContent, 'error');
+      }
+    });
+  }
 
   createProposalDetail(formData: any) {
     this.spinner.show();

@@ -60,6 +60,8 @@ export class ProposalDetailComponent {
       jobDept: new FormControl(''),
       jobType:new FormControl(''),
       jobCode:new FormControl(''),
+      areaID:new FormControl(''),
+      pcCode:new FormControl(''),
       });
 
     this.rglTruckForm = new FormGroup({
@@ -112,6 +114,8 @@ export class ProposalDetailComponent {
         this.optionForm.controls['yard'].setValue(result.yard);
         this.optionForm.controls['estDate'].setValue(result.estDate);
         this.optionForm.controls['jobDept'].setValue(result.jobDept);
+        this.optionForm.controls['areaID'].setValue(result.areaID);
+        this.optionForm.controls['pcCode'].setValue(result.pcCode);
         this.jobDept=result.jobDept;
         if(this.jobDept=="CCA"){
           this.jobTypeList=[];

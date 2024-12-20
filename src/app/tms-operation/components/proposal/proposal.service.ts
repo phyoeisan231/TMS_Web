@@ -85,5 +85,10 @@ export class ProposalService {
     return this.http.put<any>(environment.url + 'TMSProposal/CompleteProposal/?id=' + id+'&user='+user, httpOptions);
   }
 
+  statusChange(data: any) {
+    return this.http.post<any>(environment.url + 'TMSProposal/StatusChange', data, {
+      reportProgress: true,
+    });
+  }
 
 }

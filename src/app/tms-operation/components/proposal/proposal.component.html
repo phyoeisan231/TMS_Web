@@ -98,7 +98,7 @@
       </div>
     </div>
       <ng-template #footerTemplate>
-        <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.closeForm.valid"  ejs-button (click)="onCloseInSubmit()">Save</button>
+        <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.closeForm.valid"  ejs-button (click)="onCloseFormSubmit()">Save</button>
         <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="closeModel.hide()" ejs-button >Close</button>
       </ng-template>
     </form>
