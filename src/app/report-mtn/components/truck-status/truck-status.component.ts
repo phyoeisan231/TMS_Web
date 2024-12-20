@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
 import { EditSettingsModel, GridComponent, GridLine, GroupSettingsModel, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, of } from 'rxjs';
@@ -10,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { ReportMtnModule } from '../../report-mtn.module';
 import { TruckStatusService } from './truck-status.service';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 @Component({
   selector: 'app-truck-status',
   standalone: true,
@@ -19,12 +19,16 @@ import { TruckStatusService } from './truck-status.service';
 })
 export class TruckStatusComponent {
   pageSettings: PageSettingsModel = { pageSize: 50 };
-  editSettings: EditSettingsModel = { allowEditing: false, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
-  toolbar: any[] = ['ExcelExport','Search'];
+  editSettings: EditSettingsModel = { allowEditing: false, allowAdding: false, allowDeleting: true, mode: 'Dialog' };
+  toolbar: any[] = [{ text: "Start Operation", tooltipText: "Start Operation", prefixIcon: "e-icons e-circle-add", id: "start" },{ text: "End Operation", tooltipText: "End Operation", prefixIcon: "e-icons e-circle-add", id: "end" },'ExcelExport','Search'];
   lines: GridLine = 'Both';
   optionForm: FormGroup;
+  startForm: FormGroup;
+  endForm: FormGroup;
   submitClicked: boolean = false;
   public formatfilter: any ="MM/dd/yyyy";
+  public format="dd/MM/yyyy h:mm:ss a";
+  interval: number=1;
   yardList:[]=[];
   endDate : Date = new Date();
   today : Date = new Date();
@@ -36,11 +40,12 @@ export class TruckStatusComponent {
   public selectAllText: string| any;
   public groupOptions: GroupSettingsModel;
   @ViewChild('Grid') public grid: GridComponent;
+  @ViewChild('startModal')startModal: DialogComponent;
+  @ViewChild('endModal')endModal: DialogComponent;
    // end multi file upload
   constructor(
     private service: TruckStatusService,
     private spinner: NgxSpinnerService,
-    private router: Router,
   ) {}
 
   ngOnInit(){
@@ -54,6 +59,19 @@ export class TruckStatusComponent {
       toDate: new FormControl(sessionStorage.getItem("tstoDate")?sessionStorage.getItem("tstoDate"):this.today,Validators.required),
       yardID: new FormControl(sessionStorage.getItem("tsloc")?sessionStorage.getItem("tsloc"):null,Validators.required),
       status: new FormControl(sessionStorage.getItem("tstatus")?sessionStorage.getItem("tstatus").split(','):null,Validators.required),
+    });
+    this.startForm = new FormGroup({
+      inRegNo: new FormControl('',Validators.required),
+      optStartDate: new FormControl(this.today,Validators.required),
+      grNNo: new FormControl(''),
+      gdNNo: new FormControl(''),
+    });
+
+    this.endForm = new FormGroup({
+      inRegNo: new FormControl('',Validators.required),
+      optEndDate: new FormControl(this.today,Validators.required),
+      grNNo: new FormControl(''),
+      gdNNo: new FormControl(''),
     });
   }
 
@@ -89,18 +107,18 @@ export class TruckStatusComponent {
         return ' rgb(248, 144, 32)'; // orange
       case 'In':
         return ' rgb(171, 127, 195)'; // Purple
-       case 'In(Weight)':
-           return '#d83ad8'; // Orchid
-       case 'Operation':
-           return '#0dcaf0'; // info
-       case 'Out(Weight)':
-           return 'rgb(23, 117, 223)'; // primary
-       case 'Out(Check)':
-           return 'rgba(52, 187, 52, 0.8)'; // Medium Green
-       case 'Out':
-           return 'rgb(23, 106, 23)'; // Green
-       default:
-           return 'rgb(199, 73, 73)'; // Red for unknown status
+      case 'In(Weight)':
+        return '#d83ad8'; // Orchid
+      case 'Operation':
+        return '#0dcaf0'; // info
+      case 'Out(Weight)':
+        return 'rgb(23, 117, 223)'; // primary
+      case 'Out(Check)':
+        return 'rgba(52, 187, 52, 0.8)'; // Medium Green
+      case 'Out':
+        return 'rgb(23, 106, 23)'; // Green
+      default:
+        return 'rgb(199, 73, 73)'; // Red for unknown status
     }
    }
 
@@ -134,20 +152,109 @@ export class TruckStatusComponent {
 
   showSuccess(msg: string) {
     this.spinner.hide();
-    Swal.fire('Truck Process', msg, 'success');
+    Swal.fire('Truck status', msg, 'success');
   }
+
+  validateControl(controlName: string) {
+    const control = this.startForm.get(controlName);
+    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
+  }
+
+  validateEndControl(controlName: string) {
+    const control = this.endForm.get(controlName);
+    return (control.invalid && (control.dirty || control.touched)) || (control.invalid && this.submitClicked);
+  }
+
 
   showError(error: HttpErrorResponse) {
     this.spinner.hide();
-    Swal.fire('Truck Process', error.statusText, 'error');
+    Swal.fire('Truck status', error.statusText, 'error');
+  }
+
+  onStartOpt(){
+    const user = localStorage.getItem('currentUser');
+    const formData = this.startForm.value;
+    formData.updatedUser = user;
+    formData.optStartDate = moment(formData.optStartDate).format('MM/DD/YYYY HH:mm:ss');
+     this.spinner.show();
+     this.service
+        .startOperation(formData)
+        .pipe(catchError((err) => of(this.showError(err))))
+        .subscribe((result) => {
+          if (result.status == true) {
+            this.spinner.hide();
+            this.startModal.hide();
+            this.loadTableData();
+            this.showSuccess(result.messageContent);
+          } else {
+            this.spinner.hide();
+            Swal.fire('Truck status', result.messageContent, 'error');
+          }
+        });
+  }
+
+  onEndOpt(){
+    const user = localStorage.getItem('currentUser');
+    const formData = this.endForm.value;
+    formData.updatedUser = user;
+    formData.optEndDate = moment(formData.optEndDate).format('MM/DD/YYYY HH:mm:ss');
+    this.spinner.show();
+    this.service
+       .endOperation(formData)
+       .pipe(catchError((err) => of(this.showError(err))))
+       .subscribe((result) => {
+         if (result.status == true) {
+           this.spinner.hide();
+           this.endModal.hide();
+           this.loadTableData();
+           this.showSuccess(result.messageContent);
+         } else {
+           this.spinner.hide();
+           Swal.fire('Truck status', result.messageContent, 'error');
+         }
+       });
   }
 
   toolbarClick(args: ClickEventArgs): void {
     if(args.item.text === 'Excel Export'){
       this.grid.excelExport({
-        fileName:'TruckProcessReport.xlsx',
+        fileName:'TruckStatusReport.xlsx',
      });
     }
+    if (args.item.id === 'start' || args.item.id === 'end') {
+      let selectedRecords: any[] = this.grid.getSelectedRecords();
+      if (selectedRecords.length == 0) {
+        Swal.fire('Truck status', 'Please select row!', 'warning');
+      }
+      else {
+        const id = selectedRecords[0].inRegNo;
+        if (args.item.id === 'start')
+        {
+          if(selectedRecords[0].status==='In(Weight)' && selectedRecords[0].optStartDate==null){
+            this.startForm.reset();
+            this.startForm.controls['inRegNo'].setValue(id);
+            this.startForm.controls['optStartDate'].setValue(this.today);
+            this.startModal.show();
+          }
+          else{
+            Swal.fire('Truck status', 'Operation can not start!', 'warning');
+          }
+        }
+        else{
+          if(selectedRecords[0].optStartDate!=null && selectedRecords[0].status==='In(Weight)'){
+            this.endForm.reset();
+            this.endForm.controls['inRegNo'].setValue(id);
+            this.endForm.controls['optEndDate'].setValue(this.today);
+            this.endForm.controls['grNNo'].setValue(selectedRecords[0].grnNo);
+            this.endForm.controls['gdNNo'].setValue(selectedRecords[0].gdnNo);
+            this.endModal.show();
+          }
+          else{
+            Swal.fire('Truck status', 'Operation can not end!', 'warning');
+          }
+        }
+       return;
+     }
+    }
   }
-
 }
