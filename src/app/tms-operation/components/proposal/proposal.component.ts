@@ -43,11 +43,10 @@ export class ProposalComponent {
   public placeholder: string = 'Select One';
   public mode?: string;
   public selectAllText: string| any;
-
+  jobDeptList:any[]=[];
   deptList:any[]=["CCA","Warehouse","Rail"]
   //truckList:any[]=[];
   jobDept:string;
-  jobTypeList:any[]=[];
  // cusTruckList:any[]=[];
   type:string;
   driverList:any[]=[];
@@ -74,9 +73,9 @@ export class ProposalComponent {
 
 
     this.closeForm = new FormGroup({
-      jobDept:new FormControl(''),
-      file: new FormControl('', Validators.required),
-      uploadedFile: new FormControl('', Validators.required),
+      jobDept:new FormControl('',Validators.required),
+      file: new FormControl('',Validators.required),
+      uploadedFile: new FormControl(''),
       });
 
     //this.loadTableData();
@@ -202,17 +201,30 @@ export class ProposalComponent {
     });
   }
 
-  onCloseInSubmit(){
-    const formData=this.closeForm.value;
-    formData.createdUser = localStorage.getItem('currentUser');
-    this.createProposalDetail(formData);
+  onCloseFormSubmit(){
+    const data = this.closeForm.value;
+    const formData = new FormData();
+    formData.append("UploadedFile", data.uploadedFile);
+    formData.append("JobDept", data.jobDept);
+    this.statusChange(formData);
   }
 
-  // onCustomerSubmit(){
-  //   const formData=this.customerForm.value;
-  //   formData.createdUser = localStorage.getItem('currentUser');
-  //   this.createProposalDetail(formData);
-  // }
+  statusChange(formData: any) {
+    this.closeModel.hide();
+    this.spinner.show();
+    this.service
+    .statusChange(formData)
+    .pipe(catchError((err) => of(this.showError(err))))
+    .subscribe((result) => {
+      if (result.status == true) {
+        Swal.fire('Proposal', result.message+'Job Code '+result.messageContent, 'success');
+        this.loadTableData();
+      } else {
+        this.spinner.hide();
+        Swal.fire('Proposal', result.messageContent, 'error');
+      }
+    });
+  }
 
   createProposalDetail(formData: any) {
     this.spinner.show();
@@ -247,7 +259,15 @@ export class ProposalComponent {
      });
     }
 
-    if (args.item.id === 'detail' || args.item.id==='edit' || args.item.id==='complete' || args.item.id=='close') {
+    if(args.item.id==='close'){
+      this.closeForm.reset();
+      this.closeForm.controls['jobDept'].setValue(this.jobDept);
+      this.closeModel.show();
+
+    }
+
+    if (args.item.id === 'detail' || args.item.id==='edit' || args.item.id==='complete') {
+
       let selectedRecords: any[] = this.grid.getSelectedRecords();
       if (selectedRecords.length == 0) {
         Swal.fire('TMS Proposal', "Please select one row!", 'warning');
@@ -268,12 +288,6 @@ export class ProposalComponent {
           this.completeProposal(id,user);
           return;
         }
-        else if(args.item.id==='close'){
-          this.closeForm.reset();
-          this.closeForm.controls['jobDept'].setValue(this.jobDept);
-          this.closeModel.show();
-        }
-
       }
     }
   }

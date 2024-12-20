@@ -120,6 +120,15 @@ export const NavigationItems: NavigationItem[] = [
           },
         ]
       },
+    ]
+  },
+
+  {
+    id: '24',
+    title: 'Report',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
       {
         id: '43',
         title: 'Truck Status',
@@ -144,67 +153,6 @@ export const NavigationItems: NavigationItem[] = [
         url:'report-mtn/truckin-yard',
         icon:'left-circle'
       }
-    ]
-  },
-
-  {
-    id: '24',
-    title: 'Report',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: '25',
-        title: 'InBound Rpt',
-        type: 'collapse',
-        classes: 'nav-item',
-        url: '',
-        icon: 'left-circle',
-        children: [
-          {
-            id: '26',
-            title: 'Report1',
-            type: 'item',
-            classes: 'nav-item',
-            url: 'master/driver',
-            icon: 'left-circle'
-          },
-          {
-            id: '27',
-            title: 'Report2',
-            type: 'item',
-            classes: 'nav-item',
-            url: 'master/driver',
-            icon: 'left-circle'
-          },
-        ]
-      },
-      {
-        id: '28',
-        title: 'OutBound Rpt',
-        type: 'collapse',
-        classes: 'nav-item',
-        url: '',
-        icon: 'left-circle',
-        children: [
-          {
-            id: '29',
-            title: 'Report1',
-            type: 'item',
-            classes: 'nav-item',
-            url: 'master/driver',
-            icon: 'left-circle'
-          },
-          {
-            id: '30',
-            title: 'Report2',
-            type: 'item',
-            classes: 'nav-item',
-            url: 'master/driver',
-            icon: 'left-circle'
-          },
-        ]
-      },
     ]
   },
 

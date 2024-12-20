@@ -38,7 +38,7 @@
                   <div class="col-lg-3 col-md-6">
                     <div class="mb-2">
                       <label>Yard</label>
-                      <ejs-textbox  formControlName="yard" [readonly]="true" tabindex="2" ></ejs-textbox>
+                      <ejs-textbox  formControlName="yard" [readonly]="true" ></ejs-textbox>
                     </div>
                   </div>
                  <div class="col-lg-3 col-md-6">
@@ -51,19 +51,31 @@
                  <div class="col-lg-3 col-md-6">
                   <div class="mb-2">
                     <label>Dept Type</label>
-                    <ejs-textbox  formControlName="jobDept" [readonly]="true" tabindex="3" ></ejs-textbox>
+                    <ejs-textbox  formControlName="jobDept" [readonly]="true" ></ejs-textbox>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                   <div class="mb-2">
                     <label>Job Type</label>
-                    <ejs-textbox  formControlName="jobType" [readonly]="true" tabindex="3" ></ejs-textbox>
+                    <ejs-textbox  formControlName="jobType" [readonly]="true" ></ejs-textbox>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                   <div class="mb-2">
                     <label>Job Code</label>
-                    <ejs-textbox  formControlName="jobCode" [readonly]="true" tabindex="3" ></ejs-textbox>
+                    <ejs-textbox  formControlName="jobCode" [readonly]="true" ></ejs-textbox>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label>Operation Area</label>
+                    <ejs-textbox  formControlName="areaID" [readonly]="true"></ejs-textbox>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label>Category</label>
+                    <ejs-textbox  formControlName="pcCode" [readonly]="true" ></ejs-textbox>
                   </div>
                 </div>
                </div>
@@ -73,8 +85,6 @@
           <ejs-grid #Grid [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings" (actionBegin)='actionBegin($event)' [allowExcelExport]='true' [toolbar]="toolbar"  (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
             <e-columns>
               <e-column field='truckNo' headerText="Truck No" width="150"></e-column>
-              <!-- <e-column field='driverName' headerText="DriverName" width="150"></e-column> -->
-              <!-- <e-column field='driverContact' headerText="Driver Contact" width="200"></e-column> -->
               <e-column field='nightStop' headerText="Night Stop" width="100"></e-column>
               <e-column field='truckAssignOption' headerText="TruckAssignOption" width="180"></e-column>
               <e-column field='otherInfo' headerText="Other Info" width="250"></e-column>

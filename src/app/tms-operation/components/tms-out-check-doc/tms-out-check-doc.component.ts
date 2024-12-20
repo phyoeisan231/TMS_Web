@@ -235,7 +235,7 @@ pageSettings: PageSettingsModel = { pageSize: 10 };
     onCardChange(id:string){
      const card = this.cardList.filter(x=>x.cardNo==id);
      if(card){
-      this.getCategoryList(card[0].groupName);
+      // this.getCategoryList(card[0].groupName);
       this.detailForm.controls['inRegNo'].setValue(card[0].inRegNo?card[0].inRegNo:null);
       this.detailForm.controls['truckVehicleRegNo'].setValue(card[0].truckVehicleRegNo?card[0].truckVehicleRegNo:null);
       this.detailForm.controls['driverLicenseNo'].setValue(card[0].driverLicenseNo?card[0].driverLicenseNo:null);
@@ -257,6 +257,8 @@ pageSettings: PageSettingsModel = { pageSize: 10 };
       this.detailForm.controls['jobType'].setValue(card[0].jobType?card[0].jobType:null);
       this.detailForm.controls['jobCode'].setValue(card[0].jobCode?card[0].jobCode:null);
       this.detailForm.controls['blNo'].setValue(card[0].blNo?card[0].blNo:null);
+      this.detailForm.controls['outPCCode'].setValue(card[0].inPCCode?card[0].inPCCode:null);
+      this.getDocumentSettingList(card[0].inPCCode);
      }
     }
 

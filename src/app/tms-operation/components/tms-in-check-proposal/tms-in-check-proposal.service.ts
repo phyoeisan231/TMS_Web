@@ -26,15 +26,15 @@ export class TmsInCheckPorposalService {
   }
 
   getCategoryList(type:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryInList/?type=' + type);
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryList/?type=' + type);
   }
 
   getCardICDList(yard: string,gpName:string) {
     return this.http.get<any>(environment.url + 'TMSOperation/GetCardList/?yard=' + yard+ '&gpName='+ gpName);
   }
 
-  getTruckList(id: string,poNo:any) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetTruckDataListByProposal/?id=' + id+ '&poNo='+ poNo );
+  getTruckList(id: string,poNo:any,type:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetTruckDataListByProposal/?id=' + id+ '&poNo='+ poNo+ '&type='+ type );
   }
 
   getTrailerList() {
