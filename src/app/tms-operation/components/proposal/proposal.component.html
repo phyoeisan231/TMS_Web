@@ -81,19 +81,20 @@
     <div class="row">
       <div class="form-group col-md-12">
         <label  class="requiredfield">Job Dept</label>
-        <ejs-textbox  formControlName="jobDept" [readonly]="true"  ></ejs-textbox>
+        <ejs-dropdownlist formControlName="jobDept" tabindex="3" [dataSource]="deptList"  popupHeight='200px' placeholder="Select One" ></ejs-dropdownlist>
         <div [style.visibility]='validateControl("jobDept")? "visible": "hidden"'>
-          <label class="e-error" style="display: block;">* Job Dept is required</label>
+          <label class="e-error" style="display: block;">*Job Dept is required</label>
         </div>
       </div>
+
       <div class="form-group col-md-12">
         <div class="e-float-input e-control-wrapper">
           <input formControlName="file" id="file" type="file" accept=".xlsx" (change)="handleFileInput($any($event.target).files)" style="padding-top: 2px;">
           <span class="e-float-line"></span>
-          <label class="e-float-text e-label-top" for="file">Excel File</label>
+          <label class="e-float-text e-label-top requiredfield" for="file">Excel File</label>
         </div>
         <div [style.visibility]='validateControl("jobDept")? "visible": "hidden"'>
-          <label class="e-error" style="display: block;">* Job Dept is required</label>
+          <label class="e-error" style="display: block;">* Import file is required</label>
         </div>
       </div>
     </div>
