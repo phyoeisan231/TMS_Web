@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { EditSettingsModel, GridComponent, GridLine, GroupService, GroupSettingsModel, PageSettingsModel, SaveEventArgs, ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { AggregateService, EditSettingsModel, GridComponent, GridLine, GroupService, GroupSettingsModel, PageSettingsModel, SaveEventArgs, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, of } from 'rxjs';
 import moment from 'moment';
@@ -18,7 +18,7 @@ import { forkJoin } from 'rxjs';
   imports: [ReportMtnModule],
   templateUrl: './truck-in-yard.component.html',
   styleUrl: './truck-in-yard.component.scss',
-  providers: [GroupService]
+  providers: [GroupService,AggregateService]
 })
 export class TruckInYardComponent {
   pageSettings: PageSettingsModel = { pageSize: 50 };
@@ -34,6 +34,7 @@ export class TruckInYardComponent {
   statusList:string[]=['In(Check)','In','In(Weight)','Operation','Out(Weight)','Out(Check)','Out'];
   
   public toolbarOptions?: ToolbarItems[];
+  public groupOptions:GroupSettingsModel={showDropArea:false,columns:['truckVehicleRegNo']};
 
   public data1?:Object[];
   public data2?:Object[];
@@ -49,7 +50,6 @@ export class TruckInYardComponent {
   isTab6:boolean=false;
   isTab7:boolean=false;
   public selectAllText: string| any;
-  public groupOptions: GroupSettingsModel;
 
   @ViewChild('grid1') public grid1?: GridComponent;
   @ViewChild('grid2') public grid2: GridComponent;
@@ -68,7 +68,7 @@ export class TruckInYardComponent {
   ngOnInit(){
     this.mode = 'CheckBox';
     this.toolbarOptions = ['ExcelExport'];
-
+    
     this.groupOptions = { showDropArea: false, columns: ['groupName'] };
     this.getLocationList();
     this.optionForm = new FormGroup({
@@ -90,48 +90,46 @@ export class TruckInYardComponent {
     });
   }
 
-getBadgeColor(status: string): string {
-    switch (status) {
-        case 'In(Check)':
-            return 'rgb(3, 252, 173)'; //Aqua Green
-        case 'In':
-            return 'rgb(65, 145, 120)'; //Teal Green Purple 65, 145, 120 106, 90, 205
-        case 'In(Weight)':
-            return 'rgb(61, 155, 227)'; // Sky Blue 
-        case 'Operation':
-            return 'rgb(235, 121, 7)'; //Bright Orange
-        case 'Out(Weight)':
-            return 'rgb(39, 204, 39)'; //Lime Green
-        case 'Out(Check)':
-            return 'rgba(152, 75, 191)'; //Medium Purple or Vivid Orchid
-        case 'Out':
-            return 'rgb(140, 140, 140)'; // Gray
-        default:
-            return 'rgb(199, 73, 73)'; // Red for unknown status
-    }
-}
-
 // getBadgeColor(status: string): string {
-//   switch (status) {
-//     case 'In(Check)':
-//       return ' rgb(248, 144, 32)'; // orange
-//     case 'In':
-//       return ' rgb(171, 127, 195)'; // Purple
-//      case 'In(Weight)':
-//       return '#d83ad8'; // Orchid
-//       case 'Operation':
-//         return '#0dcaf0'; // info
+//     switch (status) {
+//         case 'In(Check)':
+//             return 'rgb(3, 252, 173)'; //Aqua Green
+//         case 'In':
+//             return 'rgb(65, 145, 120)'; //Teal Green Purple 65, 145, 120 106, 90, 205
+//         case 'In(Weight)':
+//             return 'rgb(61, 155, 227)'; // Sky Blue 
+//         case 'Operation':
+//             return 'rgb(235, 121, 7)'; //Bright Orange
 //         case 'Out(Weight)':
-//          return 'rgb(23, 117, 223)'; // primary
-//      case 'Out(Check)':
-//          return 'rgba(52, 187, 52, 0.8)'; // Medium Green
-//      case 'Out':
-//          return 'rgb(23, 106, 23)'; // Green
-//      default:
-//          return 'rgb(199, 73, 73)'; // Red for unknown status
-//   }
-//  }
-
+//             return 'rgb(39, 204, 39)'; //Lime Green
+//         case 'Out(Check)':
+//             return 'rgba(152, 75, 191)'; //Medium Purple or Vivid Orchid
+//         case 'Out':
+//             return 'rgb(140, 140, 140)'; // Gray
+//         default:
+//             return 'rgb(199, 73, 73)'; // Red for unknown status
+//     }
+// }
+getBadgeColor(status: string): string {
+  switch (status) {
+    case 'In(Check)':
+      return ' rgb(248, 144, 32)'; // orange
+    case 'In':
+      return ' rgb(171, 127, 195)'; // Purple
+    case 'In(Weight)':
+      return '#d83ad8'; // Orchid
+    case 'Operation':
+      return '#0dcaf0'; // info
+    case 'Out(Weight)':
+      return 'rgb(23, 117, 223)'; // primary
+    case 'Out(Check)':
+      return 'rgba(52, 187, 52, 0.8)'; // Medium Green
+    case 'Out':
+      return 'rgb(23, 106, 23)'; // Green
+    default:
+      return 'rgb(199, 73, 73)'; // Red for unknown status
+  }
+ }
 
    InCheck(){
     document.getElementById("base-tab1").style.color='#2793f1';
@@ -251,6 +249,21 @@ getBadgeColor(status: string): string {
     this.isTab5=false;
     this.isTab6=false;
   }
+
+  public aggregates = [
+    {
+      columns: [
+        {
+          type: ['count'],
+          field: 'driverName',
+          columnName: 'driverName',
+          // format: 'C2',
+          footerTemplate: 'Total Trucks: ${count}',
+        },
+      ],
+    },
+  ];
+
 
    loadTableData() {
     this.getTruckInCheck();
