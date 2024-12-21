@@ -72,9 +72,11 @@ export class TruckInYardComponent {
     this.groupOptions = { showDropArea: false, columns: ['groupName'] };
     this.getLocationList();
     this.optionForm = new FormGroup({
-      fromDate: new FormControl(sessionStorage.getItem("tyfromDate")?sessionStorage.getItem("tyfromDate"):this.today,Validators.required),
-      toDate: new FormControl(sessionStorage.getItem("tytoDate")?sessionStorage.getItem("tytoDate"):this.today,Validators.required),
+      // fromDate: new FormControl(sessionStorage.getItem("tyfromDate")?sessionStorage.getItem("tyfromDate"):this.today,Validators.required),
+      // toDate: new FormControl(sessionStorage.getItem("tytoDate")?sessionStorage.getItem("tytoDate"):this.today,Validators.required),
       yardID: new FormControl(sessionStorage.getItem("tyloc")?sessionStorage.getItem("tyloc").split(','):null,Validators.required),
+      status: new FormControl(sessionStorage.getItem("tytatus")?sessionStorage.getItem("tstatus").split(','):null),
+
     });
   }
   getLocationList() {
@@ -88,20 +90,48 @@ export class TruckInYardComponent {
     });
   }
 
-  getBadgeColor(status: string): string {
+getBadgeColor(status: string): string {
     switch (status) {
-       case 'In(Check)':
-           return '#519df4'; // Orchid
-       case 'In':
-           return 'rgb(106, 90, 205)'; // Purple
-       case 'Out(Check)':
-           return 'rgba(40, 167, 69, 0.8)'; // Medium Green
-       case 'Out':
-           return 'rgb(140, 140, 140)'; // Gray
-       default:
-           return 'rgb(199, 73, 73)'; // Red for unknown status
+        case 'In(Check)':
+            return 'rgb(3, 252, 173)'; //Aqua Green
+        case 'In':
+            return 'rgb(65, 145, 120)'; //Teal Green Purple 65, 145, 120 106, 90, 205
+        case 'In(Weight)':
+            return 'rgb(61, 155, 227)'; // Sky Blue 
+        case 'Operation':
+            return 'rgb(235, 121, 7)'; //Bright Orange
+        case 'Out(Weight)':
+            return 'rgb(39, 204, 39)'; //Lime Green
+        case 'Out(Check)':
+            return 'rgba(152, 75, 191)'; //Medium Purple or Vivid Orchid
+        case 'Out':
+            return 'rgb(140, 140, 140)'; // Gray
+        default:
+            return 'rgb(199, 73, 73)'; // Red for unknown status
     }
-   }
+}
+
+// getBadgeColor(status: string): string {
+//   switch (status) {
+//     case 'In(Check)':
+//       return ' rgb(248, 144, 32)'; // orange
+//     case 'In':
+//       return ' rgb(171, 127, 195)'; // Purple
+//      case 'In(Weight)':
+//       return '#d83ad8'; // Orchid
+//       case 'Operation':
+//         return '#0dcaf0'; // info
+//         case 'Out(Weight)':
+//          return 'rgb(23, 117, 223)'; // primary
+//      case 'Out(Check)':
+//          return 'rgba(52, 187, 52, 0.8)'; // Medium Green
+//      case 'Out':
+//          return 'rgb(23, 106, 23)'; // Green
+//      default:
+//          return 'rgb(199, 73, 73)'; // Red for unknown status
+//   }
+//  }
+
 
    InCheck(){
     document.getElementById("base-tab1").style.color='#2793f1';
@@ -235,12 +265,8 @@ export class TruckInYardComponent {
   getTruckInCheck(){
     this.spinner.show();
     const formData = this.optionForm.value;
-    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
-    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-     sessionStorage.setItem('tyfromDate', fromDate);
-     sessionStorage.setItem('tytoDate', toDate);
      sessionStorage.setItem('tyloc',formData.yardID);
-     this.service.getTruckInCheckList(fromDate,toDate,formData.yardID)
+     this.service.getTruckInCheckList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.data1= result;
@@ -253,12 +279,8 @@ export class TruckInYardComponent {
   getTruckIn(){
     this.spinner.show();
     const formData = this.optionForm.value;
-    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
-    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-     sessionStorage.setItem('tyfromDate', fromDate);
-     sessionStorage.setItem('tytoDate', toDate);
      sessionStorage.setItem('tyloc',formData.yardID);
-     this.service.GetTruckInList(fromDate,toDate,formData.yardID)
+     this.service.GetTruckInList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.data2= result;
@@ -271,12 +293,8 @@ export class TruckInYardComponent {
   getTruckInWeight(){
     this.spinner.show();
     const formData = this.optionForm.value;
-    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
-    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-     sessionStorage.setItem('tyfromDate', fromDate);
-     sessionStorage.setItem('tytoDate', toDate);
      sessionStorage.setItem('tyloc',formData.yardID);
-     this.service.GetTruckInWeightList(fromDate,toDate,formData.yardID)
+     this.service.GetTruckInWeightList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.data3= result;
@@ -289,12 +307,8 @@ export class TruckInYardComponent {
   getTruckOperation(){
     this.spinner.show();
     const formData = this.optionForm.value;
-    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
-    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-     sessionStorage.setItem('tyfromDate', fromDate);
-     sessionStorage.setItem('tytoDate', toDate);
      sessionStorage.setItem('tyloc',formData.yardID);
-     this.service.GetTruckOperationList(fromDate,toDate,formData.yardID)
+     this.service.GetTruckOperationList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.data4= result;
@@ -307,12 +321,8 @@ export class TruckInYardComponent {
   getTruckOutWeight(){
     this.spinner.show();
     const formData = this.optionForm.value;
-    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
-    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-     sessionStorage.setItem('tyfromDate', fromDate);
-     sessionStorage.setItem('tytoDate', toDate);
      sessionStorage.setItem('tyloc',formData.yardID);
-     this.service.GetTruckOutWeightList(fromDate,toDate,formData.yardID)
+     this.service.GetTruckOutWeightList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.data5= result;
@@ -320,18 +330,13 @@ export class TruckInYardComponent {
          this.grid5.refresh();
          this.spinner.hide();
      });
-
   }
 
   getTruckOutCheck(){
     this.spinner.show();
     const formData = this.optionForm.value;
-    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
-    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-     sessionStorage.setItem('tyfromDate', fromDate);
-     sessionStorage.setItem('tytoDate', toDate);
      sessionStorage.setItem('tyloc',formData.yardID);
-     this.service.GetTruckOutCheckList(fromDate,toDate,formData.yardID)
+     this.service.GetTruckOutCheckList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.data6= result;
@@ -344,12 +349,8 @@ export class TruckInYardComponent {
   getTruckOut(){
     this.spinner.show();
     const formData = this.optionForm.value;
-    const fromDate = moment(formData.fromDate).format('MM/DD/YYYY');
-    const toDate =  moment(formData.toDate).format('MM/DD/YYYY');
-     sessionStorage.setItem('tyfromDate', fromDate);
-     sessionStorage.setItem('tytoDate', toDate);
      sessionStorage.setItem('tyloc',formData.yardID);
-     this.service.GetTruckOutList(fromDate,toDate,formData.yardID)
+     this.service.GetTruckOutList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
          this.data7= result;
@@ -373,20 +374,12 @@ export class TruckInYardComponent {
     Swal.fire('Truck in Yard', error.statusText, 'error');
   }
 
-  // toolbarClick(args: ClickEventArgs): void {
-  //   if(args.item.text === 'Excel Export'){
-  //     this.grid1.excelExport({
-  //       fileName:'TruckInYardReport.xlsx',
-  //    });
-  //   }
-  // }
-
   toolbarClick1(args: ClickEventArgs): void {
     if (args.item.id === 'Grid_excelexport') {
       this.grid1.excelExport({
         fileName:'Truck_In(Check)Report.xlsx',
         header: {
-          headerRows: 14,
+          headerRows: 2,
           rows: [
               {
                   cells: [
@@ -418,7 +411,7 @@ export class TruckInYardComponent {
       this.grid2.excelExport({
         fileName:'Truck_(IN).xlsx',
         header: {
-          headerRows: 14,
+          headerRows: 2,
           rows: [
               {
                   cells: [
@@ -450,12 +443,12 @@ export class TruckInYardComponent {
       this.grid3.excelExport({
         fileName:'Truck_In(Weight).xlsx',
         header: {
-          headerRows: 14,
+          headerRows: 2,
           rows: [
               {
                   cells: [
                     {
-                      colSpan: 14, value: 'Truck in In(Weight)',
+                      colSpan: 16, value: 'Truck in In(Weight)',
                       style: { fontColor: '#000000', fontSize: 15, hAlign: 'Center', bold: true,underline:true}
                   }
                 ]
@@ -463,7 +456,7 @@ export class TruckInYardComponent {
   
               {
                 cells: [{
-                    colSpan: 14, value:'',
+                    colSpan: 16, value:'',
   
                 },
   
@@ -482,12 +475,12 @@ export class TruckInYardComponent {
       this.grid4.excelExport({
         fileName:'Truck_Operation.xlsx',
         header: {
-          headerRows: 14,
+          headerRows: 2,
           rows: [
               {
                   cells: [
                     {
-                      colSpan: 14, value: 'Truck in Operation',
+                      colSpan: 17, value: 'Truck in Operation',
                       style: { fontColor: '#000000', fontSize: 15, hAlign: 'Center', bold: true,underline:true}
                   }
                 ]
@@ -495,7 +488,7 @@ export class TruckInYardComponent {
   
               {
                 cells: [{
-                    colSpan: 14, value:'',
+                    colSpan: 17, value:'',
   
                 },
   
@@ -514,12 +507,12 @@ export class TruckInYardComponent {
       this.grid5.excelExport({
         fileName:'Truck_Out(Weight).xlsx',
         header: {
-          headerRows: 14,
+          headerRows: 2,
           rows: [
               {
                   cells: [
                     {
-                      colSpan: 14, value: 'Truck in Out(Weight)',
+                      colSpan: 16, value: 'Truck in Out(Weight)',
                       style: { fontColor: '#000000', fontSize: 15, hAlign: 'Center', bold: true,underline:true}
                   }
                 ]
@@ -527,7 +520,7 @@ export class TruckInYardComponent {
   
               {
                 cells: [{
-                    colSpan: 14, value:'',
+                    colSpan: 16, value:'',
   
                 },
   
@@ -546,7 +539,7 @@ export class TruckInYardComponent {
       this.grid6.excelExport({
         fileName:'Truck_Out(Check).xlsx',
         header: {
-          headerRows: 14,
+          headerRows: 2,
           rows: [
               {
                   cells: [
@@ -578,7 +571,7 @@ export class TruckInYardComponent {
       this.grid7.excelExport({
         fileName:'Truck_Out.xlsx',
         header: {
-          headerRows: 14,
+          headerRows: 2,
           rows: [
               {
                   cells: [
