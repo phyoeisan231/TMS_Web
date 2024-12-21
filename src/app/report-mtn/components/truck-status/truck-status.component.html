@@ -115,9 +115,13 @@
                   <e-column field='outType' headerText="Out Type" width="100"></e-column>
                   <e-column field='outCargoType' headerText="Out CargoType" width="100"></e-column>
                   <e-column field='outCargoInfo' headerText="Out Cargo Info" width="100"></e-column>
+                  <e-column field='status' headerText="Status" width="100"></e-column>
                   <e-column field='inWeightDateTime' headerText="In Weight Date Time" width="150"></e-column>
                   <e-column field='outWeightDateTime' headerText="Out Weight Date Time" width="150"></e-column>
-                  <e-column field='status' headerText="Status" width="100"></e-column>
+                  <e-column field='optStartDate' headerText="Opt Start Date Time" width="150"></e-column>
+                  <e-column field='optEndDate' headerText="Opt End Date Time" width="150"></e-column>
+                  <e-column field='grnNo' headerText="GRN No" width="100"></e-column>
+                  <e-column field='gdnNo' headerText="GDN No" width="100"></e-column>
                   <e-column field='remark' headerText="Remark" width="100"></e-column>
                   <e-column field='inRegNo' headerText='In Check No' [isPrimaryKey]="true" width="110" [visible]="false"></e-column>
                   <e-column field='outRegNo' headerText='Out Check No' width="110" [visible]="false"></e-column>
@@ -152,6 +156,80 @@
           </div>
       </div>
     </div>
+    <!-- Start Form -->
+    <ejs-dialog #startModal isModal="true"  [showCloseIcon]="true" height="55%" width="400px"  allowDragging="true" [visible]="false">
+      <ng-template #header>
+        <div class="font-weight-bold">Operation Start Form</div>
+      </ng-template>
+      <form [formGroup]="startForm">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label  class="requiredfield">In Check No</label>
+          <ejs-textbox formControlName="inRegNo" tabindex="1" readonly="true"></ejs-textbox>
+        </div>
+       </div>
+       <div class="row">
+        <div class="form-group col-md-12">
+          <label  class="requiredfield">Start Time</label>
+          <ejs-timepicker formControlName="optStartDate" [format]="format" [step]="interval" tabindex="2"></ejs-timepicker>
+          <div [style.visibility]='validateControl("optStartDate")? "visible": "hidden"'>
+            <label class="e-error" style="display: block;">*Start Time is required</label>
+          </div>
+        </div>
+       </div>
+       <div class="row">
+        <div class="form-group col-md-6">
+          <label>GRN No</label>
+          <ejs-numerictextbox formControlName="grNNo" tabindex="3"></ejs-numerictextbox>
+        </div>
+        <div class="form-group col-md-6">
+          <label>GDN No</label>
+          <ejs-numerictextbox formControlName="gdNNo" tabindex="4"></ejs-numerictextbox>
+        </div>
+       </div>
+        <ng-template #footerTemplate>
+          <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.startForm.valid"  ejs-button (click)="onStartOpt()">Save</button>
+          <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="startModal.hide()" ejs-button >Close</button>
+        </ng-template>
+      </form>
+    </ejs-dialog>
+     <!-- End Form -->
+     <ejs-dialog #endModal isModal="true"  [showCloseIcon]="true" height="55%" width="400px"  allowDragging="true" [visible]="false">
+      <ng-template #header>
+        <div class="font-weight-bold">Operation End Form</div>
+      </ng-template>
+      <form [formGroup]="endForm">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label  class="requiredfield">In Check No</label>
+          <ejs-textbox formControlName="inRegNo" tabindex="1" readonly="true"></ejs-textbox>
+        </div>
+       </div>
+       <div class="row">
+        <div class="form-group col-md-12">
+          <label  class="requiredfield">End Time</label>
+          <ejs-timepicker formControlName="optEndDate" [format]="format" [step]="interval" tabindex="2"></ejs-timepicker>
+          <div [style.visibility]='validateEndControl("optEndDate")? "visible": "hidden"'>
+            <label class="e-error" style="display: block;">*End Time is required</label>
+          </div>
+        </div>
+       </div>
+       <div class="row">
+        <div class="form-group col-md-6">
+          <label>GRN No</label>
+          <ejs-numerictextbox formControlName="grNNo" tabindex="3"></ejs-numerictextbox>
+        </div>
+        <div class="form-group col-md-6">
+          <label>GDN No</label>
+          <ejs-numerictextbox formControlName="gdNNo" tabindex="4"></ejs-numerictextbox>
+        </div>
+       </div>
+        <ng-template #footerTemplate>
+          <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.endForm.valid"  ejs-button (click)="onEndOpt()">Save</button>
+          <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="endModal.hide()" ejs-button >Close</button>
+        </ng-template>
+      </form>
+    </ejs-dialog>
   </section>
   <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 

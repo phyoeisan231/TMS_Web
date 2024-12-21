@@ -124,17 +124,17 @@ export class InCheckComponent {
         return ' rgb(248, 144, 32)'; // orange
       case 'In':
         return ' rgb(171, 127, 195)'; // Purple
-       case 'In(Weight)':
+      case 'In(Weight)':
         return '#d83ad8'; // Orchid
-        case 'Operation':
+      case 'Operation':
           return '#0dcaf0'; // info
-          case 'Out(Weight)':
+      case 'Out(Weight)':
            return 'rgb(23, 117, 223)'; // primary
-       case 'Out(Check)':
+      case 'Out(Check)':
            return 'rgba(52, 187, 52, 0.8)'; // Medium Green
-       case 'Out':
+      case 'Out':
            return 'rgb(23, 106, 23)'; // Green
-       default:
+      default:
            return 'rgb(199, 73, 73)'; // Red for unknown status
     }
    }

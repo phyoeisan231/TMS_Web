@@ -18,5 +18,13 @@ export class TruckStatusService {
   getTruckProcessList(startDate:any,endDate:any,status:string,yard:string) {
     return this.http.get<any>(environment.url + 'TMSOperation/GetTruckProcessList/?startDate=' + startDate+ '&endDate=' + endDate+ '&status=' + status+ '&yard='+yard);
   }
-  
+
+  startOperation(data: any) {
+    return this.http.put<any>(environment.url + 'TMSOperation/StartOperation', data, httpOptions);
+  }
+
+  endOperation(data: any) {
+    return this.http.put<any>(environment.url + 'TMSOperation/EndOperation', data, httpOptions);
+  }
+
 }
