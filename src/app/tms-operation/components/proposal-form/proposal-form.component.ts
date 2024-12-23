@@ -88,7 +88,6 @@ export class ProposalFormComponent {
     }
 
     this.getLocationList();
-    this.getAreaList();
     this.getCategoryList();
   }
 
@@ -129,9 +128,9 @@ export class ProposalFormComponent {
     });
   }
 
-  getAreaList(){
+  getAreaList(yard:string,type:string){
     this.spinner.show();
-    this.service.getOperationAreas('true')
+    this.service.getAreaList(yard,type)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.areaList = result;
@@ -141,7 +140,7 @@ export class ProposalFormComponent {
 
   getCategoryList(){
     this.spinner.show();
-    this.service.getCategoryList('true')
+    this.service.getCategoryList('TMS')
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.categoryList = result;
@@ -274,7 +273,9 @@ export class ProposalFormComponent {
     });
   }
 
-
+  onYardChange(code:any){
+    this.getAreaList(code,'TMS')
+  }
 
   showError(error:HttpErrorResponse){
     this.spinner.hide();

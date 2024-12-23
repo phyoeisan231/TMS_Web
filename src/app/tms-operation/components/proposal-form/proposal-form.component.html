@@ -30,7 +30,7 @@
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal requiredfield">Yard</label>
                 <ejs-dropdownlist *ngIf="this.id"  formControlName="yard"  [dataSource]='yardList' readonly="true" [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  popupHeight='200px' ></ejs-dropdownlist>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="yard" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" placeholder="Select One"  popupHeight='200px' ></ejs-dropdownlist>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="yard" tabindex="1" [dataSource]='yardList' [fields]="{ text: 'yardID', value: 'yardID' }" (change)="onYardChange($event.value)" placeholder="Select One"  popupHeight='200px' ></ejs-dropdownlist>
                 <div [style.visibility]='validateControl("yard")? "visible": "hidden"'>
                   <label class="e-error" style="display: block;">*Yard is required</label>
                 </div>

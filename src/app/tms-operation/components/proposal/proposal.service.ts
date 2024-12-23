@@ -53,13 +53,14 @@ export class ProposalService {
     return this.http.get<any>(environment.url + 'Master/GetTruckList');
   }
 
-  getOperationAreas(active: string) {
-    return this.http.get<any>(environment.url + 'Master/GetOperationAreaList/?active=' + active);
+  getCategoryList(type:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryList/?type=' + type);
   }
 
-  getCategoryList(active: string) {
-    return this.http.get<any>(environment.url + 'Master/GetPCategoryList/?active=' + active);
+  getAreaList(yard: string,gpName:string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetOperationAreaDataList/?yard=' + yard+ '&gpName='+ gpName);
   }
+
 
   getBLNoList(code:string,dept:string){
     return this.http.get<any>(environment.url + 'TMSProposal/GetBLNoList/?code=' + code+'&dept='+dept);
