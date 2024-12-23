@@ -249,7 +249,6 @@ export class ProposalFormComponent {
       .subscribe((result) => {
         if (result.status == true) {
           const id=result.message;
-          alert(id);
           this.showSuccess(result.messageContent);
           this.router.navigate(["/tms-operation/proposal-detail"], { queryParams: { id: id}});
 
