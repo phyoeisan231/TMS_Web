@@ -17,40 +17,43 @@
           <div class="row">
             <div class="col-md-12 col-lg-12 text-left">
               <Form [formGroup]="optionForm">
-                 <div class="row mb-2">
-                  <div class="col-lg-3 col-md-6">
-                    <div class="mb-2">
-                      <label class="requiredfield">From</label>
-                      <ejs-datepicker formControlName="fromDate" [format]="formatfilter" floatLabelType='Always'>
-                      </ejs-datepicker>
+                <div class="row btns mb-2">
+                   <div class="col-lg-5 col-12">
+                     <div class="row">
+                       <label for="fromDate" class="col-sm-4 col-form-label requiredfield">Date:</label>
+                       <div class="col-sm-8 p-0">
+                          <ejs-datepicker formControlName="fromDate" [format]="formatfilter" floatLabelType='Always'>
+                          </ejs-datepicker>
+                       </div>
+                      </div>
+                     </div>
+                     <div class="col-lg-5 col-12">
+                     <div class="row">
+                       <label for="toDate" class="col-sm-4 col-form-label requiredfield">To:</label>
+                       <div class="col-sm-8 p-0">
+                       <ejs-datepicker formControlName="toDate"   [format]="formatfilter"   floatLabelType='Always'>
+                       </ejs-datepicker>
+                       </div>
+                      </div>
+                     </div>
                     </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-6">
-                    <div class="mb-2">
-                      <label class="requiredfield">To</label>
-                      <ejs-datepicker formControlName="toDate"   [format]="formatfilter"   floatLabelType='Always'>
-                      </ejs-datepicker>
+                    <div class="row mb-2">
+                     <div class="col-lg-5 col-12">
+                       <div class="row">
+                          <label class="col-sm-4 col-form-label requiredfield">Dept Type:</label>
+                          <div class="col-sm-8 p-0">
+                             <ejs-multiselect formControlName="deptType" [dataSource]='deptTypeList'  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-12 justify-content-end">
+                        <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
+                          <i class="fas fa-eye"></i> &nbsp; View
+                        </button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-6">
-                    <div class="mb-2">
-                      <label class="requiredfield">Dept Type</label>
-                      <ejs-multiselect formControlName="deptType" [dataSource]='deptTypeList'  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-6 align-self-end">
-                    <div class="mb-2">
-                      <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
-                        <i class="fas fa-eye"></i> &nbsp; View
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Form>
-            </div>
+                  </Form>
+              </div>
           </div>
           <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
             <e-columns>

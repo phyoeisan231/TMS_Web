@@ -108,6 +108,8 @@ export class TmsInCheckProposalDocComponent {
     jobCode:new FormControl(''),
     jobType:new FormControl(''),
     blNo:new FormControl(''),
+    inWBBillOption:new FormControl(''),
+    outWBBillOption:new FormControl(''),
     });
 
     this.cardForm = new FormGroup({
@@ -247,8 +249,6 @@ export class TmsInCheckProposalDocComponent {
       .subscribe((result) => {
         this.docList=result.documentList;
         this.detailData = result;
-        this.cardForm.controls['inWBBillOption'].setValue(result.inWBBillOption?result.inWBBillOption:null);
-        this.cardForm.controls['outWBBillOption'].setValue(result.outWBBillOption?result.outWBBillOption:null);
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'documentList') {
@@ -269,6 +269,9 @@ export class TmsInCheckProposalDocComponent {
         this.detailData = result;
         this.getGateList(result.yard);
         this.getDocumentSettingList(result.inPCCode);
+        console.log(result)
+        this.detailForm.controls['inWBBillOption'].setValue(result.weightOption?result.weightOption:null);
+        this.detailForm.controls['outWBBillOption'].setValue(result.weightOption?result.weightOption:null);
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'detailList') {
@@ -351,6 +354,8 @@ export class TmsInCheckProposalDocComponent {
         this.getWBDataList(formData.inYardID)
       }
       this.getCardList(formData.inYardID,'TMS');
+      this.cardForm.controls['inWBBillOption'].setValue(formData.inWBBillOption?formData.inWBBillOption:null);
+      this.cardForm.controls['outWBBillOption'].setValue(formData.outWBBillOption?formData.outWBBillOption:null);
       this.cardModel.show();
    }
    this.spinner.hide();
@@ -399,6 +404,7 @@ export class TmsInCheckProposalDocComponent {
         this.detailForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:null);
       }
      }
+     this.detailForm.controls['truckType'].setValue(truck[0].truckType?truck[0].truckType:null);
       this.detailForm.controls['trailerVehicleRegNo'].setValue(truck[0].trailer?truck[0].trailer:null);
       this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
     }
