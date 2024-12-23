@@ -247,6 +247,8 @@ export class TmsInCheckProposalDocComponent {
       .subscribe((result) => {
         this.docList=result.documentList;
         this.detailData = result;
+        this.cardForm.controls['inWBBillOption'].setValue(result.inWBBillOption?result.inWBBillOption:null);
+        this.cardForm.controls['outWBBillOption'].setValue(result.outWBBillOption?result.outWBBillOption:null);
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'documentList') {
@@ -345,7 +347,6 @@ export class TmsInCheckProposalDocComponent {
       else{
         this.isWb=false
       }
-
       if(this.isWb){
         this.getWBDataList(formData.inYardID)
       }
