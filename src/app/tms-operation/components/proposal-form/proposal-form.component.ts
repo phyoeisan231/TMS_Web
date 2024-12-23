@@ -50,6 +50,7 @@ export class ProposalFormComponent {
   areaList:any[]=[];
   categoryList:any[]=[];
   blNoList:any[]=[];
+  wOption:any[]=["None","Cash","Credit"];
   @ViewChild('Grid') public grid: GridComponent;
   constructor(
     private service: ProposalService,
@@ -77,7 +78,8 @@ export class ProposalFormComponent {
     pcCode:new FormControl('',Validators.required),
     cargoInfo:new FormControl(''),
     noOfTruck: new FormControl('',Validators.required),
-    blNo:new FormControl('')
+    blNo:new FormControl(''),
+    weightOption:new FormControl(''),
     });
 
 
@@ -86,7 +88,6 @@ export class ProposalFormComponent {
     }
 
     this.getLocationList();
-    this.getAreaList();
     this.getCategoryList();
   }
 
@@ -107,6 +108,7 @@ export class ProposalFormComponent {
         this.proposalForm.controls['jobCode'].setValue(result[0].jobCode);
         this.proposalForm.controls['blNo'].setValue(result[0].blNo);
         this.proposalForm.controls['pcCode'].setValue(result[0].pcCode);
+        this.proposalForm.controls['weightOption'].setValue(result[0].weightOption);
         this.proposalForm.controls["noOfTruck"].setValue(result[0].noOfTruck);
         this.proposalForm.controls["noOfTEU"].setValue(result[0].noOfTEU);
         this.proposalForm.controls["noOfFEU"].setValue(result[0].noOfFEU);
@@ -126,9 +128,9 @@ export class ProposalFormComponent {
     });
   }
 
-  getAreaList(){
+  getAreaList(yard:string,type:string){
     this.spinner.show();
-    this.service.getOperationAreas('true')
+    this.service.getAreaList(yard,type)
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.areaList = result;
@@ -138,23 +140,13 @@ export class ProposalFormComponent {
 
   getCategoryList(){
     this.spinner.show();
-    this.service.getCategoryList('true')
+    this.service.getCategoryList('TMS')
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.categoryList = result;
         this.spinner.hide();
     });
   }
-
-  // getJobCodeList(id:string,){
-  //   this.spinner.show();
-  //   this.service.getJobCodeList(id)
-  //   .pipe(catchError((err) => of(this.showError(err))))
-  //     .subscribe((result) => {
-  //       this.customerList = result;
-  //       this.spinner.hide();
-  //   });
-  // }
 
   onjobDeptChange(id:string){
     this.jDept=id;
@@ -255,8 +247,10 @@ export class ProposalFormComponent {
     .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         if (result.status == true) {
+          const id=result.message;
           this.showSuccess(result.messageContent);
-          this.router.navigate(["/tms-operation/proposal"]);
+          this.router.navigate(["/tms-operation/proposal-detail"], { queryParams: { id: id}});
+
         } else {
           this.spinner.hide();
           Swal.fire('Proposal', result.messageContent, 'error');
@@ -279,7 +273,9 @@ export class ProposalFormComponent {
     });
   }
 
-
+  onYardChange(code:any){
+    this.getAreaList(code,'TMS')
+  }
 
   showError(error:HttpErrorResponse){
     this.spinner.hide();

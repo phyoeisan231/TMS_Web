@@ -77,6 +77,7 @@ export class TmsInCheckProposalDocComponent {
     this.id = this.route.snapshot.queryParams['id'];
     this.poNo = this.route.snapshot.queryParams['poNo'];
     this.truckNo = this.route.snapshot.queryParams['truck'];
+    this.type = this.route.snapshot.queryParams['type'];
     this.detailForm = new FormGroup({
     inRegNo: new FormControl(''),
     inCheckDateTime: new FormControl(this.today, Validators.required),
@@ -107,6 +108,8 @@ export class TmsInCheckProposalDocComponent {
     jobCode:new FormControl(''),
     jobType:new FormControl(''),
     blNo:new FormControl(''),
+    inWBBillOption:new FormControl(''),
+    outWBBillOption:new FormControl(''),
     });
 
     this.cardForm = new FormGroup({
@@ -133,10 +136,14 @@ export class TmsInCheckProposalDocComponent {
 
     this.searchTruckTerms.pipe(
       debounceTime(300),
-      switchMap((term: string) => this.service.getTruckList(term,this.poNo))
+      switchMap((term: string) => this.service.getTruckList(term,this.poNo,this.type))
     ).subscribe(data => {
-      if(this.poNo){
+      if(this.poNo && this.type){
         this.truckList  = data;
+        if(this.truckList.length==1){
+          this.detailForm.controls['truckVehicleRegNo'].setValue(this.truckList[0].vehicleRegNo?this.truckList[0].vehicleRegNo:null);
+          this.onTruckChange(this.truckList[0].vehicleRegNo);
+        }
       }
       else{
         this.truckList =[];
@@ -262,6 +269,9 @@ export class TmsInCheckProposalDocComponent {
         this.detailData = result;
         this.getGateList(result.yard);
         this.getDocumentSettingList(result.inPCCode);
+        console.log(result)
+        this.detailForm.controls['inWBBillOption'].setValue(result.weightOption?result.weightOption:null);
+        this.detailForm.controls['outWBBillOption'].setValue(result.weightOption?result.weightOption:null);
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'detailList') {
@@ -269,7 +279,6 @@ export class TmsInCheckProposalDocComponent {
             }
           }
          }
-         console.log(this.truckNo)
          if(this.truckNo){
           this.searchTruckTerms.next(this.truckNo);
          }
@@ -341,11 +350,12 @@ export class TmsInCheckProposalDocComponent {
       else{
         this.isWb=false
       }
-
       if(this.isWb){
         this.getWBDataList(formData.inYardID)
       }
       this.getCardList(formData.inYardID,'TMS');
+      this.cardForm.controls['inWBBillOption'].setValue(formData.inWBBillOption?formData.inWBBillOption:null);
+      this.cardForm.controls['outWBBillOption'].setValue(formData.outWBBillOption?formData.outWBBillOption:null);
       this.cardModel.show();
    }
    this.spinner.hide();
@@ -356,7 +366,6 @@ export class TmsInCheckProposalDocComponent {
   }
 
   createInBoundCheck(formData: any) {
-    console.log(formData)
     this.spinner.show();
     this.service
     .createInBoundCheck(formData)
@@ -395,8 +404,9 @@ export class TmsInCheckProposalDocComponent {
         this.detailForm.controls['driverLicenseNo'].setValue(truck[0].driverLicenseNo?truck[0].driverLicenseNo:null);
       }
      }
-     this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
-      this.detailForm.controls['truckType'].setValue(truck[0].truckType?truck[0].truckType:null);
+     this.detailForm.controls['truckType'].setValue(truck[0].truckType?truck[0].truckType:null);
+      this.detailForm.controls['trailerVehicleRegNo'].setValue(truck[0].trailer?truck[0].trailer:null);
+      this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
     }
 
 

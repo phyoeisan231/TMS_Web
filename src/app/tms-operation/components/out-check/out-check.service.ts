@@ -26,7 +26,7 @@ export class OutCheckService {
   // }
 
   getCategoryList(type:string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryOutList/?type=' + type);
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryList/?type=' + type);
   }
 
   getCardICDList(card:string,yard: string) {

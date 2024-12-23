@@ -170,6 +170,10 @@ const routes: Routes = [
       {
         path:'report-mtn/weight-bill',
         loadComponent:()=>import('./report-mtn/components/wservice-bill/wservice-bill.component').then((c)=>WServiceBillComponent)
+      },
+      {
+        path:'report-mtn/truckin-yard',
+        loadComponent:()=>import('./report-mtn/components/truck-in-yard/truck-in-yard.component').then((c)=>c.TruckInYardComponent)
       }
 
 

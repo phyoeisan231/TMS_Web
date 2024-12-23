@@ -23,7 +23,7 @@ export class TmsInCheckProposalComponent {
   pageSettings: PageSettingsModel = { pageSize: 50 };
   editSettings: EditSettingsModel = {  allowAdding: true, allowDeleting: true };
   toolbar: any[] = [{ text: "Add In Check", tooltipText: "Add In Check", prefixIcon: "e-icons e-add", id: "detail" },
-  'Delete','ExcelExport','Search'];
+  'ExcelExport','Search'];
   lines: GridLine = 'Both';
   optionForm: FormGroup;
   submitClicked: boolean = false;
@@ -173,7 +173,7 @@ export class TmsInCheckProposalComponent {
         const id = selectedRecords[0].propNo;
         if (args.item.id === 'detail')
         {
-          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:null}});
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:null,type:null}});
           return;
         }
 

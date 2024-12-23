@@ -60,6 +60,8 @@ export class ProposalDetailComponent {
       jobDept: new FormControl(''),
       jobType:new FormControl(''),
       jobCode:new FormControl(''),
+      areaID:new FormControl(''),
+      pcCode:new FormControl(''),
       });
 
     this.rglTruckForm = new FormGroup({
@@ -112,6 +114,8 @@ export class ProposalDetailComponent {
         this.optionForm.controls['yard'].setValue(result.yard);
         this.optionForm.controls['estDate'].setValue(result.estDate);
         this.optionForm.controls['jobDept'].setValue(result.jobDept);
+        this.optionForm.controls['areaID'].setValue(result.areaID);
+        this.optionForm.controls['pcCode'].setValue(result.pcCode);
         this.jobDept=result.jobDept;
         if(this.jobDept=="CCA"){
           this.jobTypeList=[];
@@ -280,12 +284,13 @@ export class ProposalDetailComponent {
       else if(args.item.id==='check'){
         let selectedRecords: any[] = this.grid.getSelectedRecords();
         if(selectedRecords.length==0){
-          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:null}});
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:null,type:null}});
         }
         else{
           const id = selectedRecords[0].propNo;
           const truckNo = selectedRecords[0].truckNo;
-          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: this.propNo, id: null,truck:truckNo}});
+          const type = selectedRecords[0].assignType;
+          this.router.navigate(["/tms-operation/tms-in-check-proposal-doc"], { queryParams: { poNo: id, id: null,truck:truckNo,type:type}});
         }
 
       }

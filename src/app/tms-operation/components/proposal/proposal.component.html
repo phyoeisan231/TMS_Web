@@ -17,40 +17,43 @@
           <div class="row">
             <div class="col-md-12 col-lg-12 text-left">
               <Form [formGroup]="optionForm">
-                 <div class="row mb-2">
-                  <div class="col-lg-3 col-md-6">
-                    <div class="mb-2">
-                      <label class="requiredfield">From</label>
-                      <ejs-datepicker formControlName="fromDate" [format]="formatfilter" floatLabelType='Always'>
-                      </ejs-datepicker>
+                <div class="row btns mb-2">
+                   <div class="col-lg-5 col-12">
+                     <div class="row">
+                       <label for="fromDate" class="col-sm-4 col-form-label requiredfield">Date:</label>
+                       <div class="col-sm-8 p-0">
+                          <ejs-datepicker formControlName="fromDate" [format]="formatfilter" floatLabelType='Always'>
+                          </ejs-datepicker>
+                       </div>
+                      </div>
+                     </div>
+                     <div class="col-lg-5 col-12">
+                     <div class="row">
+                       <label for="toDate" class="col-sm-4 col-form-label requiredfield">To:</label>
+                       <div class="col-sm-8 p-0">
+                       <ejs-datepicker formControlName="toDate"   [format]="formatfilter"   floatLabelType='Always'>
+                       </ejs-datepicker>
+                       </div>
+                      </div>
+                     </div>
                     </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-6">
-                    <div class="mb-2">
-                      <label class="requiredfield">To</label>
-                      <ejs-datepicker formControlName="toDate"   [format]="formatfilter"   floatLabelType='Always'>
-                      </ejs-datepicker>
+                    <div class="row mb-2">
+                     <div class="col-lg-5 col-12">
+                       <div class="row">
+                          <label class="col-sm-4 col-form-label requiredfield">Dept Type:</label>
+                          <div class="col-sm-8 p-0">
+                             <ejs-multiselect formControlName="deptType" [dataSource]='deptTypeList'  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-12 justify-content-end">
+                        <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
+                          <i class="fas fa-eye"></i> &nbsp; View
+                        </button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-6">
-                    <div class="mb-2">
-                      <label class="requiredfield">Dept Type</label>
-                      <ejs-multiselect formControlName="deptType" [dataSource]='deptTypeList'  tabindex="4" [mode]='mode' [placeholder]='placeholder' [selectAllText]='selectAllText' showSelectAll=true></ejs-multiselect>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-6 align-self-end">
-                    <div class="mb-2">
-                      <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
-                        <i class="fas fa-eye"></i> &nbsp; View
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Form>
-            </div>
+                  </Form>
+              </div>
           </div>
           <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (actionBegin)='actionBegin($event)' (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
             <e-columns>
@@ -81,24 +84,25 @@
     <div class="row">
       <div class="form-group col-md-12">
         <label  class="requiredfield">Job Dept</label>
-        <ejs-textbox  formControlName="jobDept" [readonly]="true"  ></ejs-textbox>
+        <ejs-dropdownlist formControlName="jobDept" tabindex="3" [dataSource]="deptList"  popupHeight='200px' placeholder="Select One" ></ejs-dropdownlist>
         <div [style.visibility]='validateControl("jobDept")? "visible": "hidden"'>
-          <label class="e-error" style="display: block;">* Job Dept is required</label>
+          <label class="e-error" style="display: block;">*Job Dept is required</label>
         </div>
       </div>
+
       <div class="form-group col-md-12">
         <div class="e-float-input e-control-wrapper">
           <input formControlName="file" id="file" type="file" accept=".xlsx" (change)="handleFileInput($any($event.target).files)" style="padding-top: 2px;">
           <span class="e-float-line"></span>
-          <label class="e-float-text e-label-top" for="file">Excel File</label>
+          <label class="e-float-text e-label-top requiredfield" for="file">Excel File</label>
         </div>
         <div [style.visibility]='validateControl("jobDept")? "visible": "hidden"'>
-          <label class="e-error" style="display: block;">* Job Dept is required</label>
+          <label class="e-error" style="display: block;">* Import file is required</label>
         </div>
       </div>
     </div>
       <ng-template #footerTemplate>
-        <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.closeForm.valid"  ejs-button (click)="onCloseInSubmit()">Save</button>
+        <button  class="e-edit-dialog e-control e-btn e-lib e-primary e-flat" type="submit" [disabled]="!this.closeForm.valid"  ejs-button (click)="onCloseFormSubmit()">Save</button>
         <button  class="e-edit-dialog e-control e-btn e-lib e-flat" (click)="closeModel.hide()" ejs-button >Close</button>
       </ng-template>
     </form>

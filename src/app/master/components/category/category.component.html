@@ -20,7 +20,7 @@
                 <e-columns>
                   <e-column field='pcCode' headerText='Category Code' [isPrimaryKey]="true" width="120"></e-column>
                   <e-column field='categoryName' headerText="Category Name" width="150"></e-column>
-                  <e-column field='inboundWeight' headerText="Inbound Weight" width="150">
+                  <!-- <e-column field='inboundWeight' headerText="Inbound Weight" width="150">
                     <ng-template #template let-data>
                       <div *ngIf="data.inboundWeight;else False">Yes</div>
                       <ng-template #False>
@@ -35,7 +35,7 @@
                         <div>No</div>
                       </ng-template>
                     </ng-template>
-                  </e-column>
+                  </e-column> -->
                   <e-column field='groupName' headerText="Group Name" width="150"></e-column>
                   <e-column field='active' headerText="Active" width="100">
                     <ng-template #template let-data>
@@ -91,7 +91,7 @@
                       </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-4 ">
+                        <!-- <div class="form-group col-md-4 ">
                             <ejs-checkbox
                                 formControlName="inboundWeight"
                                 label="Inbound Weight"
@@ -106,7 +106,7 @@
                                 autocomplete="off"
                                 tabindex="6"
                                 [checked]="true"/>
-                        </div>
+                        </div> -->
                         <div class="form-group col-md-4" *ngIf="!data.isAdd">
                           <ejs-checkbox formControlName="active" label="Active"  floatLabelType="Always" tabindex="4" [checked]="true"></ejs-checkbox>
                       </div>
@@ -120,7 +120,6 @@
     </div>
   </section>
   <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
-  
-  
-  
-  
+
+
+
