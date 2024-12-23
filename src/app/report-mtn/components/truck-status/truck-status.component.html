@@ -79,7 +79,10 @@
                 </Form>
               </div>
             </div>
-              <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true" [allowGrouping]='true' [groupSettings]='groupOptions' [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
+            <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+              Total Count: {{ getTotalCount() }}
+            </div>
+              <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true" [allowGrouping]='true' [groupSettings]='groupOptions' [aggregates]="aggregates" [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
                 <e-columns>
                 <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
                   <ng-template #template let-data>

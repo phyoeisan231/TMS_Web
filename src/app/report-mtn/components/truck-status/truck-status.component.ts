@@ -146,6 +146,24 @@ export class TruckStatusComponent {
      });
   }
 
+  public aggregates = [
+    {
+      columns: [
+        {
+          type: ['count'],
+          field: 'driverName',
+          columnName: 'driverName',
+          // format: 'C2',
+          footerTemplate: 'Total Count: ${count}',
+        },
+      ],
+    },
+  ];
+
+  getTotalCount(): number {
+    return this.grid?.dataSource ? (this.grid.dataSource as any[]).length : 0;
+  }
+
   formatParams(paramArray) {
     return paramArray.map(item => `'${item}'`).join(',');
   }
