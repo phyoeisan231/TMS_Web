@@ -99,12 +99,32 @@ pageSettings: PageSettingsModel = { pageSize: 50 };
     }
   }
 
+  // getBadgeColor(status: string): string {
+  //   switch (status) {
+  //      case 'Out(Check)':
+  //          return 'rgba(40, 167, 69, 0.8)'; // Medium Green
+  //      case 'Out':
+  //          return 'rgb(140, 140, 140)'; // Gray
+  //      default:
+  //          return 'rgb(199, 73, 73)'; // Red for unknown status
+  //   }
+  //  }
   getBadgeColor(status: string): string {
     switch (status) {
+      case 'In(Check)':
+        return ' rgb(248, 144, 32)'; // orange
+      case 'In':
+        return ' rgb(171, 127, 195)'; // Purple
+       case 'In(Weight)':
+        return '#d83ad8'; // Orchid
+        case 'Operation':
+          return '#0dcaf0'; // info
+          case 'Out(Weight)':
+           return 'rgb(23, 117, 223)'; // primary
        case 'Out(Check)':
-           return 'rgba(40, 167, 69, 0.8)'; // Medium Green
+           return 'rgba(52, 187, 52, 0.8)'; // Medium Green
        case 'Out':
-           return 'rgb(140, 140, 140)'; // Gray
+           return 'rgb(23, 106, 23)'; // Green
        default:
            return 'rgb(199, 73, 73)'; // Red for unknown status
     }

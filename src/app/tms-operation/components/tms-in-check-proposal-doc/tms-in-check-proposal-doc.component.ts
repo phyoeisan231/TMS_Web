@@ -247,6 +247,8 @@ export class TmsInCheckProposalDocComponent {
       .subscribe((result) => {
         this.docList=result.documentList;
         this.detailData = result;
+        this.cardForm.controls['inWBBillOption'].setValue(result.inWBBillOption?result.inWBBillOption:null);
+        this.cardForm.controls['outWBBillOption'].setValue(result.outWBBillOption?result.outWBBillOption:null);
         for (let key in this.detailData) {
           if ( this.detailData.hasOwnProperty(key) && this.detailData[key] != null &&  this.detailForm.controls[key]) {
             if (key != 'documentList') {
@@ -345,7 +347,6 @@ export class TmsInCheckProposalDocComponent {
       else{
         this.isWb=false
       }
-
       if(this.isWb){
         this.getWBDataList(formData.inYardID)
       }
@@ -400,7 +401,6 @@ export class TmsInCheckProposalDocComponent {
      }
       this.detailForm.controls['trailerVehicleRegNo'].setValue(truck[0].trailer?truck[0].trailer:null);
       this.detailForm.controls['transporterID'].setValue(truck[0].transporterID?truck[0].transporterID:null);
-      this.detailForm.controls['truckType'].setValue(truck[0].truckType?truck[0].truckType:null);
     }
 
 

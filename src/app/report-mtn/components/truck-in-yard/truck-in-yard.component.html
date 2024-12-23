@@ -1,0 +1,378 @@
+<section class="content mt-0">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active"><i class="nav-icon fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></li>
+            <li class="breadcrumb-item active text-primary">Truck In Yard</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+          <div class="card card-primary card-outline">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 col-lg-12 text-left">
+                  <h5 class="card-title">Truck In Yard</h5>
+                  <Form [formGroup]="optionForm">
+                    <div class="row  btns mb-2">
+                      <div class="col-lg-5 col-12">
+                        <div class="row">
+                          <label class="col-sm-4 col-form-label requiredfield">Yard:</label>
+                          <div class="col-sm-8 p-0">
+                            <ejs-dropdownlist
+                              formControlName="yardID"
+                              [dataSource]="yardList"
+                              [fields]="{ text: 'yardID', value: 'yardID' }"
+                              placeholder="Select Yard"
+                              tabindex="4">
+                            </ejs-dropdownlist>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- View Button -->
+                      <div class="col-lg-2 col-12 justify-content-end">
+                        <button type="button" class="btn btn-sm btn-primary" [disabled]="!optionForm.valid" (click)="loadTableData()">
+                          <i class="fas fa-eye"></i> &nbsp; View
+                        </button>
+                      </div>
+                    </div>
+  
+                  </Form>
+                </div>
+              </div>
+              <!-- tab -->
+              <ul class="nav nav-tabs nav-justified mt-2" id="tabButton">
+                <li class="nav-item" (click)="InCheck()" id="t1">
+                    <a class="nav-link" id="base-tab1" data-toggle="tab" aria-controls="tab1" aria-expanded="true" style="color:#2793f1;">In(Check)</a>
+                </li>
+                <li class="nav-item" (click)="IN()" id="t2" >
+                    <a class="nav-link" id="base-tab2" data-toggle="tab" aria-controls="tab2"  aria-expanded="false">In</a>
+                </li>
+                <li class="nav-item" (click)="InWeight()" id="t3" >
+                    <a class="nav-link" id="base-tab3" data-toggle="tab" aria-controls="tab3"  aria-expanded="false">In(Weight)</a>
+                </li>
+                <li class="nav-item" (click)="Operation()" id="t4" >
+                    <a class="nav-link" id="base-tab4" data-toggle="tab" aria-controls="tab4"  aria-expanded="false">Operation</a>
+                </li>
+                <li class="nav-item" (click)="OutWeight()" id="t5" >
+                    <a class="nav-link" id="base-tab5" data-toggle="tab" aria-controls="tab5"  aria-expanded="false">Out(Weight)</a>
+                </li>
+                <li class="nav-item" (click)="OutCheck()" id="t6" >
+                    <a class="nav-link" id="base-tab6" data-toggle="tab" aria-controls="tab6"  aria-expanded="false">Out(Check)</a>
+                </li>
+                <li class="nav-item" (click)="Out()" id="t7" >
+                    <a class="nav-link" id="base-tab7" data-toggle="tab" aria-controls="tab7"  aria-expanded="false">Out</a>
+                </li>
+              </ul>
+              <div class="tab-content mt-4">
+                <div role="tabpanel" *ngIf="this.isTab1" class="tab-pane active" aria-expanded="true" aria-labelledby="base-tab1">
+                  <div class="row mt-1">
+                    <!-- <div class="col-md-6 col-lg-6 text-left">
+                      <h5 class="card-title mb-3">In(Check)</h5>
+                    </div> -->
+                    <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+                      Total Trucks in In(Check): {{ data1?.length }}
+                  </div>
+                    <ejs-grid #grid1 id="Grid" [allowResizing]="true" [dataSource]='data1' [allowSorting]="true" [allowPaging]="true"  [groupSettings]="groupOptions" [aggregates]="aggregates" [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions'  [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick1($event)'>
+                        <e-columns>
+                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                                <ng-template #template let-data>
+                                    <div>
+                                        <span class="badge" [style.background-color]="getBadgeColor('In(Check)')">
+                                          {{ data?.truckVehicleRegNo || 'N/A' }}
+                                      </span>
+                                    </div>
+                                </ng-template>
+                              </e-column>
+                            <e-column field='inYardID' headerText='Yard' width='150' [isPrimaryKey]='true' [hidden]="true"></e-column>
+                            <e-column field='driverName' headerText='Driver Name' width='200'></e-column>
+                            <e-column field='driverLicenseNo' headerText='Driver License No' width='150'></e-column>
+                            <e-column field='inPCCode' headerText='In Category' width='100'></e-column>
+                            <e-column field='cardNo' headerText='Card No' width='100'></e-column>
+                            <e-column field='inGateID' headerText='Gate' width='100'></e-column>
+                            <e-column field='areaID' headerText="Area" width="100"></e-column>
+                            <e-column field='inType' headerText="In Type" width="100"></e-column>
+                            <e-column field='inCargoType' headerText="In CargoType" width="100"></e-column>
+                            <e-column field='inCargoInfo' headerText="In Cargo Info" width="100"></e-column>
+                            <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
+                            <e-column field='inCheckDateTime' headerText='In Check Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                            <e-column field='remark' headerText="Remark" width="150"></e-column>
+                      </e-columns>
+                      <!-- Aggregate Row -->
+                      <!-- <e-aggregate>
+                        <e-columns>
+                          <e-column type="Count" field="driverName">
+                            <ng-template #captionTemplate let-data>
+                              <div class="text-center">
+                                <b>Total Trucks in Yard:</b> {{ data.Count }}
+                              </div>
+                            </ng-template>
+                          </e-column>
+                        </e-columns>
+                      </e-aggregate> -->
+                      
+                      <!-- <e-aggregate>
+                        <e-column type="Count" field="driverName" format="C2">
+                          <ng-template #footerTemplate let-data>Total: {{data.Count}}</ng-template>
+                      </e-column>
+                      </e-aggregate> -->
+                   </ejs-grid>
+                    </div>
+                </div>
+                <div role="tabpanel" *ngIf="this.isTab2" class="tab-pane active" aria-expanded="true" aria-labelledby="base-tab2">
+                  <div class="row mt-1">
+                    <!-- <div class="col-md-6 col-lg-6 text-left">
+                      <h5 class="card-title mb-3">In</h5>
+                    </div> -->
+                    <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+                      Total Trucks in In: {{ data2?.length }}
+                  </div>
+                    <ejs-grid #grid2 id="Grid" [allowResizing]="true" [dataSource]='data2' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick2($event)'>
+                        <e-columns>
+                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                                <ng-template #template let-data>
+                                    <div>
+                                        <span class="badge" [style.background-color]="getBadgeColor('In')">
+                                          {{ data?.truckVehicleRegNo || 'N/A' }}
+                                      </span>
+                                    </div>
+                                </ng-template>
+                              </e-column>
+                            <e-column field='inYardID' headerText='Yard' width='150' [isPrimaryKey]='true' [hidden]="true"></e-column>
+                            <e-column field='driverName' headerText='Driver Name' width='200'></e-column>
+                            <e-column field='driverLicenseNo' headerText='Driver License No' width='150'></e-column>
+                            <e-column field='inPCCode' headerText='In Category' width='100'></e-column>
+                            <e-column field='cardNo' headerText='Card No' width='100'></e-column>
+                            <e-column field='inGateID' headerText='Gate' width='100'></e-column>
+                            <e-column field='areaID' headerText="Area" width="100"></e-column>
+                            <e-column field='inType' headerText="In Type" width="100"></e-column>
+                            <e-column field='inCargoType' headerText="In CargoType" width="100"></e-column>
+                            <e-column field='inCargoInfo' headerText="In Cargo Info" width="100"></e-column>
+                            <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
+                            <e-column field='inCheckDateTime' headerText='In Check Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                            <e-column field='remark' headerText="Remark" width="150"></e-column>
+                      </e-columns>
+                    </ejs-grid>
+                    </div>
+                </div>
+                <div role="tabpanel" *ngIf="this.isTab3" class="tab-pane active" aria-expanded="true" aria-labelledby="base-tab3">
+                  <div class="row mt-1">
+                    <!-- <div class="col-md-6 col-lg-6 text-left">
+                      <h5 class="card-title mb-3">In(Weight)</h5>
+                    </div> -->
+                    <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+                      Total Trucks in In(Weight): {{ data3?.length }}
+                  </div>
+                    <ejs-grid #grid3 id="Grid" [allowResizing]="true" [dataSource]='data3' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick3($event)'>
+                        <e-columns>
+                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                                <ng-template #template let-data>
+                                    <div>
+                                        <span class="badge" [style.background-color]="getBadgeColor('In(Weight)')">
+                                          {{ data?.truckVehicleRegNo || 'N/A' }}
+                                      </span>
+                                    </div>
+                                </ng-template>
+                            </e-column>
+                            <e-column field='inYardID' headerText='Yard' width='150' [isPrimaryKey]='true' [hidden]="true"></e-column>
+                            <e-column field='driverName' headerText='Driver Name' width='200'></e-column>
+                            <e-column field='driverLicenseNo' headerText='Driver License No' width='150'></e-column>
+                            <e-column field='inPCCode' headerText='In Category' width='100'></e-column>
+                            <e-column field='cardNo' headerText='Card No' width='100'></e-column>
+                            <e-column field='outGateID' headerText="Out Gate" width="100"></e-column>
+                            <e-column field='areaID' headerText="Area" width="100"></e-column>
+                            <e-column field='inType' headerText="In Type" width="100"></e-column>
+                            <e-column field='inCargoType' headerText="In CargoType" width="100"></e-column>
+                            <e-column field='inCargoInfo' headerText="In Cargo Info" width="100"></e-column>
+                            <e-column field='inWeightBridgeID' headerText="In WeightBridgeID" width="100"></e-column>
+                            <e-column field='InWeightDateTime' headerText='In Weight Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                            <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
+                            <e-column field='InGatePassTime' headerText='In Gate Pass Time' width='170' type="date" [format]="formatfilter"></e-column>
+                            <e-column field='remark' headerText="Remark" width="150"></e-column>
+                      </e-columns>
+                     
+                   </ejs-grid>
+                  </div>
+                </div>
+                <div role="tabpanel" *ngIf="this.isTab4" class="tab-pane active" aria-expanded="true" aria-labelledby="base-tab4">
+                <div class="row mt-1">
+                  <!-- <div class="col-md-6 col-lg-6 text-left">
+                    <h5 class="card-title mb-3">Operation</h5>
+                  </div> -->
+                  <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+                    Total Trucks in Operation: {{ data4?.length }}
+                </div>
+                  <ejs-grid #grid4 id="Grid" [allowResizing]="true" [dataSource]='data4' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick4($event)'>
+                    <e-columns>
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                            <ng-template #template let-data>
+                                <div>
+                                    <span class="badge" [style.background-color]="getBadgeColor('Operation')">
+                                      {{ data?.truckVehicleRegNo || 'N/A' }}
+                                  </span>
+                                </div>
+                            </ng-template>
+                          </e-column>
+                        <e-column field='inYardID' headerText='Yard' width='150' [isPrimaryKey]='true' [hidden]="true"></e-column>
+                        <e-column field='driverName' headerText='Driver Name' width='200'></e-column>
+                        <e-column field='driverLicenseNo' headerText='Driver License No' width='150'></e-column>
+                        <e-column field='inPCCode' headerText='In Category' width='100'></e-column>
+                        <e-column field='cardNo' headerText='Card No' width='100'></e-column>
+                        <e-column field='outGateID' headerText="Out Gate" width="100"></e-column>
+                        <e-column field='areaID' headerText="Area" width="100"></e-column>
+                        <e-column field='inType' headerText="In Type" width="100"></e-column>
+                        <e-column field='inCargoType' headerText="In CargoType" width="100"></e-column>
+                        <e-column field='inCargoInfo' headerText="In Cargo Info" width="100"></e-column>
+                        <e-column field='outType' headerText="Out Type" width="100"></e-column>
+                        <e-column field='outCargoType' headerText="Out CargoType" width="100"></e-column>
+                        <e-column field='outCargoInfo' headerText="Out Cargo Info" width="100"></e-column>
+                        <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
+                        <e-column field='outCheckDateTime' headerText='Out Check Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                        <e-column field='remark' headerText="Remark" width="150"></e-column>
+                    </e-columns>
+                    
+                 </ejs-grid>
+                 </div>
+               </div>
+               <div role="tabpanel" *ngIf="this.isTab5" class="tab-pane active" aria-expanded="true" aria-labelledby="base-tab4">
+                <div class="row mt-1">
+                  <!-- <div class="col-md-6 col-lg-6 text-left">
+                    <h5 class="card-title mb-3">Out(Weight)</h5>
+                  </div> -->
+                  <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+                    Total Trucks in Out(Weight): {{ data5?.length }}
+                </div>
+                  <ejs-grid #grid4 id="Grid" [allowResizing]="true" [dataSource]='data5' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick5($event)'>
+                    <e-columns>
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                            <ng-template #template let-data>
+                                <div>
+                                    <span class="badge" [style.background-color]="getBadgeColor('Out(Weight)')">
+                                      {{ data?.truckVehicleRegNo || 'N/A' }}
+                                  </span>
+                                </div>
+                            </ng-template>
+                          </e-column>
+                        <e-column field='inYardID' headerText='Yard' width='150' [isPrimaryKey]='true' [hidden]="true"></e-column>
+                        <e-column field='driverName' headerText='Driver Name' width='200'></e-column>
+                        <e-column field='driverLicenseNo' headerText='Driver License No' width='150'></e-column>
+                        <e-column field='inPCCode' headerText='In Category' width='100'></e-column>
+                        <e-column field='cardNo' headerText='Card No' width='100'></e-column>
+                        <e-column field='outGateID' headerText="Out Gate" width="100"></e-column>
+                        <e-column field='areaID' headerText="Area" width="100"></e-column>
+                        <e-column field='outType' headerText="Out Type" width="100"></e-column>
+                        <e-column field='outCargoType' headerText="Out CargoType" width="100"></e-column>
+                        <e-column field='outCargoInfo' headerText="Out Cargo Info" width="100"></e-column>
+                        <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
+                        <e-column field='outWeightBridgeID' headerText="Out WeightBridgeID" width="100"></e-column>
+                        <e-column field='outWeightDateTime' headerText='Out Weight Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                        <e-column field='outCheckDateTime' headerText='Out Check Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                        <e-column field='remark' headerText="Remark" width="150"></e-column>
+                    </e-columns>
+                    
+                 </ejs-grid>
+                 </div>
+               </div>
+               <div role="tabpanel" *ngIf="this.isTab6" class="tab-pane active" aria-expanded="true" aria-labelledby="base-tab4">
+                <div class="row mt-1">
+                  <!-- <div class="col-md-6 col-lg-6 text-left">
+                    <h5 class="card-title mb-3">Out(Check)</h5>
+                  </div> -->
+                  <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+                    Total Trucks in Out(Check): {{ data6?.length }}
+                </div>
+                  <ejs-grid #grid6 id="Grid" [allowResizing]="true" [dataSource]='data6' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick6($event)'>
+                    <e-columns>
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                            <ng-template #template let-data>
+                                <div>
+                                    <span class="badge" [style.background-color]="getBadgeColor('Out(Check)')">
+                                      {{ data?.truckVehicleRegNo || 'N/A' }}
+                                  </span>
+                                </div>
+                            </ng-template>
+                          </e-column>
+                        <e-column field='inYardID' headerText='Yard' width='150' [isPrimaryKey]='true' [hidden]="true"></e-column>
+                        <e-column field='driverName' headerText='Driver Name' width='200'></e-column>
+                        <e-column field='driverLicenseNo' headerText='Driver License No' width='150'></e-column>
+                        <e-column field='inPCCode' headerText='In Category' width='100'></e-column>
+                        <e-column field='cardNo' headerText='Card No' width='100'></e-column>
+                        <e-column field='outGateID' headerText="Out Gate" width="100"></e-column>
+                        <e-column field='areaID' headerText="Area" width="100"></e-column>
+                        <e-column field='outType' headerText="Out Type" width="100"></e-column>
+                        <e-column field='outCargoType' headerText="Out CargoType" width="100"></e-column>
+                        <e-column field='outCargoInfo' headerText="Out Cargo Info" width="100"></e-column>
+                        <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
+                        <e-column field='outCheckDateTime' headerText='Out Check Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                        <e-column field='remark' headerText="Remark" width="150"></e-column>
+                    </e-columns>
+                    
+                 </ejs-grid>
+                 </div>
+               </div>
+               <div role="tabpanel" *ngIf="this.isTab7" class="tab-pane active" aria-expanded="true" aria-labelledby="base-tab4">
+                <div class="row mt-1">
+                  <!-- <div class="col-md-6 col-lg-6 text-left">
+                    <h5 class="card-title mb-3">Out</h5>
+                  </div> -->
+                  <div class="total-count" style="margin-bottom: 10px; font-weight: bold;">
+                    Total Trucks in Out: {{ data7?.length }}
+                </div>
+                  <ejs-grid #grid7 id="Grid" [allowResizing]="true" [dataSource]='data7' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick7($event)'>
+                    <e-columns>
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                            <ng-template #template let-data>
+                                <div>
+                                    <span class="badge" [style.background-color]="getBadgeColor('Out')">
+                                      {{ data?.truckVehicleRegNo || 'N/A' }}
+                                  </span>
+                                </div>
+                            </ng-template>
+                          </e-column>
+                        <e-column field='inYardID' headerText='Yard' width='150' [isPrimaryKey]='true' [hidden]="true"></e-column>
+                        <e-column field='driverName' headerText='Driver Name' width='200'></e-column>
+                        <e-column field='driverLicenseNo' headerText='Driver License No' width='150'></e-column>
+                        <e-column field='inPCCode' headerText='In Category' width='100'></e-column>
+                        <e-column field='cardNo' headerText='Card No' width='100'></e-column>
+                        <e-column field='outGateID' headerText="Out Gate" width="100"></e-column>
+                        <e-column field='areaID' headerText="Area" width="100"></e-column>
+                        <e-column field='outType' headerText="Out Type" width="100"></e-column>
+                        <e-column field='outCargoType' headerText="Out CargoType" width="100"></e-column>
+                        <e-column field='outCargoInfo' headerText="Out Cargo Info" width="100"></e-column>
+                        <e-column field='truckType' headerText="Truck Type" width="120"></e-column>
+                        <e-column field='outCheckDateTime' headerText='Out Check Date Time' width='170' type="date" [format]="formatfilter"></e-column>
+                        <e-column field='remark' headerText="Remark" width="150"></e-column>
+                    </e-columns>
+                 </ejs-grid>
+                </div>
+               </div>
+               <div class="mt-3">
+                <span class="mx-3">Status:</span>
+                <!-- <span class="mx-3"><i class="fa fa-square text-aquaGreen font-small-2 mr-1"></i> In(Check)</span>
+                <span class="mx-3"><i class="fa fa-square text-tealGreen font-small-2 mr-1"></i> In</span>
+                <span class="mx-3"><i class="fa fa-square text-skyBlue font-small-2 mr-1"></i> In(Weight)</span> -->
+                <span><i class="fa fa-square font-small-2 mr-1" style="color: rgb(248, 144, 32);"></i> In(Check)</span>
+                <span class="mx-3"><i class="fa fa-square font-small-2 mr-1" style="color: rgb(171, 127, 195);"></i> In</span>
+                <span class="mx-3"><i class="fa fa-square text-orchid font-small-2 mr-1"></i> In(Weight)</span>
+                <span class="mx-2"><i class="fa fa-square text-info font-small-2 mr-1"></i> Operation</span>
+                <span><i class="fa fa-square text-primary font-small-2 mr-1"></i> Out(Weight)</span>
+                <span class="mx-1"><i class="fa fa-square text-mediumSeaGreen font-small-2 mr-1"></i> Out(Check)</span>
+                <span class="mx-2"><i class="fa fa-square text-success font-small-2 mr-1"></i> Out</span>
+                <!-- <span class="mx-3"><i class="fa fa-square text-brightOrange font-small-2 mr-1"></i> Operation</span>
+                <span class="mx-3"><i class="fa fa-square text-limeGreen font-small-2 mr-1"></i> Out(Weight)</span>
+                <span class="mx-3"><i class="fa fa-square text-vividOrchid font-small-2 mr-1"></i> Out(Check)</span>
+                <span class="mx-3"><i class="fa fa-square text-gray font-small-2 mr-1"></i> Out</span> -->
+              </div>
+            </div>
+            </div>
+          </div>
+      </div>
+     
+    </div>
+  </section>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+  
+  
+  
+  
