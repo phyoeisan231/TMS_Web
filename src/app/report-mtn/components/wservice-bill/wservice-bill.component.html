@@ -78,7 +78,7 @@
               </div>
                 <ejs-grid #Grid [dataSource]="data" [allowResizing]="true" [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings' [editSettings]="editSettings"  [allowExcelExport]='true' [toolbar]="toolbar" (toolbarClick)='toolbarClick($event)' [gridLines]="lines">
                   <e-columns>
-                  <e-column field="serviceBillNo" headerText="Service BillNo" width="100" [isPrimaryKey]="true">
+                  <e-column field="serviceBillNo" headerText="Service BillNo" width="150" [isPrimaryKey]="true">
                     <!-- <ng-template #template let-data>
                         <div>
                             <span class="badge" [style.background-color]="getBadgeColor(data?.status)">
@@ -87,9 +87,10 @@
                         </div>
                     </ng-template> -->
                   </e-column>
-                    <e-column field='serviceBillDate' headerText="Service Bill Date" width="150"></e-column>
+                    <e-column field='serviceBillDate' headerText="Service Bill Date" width="200" ></e-column>
                     <e-column field='weightBridgeID' headerText="Weight BridgeID" width="150"></e-column>
                     <e-column field='inWeightTime' headerText="In Weight Time" width="150"></e-column>
+                    <e-column field='outWeightTime' headerText="Out Weight Time" width="150"></e-column>
                     <e-column field='truckNo' headerText="TruckNo" width="100"></e-column>
                     <e-column field='trailerNo' headerText="TrailerNo" width="150"></e-column>
                     <e-column field='inWeight' headerText="InWeight" width="150"></e-column>
