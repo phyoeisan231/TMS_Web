@@ -21,6 +21,8 @@
                   <e-column field='yardID' headerText='Yard ID' [isPrimaryKey]="true" width="90"></e-column>
                   <e-column field='name' headerText="Name" width="150"></e-column>
                   <e-column field='phone' headerText="Phone" width="150"></e-column>
+                  <e-column field='email' headerText="Email" width="150"></e-column>
+                  <e-column field='address' headerText="Address" width="150"></e-column>
                    <e-column field='active' headerText="Active" width="100">
                     <ng-template #template let-data>
                       <div *ngIf="data.active;else False">Yes</div>
@@ -55,21 +57,21 @@
                       </div>
                       <div class="form-group col-md-12">
                         <label for="phone" class="font-weight-normal requiredfield">Phone Number</label>
-                        <ejs-textbox formControlName="phone" tabindex="2" autocomplete="off"></ejs-textbox>
+                        <ejs-textbox formControlName="phone" tabindex="3" autocomplete="off"></ejs-textbox>
                         <div  [style.visibility]='validateControl("phone")? "visible": "hidden"'>
                           <label class="e-error" for="phone" style="display: block;">*This field is required</label>
                         </div>
                       </div>
                       <div class="form-group col-md-12">
                         <label for="email" class="font-weight-normal requiredfield">Email</label>
-                        <ejs-textbox formControlName="email" tabindex="2" autocomplete="off" ></ejs-textbox>
+                        <ejs-textbox formControlName="email" tabindex="4" autocomplete="off" ></ejs-textbox>
                         <div  [style.visibility]='validateControl("email")? "visible": "hidden"'>
                           <label class="e-error" for="email" style="display: block;">*This field is required</label>
                         </div>
                       </div>
                       <div class="form-group col-md-12">
                         <label for="address" class="font-weight-normal requiredfield">Address</label>
-                        <ejs-textbox formControlName="address" tabindex="2" autocomplete="off" ></ejs-textbox>
+                        <ejs-textbox formControlName="address" tabindex="5" autocomplete="off" ></ejs-textbox>
                         <div  [style.visibility]='validateControl("address")? "visible": "hidden"'>
                           <label class="e-error" for="address" style="display: block;">*This field is required</label>
                         </div>
@@ -78,7 +80,7 @@
 
                      <div class="form-row">
                       <div class="form-group col-md-6" *ngIf="!data.isAdd"><br>
-                        <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="3" [checked]="true"></ejs-checkbox>
+                        <ejs-checkbox formControlName="active"  label="Active"  floatLabelType="Always" tabindex="6" [checked]="true"></ejs-checkbox>
                       </div>
                      </div>
                   </form>

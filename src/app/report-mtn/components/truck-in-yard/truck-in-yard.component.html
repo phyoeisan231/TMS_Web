@@ -76,7 +76,7 @@
                   </div>
                     <ejs-grid #grid1 id="Grid" [allowResizing]="true" [dataSource]='data1' [allowSorting]="true" [allowPaging]="true"  [groupSettings]="groupOptions" [aggregates]="aggregates" [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions'  [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick1($event)'>
                         <e-columns>
-                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="150">
                                 <ng-template #template let-data>
                                     <div>
                                         <span class="badge" [style.background-color]="getBadgeColor('In(Check)')">
@@ -112,7 +112,7 @@
                   </div>
                     <ejs-grid #grid2 id="Grid" [allowResizing]="true" [dataSource]='data2' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick2($event)'>
                         <e-columns>
-                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="150">
                                 <ng-template #template let-data>
                                     <div>
                                         <span class="badge" [style.background-color]="getBadgeColor('In')">
@@ -135,6 +135,15 @@
                             <e-column field='inCheckDateTime' headerText='In Check Date Time' width='170' type="date" [format]="formatfilter"></e-column>
                             <e-column field='remark' headerText="Remark" width="150"></e-column>
                       </e-columns>
+                      <!-- <e-aggregate>
+                        <e-columns>
+                          <e-column field="truckVehicleRegNo" type="Count">
+                            <ng-template #footerTemplate let-data>
+                              <div class="total-footer">Total Trucks in IN: {{ data2?.length }}</div>
+                            </ng-template>
+                          </e-column>
+                        </e-columns>
+                      </e-aggregate> -->
                     </ejs-grid>
                     </div>
                 </div>
@@ -148,7 +157,7 @@
                   </div>
                     <ejs-grid #grid3 id="Grid" [allowResizing]="true" [dataSource]='data3' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick3($event)'>
                         <e-columns>
-                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                            <e-column field="truckVehicleRegNo" headerText="Truck No" width="150">
                                 <ng-template #template let-data>
                                     <div>
                                         <span class="badge" [style.background-color]="getBadgeColor('In(Weight)')">
@@ -187,7 +196,7 @@
                 </div>
                   <ejs-grid #grid4 id="Grid" [allowResizing]="true" [dataSource]='data4' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick4($event)'>
                     <e-columns>
-                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="150">
                             <ng-template #template let-data>
                                 <div>
                                     <span class="badge" [style.background-color]="getBadgeColor('Operation')">
@@ -227,7 +236,7 @@
                 </div>
                   <ejs-grid #grid4 id="Grid" [allowResizing]="true" [dataSource]='data5' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick5($event)'>
                     <e-columns>
-                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="150">
                             <ng-template #template let-data>
                                 <div>
                                     <span class="badge" [style.background-color]="getBadgeColor('Out(Weight)')">
@@ -266,7 +275,7 @@
                 </div>
                   <ejs-grid #grid6 id="Grid" [allowResizing]="true" [dataSource]='data6' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick6($event)'>
                     <e-columns>
-                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="150">
                             <ng-template #template let-data>
                                 <div>
                                     <span class="badge" [style.background-color]="getBadgeColor('Out(Check)')">
@@ -303,7 +312,7 @@
                 </div>
                   <ejs-grid #grid7 id="Grid" [allowResizing]="true" [dataSource]='data7' [allowSorting]="true" [allowPaging]="true"  [pageSettings]='pageSettings'  [editSettings]="editSettings" [toolbar]='toolbarOptions' [aggregates]="aggregates" [gridLines]="lines"  [allowExcelExport]='true' (toolbarClick)='toolbarClick7($event)'>
                     <e-columns>
-                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="100">
+                        <e-column field="truckVehicleRegNo" headerText="Truck No" width="150">
                             <ng-template #template let-data>
                                 <div>
                                     <span class="badge" [style.background-color]="getBadgeColor('Out')">

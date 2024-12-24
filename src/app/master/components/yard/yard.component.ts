@@ -144,7 +144,7 @@ export class YardComponent {
     this.spinner.show();
     formData.active=formData.active?true:false;
     this.service
-      .updateYard(formData)
+      .editYard(formData)
       .pipe(catchError((err) => of(this.showError(err))))
       .subscribe((result) => {
         this.loadTableData();

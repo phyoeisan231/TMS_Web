@@ -255,8 +255,8 @@ getBadgeColor(status: string): string {
       columns: [
         {
           type: ['count'],
-          field: 'driverName',
-          columnName: 'driverName',
+          field: 'truckVehicleRegNo',
+          columnName: 'truckVehicleRegNo',
           // format: 'C2',
           footerTemplate: 'Total Trucks: ${count}',
         },
@@ -288,7 +288,7 @@ getBadgeColor(status: string): string {
          this.spinner.hide();
      });
   }
-
+  
   getTruckIn(){
     this.spinner.show();
     const formData = this.optionForm.value;
@@ -296,7 +296,9 @@ getBadgeColor(status: string): string {
      this.service.GetTruckInList(formData.yardID)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
+        // (this.grid2 as GridComponent).getHeaderContent().append((this.grid2 as GridComponent).getFooterContent());
          this.data2= result;
+        //  this.grid2.dataSource=result;
          this.grid2.searchSettings.operator = "equal";
          this.grid2.refresh();
          this.spinner.hide();

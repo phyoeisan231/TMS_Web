@@ -22,7 +22,7 @@ export class YardService {
     return this.http.post<any>(environment.url + 'Master/SaveYard', data, httpOptions);
   }
 
-  updateYard(data: any) {
+  editYard(data: any) {
     return this.http.put<any>(environment.url + 'Master/UpdateYard/', data, httpOptions);
   }
 

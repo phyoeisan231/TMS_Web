@@ -151,8 +151,8 @@ export class TruckStatusComponent {
       columns: [
         {
           type: ['count'],
-          field: 'driverName',
-          columnName: 'driverName',
+          field: 'truckVehicleRegNo',
+          columnName: 'truckVehicleRegNo',
           // format: 'C2',
           footerTemplate: 'Total Count: ${count}',
         },
