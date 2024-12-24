@@ -28,7 +28,7 @@ export class ProposalComponent {
    { text: "Close Import", tooltipText: "Close Import", prefixIcon: "e-download", id: "close" },
   // { text: "Customer", tooltipText: "Customer", prefixIcon: "e-icons e-circle-add", id: "customer" },
   { text: "Truck Details", tooltipText: "Truck Details", prefixIcon: "e-icons e-selection", id: "detail" },
-  { text: "Complete", tooltipText: "Complete", prefixIcon: "e-icons e-check", id: "complete" },
+  { text: "Close", tooltipText: "Close", prefixIcon: "e-icons e-check", id: "complete" },
   'Delete','ExcelExport','Search'];
   lines: GridLine = 'Both';
 

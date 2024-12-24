@@ -44,7 +44,7 @@
               <div class="form-group col-md-4">
                 <label  class="font-weight-normal requiredfield">Card No</label>
                 <ejs-textbox *ngIf="this.id" formControlName="cardNo" [readonly]="true" tabindex="3" ></ejs-textbox>
-                <ejs-dropdownlist *ngIf="!this.id" formControlName="cardNo" tabindex="3" [dataSource]='cardList' [fields]="{ text: 'cardNo', value: 'cardNo' }"  placeholder="Enter some keys" allowFiltering="true" (filtering)='onCardFiltering($event)'  (change)="onCardChange($event.value)"></ejs-dropdownlist>
+                <ejs-dropdownlist *ngIf="!this.id" formControlName="cardNo" tabindex="3" [dataSource]='cardList' [fields]="{ text: 'cardNo', value: 'cardNo' }"  placeholder="Select One" allowFiltering="true" (change)="onCardChange($event.value)"></ejs-dropdownlist>
                 <div [style.visibility]='validateControl("cardNo")? "visible": "hidden"'>
                   <label class="e-error" style="display: block;">*CardNo is required</label>
                 </div>

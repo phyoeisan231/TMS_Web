@@ -21,8 +21,12 @@ export class TmsOutCheckService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryList/?type=' + type);
   }
 
-  getCardICDList(card:string,yard: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCardTMSInList/?card=' + card+ '&yard=' + yard);
+  // getCardICDList(card:string,yard: string) {
+  //   return this.http.get<any>(environment.url + 'TMSOperation/GetCardTMSInList/?card=' + card+ '&yard=' + yard);
+  // }
+
+  getCardList(yard: string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCardTMSInList/?yard=' + yard);
   }
 
   getOutBoundCheckList(startDate:any,endDate:any,yard:string) {

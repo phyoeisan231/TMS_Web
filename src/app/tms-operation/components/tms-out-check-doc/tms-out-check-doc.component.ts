@@ -96,25 +96,25 @@ pageSettings: PageSettingsModel = { pageSize: 10 };
     if(this.id){
       this.getOutBoundCheckById();
     }
-    this.searchCardTerms.pipe(
-      debounceTime(300),
-      switchMap((term: string) => this.service.getCardICDList(term,this.yard))
-    ).subscribe(data => {
-      if(this.yard){
-        this.cardList =data;
-      }
-    });
+    // this.searchCardTerms.pipe(
+    //   debounceTime(300),
+    //   switchMap((term: string) => this.service.getCardICDList(term,this.yard))
+    // ).subscribe(data => {
+    //   if(this.yard){
+    //     this.cardList =data;
+    //   }
+    // });
   }
 
   public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
   }
 
 
-  onCardFiltering(e: any) {
-    if (e.text && this.yard) {
-      this.searchCardTerms.next(e.text);
-    }
-  }
+  // onCardFiltering(e: any) {
+  //   if (e.text && this.yard) {
+  //     this.searchCardTerms.next(e.text);
+  //   }
+  // }
 
   getLocationList() {
     this.spinner.show();
@@ -224,6 +224,7 @@ pageSettings: PageSettingsModel = { pageSize: 10 };
 
   onYardChange(code: string) {
     this.getGateList(code);
+    this.getCardList(code);
     this.yard =code;
    }
 
@@ -248,7 +249,6 @@ pageSettings: PageSettingsModel = { pageSize: 10 };
       this.detailForm.controls['trailerVehicleRegNo'].setValue(card[0].trailerVehicleRegNo?card[0].trailerVehicleRegNo:null);
       this.detailForm.controls['customer'].setValue(card[0].customer?card[0].customer:null);
       this.detailForm.controls['groupName'].setValue(card[0].groupName?card[0].groupName:null);
-      this.detailForm.controls['outboundWeight'].setValue(card[0].outboundWeight?card[0].outboundWeight:null);
       this.detailForm.controls['outWeightBridgeID'].setValue(card[0].outWeightBridgeID?card[0].outWeightBridgeID:null);
       this.detailForm.controls['outContainerType'].setValue(card[0].inContainerType?card[0].inContainerType:null);
       this.detailForm.controls['outContainerSize'].setValue(card[0].inContainerSize?card[0].inContainerSize:null);
@@ -258,10 +258,22 @@ pageSettings: PageSettingsModel = { pageSize: 10 };
       this.detailForm.controls['jobCode'].setValue(card[0].jobCode?card[0].jobCode:null);
       this.detailForm.controls['blNo'].setValue(card[0].blNo?card[0].blNo:null);
       this.detailForm.controls['outPCCode'].setValue(card[0].inPCCode?card[0].inPCCode:null);
+      this.detailForm.controls['outType'].setValue(card[0].inType?card[0].inType:null);
+      this.detailForm.controls['outCargoType'].setValue(card[0].inCargoType?card[0].inCargoType:null);
+      this.detailForm.controls['outCargoInfo'].setValue(card[0].inCargoInfo?card[0].inCargoInfo:null);
+      this.detailForm.controls['remark'].setValue(card[0].remark?card[0].remark:null);
       this.getDocumentSettingList(card[0].inPCCode);
      }
     }
 
+    getCardList(yard:string){
+      this.service.getCardList(yard)
+      .pipe(catchError((err) => of(this.showError(err))))
+        .subscribe((result) => {
+          this.cardList = result;
+          this.spinner.hide();
+      });
+   }
 
 
   showError(error:HttpErrorResponse){

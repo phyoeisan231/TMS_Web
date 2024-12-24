@@ -78,7 +78,6 @@ export class OutCheckDocComponent  {
     remark:new FormControl(''),
     customer:new FormControl(''),
     status:new FormControl(''),
-    outboundWeight:new FormControl(false),
     outWeightBridgeID: new FormControl(''),
     groupName: new FormControl(''),
     });
@@ -87,14 +86,14 @@ export class OutCheckDocComponent  {
     if(this.id){
       this.getOutBoundCheckById();
     }
-    this.searchCardTerms.pipe(
-      debounceTime(300),
-      switchMap((term: string) => this.service.getCardICDList(term,this.yard))
-    ).subscribe(data => {
-      if(this.yard){
-        this.cardList =data;
-      }
-    });
+    // this.searchCardTerms.pipe(
+    //   debounceTime(300),
+    //   switchMap((term: string) => this.service.getCardICDList(term,this.yard))
+    // ).subscribe(data => {
+    //   if(this.yard){
+    //     this.cardList =data;
+    //   }
+    // });
   }
 
   public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
@@ -102,11 +101,11 @@ export class OutCheckDocComponent  {
   }
 
 
-  onCardFiltering(e: any) {
-    if (e.text && this.yard) {
-      this.searchCardTerms.next(e.text);
-    }
-  }
+  // onCardFiltering(e: any) {
+  //   if (e.text && this.yard) {
+  //     this.searchCardTerms.next(e.text);
+  //   }
+  // }
 
   getLocationList() {
     this.spinner.show();
@@ -138,15 +137,25 @@ export class OutCheckDocComponent  {
     });
   }
 
-  getCategoryList(type:string){
-     this.service.getCategoryList(type)
+  getCardICDList(yard:string){
+     this.service.getCardICDList(yard)
      .pipe(catchError((err) => of(this.showError(err))))
        .subscribe((result) => {
-         this.pcCodeList = result;
-         this.pcCodeList.unshift({pcCode:'None'});
+         this.cardList = result;
          this.spinner.hide();
      });
   }
+
+
+  getCategoryList(type:string){
+    this.service.getCategoryList(type)
+    .pipe(catchError((err) => of(this.showError(err))))
+      .subscribe((result) => {
+        this.pcCodeList = result;
+        this.pcCodeList.unshift({pcCode:'None'});
+        this.spinner.hide();
+    });
+ }
 
 
   rowDataBound(args: any): void {
@@ -216,6 +225,7 @@ export class OutCheckDocComponent  {
 
   onYardChange(code: string) {
     this.getGateList(code);
+    this.getCardICDList(code);
     this.yard =code;
    }
 
@@ -240,9 +250,12 @@ export class OutCheckDocComponent  {
       this.detailForm.controls['truckType'].setValue(card[0].truckType?card[0].truckType:null);
       this.detailForm.controls['trailerVehicleRegNo'].setValue(card[0].trailerVehicleRegNo?card[0].trailerVehicleRegNo:null);
       this.detailForm.controls['customer'].setValue(card[0].customer?card[0].customer:null);
-      this.detailForm.controls['outboundWeight'].setValue(card[0].outboundWeight?card[0].outboundWeight:null);
       this.detailForm.controls['outWeightBridgeID'].setValue(card[0].outWeightBridgeID?card[0].outWeightBridgeID:null);
       this.detailForm.controls['groupName'].setValue(card[0].groupName?card[0].groupName:null);
+      this.detailForm.controls['outType'].setValue(card[0].inType?card[0].inType:null);
+      this.detailForm.controls['outCargoType'].setValue(card[0].inCargoType?card[0].inCargoType:null);
+      this.detailForm.controls['outCargoInfo'].setValue(card[0].inCargoInfo?card[0].inCargoInfo:null);
+      this.detailForm.controls['remark'].setValue(card[0].remark?card[0].remark:null);
       this.detailForm.controls['outPCCode'].setValue(card[0].inPCCode?card[0].inPCCode:null);
       this.getDocumentSettingList(card[0].inPCCode);
      }
