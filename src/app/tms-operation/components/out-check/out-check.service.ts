@@ -29,10 +29,13 @@ export class OutCheckService {
     return this.http.get<any>(environment.url + 'TMSOperation/GetCategoryList/?type=' + type);
   }
 
-  getCardICDList(card:string,yard: string) {
-    return this.http.get<any>(environment.url + 'TMSOperation/GetCardICDOInList/?card=' + card+ '&yard=' + yard);
-  }
+  // getCardICDList(card:string,yard: string) {
+  //   return this.http.get<any>(environment.url + 'TMSOperation/GetCardICDOInList/?card=' + card+ '&yard=' + yard);
+  // }
 
+  getCardICDList(yard: string) {
+    return this.http.get<any>(environment.url + 'TMSOperation/GetCardICDOInList/?yard=' + yard);
+  }
 
   getOutBoundCheckList(startDate:any,endDate:any,yard:string) {
     return this.http.get<any>(environment.url + 'TMSOperation/GetOutBoundCheckList/?startDate=' + startDate+ '&endDate=' + endDate+ '&yard=' + yard);
